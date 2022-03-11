@@ -1,1 +1,3 @@
 # heuristic
+
+author: steeve laquitaine
