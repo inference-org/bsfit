@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.nodes.utils &mdash; bsfit 0.0.1 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> bsfit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../get_started.html">Get Started</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/src.html">src</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">bsfit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>src.nodes.utils</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.nodes.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fmin</span>
+
+
+<div class="viewcode-block" id="fit_maxlogl"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.html#src.nodes.utils.fit_maxlogl">[docs]</a><span class="k">def</span> <span class="nf">fit_maxlogl</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;_summary_</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data (_type_): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># make 360 and 0 degrees same</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">][</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
+
+    <span class="c1"># estimate = data[&quot;estimate&quot;]</span>
+
+    <span class="c1"># fitPbkp = slfitBayesfminSlogl(</span>
+    <span class="c1">#     k0,</span>
+    <span class="c1">#     data[&quot;estimate&quot;],</span>
+    <span class="c1">#     data[&quot;stim_mean&quot;],</span>
+    <span class="c1">#     data[&quot;stim_std&quot;],</span>
+    <span class="c1">#     data[&quot;prior_std&quot;],</span>
+    <span class="c1">#     data[&quot;prior_shape&quot;],</span>
+    <span class="c1">#     data[&quot;prior_mode&quot;],</span>
+    <span class="c1">#     TheModel,</span>
+    <span class="c1">#     options,</span>
+    <span class="c1">#     varargin{:}</span>
+    <span class="c1">#     )</span>
+
+    <span class="c1"># fitPtmp,negLogl,exitflag,outputFit = fminsearch(@(fitPtmp) ...</span>
+    <span class="c1">#     SLgetLoglBayesianModel(data[&quot;estimate&quot;],...</span>
+    <span class="c1">#     disp,...</span>
+    <span class="c1">#     StimStrength,...</span>
+    <span class="c1">#     pstd,...</span>
+    <span class="c1">#     fitPtmp,...</span>
+    <span class="c1">#     priorShape,...</span>
+    <span class="c1">#     priorModes,...</span>
+    <span class="c1">#     TheModel,varargin{:}),...</span>
+    <span class="c1">#     initp(i,:),...</span>
+    <span class="c1">#     options);</span>
+
+    <span class="c1"># TEST ==========</span>
+    <span class="n">out</span> <span class="o">=</span> <span class="n">test</span><span class="p">()</span>
+
+    <span class="c1"># REAL ========</span>
+    <span class="c1"># select initial model parameters</span>
+    <span class="n">K_LLH</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">K_PRIOR</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">K_CARD</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">PRIOR_TAIL</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># set parameters</span>
+    <span class="n">model_params</span> <span class="o">=</span> <span class="p">[</span><span class="n">K_LLH</span><span class="p">,</span> <span class="n">K_PRIOR</span><span class="p">,</span> <span class="n">K_CARD</span><span class="p">,</span> <span class="n">PRIOR_TAIL</span><span class="p">]</span>
+    <span class="n">task_params</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;stim_std&quot;</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;prior_mode&quot;</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;prior_std&quot;</span><span class="p">],</span>
+            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;prior_shape&quot;</span><span class="p">],</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="c1"># set data</span>
+    <span class="n">true</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">]</span>
+    <span class="n">pred</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span>
+
+    <span class="c1"># fit</span>
+    <span class="n">neglogl</span> <span class="o">=</span> <span class="n">fmin</span><span class="p">(</span>
+        <span class="n">get_logl</span><span class="p">,</span>
+        <span class="n">model_params</span><span class="p">,</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">true</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">task_params</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">neglogl</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">neglogl</span></div>
+
+
+<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.html#src.nodes.utils.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;_summary_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># parametric function, x is the independent variable</span>
+    <span class="c1"># and c are the parameters.</span>
+    <span class="c1"># it&#39;s a polynomial of degree 2</span>
+    <span class="n">fp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="n">real_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="c1"># error function to minimize</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">fp</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">)))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="c1"># generating data with noise</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="mi">30</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">fp</span><span class="p">(</span><span class="n">real_p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+
+    <span class="c1"># fitting the data with fmin</span>
+    <span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># initial parameter value</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">fmin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="get_logl"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.html#src.nodes.utils.get_logl">[docs]</a><span class="k">def</span> <span class="nf">get_logl</span><span class="p">(</span>
+    <span class="n">model_params</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">true</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">pred</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">task_params</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;_summary_</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        model_params (list): _description_</span>
+<span class="sd">        true (pd.Series): _description_</span>
+<span class="sd">        pred (pd.Series): _description_</span>
+<span class="sd">        task_params (tuple): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get task params</span>
+    <span class="p">(</span>
+        <span class="n">stim_std</span><span class="p">,</span>
+        <span class="n">prior_mode</span><span class="p">,</span>
+        <span class="n">prior_std_set</span><span class="p">,</span>
+        <span class="n">prior_shape</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">=</span> <span class="n">task_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">stim_mean_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">true</span><span class="p">)</span>
+    <span class="n">stim_std_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">stim_std</span><span class="p">)</span>
+    <span class="n">n_stim_std</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_std_set</span><span class="p">)</span>
+    <span class="n">n_prior_std</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">prior_std_set</span><span class="p">))</span>
+
+    <span class="c1"># get model params</span>
+    <span class="n">model_params</span> <span class="o">=</span> <span class="n">model_params</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+    <span class="n">k_llh</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[:</span><span class="n">n_stim_std</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">model_params</span><span class="p">[:</span><span class="n">n_stim_std</span><span class="p">]</span>
+    <span class="n">k_prior</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[:</span><span class="n">n_prior_std</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">model_params</span><span class="p">[:</span><span class="n">n_prior_std</span><span class="p">]</span>
+    <span class="n">k_cardinal</span> <span class="o">=</span> <span class="n">model_params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">prior_tail</span> <span class="o">=</span> <span class="n">model_params</span>
+
+    <span class="c1"># set percept space</span>
+    <span class="n">percept_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># init outputs</span>
+    <span class="n">llh_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+
+    <span class="c1"># store by prior std</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prior_std_set</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_stim_std</span><span class="p">):</span>
+
+            <span class="c1"># record stimulus strength</span>
+            <span class="c1"># vrg{:}{numVarg+2} = stim_noise[j]</span>
+
+            <span class="c1"># compute percept distribution</span>
+            <span class="c1"># map: maximum a posteriori readouts</span>
+            <span class="nb">map</span><span class="p">,</span> <span class="n">llh_map</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_bayes_lookup</span><span class="p">(</span>
+                <span class="n">percept_space</span><span class="p">,</span>
+                <span class="n">stim_mean_set</span><span class="p">,</span>
+                <span class="n">k_llh</span><span class="p">[</span><span class="n">j</span><span class="p">],</span>
+                <span class="n">prior_mode</span><span class="p">,</span>
+                <span class="n">k_prior</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+                <span class="n">k_cardinal</span><span class="p">,</span>
+                <span class="n">prior_tail</span><span class="p">,</span>
+                <span class="n">prior_shape</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="get_bayes_lookup"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.html#src.nodes.utils.get_bayes_lookup">[docs]</a><span class="k">def</span> <span class="nf">get_bayes_lookup</span><span class="p">(</span>
+    <span class="n">percept_space</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">stim_mean</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span>
+    <span class="n">k_llh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">k_prior</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">k_cardinal</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">prior_tail</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a bayes lookup matrix</span>
+<span class="sd">    based on Girshick&#39;s paper</span>
+<span class="sd">    M measurements in rows</span>
+<span class="sd">    x N stimulus feature means in columns</span>
+
+<span class="sd">    usage:</span>
+
+<span class="sd">        percept, logl_percept = get_bayes_lookup(</span>
+<span class="sd">            percept_space=1:1:360,</span>
+<span class="sd">            stim_mean=5:10:355,</span>
+<span class="sd">            k_llh=5,</span>
+<span class="sd">            prior_mode=225,</span>
+<span class="sd">            k_prior=4.77,</span>
+<span class="sd">            k_cardinal=0,</span>
+<span class="sd">            prior_tail=0,</span>
+<span class="sd">            prior_shape=&#39;von_mises&#39;,</span>
+<span class="sd">            )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># calculate measurement densities ~v(di,kl)</span>
+    <span class="c1"># di are stimulus mean in columns</span>
+    <span class="c1"># over range of possible measurement in rows</span>
+    <span class="n">meas_density</span> <span class="o">=</span> <span class="n">get_vonMises</span><span class="p">(</span>
+        <span class="n">percept_space</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="p">[</span><span class="n">k_llh</span><span class="p">],</span> <span class="s2">&quot;norm&quot;</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="get_vonMises"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.html#src.nodes.utils.get_vonMises">[docs]</a><span class="k">def</span> <span class="nf">get_vonMises</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="n">v_k</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create von Mises functions or probability</span>
+<span class="sd">        distributions</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        v_x (np.array): support space</span>
+<span class="sd">        v_u (list): mean</span>
+<span class="sd">        v_k (list): concentration</span>
+<span class="sd">        p (bool): probability distribution or not</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># radians</span>
+    <span class="n">xrad</span> <span class="o">=</span> <span class="n">get_deg_to_rad</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="n">urad</span> <span class="o">=</span> <span class="n">get_deg_to_rad</span><span class="p">(</span><span class="n">v_u</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># When von mises with different mean u1,u2,u3 but with same k are input</span>
+    <span class="c1"># We can get von Mises with mean u2,u3,etc...simply by rotating the von</span>
+    <span class="c1"># mises with mean u1 by u2-u1, u3-u1 etc...</span>
+    <span class="c1"># When we don&#39;t do that we get slightly different von mises with different</span>
+    <span class="c1"># peakvalue due to numerical instability caused by cosine and exponential</span>
+    <span class="c1"># functions.</span>
+    <span class="c1"># case all k are same</span>
+    <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">v_k</span><span class="p">)</span> <span class="o">-</span> <span class="n">v_k</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+
+        <span class="c1"># when mean is not in x</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_all_in</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">v_u</span><span class="p">),</span> <span class="nb">set</span><span class="p">(</span><span class="n">v_x</span><span class="p">)):</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sd">&quot;&quot;&quot;(get_vonMises) The mean &quot;u&quot; is not in space &quot;x&quot;.</span>
+<span class="sd">                Choose &quot;u&quot; in &quot;x&quot;.&quot;&quot;&quot;</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">v_u</span><span class="p">)):</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(get_vonMises) The mean is nan ...&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="get_deg_to_rad"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.html#src.nodes.utils.get_deg_to_rad">[docs]</a><span class="k">def</span> <span class="nf">get_deg_to_rad</span><span class="p">(</span><span class="n">deg</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">signed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;convert degrees to radians</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        deg (np.array): _description_</span>
+<span class="sd">        signed (bool): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.array: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get unsigned radians (1:2*pi)</span>
+    <span class="n">radians</span> <span class="o">=</span> <span class="p">(</span><span class="n">deg</span> <span class="o">/</span> <span class="mi">360</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+
+    <span class="c1"># get signed radians(-pi:pi)</span>
+    <span class="k">if</span> <span class="n">signed</span><span class="p">:</span>
+        <span class="n">radians</span><span class="p">[</span><span class="n">deg</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">deg</span><span class="p">[</span><span class="n">deg</span> <span class="o">&gt;</span> <span class="mi">180</span><span class="p">]</span> <span class="o">-</span> <span class="mi">360</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span>
+            <span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">/</span> <span class="mi">360</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">radians</span></div>
+
+
+<div class="viewcode-block" id="is_all_in"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.html#src.nodes.utils.is_all_in">[docs]</a><span class="k">def</span> <span class="nf">is_all_in</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="nb">set</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="nb">set</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;check if all x are in y</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x (set): _description_</span>
+<span class="sd">        y (set): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">y</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, steeve laquitaine.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
