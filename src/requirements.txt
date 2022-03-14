@@ -1,0 +1,5 @@
+pylint      # linting
+black       # formatting
+pandas      # data engineering
+numpy       # data engineering
+scipy       # data engineering
