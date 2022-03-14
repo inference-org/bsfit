@@ -2,6 +2,8 @@
 
 author: steeve laquitaine
 
+Go to [documentation](https://steevelaquitaine.github.io/bsfit/)
+
 ## Setup
 
 Create virtual environment and install dependencies:
