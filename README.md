@@ -30,7 +30,7 @@ cp -a heuristic/sphinx/_build/html/. heuristic/docs/ # copy to deploy path
 touch docs/.nojekyll # ignore jekyll on github
 ```
 
-3. Merge changes to `master-docs` branch (for homologation)
+3. Merge to `master` (production branch)
 
 
 ## Unit-testing
