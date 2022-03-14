@@ -1,15 +1,10 @@
 """
-example:
+This is the software's entry point.
 
-[fitP,fitPbkp,R2,sdata,fitPt,negLogl,negLoglbkp,Logl_pertrialBestfit,...
-      output] = SLfitBayesianModel({'sub02'},...
-     [80 40 20 1.74 4.77 10.74 34.25 NaN 0.001 15 NaN],...
-     'experiment','vonMisesPrior',...
-     'filename','datafit01_vonMisesPrior_BayesWithCard_maxLL_example',...
-     'MAPReadout',...
-     'MaxLikelihoodFit');
+Usage:
+    
+    >> python main    
  """
-
 
 from src.nodes.models import bayes
 

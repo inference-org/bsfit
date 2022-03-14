@@ -161,7 +161,11 @@ def get_bayes_lookup(
     prior_tail: float,
     prior_shape: str,
 ):
-    """
+    """Create a bayes lookup matrix
+    based on Girshick's paper
+        M measurements in rows
+        x N stimulus feature means in columns
+
     usage: 
 
         percept, logl_percept = get_bayes_lookup(
@@ -186,7 +190,8 @@ def get_bayes_lookup(
 
 
 def get_vonMises(v_x, v_u, v_k, p: bool):
-    """_summary_
+    """Create von Mises functions or probability 
+        distributions
 
     Args:
         v_x (np.array): support space
@@ -224,7 +229,15 @@ def get_vonMises(v_x, v_u, v_k, p: bool):
 
 
 def get_deg_to_rad(deg: float, signed: bool):
+    """convert degrees to radians
 
+    Args:
+        deg (np.array): _description_
+        signed (bool): _description_
+
+    Returns:
+        np.array: _description_
+    """
     # get unsigned radians (1:2*pi)
     radians = (deg / 360) * 2 * np.pi
 
@@ -237,5 +250,14 @@ def get_deg_to_rad(deg: float, signed: bool):
 
 
 def is_all_in(x: set, y: set):
+    """check if all x are in y
+
+    Args:
+        x (set): _description_
+        y (set): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return len(x - y) == 0
 

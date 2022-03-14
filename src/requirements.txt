@@ -3,3 +3,5 @@ black       # formatting
 pandas      # data engineering
 numpy       # data engineering
 scipy       # data engineering
+sphinx      # documentation
+sphinx_rtd_theme # sphinx theme
