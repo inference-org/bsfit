@@ -21,14 +21,14 @@ On branch `develop` (to add features):
 1. Build docs:
 
 ```bash
-cd heuristic/docs/sphinx
+cd docs/sphinx
 make clean; make html # build html
 ```
 
 2. Deploy docs:
 
 ```bash
-cp -a heuristic/docs/sphinx/_build/html/. heuristic/docs/ # copy to deploy path
+cp -a docs/sphinx/_build/html/. docs/ # copy to deploy path
 touch docs/.nojekyll # ignore jekyll on github
 ```
 
