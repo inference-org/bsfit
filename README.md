@@ -32,7 +32,9 @@ cp -a docs/sphinx/_build/html/. docs/ # copy to deploy path
 touch docs/.nojekyll # ignore jekyll on github
 ```
 
-3. Merge to `master` (production branch)
+1. Pull request `pre-prod` branch (homologation to check docs rendering)
+
+2. Pull request to `master` (production branch for end-users)
 
 
 ## Unit-testing
