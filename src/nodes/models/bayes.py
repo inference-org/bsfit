@@ -1,19 +1,13 @@
-"""
-SLfitBayesianModel.m
 
+#      author: steeve laquitaine
+#     purpose: Model motion direction estimation data as Bayesian
+#              Also fit other Bayesian models
+#  References:
+#      -Hurliman et al, 2002,VR
+#      -Stocker&Simoncelli,2006,NN
+#      -Girshick&Simoncelli,2011,NN
+#      -Chalk&Series,2012,JoV
 
-     author: steeve laquitaine
-       date: 131205 updated 160113
-     status: Complete
-    purpose: Model motion direction estimation data as Bayesian
-             Also fit other Bayesian models
-
- References:
-     -Hurliman et al, 2002,VR
-     -Stocker&Simoncelli,2006,NN
-     -Girshick&Simoncelli,2011,NN
-     -Chalk&Series,2012,JoV
-"""
 
 from time import time
 
@@ -28,6 +22,18 @@ def fit(
     readout: str,
     objfun: str,
 ):
+    """fit model
+
+    Args:
+        subject (str): _description_
+        data_path (str): _description_
+        prior_shape (str): _description_
+        readout (str): _description_
+        objfun (str): _description_
+
+    Returns:
+        _type_: _description_
+    """
 
     # time
     t0 = time()

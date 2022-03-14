@@ -6,11 +6,11 @@
 Welcome to bsfit's documentation!
 =================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+.. autosummary::
+   :toctree: _autosummary
+   :recursive:
 
-   code
+   src
 
 
 Indices and tables
