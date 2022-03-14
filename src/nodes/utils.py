@@ -7,7 +7,14 @@ from scipy.optimize import fmin
 
 
 def fit_maxlogl(data):
+    """_summary_
 
+    Args:
+        data (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     # make 360 and 0 degrees same
     data["estimate"][data["estimate"] == 0] = 360
 
@@ -74,7 +81,11 @@ def fit_maxlogl(data):
 
 
 def test():
+    """_summary_
 
+    Returns:
+        _type_: _description_
+    """
     # parametric function, x is the independent variable
     # and c are the parameters.
     # it's a polynomial of degree 2
@@ -101,6 +112,17 @@ def get_logl(
     pred: pd.Series,
     task_params: tuple,
 ):
+    """_summary_
+
+    Args:
+        model_params (list): _description_
+        true (pd.Series): _description_
+        pred (pd.Series): _description_
+        task_params (tuple): _description_
+
+    Returns:
+        _type_: _description_
+    """
 
     # get task params
     (
@@ -163,10 +185,10 @@ def get_bayes_lookup(
 ):
     """Create a bayes lookup matrix
     based on Girshick's paper
-        M measurements in rows
-        x N stimulus feature means in columns
+    M measurements in rows
+    x N stimulus feature means in columns
 
-    usage: 
+    usage:
 
         percept, logl_percept = get_bayes_lookup(
             percept_space=1:1:360,
@@ -186,11 +208,11 @@ def get_bayes_lookup(
         percept_space, stim_mean, [k_llh], "norm"
     )
 
-    pass
+    return None
 
 
 def get_vonMises(v_x, v_u, v_k, p: bool):
-    """Create von Mises functions or probability 
+    """Create von Mises functions or probability
         distributions
 
     Args:
@@ -219,7 +241,7 @@ def get_vonMises(v_x, v_u, v_k, p: bool):
         # when mean is not in x
         if not is_all_in(set(v_u), set(v_x)):
             print(
-                """(get_vonMises) The mean "u" is not in space "x". 
+                """(get_vonMises) The mean "u" is not in space "x".
                 Choose "u" in "x"."""
             )
             if any(np.isnan(v_u)):

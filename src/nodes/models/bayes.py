@@ -1,4 +1,3 @@
-
 #      author: steeve laquitaine
 #     purpose: Model motion direction estimation data as Bayesian
 #              Also fit other Bayesian models
@@ -11,7 +10,10 @@
 
 from time import time
 
-from src.nodes.dataEng import make_database, simulate_database
+from src.nodes.dataEng import (
+    make_database,
+    simulate_database,
+)
 from src.nodes.utils import fit_maxlogl
 
 
