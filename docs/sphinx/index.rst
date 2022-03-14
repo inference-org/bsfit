@@ -9,6 +9,9 @@ Welcome to bsfit's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+
+   intro
+   get_started
    
 .. autosummary::
    :toctree: _autosummary
