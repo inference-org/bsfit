@@ -1,3 +1,6 @@
+# cache
+__pycache__/
+
 # toy data path
 data/*      
 
