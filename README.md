@@ -16,6 +16,8 @@ conda install --file src/requirements.txt -y
 
 ## Build & deploy docs
 
+Basic steps: develop (features) -> pre-prod (homologation) -> master (production)
+
 On branch `develop` (to add features):
 
 1. Build docs:
