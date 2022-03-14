@@ -18,26 +18,26 @@ conda install --file src/requirements.txt -y
 
 Basic steps: develop (features) -> pre-prod (homologation) -> master (production)
 
-On branch `develop` (to add features):
+1. On branch `develop` (to add features):
+   1. Build docs:
 
-1. Build docs:
+    ```bash
+    cd docs/sphinx
+    make clean; make html # build html
+    ```
 
-```bash
-cd docs/sphinx
-make clean; make html # build html
-```
+   2. Deploy docs:
 
-2. Deploy docs:
+    ```bash
+    cp -a docs/sphinx/_build/html/. docs/ # copy to deploy path
+    touch docs/.nojekyll # ignore jekyll on github
+    ```
 
-```bash
-cp -a docs/sphinx/_build/html/. docs/ # copy to deploy path
-touch docs/.nojekyll # ignore jekyll on github
-```
+2. Pull request `pre-prod` branch (homologation, check docs rendering)
+    - when: after deploying sphinx/ to docs/
 
-1. Pull request `pre-prod` branch (homologation to check docs rendering)
-
-2. Pull request to `master` (production branch for end-users)
-
+3. Pull request to `master` (production branch for end-users)
+    - when: the entire codebase is clean
 
 ## Unit-testing
 
