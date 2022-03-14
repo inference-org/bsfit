@@ -1,2 +1,13 @@
-data/*
+# toy data path
+data/*      
+
+# doc build path
+sphinx/*    
 .vscode/settings.json
+src/nodes/old/MLft5.m
+src/nodes/old/slfitBayesfminSlogl.m
+src/nodes/old/SLfitBayesianModel.m
+src/nodes/old/SLgetLoglBayesianModel.m
+src/nodes/old/SLGirshickBayesLookupTable.m
+src/nodes/old/SLMakedatabank.m
+src/nodes/old/vmPdfs.py
