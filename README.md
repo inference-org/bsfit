@@ -21,7 +21,7 @@ Basic steps: develop (features) -> pre-prod (homologation) -> master (production
 1. On branch `develop` (to add features):
     
     ```bash
-    sudo bash docs/deploy.sh
+    bash deploy.sh
     ```
 
 2. Pull request `pre-prod` branch (homologation, check docs rendering)
