@@ -2,7 +2,7 @@
 data/*      
 
 # doc build path
-sphinx
+sphinx/
 .vscode/settings.json
 src/nodes/old/MLft5.m
 src/nodes/old/slfitBayesfminSlogl.m
