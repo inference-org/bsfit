@@ -1,4 +1,4 @@
-# heuristic
+# bsfit
 
 author: steeve laquitaine
 
@@ -31,7 +31,6 @@ touch docs/.nojekyll # ignore jekyll on github
 ```
 
 3. Merge changes to `master-docs` branch (for homologation)
-
 
 
 ## Unit-testing
