@@ -209,3 +209,6 @@ def get_bayes_lookup(
     )
     return None
 
+
+def is_unique(x):
+    return len(np.unique(x)) == 1
