@@ -1,8 +1,9 @@
-"""Unit testing
-author: steeve laquitaine
-usage:
-    pytest src/test.py
-"""
+# Unit testing
+#
+# author: steeve laquitaine
+#
+# usage:
+#     pytest src/test.py
 
 import numpy as np
 
@@ -11,6 +12,8 @@ from src.nodes.utils import is_all_in
 
 
 def test_VonMises():
+    """test VonMises data class
+    """
     vmises = VonMises(p=True).get(
         v_x=np.arange(0, 360, 1),
         v_u=np.arange(0, 360, 1),
@@ -29,7 +32,7 @@ def test_VonMises():
 
 
 def test_is_all_in():
-    """unit-test "is_all_in"
+    """test "is_all_in" function
     """
     assert (
         is_all_in({0, 1, 2, 3}, {0, 1, 2, 3}) == True
