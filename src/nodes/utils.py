@@ -2,12 +2,13 @@ import collections
 from collections import defaultdict
 
 import numpy as np
+from numpy import exp, cos, pi
 import pandas as pd
 from scipy.optimize import fmin
-
+from scipy.special import iv
 
 def fit_maxlogl(data):
-    """_summary_
+    """fit maximum log(likelihood)
 
     Args:
         data (_type_): _description_
@@ -170,7 +171,7 @@ def get_logl(
                 prior_tail,
                 prior_shape,
             )
-    return x
+    return None
 
 
 def get_bayes_lookup(
@@ -226,9 +227,11 @@ def get_vonMises(v_x, v_u, v_k, p: bool):
     """
 
     # radians
-    xrad = get_deg_to_rad(v_x, True)
-    urad = get_deg_to_rad(v_u, True)
+    x_rad = get_deg_to_rad(v_x, True)
+    u_rad = get_deg_to_rad(v_u, True)
 
+    # same k, different means
+    # ------------------------
     # When von mises with different mean u1,u2,u3 but with same k are input
     # We can get von Mises with mean u2,u3,etc...simply by rotating the von
     # mises with mean u1 by u2-u1, u3-u1 etc...
@@ -241,13 +244,53 @@ def get_vonMises(v_x, v_u, v_k, p: bool):
         # when mean is not in x
         if not is_all_in(set(v_u), set(v_x)):
             print(
-                """(get_vonMises) The mean "u" is not in space "x".
+                """(get_vonMises) The mean "u" 
+                is not in space "x".
                 Choose "u" in "x"."""
             )
+            # when there are missing means
             if any(np.isnan(v_u)):
-                print("(get_vonMises) The mean is nan ...")
+                print("""(get_vonMises) The mean 
+                is nan ...""")
+        else:
+            # when k -> +inf            
+            # make the von mises delta functions
+            if v_k[0] > 1e300:
+                vm = np.zeros((len(x_rad), len(v_u)))
+                vm[x_rad==u_rad[0], 0] = 1
 
-    return None
+                # get other von mises by circular 
+                # translation of the first
+                rot_start = np.where(v_x == v_u[0])[0]
+                for i in range(1, len(v_u)):
+                    rot_end = np.where(v_x == v_u[i])[0]
+                    rotation = rot_end - rot_start
+                    vm[:, i] = np.roll(vm[:, 0], rotation)
+            else:
+                # initialize matrix of von mises
+                # for each mean
+                vm = np.zeros((len(x_rad), len(v_u)))*np.nan
+
+                # when k is not +inf
+                amp = 1
+                v_k = v_k[0]
+                bessel_order = 0
+                scaling = (2*pi*iv(bessel_order,v_k))                
+                vm_fun = exp(v_k*cos(amp*(x_rad-u_rad[0]))-v_k)
+                vm[:,0]=vm_fun/scaling
+                
+                # create other von mises by shifting 
+                # the first circularly
+                rot_start = np.where(v_x == v_u[0])[0]                
+                for i in range(1, len(v_u)):                    
+                    rot_end = np.where(v_x == v_u[i])[0]
+                    rotation = rot_end - rot_start
+                    vm[:, i] = np.roll(vm[:,0], rotation)
+                    
+                # normalize to probabilities
+                if p:
+                    vm=vm/sum(vm[:,0])
+    return vm
 
 
 def get_deg_to_rad(deg: float, signed: bool):
@@ -261,14 +304,14 @@ def get_deg_to_rad(deg: float, signed: bool):
         np.array: _description_
     """
     # get unsigned radians (1:2*pi)
-    radians = (deg / 360) * 2 * np.pi
+    rad = (deg/360)*2*pi
 
     # get signed radians(-pi:pi)
     if signed:
-        radians[deg > 180] = (deg[deg > 180] - 360) * (
-            2 * np.pi / 360
+        rad[deg>180]=(deg[deg>180]-360)*(
+            2*pi/360
         )
-    return radians
+    return rad
 
 
 def is_all_in(x: set, y: set):
