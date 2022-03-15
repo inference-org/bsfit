@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>src.nodes.utils &mdash; bsfit 0.0.1 documentation</title>
+  <title>src.nodes.data &mdash; bsfit 0.0.1 documentation</title>
       <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
       <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
   <!--[if lt IE 9]>
@@ -17,8 +17,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="src.test" href="src.test.html" />
-    <link rel="prev" title="src.nodes.models.bayes" href="src.nodes.models.bayes.html" /> 
+    <link rel="next" title="src.nodes.dataEng" href="src.nodes.dataEng.html" />
+    <link rel="prev" title="src.nodes" href="src.nodes.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -44,10 +44,10 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="src.html">src</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="src.nodes.html">src.nodes</a><ul class="current">
-<li class="toctree-l3"><a class="reference internal" href="src.nodes.data.html">src.nodes.data</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">src.nodes.data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.dataEng.html">src.nodes.dataEng</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.models.html">src.nodes.models</a></li>
-<li class="toctree-l3 current"><a class="current reference internal" href="#">src.nodes.utils</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.nodes.utils.html">src.nodes.utils</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="src.test.html">src.test</a></li>
@@ -71,9 +71,9 @@
       <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
           <li><a href="src.html">src</a> &raquo;</li>
           <li><a href="src.nodes.html">src.nodes</a> &raquo;</li>
-      <li>src.nodes.utils</li>
+      <li>src.nodes.data</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/_autosummary/src.nodes.utils.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/_autosummary/src.nodes.data.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -81,8 +81,8 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <div class="section" id="module-src.nodes.utils">
-<span id="src-nodes-utils"></span><h1>src.nodes.utils<a class="headerlink" href="#module-src.nodes.utils" title="Permalink to this headline"></a></h1>
+  <div class="section" id="module-src.nodes.data">
+<span id="src-nodes-data"></span><h1>src.nodes.data<a class="headerlink" href="#module-src.nodes.data" title="Permalink to this headline"></a></h1>
 <p class="rubric">Functions</p>
 <table class="longtable docutils align-default">
 <colgroup>
@@ -90,20 +90,20 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_maxlogl</span></code>(data)</p></td>
-<td><p>fit maximum log(likelihood)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_unique</span></code>(x)</p></td>
+<td><p>Check if x contains repetition of one value</p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_bayes_lookup</span></code>(percept_space, stim_mean, ...)</p></td>
-<td><p>Create a bayes lookup matrix based on Girshick's paper M measurements in rows x N stimulus feature means in columns</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl</span></code>(model_params, true, pred, task_params)</p></td>
-<td><p>_summary_</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_all_in</span></code>(x, y)</p></td>
-<td><p>check if all x are in y</p></td>
-</tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test</span></code>()</p></td>
-<td><p>_summary_</p></td>
+</tbody>
+</table>
+<p class="rubric">Classes</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">VonMises</span></code>(p)</p></td>
+<td><p>Von Mises data class</p></td>
 </tr>
 </tbody>
 </table>
@@ -113,8 +113,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="src.nodes.models.bayes.html" class="btn btn-neutral float-left" title="src.nodes.models.bayes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="src.test.html" class="btn btn-neutral float-right" title="src.test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="src.nodes.html" class="btn btn-neutral float-left" title="src.nodes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.nodes.dataEng.html" class="btn btn-neutral float-right" title="src.nodes.dataEng" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

@@ -1,13 +1,13 @@
-import collections
 from collections import defaultdict
 
 import numpy as np
 import pandas as pd
 from scipy.optimize import fmin
+from src.nodes.data import VonMises
 
 
 def fit_maxlogl(data):
-    """_summary_
+    """fit maximum log(likelihood)
 
     Args:
         data (_type_): _description_
@@ -170,7 +170,7 @@ def get_logl(
                 prior_tail,
                 prior_shape,
             )
-    return x
+    return None
 
 
 def get_bayes_lookup(
@@ -204,71 +204,10 @@ def get_bayes_lookup(
     # calculate measurement densities ~v(di,kl)
     # di are stimulus mean in columns
     # over range of possible measurement in rows
-    meas_density = get_vonMises(
-        percept_space, stim_mean, [k_llh], "norm"
+    meas_density = VonMises(p=True).get(
+        percept_space, stim_mean, [k_llh, 0.2]
     )
-
     return None
-
-
-def get_vonMises(v_x, v_u, v_k, p: bool):
-    """Create von Mises functions or probability
-        distributions
-
-    Args:
-        v_x (np.array): support space
-        v_u (list): mean
-        v_k (list): concentration
-        p (bool): probability distribution or not
-
-    Returns:
-        _type_: _description_
-    """
-
-    # radians
-    xrad = get_deg_to_rad(v_x, True)
-    urad = get_deg_to_rad(v_u, True)
-
-    # When von mises with different mean u1,u2,u3 but with same k are input
-    # We can get von Mises with mean u2,u3,etc...simply by rotating the von
-    # mises with mean u1 by u2-u1, u3-u1 etc...
-    # When we don't do that we get slightly different von mises with different
-    # peakvalue due to numerical instability caused by cosine and exponential
-    # functions.
-    # case all k are same
-    if sum(np.array(v_k) - v_k[0]) == 0:
-
-        # when mean is not in x
-        if not is_all_in(set(v_u), set(v_x)):
-            print(
-                """(get_vonMises) The mean "u" is not in space "x".
-                Choose "u" in "x"."""
-            )
-            if any(np.isnan(v_u)):
-                print("(get_vonMises) The mean is nan ...")
-
-    return None
-
-
-def get_deg_to_rad(deg: float, signed: bool):
-    """convert degrees to radians
-
-    Args:
-        deg (np.array): _description_
-        signed (bool): _description_
-
-    Returns:
-        np.array: _description_
-    """
-    # get unsigned radians (1:2*pi)
-    radians = (deg / 360) * 2 * np.pi
-
-    # get signed radians(-pi:pi)
-    if signed:
-        radians[deg > 180] = (deg[deg > 180] - 360) * (
-            2 * np.pi / 360
-        )
-    return radians
 
 
 def is_all_in(x: set, y: set):
@@ -282,4 +221,3 @@ def is_all_in(x: set, y: set):
         _type_: _description_
     """
     return len(x - y) == 0
-

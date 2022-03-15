@@ -9,8 +9,8 @@ Go to [documentation](https://steevelaquitaine.github.io/bsfit/)
 Create virtual environment and install dependencies:
 
 ```bash
-conda create -n heuristic python==3.6.13
-conda activate heuristic
+conda create -n bsfit python==3.6.13
+conda activate bsfit
 conda install --file src/requirements.txt -y
 ```
 

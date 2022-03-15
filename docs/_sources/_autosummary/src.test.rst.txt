@@ -1,4 +1,4 @@
-src.test
+﻿src.test
 ========
 
 .. automodule:: src.test
@@ -13,8 +13,8 @@ src.test
 
    .. autosummary::
    
+      test_VonMises
       test_is_all_in
-      test_vonMises
    
    
 

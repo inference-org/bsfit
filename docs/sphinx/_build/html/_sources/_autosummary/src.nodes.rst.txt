@@ -1,4 +1,4 @@
-src.nodes
+﻿src.nodes
 =========
 
 .. automodule:: src.nodes
@@ -27,6 +27,7 @@ src.nodes
    :toctree:
    :recursive:
 
+   src.nodes.data
    src.nodes.dataEng
    src.nodes.models
    src.nodes.utils
