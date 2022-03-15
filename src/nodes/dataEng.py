@@ -52,7 +52,10 @@ def make_database(subject: str, data_path: str, prior: str):
 
 
 def simulate_database(
-    stim_std: float, prior_mode: float, prior_std: float, prior_shape:str
+    stim_std: float,
+    prior_mode: float,
+    prior_std: float,
+    prior_shape: str,
 ):
     """Simulate a test database
 
@@ -63,7 +66,7 @@ def simulate_database(
     # initialize dataframe
     data = pd.DataFrame()
 
-    # set stimulus mean
+    # set stimulus mean (0 to 359)
     data["stim_mean"] = np.arange(0, 360, 1)
 
     # set stimulus std
@@ -86,7 +89,7 @@ def simulate_database(
         prior_shape, len(data["stim_mean"])
     )
 
-    # simulate estimate choices
+    # simulate estimate choices (0 to 359)
     data["estimate"] = np.arange(0, 360, 1)
 
     print(data)

@@ -21,6 +21,7 @@ def fit(
     subject: str,
     data_path: str,
     prior_shape: str,
+    prior_mode: float,
     readout: str,
     objfun: str,
 ):
@@ -29,7 +30,8 @@ def fit(
     Args:
         subject (str): _description_
         data_path (str): _description_
-        prior_shape (str): _description_
+        prior_shape (str): prior shape
+        prior_shape (float): prior mode
         readout (str): _description_
         objfun (str): _description_
 
@@ -50,7 +52,9 @@ def fit(
     )
 
     # fit
-    neg_logl = fit_maxlogl(database)
+    neg_logl = fit_maxlogl(
+        database, prior_shape, prior_mode, readout
+    )
 
     output = t0
     return output
