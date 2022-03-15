@@ -2,8 +2,6 @@ import numpy as np
 from numpy import cos, exp, pi
 from scipy.special import iv
 
-from utils import is_unique
-
 
 class VonMises:
     """Von Mises data class
@@ -56,14 +54,30 @@ class VonMises:
         v_u: list,
         v_k: list,
     ):
-        # When von mises with different mean u1,u2,u3 but with same k are input
-        # We can get von Mises with mean u2,u3,etc...simply by rotating the von
-        # mises with mean u1 by u2-u1, u3-u1 etc...
-        # When we don't do that we get slightly different von mises with different
-        # peakvalue due to numerical instability caused by cosine and exponential
-        # functions.
-        # case all k are same
-        # when mean is not in x
+        """ get von mises with the same k 
+        but different means
+
+        Args:
+            x_rad (np.array):
+            u_rad (np.array):
+            v_x (np.array):
+            v_u (list):
+            v_k (list):
+        
+        Returns:
+            (np.array): matrix of von mises
+
+        Description:
+            When von mises with different mean u1,u2,u3 but with same k are input
+            We can get von Mises with mean u2,u3,etc...simply by rotating the von
+            mises with mean u1 by u2-u1, u3-u1 etc...
+            When we don't do that we get slightly different von mises with different
+            peakvalue due to numerical instability caused by cosine and exponential
+            functions.
+            case all k are same
+            when mean is not in x    
+        """
+
         if not self._is_all_in(set(v_u), set(v_x)):
             raise Exception(
                 """(get_vonMises) The mean "u"
@@ -81,7 +95,7 @@ class VonMises:
 
                 # get others by circular
                 # translation of the first
-                vmises = self.shift_circular(
+                vmises = self._shift_circular(
                     v_x, v_u[1:], first_vm, v_u[0],
                 )
             else:
@@ -92,7 +106,7 @@ class VonMises:
 
                 # get others by circular
                 # translation of the first
-                vmises = self.shift_circular(
+                vmises = self._shift_circular(
                     v_x, v_u[1:], first_vm, v_u[0],
                 )
 
@@ -101,9 +115,22 @@ class VonMises:
                     vmises = vmises / sum(vmises[:, 0])
             return vmises
 
-    def shift_circular(
+    def _shift_circular(
         self, v_x, v_u, first_vmises, first_mean
     ):
+        """translate von mises circularly
+        by v_u - first mean
+        to create a matrix of von mises
+
+        Args:
+            v_x (_type_): _description_
+            v_u (_type_): _description_
+            first_vmises (_type_): _description_
+            first_mean (_type_): _description_
+
+        Returns:
+            _type_: _description_
+        """
 
         # initialize von mises matrix
         vmises = np.zeros((len(v_x), len(v_u) + 1))
@@ -132,16 +159,19 @@ class VonMises:
             np.array: von mises array of
                 (Nx x_rad) rows, (Nm mean * Nk) cols  
         """
-        vmises = []
+        vmises_all = []
         for u_i in u_rad:
             for k_i in v_k:
-                vmises.append(
-                    self._calculate_von_mises(
-                        x_rad, u_i, k_i
-                    )
+                vmises = self._calculate_von_mises(
+                    x_rad, u_i, k_i
                 )
-        vmises = np.array(vmises).T
-        return vmises
+                # normalize
+                if self.p:
+                    vmises = vmises / sum(vmises)
+
+                # store
+                vmises_all.append(vmises)
+        return np.array(vmises_all).T
 
     def _calculate_von_mises(
         self, x_rad: np.array, u_rad: float, v_k: float
@@ -198,3 +228,15 @@ class VonMises:
         """
         return len(x - y) == 0
 
+
+def is_unique(x):
+    """Check if x contains
+    repetition of one value
+
+    Args:
+        x (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    return len(np.unique(x)) == 1

@@ -205,10 +205,19 @@ def get_bayes_lookup(
     # di are stimulus mean in columns
     # over range of possible measurement in rows
     meas_density = VonMises(p=True).get(
-        percept_space, stim_mean, [k_llh]
+        percept_space, stim_mean, [k_llh, 0.2]
     )
     return None
 
 
-def is_unique(x):
-    return len(np.unique(x)) == 1
+def is_all_in(x: set, y: set):
+    """check if all x are in y
+
+    Args:
+        x (set): _description_
+        y (set): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    return len(x - y) == 0

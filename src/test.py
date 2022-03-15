@@ -1,12 +1,31 @@
 """Unit testing
 author: steeve laquitaine
+usage:
+    pytest src/test.py
 """
 
-from src.nodes.utils import get_vonMises, is_all_in
+import numpy as np
+
+from src.nodes.data import VonMises
+from src.nodes.utils import is_all_in
 
 
-def test_vonMises():
-    pass
+def test_VonMises():
+    vmises = VonMises(p=True).get(
+        v_x=np.arange(0, 360, 1),
+        v_u=np.arange(0, 360, 1),
+        v_k=[0.5, 1],
+    )
+    # check shape
+    assert vmises.shape == (
+        360,
+        720,
+    ), "measure density's shape is wrong"
+
+    # check normalization
+    assert all(
+        sum(vmises)
+    ), "VonMises are not probabilities"
 
 
 def test_is_all_in():
