@@ -146,6 +146,18 @@ class VonMises:
     def _calculate_von_mises(
         self, x_rad: np.array, u_rad: float, v_k: float
     ):
+        """Calculate a von Mises function
+
+        Args:
+            x_rad (np.array): 
+                von mises' support space in radians
+            u_rad (float): 
+                von mises means in radians
+            v_k (float): von mises concentrations
+
+        Returns:
+            np.array: f(x_rad,u_rad,k_rad)
+        """
 
         amp = 1
         bessel_order = 0
