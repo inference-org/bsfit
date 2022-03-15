@@ -5,6 +5,18 @@ from scipy.special import iv
 
 class VonMises:
     """Von Mises data class
+    
+    von Mises vm(u,k) are created based on the
+    equation vm=exp(k.*cos(x-u))./(2*pi.*besseli(0,k)). The code works for any
+    value of k (but not for +inf). The equation is adjusted because of the
+    following numerical issues: when k>700, vm is NaN because besseli(0,k) and
+    exp(k.*cos(x-u)) reach numerical limits. exp(k.*cos(x-u)-k) scales vm
+    without changing its shape. besseli(0,k,1)) does same. The adjusted
+    equation and the exact equation yield exact same results except that the
+    adjusted equation works for large k (>>700).
+ 
+    When k > 1e300 densities become delta densities. We generate delta 
+    density for k>300
     """
 
     def __init__(self, p: bool):
