@@ -4,7 +4,6 @@
 # generate the api's documentation
 #
 # docstring style used: Google style
-
 """""
 This is the software's entry point.
 
@@ -15,7 +14,7 @@ This is the software's entry point.
     
         python main.py
 
-**copyright:** Copyright 2022 by Steeve Laquitaine, GNU license 
+Copyright 2022 by Steeve Laquitaine, GNU license 
 """
 
 from src.nodes.dataEng import (
