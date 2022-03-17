@@ -15,8 +15,8 @@ def test_VonMises():
     """test VonMises data class
     """
     vmises = VonMises(p=True).get(
-        v_x=np.arange(0, 360, 1),
-        v_u=np.arange(0, 360, 1),
+        v_x=np.arange(1, 361, 1),
+        v_u=np.arange(1, 361, 1),
         v_k=[0.5, 1],
     )
     # check shape

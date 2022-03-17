@@ -93,7 +93,7 @@ class VonMises:
             case all k are same
             when mean is not in x    
         """
-
+        
         if not self._is_all_in(set(v_u), set(v_x)):
             from ipdb import set_trace
 
