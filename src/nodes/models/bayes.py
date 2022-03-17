@@ -1,3 +1,9 @@
+# note: the doctsring code below within
+# """ is converted to a restructuredText
+# .rst file by sphinx to automatically
+# generate the api's documentation
+#
+# docstring style used: Google style
 """
     fit estimation data with a Bayesian model
 

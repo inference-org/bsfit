@@ -1,3 +1,10 @@
+# note: the doctsring code below within
+# """ is converted to a restructuredText
+# .rst file by sphinx to automatically
+# generate the api's documentation
+#
+# docstring style used: Google style
+
 """""
 This is the software's entry point.
 
@@ -11,7 +18,10 @@ This is the software's entry point.
 **copyright:** Copyright 2022 by Steeve Laquitaine, GNU license 
 """
 
-from src.nodes.dataEng import make_database, simulate_database
+from src.nodes.dataEng import (
+    make_database,
+    simulate_database,
+)
 from src.nodes.models import bayes
 
 # setup parameters

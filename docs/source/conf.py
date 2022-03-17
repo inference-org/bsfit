@@ -9,12 +9,11 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
+
 import os
 import sys
 
 sys.path.insert(0, os.path.abspath("../../"))
-
 
 # -- Project information -----------------------------------------------------
 
@@ -25,19 +24,20 @@ author = "steeve laquitaine"
 # The full version, including alpha/beta/rc tags
 release = "0.0.1"
 
-
 # -- General configuration ---------------------------------------------------
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+# - "sphinx.ext.autosummary" to create summary tables
+# - "sphinx.ext.napoleon": to parse NumPy, Google style docstrings
+# - "sphinx.ext.viewcode": add [source] hyperlink to view code
 extensions = [
-    "sphinx.ext.autosummary",  # Create neat summary tables
+    "sphinx.ext.autosummary",
     "sphinx.ext.autodoc",
-    # "sphinx.ext.viewcode",
-    "sphinx_automodapi.automodapi",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.napoleon",
 ]
-numpydoc_show_class_members = False
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -51,7 +51,6 @@ exclude_patterns = [
     "Thumbs.db",
     ".DS_Store",
 ]
-
 
 # -- Options for HTML output -------------------------------------------------
 

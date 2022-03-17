@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>src.nodes.data.VonMises &mdash; bsfit 0.0.1 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-      <link rel="stylesheet" href="../_static/graphviz.css" type="text/css" />
   <!--[if lt IE 9]>
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
@@ -91,7 +90,7 @@
 <h1>src.nodes.data.VonMises<a class="headerlink" href="#src-nodes-data-vonmises" title="Permalink to this headline">¶</a></h1>
 <dl class="py class">
 <dt id="src.nodes.data.VonMises">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">src.nodes.data.</span></code><code class="sig-name descname"><span class="pre">VonMises</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.nodes.data.VonMises" title="Permalink to this definition">¶</a></dt>
+<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">src.nodes.data.</span></code><code class="sig-name descname"><span class="pre">VonMises</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/nodes/data.html#VonMises"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.data.VonMises" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Von Mises data class</p>
 <p>von Mises are created based on the
@@ -102,18 +101,16 @@ exp(k.*cos(x-u)) reach numerical limits. exp(k.*cos(x-u)-k) scales vm
 without changing its shape. besseli(0,k,1)) does same. The adjusted
 equation and the exact equation yield exact same results except that the
 adjusted equation works for large k (&gt;&gt;700).</p>
-<p>When k &gt; 1e300 densities become delta densities. We generate delta 
+<p>When k &gt; 1e300 densities become delta densities. We generate delta
 density for k&gt;300</p>
 <dl class="py method">
 <dt id="src.nodes.data.VonMises.__init__">
-<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.nodes.data.VonMises.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">__init__</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/nodes/data.html#VonMises.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.data.VonMises.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>instantiate Von Mises</p>
-<dl class="simple">
-<dt>Args:</dt><dd><dl class="simple">
-<dt>p (bool): </dt><dd><p>True/False means probabilities 
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>p</strong> (<em>bool</em>) – True/False means probabilities
 or not</p>
-</dd>
-</dl>
 </dd>
 </dl>
 </dd></dl>
@@ -135,15 +132,24 @@ or not</p>
 </table>
 <dl class="py method">
 <dt id="src.nodes.data.VonMises.get">
-<code class="sig-name descname"><span class="pre">get</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_u</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_k</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#src.nodes.data.VonMises.get" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname"><span class="pre">get</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_x</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_u</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_k</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/nodes/data.html#VonMises.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.data.VonMises.get" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="simple">
 <dt>Create von Mises functions or probability</dt><dd><p>distributions</p>
 </dd>
-<dt>Args:</dt><dd><p>v_x (np.array): von mises’ support space
-v_u (np.array): von mises’ mean
-v_k (list): von mises’ concentration</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_x</strong> (<em>np.array</em>) – von mises’ support space</p></li>
+<li><p><strong>v_u</strong> (<em>np.array</em>) – von mises’ mean</p></li>
+<li><p><strong>v_k</strong> (<em>list</em>) – von mises’ concentration</p></li>
+</ul>
 </dd>
-<dt>Returns:</dt><dd><p>_type_: _description_</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>_description_</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>_type_</p>
 </dd>
 </dl>
 </dd></dl>
