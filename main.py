@@ -17,13 +17,30 @@ This is the software's entry point.
 Copyright 2022 by Steeve Laquitaine, GNU license 
 """
 
+import logging
+import os
+
+import yaml
+
 from src.nodes.dataEng import (
     make_database,
     simulate_database,
 )
 from src.nodes.models import bayes
 
-# setup parameters
+# setup logging
+proj_path = os.getcwd()
+logging_path = os.path.join(
+    proj_path + "/conf/base/logging.yml"
+)
+
+with open(logging_path, "r") as f:
+    LOG_CONF = yaml.load(f, Loader=yaml.FullLoader)
+
+logging.config.dictConfig(LOG_CONF)
+logger = logging.getLogger(__name__)
+
+# set parameters
 DATA_PATH = "data/data01_direction4priors/data/"
 SUBJECT = "sub01"
 PRIOR_SHAPE = "vonMisesPrior"
@@ -37,6 +54,7 @@ if __name__ == "__main__":
     """Entry point
     """
     # simulate a database
+    logger.info("Simulating database ...")
     database = simulate_database(
         stim_std=STIM_STD,
         prior_mode=PRIOR_MODE,
@@ -45,6 +63,7 @@ if __name__ == "__main__":
     )
 
     # train model
+    logger.info("Fitting bayes model ...")
     output = bayes.fit(
         database=database,
         data_path=DATA_PATH,
@@ -54,4 +73,8 @@ if __name__ == "__main__":
     )
 
     # print results
+    logger.info("Printing results ...")
     print(output)
+
+    # done
+    logger.info("Done.")
