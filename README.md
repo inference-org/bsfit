@@ -14,7 +14,13 @@ conda activate bsfit
 conda install --file src/requirements.txt -y
 ```
 
-## Build & deploy docs
+## Docs
+### Update docs
+
+1. Edit docs/sphinx/ 
+2. Go to "Build & deploy" section
+
+### Build & deploy
 
 Basic steps: develop (features) -> pre-prod (homologation) -> master (production)
 
