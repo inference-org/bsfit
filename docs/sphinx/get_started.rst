@@ -1,3 +1,4 @@
-
-Get Started
+Get started
 ===========
+
+.. mdinclude:: ../../README.md
