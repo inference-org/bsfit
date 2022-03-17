@@ -1,12 +1,13 @@
 import numpy as np
 from numpy import cos, exp, pi
 from scipy.special import iv
+from src.nodes.util import get_deg_to_rad
 
 
 class VonMises:
     """Von Mises data class
     
-    von Mises vm(u,k) are created based on the
+    von Mises are created based on the
     equation vm=exp(k.*cos(x-u))./(2*pi.*besseli(0,k)). The code works for any
     value of k (but not for +inf). The equation is adjusted because of the
     following numerical issues: when k>700, vm is NaN because besseli(0,k) and
@@ -29,13 +30,13 @@ class VonMises:
         """
         self.p = p
 
-    def get(self, v_x: np.array, v_u: list, v_k: list):
+    def get(self, v_x: np.array, v_u: np.array, v_k: list):
         """Create von Mises functions or probability
             distributions
 
         Args:
             v_x (np.array): von mises' support space
-            v_u (list): von mises' mean
+            v_u (np.array): von mises' mean
             v_k (list): von mises' concentration
 
         Returns:
@@ -43,8 +44,11 @@ class VonMises:
         """
 
         # radians
-        x_rad = self._get_deg_to_rad(v_x, True)
-        u_rad = self._get_deg_to_rad(v_u, True)
+        # x_rad = self._get_deg_to_rad(v_x, True)
+        # u_rad = self._get_deg_to_rad(v_u, True)
+
+        x_rad = get_deg_to_rad(v_x, True)
+        u_rad = get_deg_to_rad(v_u, True)
 
         # when k is the same and means are different
         if is_unique(v_k):
@@ -89,8 +93,11 @@ class VonMises:
             case all k are same
             when mean is not in x    
         """
-
+        
         if not self._is_all_in(set(v_u), set(v_x)):
+            from ipdb import set_trace
+
+            set_trace()
             raise Exception(
                 """(get_vonMises) The mean "u"
                 is not in support space "x".

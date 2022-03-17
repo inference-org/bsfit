@@ -10,28 +10,25 @@
 
 from time import time
 
-from src.nodes.dataEng import (
-    make_database,
-    simulate_database,
-)
+import pandas as pd
 from src.nodes.utils import fit_maxlogl
 
 
 def fit(
-    subject: str,
+    database: pd.DataFrame,
     data_path: str,
     prior_shape: str,
+    prior_mode: float,
     readout: str,
-    objfun: str,
 ):
     """fit model
 
     Args:
-        subject (str): _description_
+        database (pd.DataFrame): _description_
         data_path (str): _description_
-        prior_shape (str): _description_
+        prior_shape (str): prior shape
+        prior_shape (float): prior mode
         readout (str): _description_
-        objfun (str): _description_
 
     Returns:
         _type_: _description_
@@ -40,18 +37,9 @@ def fit(
     # time
     t0 = time()
 
-    # create database [TODO]
-    # database = make_database(subject, data_path, prior)
-    database = simulate_database(
-        stim_std=0.33,
-        prior_mode=225,
-        prior_std=80,
-        prior_shape=prior_shape,
-    )
-
     # fit
-    neg_logl = fit_maxlogl(database)
-
-    output = t0
+    output = fit_maxlogl(
+        database, prior_shape, prior_mode, readout
+    )
     return output
 

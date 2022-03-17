@@ -18,7 +18,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="src.test" href="src.test.html" />
-    <link rel="prev" title="src.nodes.models.bayes" href="src.nodes.models.bayes.html" /> 
+    <link rel="prev" title="src.nodes.util" href="src.nodes.util.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -47,6 +47,7 @@
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.data.html">src.nodes.data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.dataEng.html">src.nodes.dataEng</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.models.html">src.nodes.models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.nodes.util.html">src.nodes.util</a></li>
 <li class="toctree-l3 current"><a class="current reference internal" href="#">src.nodes.utils</a></li>
 </ul>
 </li>
@@ -90,17 +91,17 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_maxlogl</span></code>(data)</p></td>
-<td><p>fit maximum log(likelihood)</p></td>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">do_bayes_inference</span></code>(k_llh, prior_mode, ...)</p></td>
+<td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_bayes_lookup</span></code>(percept_space, stim_mean, ...)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit_maxlogl</span></code>(data, prior_shape, prior_mode, ...)</p></td>
+<td><p>Fits estimate data with the maximum log(likelihood) method This method searches for the model parameters  that maximize the log(likeligood) of the data</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_bayes_lookup</span></code>(percept_space, stim_mean, ...)</p></td>
 <td><p>Create a bayes lookup matrix based on Girshick's paper M measurements in rows x N stimulus feature means in columns</p></td>
 </tr>
-<tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl</span></code>(model_params, true, pred, task_params)</p></td>
+<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl</span></code>(model_params, stim_mean, estimate, ...)</p></td>
 <td><p>_summary_</p></td>
-</tr>
-<tr class="row-even"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_all_in</span></code>(x, y)</p></td>
-<td><p>check if all x are in y</p></td>
 </tr>
 <tr class="row-odd"><td><p><code class="xref py py-obj docutils literal notranslate"><span class="pre">test</span></code>()</p></td>
 <td><p>_summary_</p></td>
@@ -113,7 +114,7 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="src.nodes.models.bayes.html" class="btn btn-neutral float-left" title="src.nodes.models.bayes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.nodes.util.html" class="btn btn-neutral float-left" title="src.nodes.util" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
         <a href="src.test.html" class="btn btn-neutral float-right" title="src.test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 

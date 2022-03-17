@@ -8,15 +8,15 @@
 import numpy as np
 
 from src.nodes.data import VonMises
-from src.nodes.utils import is_all_in
+from src.nodes.util import is_all_in
 
 
 def test_VonMises():
     """test VonMises data class
     """
     vmises = VonMises(p=True).get(
-        v_x=np.arange(0, 360, 1),
-        v_u=np.arange(0, 360, 1),
+        v_x=np.arange(1, 361, 1),
+        v_u=np.arange(1, 361, 1),
         v_k=[0.5, 1],
     )
     # check shape
