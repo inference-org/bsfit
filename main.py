@@ -5,7 +5,10 @@
 #     >> python main
 
 
-from src.nodes.dataEng import make_database, simulate_database
+from src.nodes.dataEng import (
+    make_database,
+    simulate_database,
+)
 from src.nodes.models import bayes
 
 # setup parameters

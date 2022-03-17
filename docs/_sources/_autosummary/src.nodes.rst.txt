@@ -30,5 +30,6 @@
    src.nodes.data
    src.nodes.dataEng
    src.nodes.models
+   src.nodes.util
    src.nodes.utils
 

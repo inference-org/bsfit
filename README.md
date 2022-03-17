@@ -19,6 +19,7 @@ conda install --file src/requirements.txt -y
 Basic steps: develop (features) -> pre-prod (homologation) -> master (production)
 
 1. On branch `develop` (to add features):
+    - when: after having added a new working feature
     
     ```bash
     bash deploy.sh

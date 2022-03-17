@@ -8,7 +8,7 @@
 import numpy as np
 
 from src.nodes.data import VonMises
-from src.nodes.utils import is_all_in
+from src.nodes.util import is_all_in
 
 
 def test_VonMises():
