@@ -1,3 +1,16 @@
+# note: the doctsring code below within
+# """ is converted to a restructuredText
+# .rst file by sphinx to automatically
+# generate the api's documentation
+#
+# docstring style used: Google style
+"""
+    module
+
+    Copyright 2022 by Steeve Laquitaine, GNU license 
+"""
+
+
 import numpy as np
 from numpy import cos, exp, pi
 from scipy.special import iv
@@ -93,7 +106,7 @@ class VonMises:
             case all k are same
             when mean is not in x    
         """
-        
+
         if not self._is_all_in(set(v_u), set(v_x)):
             from ipdb import set_trace
 

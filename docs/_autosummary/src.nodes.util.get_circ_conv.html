@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.nodes.util.get_circ_conv &mdash; bsfit 0.0.1 documentation</title><link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="src.nodes.util.get_deg_to_rad" href="src.nodes.util.get_deg_to_rad.html" />
+    <link rel="prev" title="src.nodes.util" href="src.nodes.util.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> bsfit
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption"><span class="caption-text">Contents</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="src.html">src</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="src.nodes.html">src.nodes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="src.nodes.data.html">src.nodes.data</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.nodes.dataEng.html">src.nodes.dataEng</a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.nodes.models.html">src.nodes.models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="src.nodes.util.html">src.nodes.util</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">src.nodes.util.get_circ_conv</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.util.get_deg_to_rad.html">src.nodes.util.get_deg_to_rad</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.util.get_rad_to_deg.html">src.nodes.util.get_rad_to_deg</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.util.is_all_in.html">src.nodes.util.is_all_in</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.util.is_empty.html">src.nodes.util.is_empty</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.util.sub2ind.html">src.nodes.util.sub2ind</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.nodes.utils.html">src.nodes.utils</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.test.html">src.test</a></li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">bsfit</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="src.html">src</a> &raquo;</li>
+          <li><a href="src.nodes.html">src.nodes</a> &raquo;</li>
+          <li><a href="src.nodes.util.html">src.nodes.util</a> &raquo;</li>
+      <li>src.nodes.util.get_circ_conv</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/_autosummary/src.nodes.util.get_circ_conv.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="src-nodes-util-get-circ-conv">
+<h1>src.nodes.util.get_circ_conv<a class="headerlink" href="#src-nodes-util-get-circ-conv" title="Permalink to this headline">¶</a></h1>
+<dl class="py function">
+<dt id="src.nodes.util.get_circ_conv">
+<code class="sig-prename descclassname"><span class="pre">src.nodes.util.</span></code><code class="sig-name descname"><span class="pre">get_circ_conv</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_1</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_2</span></span><span class="p"><span class="pre">:</span></span> <span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/nodes/util.html#get_circ_conv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.util.get_circ_conv" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate circular convolutions
+for circular data.
+The probability that value i in vector 2 would be
+combined with at least one value from vector 1
+vector 1 and 2 are col vectors (vertical)
+or matrices for convolution
+column by column. e.g., two probability densities</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>X_1</strong> (<em>np.ndarray</em>) – _description_</p></li>
+<li><p><strong>X_2</strong> (<em>np.ndarray</em>) – _description_</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="src.nodes.util.html" class="btn btn-neutral float-left" title="src.nodes.util" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="src.nodes.util.get_deg_to_rad.html" class="btn btn-neutral float-right" title="src.nodes.util.get_deg_to_rad" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022, steeve laquitaine.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

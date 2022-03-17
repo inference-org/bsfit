@@ -1,9 +1,23 @@
-# Unit testing
+# note: the doctsring code below within
+# """ is converted to a restructuredText
+# .rst file by sphinx to automatically
+# generate the api's documentation
 #
-# author: steeve laquitaine
-#
-# usage:
-#     pytest src/test.py
+# docstring style used: Google style
+"""    
+    Unit-testing module
+
+    usage:
+
+    .. highlight:: python
+    .. code-block:: python
+    
+        python test.py
+
+    :copyright: Copyright 2022 by Steeve Laquitaine, see AUTHORS.
+    :license: ???, see LICENSE for details.
+"""
+
 
 import numpy as np
 

@@ -1,11 +1,20 @@
-#      author: steeve laquitaine
-#     purpose: Model motion direction estimation data as Bayesian
-#              Also fit other Bayesian models
-#  References:
-#      -Hurliman et al, 2002,VR
-#      -Stocker&Simoncelli,2006,NN
-#      -Girshick&Simoncelli,2011,NN
-#      -Chalk&Series,2012,JoV
+# note: the doctsring code below within
+# """ is converted to a restructuredText
+# .rst file by sphinx to automatically
+# generate the api's documentation
+#
+# docstring style used: Google style
+"""
+    fit estimation data with a Bayesian model
+
+    see:
+        Hurliman et al, 2002,VR
+        Stocker&Simoncelli,2006,NN
+        Girshick&Simoncelli,2011,NN
+        Chalk&Series,2012,JoV
+
+    Copyright 2022 by Steeve Laquitaine, GNU license 
+"""
 
 
 from time import time

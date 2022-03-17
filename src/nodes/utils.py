@@ -1,3 +1,15 @@
+# note: the doctsring code below within
+# """ is converted to a restructuredText
+# .rst file by sphinx to automatically
+# generate the api's documentation
+#
+# docstring style used: Google style
+"""
+    module
+
+    Copyright 2022 by Steeve Laquitaine, GNU license 
+"""
+
 from collections import defaultdict
 
 import numpy as np
@@ -20,14 +32,14 @@ def fit_maxlogl(
 ):
     """Fits estimate data with the
     maximum log(likelihood) method
-    This method searches for the model parameters 
-    that maximize the log(likeligood) of the data 
+    This method searches for the model parameters
+    that maximize the log(likeligood) of the data
 
     Args:
-        data (pd.DataFrame): _description_
-        prior_shape (str): shape of the prior
-            "vonMisesPrior"
-        prior_mode: (float): mode of the prior
+        data (pd.DataFrame): _description_  
+        prior_shape (str): shape of the prior  
+        - "vonMisesPrior"  
+        prior_mode: (float): mode of the prior  
 
     Returns:
         _type_: _description_
