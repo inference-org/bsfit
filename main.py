@@ -1,14 +1,17 @@
-# This is the software's entry point.
-#
-# Usage:
-#
-#     >> python main
+"""""
+This is the software's entry point.
 
+    usage:
 
-from src.nodes.dataEng import (
-    make_database,
-    simulate_database,
-)
+    .. highlight:: python
+    .. code-block:: python
+    
+        python main.py
+
+**copyright:** Copyright 2022 by Steeve Laquitaine, GNU license 
+"""
+
+from src.nodes.dataEng import make_database, simulate_database
 from src.nodes.models import bayes
 
 # setup parameters

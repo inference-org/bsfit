@@ -1,9 +1,17 @@
-# Unit testing
-#
-# author: steeve laquitaine
-#
-# usage:
-#     pytest src/test.py
+"""    
+    Unit-testing module
+
+    usage:
+
+    .. highlight:: python
+    .. code-block:: python
+    
+        python test.py
+
+    :copyright: Copyright 2022 by Steeve Laquitaine, see AUTHORS.
+    :license: ???, see LICENSE for details.
+"""
+
 
 import numpy as np
 

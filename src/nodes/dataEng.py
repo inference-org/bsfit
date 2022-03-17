@@ -1,3 +1,9 @@
+"""
+    module
+
+    Copyright 2022 by Steeve Laquitaine, GNU license 
+"""
+
 import os
 from time import time
 

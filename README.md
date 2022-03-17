@@ -17,7 +17,7 @@ conda install --file src/requirements.txt -y
 ## Docs
 ### Update docs
 
-1. Edit docs/sphinx/ 
+1. Edit docs/source/ 
 2. Go to "Build & deploy" section
 
 ### Build & deploy

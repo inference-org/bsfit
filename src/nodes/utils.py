@@ -1,3 +1,9 @@
+"""
+    module
+
+    Copyright 2022 by Steeve Laquitaine, GNU license 
+"""
+
 from collections import defaultdict
 
 import numpy as np
@@ -5,12 +11,8 @@ import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 from src.nodes.data import VonMises
-from src.nodes.util import (
-    get_circ_conv,
-    get_deg_to_rad,
-    get_rad_to_deg,
-    is_empty,
-)
+from src.nodes.util import (get_circ_conv, get_deg_to_rad, get_rad_to_deg,
+                            is_empty)
 
 pd.options.mode.chained_assignment = None
 
@@ -20,14 +22,14 @@ def fit_maxlogl(
 ):
     """Fits estimate data with the
     maximum log(likelihood) method
-    This method searches for the model parameters 
-    that maximize the log(likeligood) of the data 
+    This method searches for the model parameters
+    that maximize the log(likeligood) of the data
 
     Args:
-        data (pd.DataFrame): _description_
-        prior_shape (str): shape of the prior
-            "vonMisesPrior"
-        prior_mode: (float): mode of the prior
+        data (pd.DataFrame): _description_  
+        prior_shape (str): shape of the prior  
+        - "vonMisesPrior"  
+        prior_mode: (float): mode of the prior  
 
     Returns:
         _type_: _description_
