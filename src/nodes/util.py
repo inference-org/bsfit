@@ -68,3 +68,27 @@ def get_rad_to_deg(rad: float):
     deg[deg == 0] = 360
     return deg
 
+
+def get_circ_conv(X_1: np.ndarray, X_2: np.ndarray):
+    """Calculate circular convolutions 
+    for circular data.
+    The probability that value i in vector 2 would be 
+    combined with at least one value from vector 1
+    vector 1 and 2 are col vectors (vertical) 
+    or matrices for convolution 
+    column by column. e.g., two probability densities
+
+    Args:
+        X_1 (np.ndarray): _description_
+        X_2 (np.ndarray): _description_
+
+    Raises:
+        ValueError: _description_
+    """
+    return np.fft.ifft(
+        np.fft.fft(X_1) * np.fft.fft(X_2)
+    ).real
+
+
+def sub2ind(array_shape, rows, cols):
+    return rows * array_shape[1] + cols
