@@ -75,9 +75,6 @@ def simulate_database(
         (pd.DataFrame): _description_
     """
 
-    # log
-    logger.info("simulating database...")
-
     # initialize dataframe
     data = pd.DataFrame()
 

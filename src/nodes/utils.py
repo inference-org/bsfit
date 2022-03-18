@@ -44,44 +44,19 @@ def fit_maxlogl(
     Returns:
         _type_: _description_
     """
-    # set 0 to 360 deg
-    loc_zero = data["estimate"] == 0
-    data["estimate"][loc_zero] = 360
 
-    # initialize model params
-    K_LLH = [1]
-    K_PRIOR = [1]
-    K_CARD = [1]
-    PRIOR_TAIL = [0]
-    PRAND = [0]
+    # set model parameters
+    model_params, model = set_model_params(readout)
 
-    # store model params
-    model_params = [
-        K_LLH,
-        K_PRIOR,
-        K_CARD,
-        PRIOR_TAIL,
-        PRAND,
-    ]
-
-    # set model architecture
-    model = (readout,)
-
-    # store task params
-    task_params = (
-        (
-            data["stim_std"],
-            prior_mode,
-            data["prior_std"],
-            prior_shape,
-        ),
+    # set task parameters
+    task_params = set_task_params(
+        data, prior_shape, prior_mode
     )
 
-    # set data
-    stim_mean = data["stim_mean"]
-    estimate = data["estimate"]
+    # set fitting data
+    stim_mean, estimate = set_fit_data(data)
 
-    # train model
+    # fit model
     output = fmin(
         get_logl,
         model_params,
@@ -101,30 +76,52 @@ def fit_maxlogl(
     }
 
 
-def test():
-    """_summary_
+def set_fit_data(data):
 
-    Returns:
-        _type_: _description_
-    """
-    # parametric function, x is the independent variable
-    # and c are the parameters.
-    # it's a polynomial of degree 2
-    fp = lambda c, x: c[0] + c[1] * x + c[2] * x * x
-    real_p = np.random.rand(3)
+    # get stimulus feature mean
+    stim_mean = data["stim_mean"]
 
-    # error function to minimize
-    e = lambda p, x, y: (abs((fp(p, x) - y))).sum()
+    # set 0 to 360 deg
+    loc_zero = data["estimate"] == 0
+    data["estimate"][loc_zero] = 360
+    estimate = data["estimate"]
+    return stim_mean, estimate
 
-    # generating data with noise
-    n = 30
-    x = np.linspace(0, 1, n)
-    y = fp(real_p, x) + np.random.normal(0, 0.05, n)
 
-    # fitting the data with fmin
-    p0 = np.random.rand(3)  # initial parameter value
-    p = fmin(e, p0, args=(x, y))
-    return p
+def set_task_params(data, prior_shape, prior_mode):
+    # store task params
+    task_params = (
+        (
+            data["stim_std"],
+            prior_mode,
+            data["prior_std"],
+            prior_shape,
+        ),
+    )
+    return task_params
+
+
+def set_model_params(readout):
+
+    # initialize model params
+    K_LLH = [1]
+    K_PRIOR = [1]
+    K_CARD = [1]
+    PRIOR_TAIL = [0]
+    PRAND = [0]
+
+    # store model params
+    model_params = [
+        K_LLH,
+        K_PRIOR,
+        K_CARD,
+        PRIOR_TAIL,
+        PRAND,
+    ]
+
+    # set model architecture
+    model = (readout,)
+    return model_params, model
 
 
 def get_logl(
@@ -134,7 +131,8 @@ def get_logl(
     task_params: tuple,
     model: tuple,
 ):
-    """_summary_
+    """calculate log(likelihood) of the 
+    data given the model
 
     Args:
         model_params (list): _description_
@@ -154,7 +152,7 @@ def get_logl(
         prior_shape,
     ) = task_params[0]
 
-    # sort stim and prior std
+    # sort stimulus & prior std
     stim_std_set = sorted(np.unique(stim_std), reverse=True)
     prior_std_set = sorted(
         np.unique(prior_std), reverse=True
@@ -366,8 +364,9 @@ def get_bayes_lookup(
 ):
     """Create a bayes lookup matrix
     based on Girshick's paper
-    M measurements in rows
-    x N stimulus feature means in columns
+    rows: M measurements
+    cols: N stimulus feature means
+    value: log(likelihood) of percept
 
     usage:
 
@@ -383,41 +382,41 @@ def get_bayes_lookup(
             )
     """
 
-    # set stimulus feature space (the
-    # entire discretized circular space with unitary
-    # unit). An example feature could be an object's
-    # motion direction
+    # set stimulus feature mean space (the
+    # discrete circular space with unit
+    # length). e.g., feature could be motion
+    # direction
     stim_mean_space = np.arange(1, 361, 1)
 
-    # cast prior mode as array
+    # cast prior mode as an array
     prior_mode = np.array([prior_mode])
 
-    # calculate measurement densities ~v(di,kl)
-    # di are stimulus mean in columns
-    # over range of possible measurement in rows
+    # calculate measurement densities ~v(d_i,kllh)
+    # rows: m_i measurements
+    # cols: d_i are stimulus means
     meas_density = VonMises(p=True).get(
         percept_space, stim_mean, [k_llh]
     )
 
     # calculate likelihood densities
-    # likelihood of stimulus feature di (row)
-    # given measurements mi (col)
+    # rows: d_i stimulus feature means
+    # cols: m_i measurements
     llh = VonMises(p=True).get(
         stim_mean_space, percept_space, [k_llh]
     )
 
     # calculate learnt prior densities
-    # it is the same for each mi in cols over motion
-    # directions in rows
-    if prior_shape == "vonMisesPrior":
-        learnt_prior = VonMises(p=True).get(
-            stim_mean_space, prior_mode, [k_prior],
-        )
-        learnt_prior = np.tile(
-            learnt_prior, len(percept_space)
-        )
+    # rows: d_i stimulus feature means
+    # cols: m_i measurements
+    learnt_prior = get_learnt_prior(
+        percept_space,
+        prior_mode,
+        k_prior,
+        prior_shape,
+        stim_mean_space,
+    )
 
-    # calculate posterior
+    # calculate posterior densities
     posterior = do_bayes_inference(
         k_llh,
         prior_mode,
@@ -427,62 +426,10 @@ def get_bayes_lookup(
         learnt_prior,
     )
 
-    # choose a percept (readout)
-    percept = (
-        np.zeros((len(stim_mean_space), len(percept_space)))
-        * np.nan
+    # choose percepts
+    percept, max_n_percept, ul = choose_percept(
+        percept_space, readout, stim_mean_space, posterior
     )
-    if readout == "map":
-        # find the MAPs estimates (values) of each mi (rows).
-        # A mi may produce more than one MAP (more than one value for a row).
-        # e.g., when both likelihood and learnt prior are weak, an evidence produces
-        # a relatively flat posterior which maximum can not be estimated accurately.
-        # max(posterior) produces two (or more) MAP values. Those MAP values are
-        # observed with the same probability (e.g., 50#  if two MAPs) given a mi.
-        for meas_i in range(len(percept)):
-            # get each posterior's maximum
-            # a posteriori(s)
-            map_loc = posterior[:, meas_i] == np.max(
-                posterior[:, meas_i]
-            )
-            n_maps = sum(map_loc)
-            percept[meas_i, 0:n_maps] = stim_mean_space[
-                map_loc
-            ]
-
-            # sanity checks
-            # check that all measurements have at
-            # least a percept
-            if n_maps == 0:
-                raise ValueError(
-                    """Some measurements 
-                    have no percepts."""
-                )
-    else:
-        raise NotImplementedError(
-            """
-            readout has not yet
-            been implemented
-            """
-        )
-
-    percept[percept == 0] = 360
-
-    # run sanity check
-    is_percept = percept[~np.isnan(percept)]
-    if (is_percept > 360).any() or (is_percept < 1).any():
-        raise ValueError(
-            """percept must be >=1 and <=360"""
-        )
-
-    # calculate likelihood of each data upo that is the P(mi|motion dir)
-    # of the mi that produced the upo
-    max_n_percept = max(np.sum(~np.isnan(percept), 0))
-    ul = np.tile(percept_space[:, None], max_n_percept)
-    ul = ul.flatten()[:, None]
-
-    # map to percept estimates
-    percept = percept[:, 0:max_n_percept]
 
     # associate P(percept|mi)
     # P(percept|mi) is important because e.g., when the same mi produces a
@@ -641,6 +588,114 @@ def get_bayes_lookup(
     return uniqallpercept, llh_percept
 
 
+def choose_percept(
+    percept_space, readout, stim_mean_space, posterior
+):
+
+    # choose a percept (readout)
+    percept = (
+        np.zeros((len(stim_mean_space), len(percept_space)))
+        * np.nan
+    )
+
+    # when the readout is
+    # maximum-a-posteriori
+    if readout == "map":
+
+        # find the MAPs estimates (values) of each mi (rows).
+        # A mi may produce more than one MAP (more than one
+        # value for a row). e.g., when both likelihood and learnt
+        # prior are weak, an evidence produces a relatively flat
+        # posterior which maximum can not be estimated accurately.
+        # max(posterior) produces two (or more) MAP values. Those
+        # MAP values are observed with the same probability (e.g.,
+        # 50#  if two MAPs) given a mi.
+        for meas_i in range(len(percept)):
+
+            # get each posterior's maximum
+            # a posteriori(s)
+            map_loc = posterior[:, meas_i] == np.max(
+                posterior[:, meas_i]
+            )
+            n_maps = sum(map_loc)
+            percept[meas_i, 0:n_maps] = stim_mean_space[
+                map_loc
+            ]
+
+            # sanity checks
+            # check that all measurements have at
+            # least a percept
+            if n_maps == 0:
+                raise ValueError(
+                    """Some measurements 
+                    have no percepts."""
+                )
+    else:
+        # case not implemented
+        raise NotImplementedError(
+            """
+            readout has not yet
+            been implemented
+            """
+        )
+
+    # replace 0 by 360 degree
+    percept[percept == 0] = 360
+
+    # run sanity check
+    is_percept = percept[~np.isnan(percept)]
+    if (is_percept > 360).any() or (is_percept < 1).any():
+        raise ValueError(
+            """percept must be >=1 and <=360"""
+        )
+
+    # calculate likelihood of each data upo that is
+    # the P(mi|motion dir)
+    # of the mi that produced the upo
+    max_n_percept = max(np.sum(~np.isnan(percept), 0))
+    ul = np.tile(percept_space[:, None], max_n_percept)
+    ul = ul.flatten()[:, None]
+
+    # map to percept estimates
+    percept = percept[:, 0:max_n_percept]
+    return percept, max_n_percept, ul
+
+
+def get_learnt_prior(
+    percept_space,
+    prior_mode,
+    k_prior,
+    prior_shape,
+    stim_mean_space,
+):
+    """calculate the learnt prior probability 
+    distribution
+    cols: prior for each m_i, are the same
+    rows: stimulus feature mean space (e.g.,
+    motion direction) 
+
+    Args:
+        percept_space (_type_): _description_
+        prior_mode (_type_): _description_
+        k_prior (_type_): _description_
+        prior_shape (_type_): _description_
+        stim_mean_space (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+    if prior_shape == "vonMisesPrior":
+        learnt_prior = VonMises(p=True).get(
+            stim_mean_space, prior_mode, [k_prior],
+        )
+        # repeat prior across cols
+        learnt_prior = np.tile(
+            learnt_prior, len(percept_space)
+        )
+
+    return learnt_prior
+
+
 def do_bayes_inference(
     k_llh,
     prior_mode,
@@ -650,31 +705,37 @@ def do_bayes_inference(
     learnt_prior,
 ):
 
+    """Realize Bayesian inference    
+    """
+
     # do Bayesian integration
     posterior = llh * learnt_prior
 
     # normalize cols to sum to 1
     posterior = posterior / sum(posterior)[None, :]
 
-    # round posterior
+    # round posteriors
     # We fix probabilities at 10e-6 floating points
-    # This permits to get the modes of the posterior despite round-off
-    # errors. Try with different combinations of 10^6 and round instead of fix
-    # If we don't round enough we cannot get the modes of the posterior
-    # accurately due to round-off errors. But, now if we
-    # round too much we get more modes than we should, but the values
-    # obtained surf around the values of the true modes so I choose to round
-    # more than not enough (same as in simulations).
+    # We can get posterior modes despite round-off errors
+    # We tried with different combinations of 10^6 and
+    # round instead of fix. If we don't round enough we
+    # cannot get the modes of the posterior accurately
+    # because of round-off errors. If we round too much
+    # we get more modes than we should, but the values
+    # obtained are near the true modes so I choose to round
+    # more (same as in simulations).
     # sum over rows
     posterior = np.round(posterior, 6)
 
-    # TRICK: When k gets very large, e.g., for the prior, most values of the prior
-    # becomes 0 except close to the mean. The product of the likelihood and
-    # prior only produces 0 values for all directions, particularly as motion
-    # direction is far from the prior. Marginalization (scaling) makes them NaN.
-    # If we don't correct for that fit is not possible. In reality a von Mises
-    # density will never have a zero value at its tails. We use the closed-from
-    # equation derived in Murray and Morgenstern, 2010.
+    # TRICK: When k gets very large, e.g., for the prior,
+    # most values of the prior becomes 0 except close to
+    # the mean. The product of the likelihood and prior
+    # only produces 0 values for all directions, particularly
+    # as motion direction is far from the prior. Marginalization
+    # (scaling) makes them NaN. If we don't correct for that,
+    # fit is impossible. In reality a von Mises density will
+    # never have a zero value at its tails. We use the closed-from
+    # equation derived by Murray and Morgenstern, 2010.
     loc = np.where(np.isnan(posterior[0, :]))[0]
     if not is_empty(loc):
         # use Murray and Morgenstern., 2010

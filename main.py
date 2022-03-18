@@ -18,6 +18,7 @@ Copyright 2022 by Steeve Laquitaine, GNU license
 """
 
 import logging
+import logging.config
 import os
 
 import yaml
@@ -30,9 +31,7 @@ from src.nodes.models import bayes
 
 # setup logging
 proj_path = os.getcwd()
-logging_path = os.path.join(
-    proj_path + "/conf/base/logging.yml"
-)
+logging_path = os.path.join(proj_path + "/conf/logging.yml")
 
 with open(logging_path, "r") as f:
     LOG_CONF = yaml.load(f, Loader=yaml.FullLoader)
