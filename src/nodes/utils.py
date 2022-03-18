@@ -230,15 +230,15 @@ def get_logl(
         thisd = stim_mean == stim_mean_set[i]
         for j in range(n_prior_std):
             for k in range(len(stim_std_set)):
-                condition_loc = (
-                    thisd & LLHs[:, k] & Prior[:, j]
-                )
-                n_cond_repeat = sum(condition_loc)
+                loc_conditions = np.logical_and(
+                    thisd.values, LLHs[:, k], Prior[:, k]
+                ).astype(bool)
+                n_cond_repeat = sum(loc_conditions)
                 stim_mean_loc = (
                     stim_mean_set[np.tile(i, n_cond_repeat)]
                     - 1
                 )
-                PupoGivenBI[:, condition_loc] = llh_map[j][
+                PupoGivenBI[:, loc_conditions] = llh_map[j][
                     k
                 ][:, stim_mean_loc]
 
@@ -380,34 +380,42 @@ def get_bayes_lookup(
             prior_tail=0,
             prior_shape='von_mises',
             )
+
+    Returns:
+        (np.array): percepts
+        (np.array): percept likelihood
+
+    [TODO]: clarify the conceptual objects used:
+        stimulus space, percept space ... 
+
+
     """
 
-    # set stimulus feature mean space (the
-    # discrete circular space with unit
-    # length). e.g., feature could be motion
-    # direction
+    # set stimulus feature mean space s (the
+    # discrete circular space with unit 1).
+    # e.g., feature could be motion direction
+    # s_i are each stimulus feature mean
     stim_mean_space = np.arange(1, 361, 1)
 
     # cast prior mode as an array
     prior_mode = np.array([prior_mode])
 
-    # calculate measurement densities ~v(d_i,kllh)
-    # rows: m_i measurements
-    # cols: d_i are stimulus means
+    # calculate measurement densities ~v(s_i,k_llh)
+    # (m_i x s_i)
+    # m_i is measurement i. percept space
+    # is the same as the measurement space
     meas_density = VonMises(p=True).get(
         percept_space, stim_mean, [k_llh]
     )
 
     # calculate likelihood densities
-    # rows: d_i stimulus feature means
-    # cols: m_i measurements
+    # (s space x m_i)
     llh = VonMises(p=True).get(
         stim_mean_space, percept_space, [k_llh]
     )
 
     # calculate learnt prior densities
-    # rows: d_i stimulus feature means
-    # cols: m_i measurements
+    # (s space  x m_i)
     learnt_prior = get_learnt_prior(
         percept_space,
         prior_mode,
@@ -417,6 +425,7 @@ def get_bayes_lookup(
     )
 
     # calculate posterior densities
+    # (s space  x m_i)
     posterior = do_bayes_inference(
         k_llh,
         prior_mode,
@@ -427,26 +436,102 @@ def get_bayes_lookup(
     )
 
     # choose percepts
-    percept, max_n_percept, ul = choose_percept(
-        percept_space, readout, stim_mean_space, posterior
+    # (m_i x p_i)
+    percept, max_nb_percept = choose_percept(
+        readout, stim_mean_space, posterior
     )
 
-    # associate P(percept|mi)
-    # P(percept|mi) is important because e.g., when the same mi produces a
-    # posterior with two modes given a motion direction (flat likelihood and bimodal prior),
-    # the two modes are observed equiprobably P(percept_1|mi) = P(percept_2|mi) = 0.5 and P(percept_1|di) =
-    # P(percept_1|di) = P(percept_1|mi)*P(mi|di) = 0.5*P(mi|di) and in the same way
-    # P(percept_2|di) = P(percept_2|mi)*P(mi|di) = 0.5*P(mi|di)
-    # The P(percept|mi) of each percept observed for a mi is 1/nb_of_percept
-    n_percept_each_mi = np.sum(~np.isnan(percept), 1)
+    # get each percept likelihood
+    # for each measurement m_i
+    percept, percept_likelihood = get_percept_likelihood(
+        percept_space,
+        stim_mean,
+        stim_mean_space,
+        meas_density,
+        percept,
+        max_nb_percept,
+    )
+    return percept, percept_likelihood
 
-    # percepts value only depends on mi value which determine likelihood position
-    # and thus posterior position. The displayed motion directions have not control on
-    # percepts values. They only determine the Probability of observing percepts.
-    # So the percepts and the number of percepts observed for each mi (row) is the same for
-    # all motion directions displayed (col). Row (mi) repetitions appears in the matrix
-    # when a mi produced a posterior with two modes.
-    # e.g., the matrices for a max number of percept per mi of 2
+
+def get_percept_likelihood(
+    percept_space,
+    stim_mean,
+    stim_mean_space,
+    meas_density,
+    percept,
+    max_nb_percept,
+):
+    """calculate percepts' likelihood. 
+    It is the P(m_i|s_i) of the m_i that produced that data
+    map m_i and percept(s) p_i in P(p|m_i)
+    P(p|m_i) is important because e.g., when
+    a m_i produces a bimodal posterior in response to
+    a stimulus (e.g., {flat likelihood, bimodal prior}),
+    the two modes are equally likely P(p_1|m_i)
+    = P(p_2|mi) = 0.5 and P(p_1|s_i) =
+    P(p_1|s_i) = P(p_1|m_i)*P(m_i|s_i)
+    = 0.5*P(m_i|s_i). Similarly, P(p_2|s_i) =
+    P(p_2|m_i)*P(m_i|s_i) = 0.5*P(m_i|s_i).
+    The P(p|m_i) of each percept observed for a
+    m_i is 1/len(p).
+    percepts only depend on m_i which determines likelihood.
+    The displayed stimulus determines percept probability.
+    Percepts per m_i (rows) are the same across stimulus
+    feature means (cols). m_i rows are repeated in the matrix
+    when a m_i produces many percepts.
+    e.g., the matrices for a max number of percept per m_i=2
+    
+       mPdfs_p_1 . . s_S
+           .
+           .
+          m_i_M
+       mPdfs_p_2 . . s_S
+           .
+           .
+          m_i_M
+           .
+           .
+
+    Args:
+        percept_space (_type_): _description_
+        stim_mean (_type_): _description_
+        stim_mean_space (_type_): _description_
+        meas_density (_type_): _description_
+        percept (_type_): _description_
+        max_nb_percept (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
+
+    # count percepts by m_i
+    # (m_i x 0)
+    max_nb_pi_given_mi = np.sum(~np.isnan(percept), 1)
+
+    # probability of percepts given m_i
+    # p(p_i|m_i)
+    # (m_i x 1)
+    prob_pi_given_mi = 1 / max_nb_pi_given_mi
+
+    # assign equiprobability to percepts with
+    # same m_i (across cols)
+    # (m_i x p_i)
+    prob_pi_given_mi = np.tile(
+        prob_pi_given_mi[:, None], max_nb_percept
+    )
+
+    # reshape as column vector (column-major)
+    # (m_i*p_i x s_i)
+    prob_pi_given_mi = prob_pi_given_mi.flatten("F")
+    prob_pi_given_mi = np.tile(
+        prob_pi_given_mi[:, None], len(stim_mean)
+    )
+
+    # associate P(m_i|s_i) of each m_i (row)
+    # for each stimulus feature mean s_i(col)
+    # e.g., the matrices for a max number of
+    # percept per m_i = 2
     #
     #    mPdfs_percept1 . . dir_D
     #        .
@@ -456,81 +541,74 @@ def get_bayes_lookup(
     #        .
     #        .
     #       mi_M
-
-    # sanity checks
-    # check that all mi have a percept
-    # if (n_percept_each_mi == 0).any():
-    #     print(n_percept_each_mi)
-    #     raise ValueError("n_percept_each_mi==0")
-
-    PperceptgivenMi = 1 / n_percept_each_mi
-    PperceptgivenMi = np.tile(
-        PperceptgivenMi[:, None], max_n_percept
-    )
-    PperceptgivenMi = PperceptgivenMi.flatten()
-    PperceptgivenMi = np.tile(
-        PperceptgivenMi[:, None], len(stim_mean)
+    # (x si)
+    prob_mi_given_si = np.tile(
+        meas_density, (max_nb_percept, 1)
     )
 
-    # associate P(mi|di) of each mi (row) for each motion dir di(col)
-    # e.g., the matrices for a max number of percept per mi of 2
-    #
-    #    mPdfs_percept1 . . dir_D
-    #        .
-    #        .
-    #       mi_M
-    #    mPdfs_percept2 . . dir_D
-    #        .
-    #        .
-    #       mi_M
-    PmiGivenDi = np.tile(meas_density, max_n_percept).T
+    # reshape as column vector (column-major)
+    flatten_percept = percept.flatten("F")[:, None]
 
-    flat_percept = percept.flatten()[:, None]
-    the_matx = np.hstack(
-        [ul, flat_percept, PperceptgivenMi, PmiGivenDi,]
+    # create a percept space
+    # to map with likelihood values
+    u_l = np.tile(percept_space[:, None], max_nb_percept)
+
+    # reshape as column vector (column-major)
+    u_l = u_l.flatten("F")[:, None]
+
+    # map percept and its likelihood
+    # to sort by percept
+    to_sort = np.hstack(
+        [
+            u_l,
+            flatten_percept,
+            prob_pi_given_mi,
+            prob_mi_given_si,
+        ]
     )
 
     # sort by percept
-    the_matx = the_matx[the_matx[:, 1].argsort()]
+    to_sort = to_sort[to_sort[:, 1].argsort()]
 
-    # re-extract
-    ul = the_matx[:, 0][:, None]
-    percept = the_matx[:, 1][:, None]
-    PperceptgivenMi = the_matx[:, 2 : 2 + len(stim_mean)]
-    PmiGivenDi = the_matx[:, 2 + len(stim_mean) :]
+    # unpack
+    u_l = to_sort[:, 0][:, None]
+    percept = to_sort[:, 1][:, None]
+    prob_pi_given_mi = to_sort[:, 2 : 2 + len(stim_mean)]
+    prob_mi_given_si = to_sort[:, 2 + len(stim_mean) :]
 
-    # likelihood of each percept estimate
-    PperceptgivenDi = PperceptgivenMi * PmiGivenDi
+    # likelihood of percepts given stimulus
+    # p(p_i|s_i)
+    prob_pi_given_si = prob_pi_given_mi * prob_mi_given_si
 
-    # Set the likelihood of percepts not produced at 0 because the model cannot
-    # produce those estimates even at a reasonable resolutions of motion
-    # direction
-    uniqpercept = np.unique(percept[~np.isnan(percept)])
-    missingpercept = np.array(
-        tuple(set(np.arange(1, 361, 1)) - set(uniqpercept))
+    # Set the likelihood=0 for percepts not produced
+    # because the model cannot produce those percepts
+    # even at a reasonable resolution of stimulus feature
+    # mean
+    percept_set = np.unique(percept[~np.isnan(percept)])
+    missing_pi = np.array(
+        tuple(set(percept_space) - set(percept_set))
     )[:, None]
-    numMissingpercept = len(missingpercept)
+    nb_missing_pi = len(missing_pi)
 
-    # Add unproduced percept and set their likelihood=0
-    # the re-sort by percept
-    PmissingperceptgivenDi = np.zeros(
-        (numMissingpercept, len(stim_mean))
+    # Add unproduced percept and set their
+    # likelihood=0, then re-sort by percept
+    prob_missing_pi_given_si = np.zeros(
+        (nb_missing_pi, len(stim_mean))
     )
-    PallperceptgivenDi = np.vstack(
-        [PperceptgivenDi, PmissingperceptgivenDi]
+    prob_all_pi_given_si = np.vstack(
+        [prob_pi_given_si, prob_missing_pi_given_si]
     )
-    allpercept = np.vstack([percept, missingpercept])
-    ulnonExistent = (
-        np.zeros((numMissingpercept, 1)) * np.nan
-    )
-    ul = np.vstack([ul, ulnonExistent])
-    TheMatrixII = np.hstack(
-        [ul, allpercept, PallperceptgivenDi]
-    )
+    all_pi = np.vstack([percept, missing_pi])
+    missing_u_l = np.zeros((nb_missing_pi, 1)) * np.nan
+    u_l = np.vstack([u_l, missing_u_l])
+
+    # map all objects to sort them
+    to_sort = np.hstack([u_l, all_pi, prob_all_pi_given_si])
+
     # sort by percept
-    TheMatrixII = TheMatrixII[TheMatrixII[:, 1].argsort()]
-    allpercept = TheMatrixII[:, 1]
-    PallperceptgivenDi = TheMatrixII[:, 2:]
+    to_sort = to_sort[to_sort[:, 1].argsort()]
+    all_pi = to_sort[:, 1]
+    prob_all_pi_given_si = to_sort[:, 2:]
 
     # likelihood of each percept (rows are percepts, cols are motion directions,
     # values are likelihood). When a same percept has been produced by different
@@ -550,122 +628,149 @@ def get_bayes_lookup(
     # cardinal prior is strong because obliques percepts are never produced.
     # The range of percepts not produced near the obliques increase significantly
     # with cardinal prior strength.
-    uniqallpercept = np.unique(
-        allpercept[~np.isnan(allpercept)]
-    )
-    PuniqperceptgivenDi = (
-        np.zeros([len(uniqallpercept), len(stim_mean)])
-        * np.nan
+    percept = np.unique(all_pi[~np.isnan(all_pi)])
+    prob_pi_set_given_si = (
+        np.zeros([len(percept), len(stim_mean)]) * np.nan
     )
 
     # find measurements that produced this same percept
     # and average probabilities over evidences mi that
     # produces this same percept
-    for ix in range(len(uniqallpercept)):
-        posUniqpercept = allpercept == uniqallpercept[ix]
-        PuniqperceptgivenDi[ix, :] = sum(
-            PallperceptgivenDi[posUniqpercept, :], 0
+    for ix in range(len(percept)):
+        loc_pi_set = all_pi == percept[ix]
+        prob_pi_set_given_si[ix, :] = sum(
+            prob_all_pi_given_si[loc_pi_set, :], 0
         )
-    PuniqperceptgivenDi[np.isnan(PuniqperceptgivenDi)] = 0
+    prob_pi_set_given_si[np.isnan(prob_pi_set_given_si)] = 0
 
     # calculate likelihood of each
     # unique percept
     # matrix of percepts (rows) x
-    # 360 stimulus mean (cols)
-    llh_percept = (
-        np.zeros(
-            (len(uniqallpercept), len(stim_mean_space))
-        )
+    # 360 stimulus mean space (cols)
+    percept_likelihood = (
+        np.zeros((len(percept), len(stim_mean_space)))
         * np.nan
     )
     stim_mean_loc = stim_mean - 1
-    llh_percept[:, stim_mean_loc] = PuniqperceptgivenDi
+    percept_likelihood[
+        :, stim_mean_loc
+    ] = prob_pi_set_given_si
 
     # normalize to probability
-    llh_percept = llh_percept / sum(llh_percept)[None, :]
-    # from matplotlib import pyplot as plt
-    # plt.imshow(llh_percept); plt.show()
-    return uniqallpercept, llh_percept
+    percept_likelihood = (
+        percept_likelihood
+        / sum(percept_likelihood)[None, :]
+    )
+    return percept, percept_likelihood
 
 
 def choose_percept(
-    percept_space, readout, stim_mean_space, posterior
+    readout: str,
+    stim_mean_space: np.ndarray,
+    posterior: np.ndarray,
 ):
+    """choose percept(s) for each
+    measurement m_i produced by a stimulus
+    s_i
 
-    # choose a percept (readout)
+    Args:
+        readout (str): the posterior readout
+        - 'map': maximum a posteriori decision
+        stim_mean_space (np.ndarray): the space
+            of stimulus feature mean (e.g., motion 
+            directions)
+        posterior (np.ndarray): the posterior 
+
+    Raises:
+        ValueError: _description_
+        NotImplementedError: _description_
+        ValueError: _description_
+
+    Returns:
+        (np.ndarray): percept 
+        (int): max_n_percept 
+        ul
+    """
+
+    # choose a percept p_i (readout)
+    # (s_i x p_i)
+    # the measurement space is assumed to
+    # be the same as the stimulus feature space
+    meas_space_size = len(stim_mean_space)
+    stim_space_size = len(stim_mean_space)
     percept = (
-        np.zeros((len(stim_mean_space), len(percept_space)))
+        np.zeros((stim_space_size, meas_space_size))
         * np.nan
     )
 
-    # when the readout is
-    # maximum-a-posteriori
+    # when the readout is maximum-a-posteriori
     if readout == "map":
 
-        # find the MAPs estimates (values) of each mi (rows).
-        # A mi may produce more than one MAP (more than one
-        # value for a row). e.g., when both likelihood and learnt
-        # prior are weak, an evidence produces a relatively flat
-        # posterior which maximum can not be estimated accurately.
-        # max(posterior) produces two (or more) MAP values. Those
-        # MAP values are observed with the same probability (e.g.,
-        # 50#  if two MAPs) given a mi.
-        for meas_i in range(len(percept)):
+        # find the maximum-a-posteriori estimate(s)(maps)
+        # mapped with each m_i (rows). A m_i can produce
+        # many maps (many cols for a row) .e.g., when both
+        # likelihood and learnt prior are weak, an evidence
+        # produces a relatively flat posterior which maximum
+        # can not be estimated accurately. max(posterior)
+        # produces many maps with equal probabilities.
 
-            # get each posterior's maximum
+        # map each m_i with its percept(s)
+        for meas_i in range(meas_space_size):
+
+            # locate each posterior's maximum
             # a posteriori(s)
-            map_loc = posterior[:, meas_i] == np.max(
+            loc_percept = posterior[:, meas_i] == np.max(
                 posterior[:, meas_i]
             )
-            n_maps = sum(map_loc)
-            percept[meas_i, 0:n_maps] = stim_mean_space[
-                map_loc
+
+            # count number of percepts
+            n_percepts = sum(loc_percept)
+
+            # map measurements (rows)
+            # with their percepts (cols)
+            percept[meas_i, :n_percepts] = stim_mean_space[
+                loc_percept
             ]
 
-            # sanity checks
+            # handle exception
             # check that all measurements have at
             # least a percept
-            if n_maps == 0:
+            if n_percepts == 0:
                 raise ValueError(
-                    """Some measurements 
-                    have no percepts."""
+                    f"""Measurement {meas_i}
+                    has no percept(s)."""
                 )
     else:
-        # case not implemented
+        # handle exception
         raise NotImplementedError(
-            """
-            readout has not yet
-            been implemented
+            f"""
+            Readout {readout} has not 
+            yet been implemented. 
             """
         )
 
     # replace 0 by 360 degree
     percept[percept == 0] = 360
 
-    # run sanity check
+    # handle exception
     is_percept = percept[~np.isnan(percept)]
     if (is_percept > 360).any() or (is_percept < 1).any():
         raise ValueError(
-            """percept must be >=1 and <=360"""
+            """Percepts must belong to [1,360]."""
         )
 
-    # calculate likelihood of each data upo that is
-    # the P(mi|motion dir)
-    # of the mi that produced the upo
-    max_n_percept = max(np.sum(~np.isnan(percept), 0))
-    ul = np.tile(percept_space[:, None], max_n_percept)
-    ul = ul.flatten()[:, None]
-
-    # map to percept estimates
-    percept = percept[:, 0:max_n_percept]
-    return percept, max_n_percept, ul
+    # drop nan percepts from cols
+    # (m_i x max_nb_percept)
+    max_nb_percept = max(np.sum(~np.isnan(percept), 1))
+    percept = percept[:, :max_nb_percept]
+    return percept, max_nb_percept
 
 
 def get_learnt_prior(
-    percept_space,
-    prior_mode,
-    k_prior,
-    prior_shape,
+    percept_space: np.ndarray,
+    prior_mode: np.ndarray,
+    k_prior: float,
+    prior_shape: str,
     stim_mean_space,
 ):
     """calculate the learnt prior probability 
@@ -675,24 +780,30 @@ def get_learnt_prior(
     motion direction) 
 
     Args:
-        percept_space (_type_): _description_
-        prior_mode (_type_): _description_
-        k_prior (_type_): _description_
-        prior_shape (_type_): _description_
-        stim_mean_space (_type_): _description_
+        percept_space (np.ndarray): _description_
+        prior_mode (np.ndarray): _description_
+        k_prior (float): _description_
+        prior_shape (str): shape of the prior
+        - 'vonMisesPrior'
+        stim_mean_space (np.ndarray): stimulus 
+        feature mean space: (1:1:360)
 
     Returns:
-        _type_: _description_
+        (np.ndarray): matrix of learnt priors
+        rows: stimulus feature mean space
+        cols: m_i
     """
     if prior_shape == "vonMisesPrior":
+        # create prior density
+        # (Nstim mean x 1)
         learnt_prior = VonMises(p=True).get(
             stim_mean_space, prior_mode, [k_prior],
         )
-        # repeat prior across cols
+        # repeat the prior across cols
+        # (Nstim mean x Nm_i)
         learnt_prior = np.tile(
             learnt_prior, len(percept_space)
         )
-
     return learnt_prior
 
 

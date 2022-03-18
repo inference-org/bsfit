@@ -78,8 +78,8 @@ def simulate_database(
     # initialize dataframe
     data = pd.DataFrame()
 
-    # set stimulus mean (1 to 360)
-    data["stim_mean"] = np.arange(1, 361, 1)
+    # set stimulus mean (e.g., 5 to 355)
+    data["stim_mean"] = np.arange(5, 365, 5)
 
     # set stimulus std
     data["stim_std"] = np.repeat(
@@ -102,5 +102,5 @@ def simulate_database(
     )
 
     # simulate estimate choices (0 to 359)
-    data["estimate"] = np.arange(1, 361, 1)
+    data["estimate"] = data["stim_mean"]
     return data
