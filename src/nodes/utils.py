@@ -11,7 +11,7 @@
 """
 
 from collections import defaultdict
-from typing import Dict, List
+from typing import Any, Dict, List
 
 import numpy as np
 import pandas as pd
@@ -29,20 +29,21 @@ def fit_maxlogl(
     prior_shape: str,
     prior_mode: float,
     readout: str,
-):
-    """Fits estimate data with the
-    maximum log(likelihood) method
+)->Dict[str, Any]:
+    """Fits observed estimate data with the
+    method of maximum log(likelihood) 
     This method searches for the model parameters
     that maximize the log(likeligood) of the data
+    given the model
 
     Args:
-        data (pd.DataFrame): _description_  
+        data (pd.DataFrame): database
         prior_shape (str): shape of the prior  
         - "vonMisesPrior"  
         prior_mode: (float): mode of the prior  
 
     Returns:
-        _type_: _description_
+        Dict[str, Any]: results of the fit
     """
 
     # set parameters
