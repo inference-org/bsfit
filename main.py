@@ -46,8 +46,8 @@ PRIOR_SHAPE = "vonMisesPrior"
 PRIOR_MODE = 225
 OBJ_FUN = "maxLLH"
 READOUT = "map"
-PRIOR_STD = 80
-STIM_STD = 0.33
+PRIOR_NOISE = [80, 40]  # e.g., prior's std
+STIM_NOISE = [0.33, 0.66]  # e.g., motion's coherence
 
 if __name__ == "__main__":
     """Entry point
@@ -55,9 +55,9 @@ if __name__ == "__main__":
     # simulate a database
     logger.info("Simulating database ...")
     database = simulate_database(
-        stim_std=STIM_STD,
+        stim_noise=STIM_NOISE,
         prior_mode=PRIOR_MODE,
-        prior_std=PRIOR_STD,
+        prior_noise=PRIOR_NOISE,
         prior_shape=PRIOR_SHAPE,
     )
 

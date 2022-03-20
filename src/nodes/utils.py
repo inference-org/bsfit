@@ -11,24 +11,24 @@
 """
 
 from collections import defaultdict
+from typing import Dict, List
 
 import numpy as np
 import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 from src.nodes.data import VonMises
-from src.nodes.util import (
-    get_circ_conv,
-    get_deg_to_rad,
-    get_rad_to_deg,
-    is_empty,
-)
+from src.nodes.util import (get_circ_conv, get_deg_to_rad, get_rad_to_deg,
+                            is_empty)
 
 pd.options.mode.chained_assignment = None
 
 
 def fit_maxlogl(
-    data, prior_shape: str, prior_mode: float, readout: str
+    database: pd.DataFrame,
+    prior_shape: str,
+    prior_mode: float,
+    readout: str,
 ):
     """Fits estimate data with the
     maximum log(likelihood) method
@@ -45,29 +45,28 @@ def fit_maxlogl(
         _type_: _description_
     """
 
-    # set model parameters
-    model_params, model = set_model_params(readout)
-
-    # set task parameters
-    task_params = set_task_params(
-        data, prior_shape, prior_mode
+    # set parameters
+    # (model and task)
+    params = get_params(
+        database, prior_shape, prior_mode, readout
     )
 
-    # set fitting data
-    stim_mean, estimate = set_fit_data(data)
+    # set the data to fit
+    data = get_data(database)
 
-    # fit model
+    # fit the model
     output = fmin(
-        get_logl,
-        model_params,
-        args=(stim_mean, estimate, task_params, model),
+        func=get_logl,
+        x0=unpack(params["model"]["init_params"]),
+        args=(params, *data),
         disp=True,
         retall=True,  # get solutions after iter
-        maxiter=100,  # max nb of iter
+        maxiter=100,  # max nb of iterations
         maxfun=100,  # max nb of func eval
+        ftol=0.0001,  # objfun convergence
     )
 
-    # get results
+    # get fit results
     best_fit_params = output[0]
     neglogl = output[1]
     return {
@@ -76,81 +75,191 @@ def fit_maxlogl(
     }
 
 
-def set_fit_data(data):
+def unpack(params: Dict[str, list]) -> list:
+    """unpack parameters
 
+    Args:
+        params (Dict[list]): dictionary of parameters
+
+            e.g., {
+                "k_llh": [1,2,3],
+                "k_prior": [4,5,6]
+            }
+
+    Returns:
+        (list): list of parameter values
+
+            e.g., [1,2,3,4,5,6]
+    """
+    return flatten([params[keys] for keys in params])
+
+
+def flatten(x: List[list]) -> list:
+    """flatten list of list
+
+    Args:
+        x (List[list]): list of list
+
+    Returns:
+        list: a list
+    """
+    return [item for sublist in x for item in sublist]
+
+
+def get_params(
+    database: pd.DataFrame,
+    prior_shape: str,
+    prior_mode: float,
+    readout: str,
+) -> dict:
+    """Set model and task parameters
+    free and fixed
+
+    Args:
+        database (pd.DataFrame): _description_
+        prior_shape (str): _description_
+        prior_mode (float): _description_
+        readout (str): _description_
+
+    Returns:
+        (dict): _description_
+    """
+
+    # set model parameters
+    # ....................
+    # set initial
+    model = dict()
+    model["init_params"] = {
+        "k_llh": [1, 1],
+        "k_prior": [1, 1],
+        "k_card": [1],
+        "prior_tail": [0],
+        "p_rand": [0],
+        "k_m": [0],
+    }
+
+    # set fixed
+    model["fixed_params"] = {
+        "prior_shape": prior_shape,
+        "prior_mode": prior_mode,
+        "readout": readout,
+    }
+
+    # set task parameters
+    # ....................
+    # set fixed
+    task = dict()
+    task["fixed_params"] = {
+        "stim_std": database["stim_std"],
+        "prior_std": database["prior_std"],
+    }
+    return {"model": model, "task": task}
+
+
+def locate_fit_params(
+    params: Dict[str, list]
+) -> Dict[str, list]:
+
+    """locate fit parameters
+    in parameter dictionary
+
+    Args:
+        params (Dict[str, list]): parameters
+
+    Returns:
+        dict: dictionary of
+        the location of each parameter
+        type. e.g., 
+        
+        {
+            'k_llh': [0, 1], 
+            'k_prior': [2, 3], 
+            'k_card': [4], 
+            'prior_tail': [5], 
+            'p_rand': [6]
+        }
+
+    Usage:
+
+        params = {
+            'k_llh': [1, 1], 
+            'k_prior': [1, 1], 
+            'k_card': [0], 
+            'prior_tail': [0], 
+            'p_rand': [0]
+        }
+        params_loc = locate_fit_params(params)
+
+    """
+    loc = -1
+    params_loc = params.copy()
+
+    # loop over parameter types
+    for p_type in params:
+        params_loc[p_type] = []
+        # store each param's index
+        for _ in params[p_type]:
+            loc += 1
+            params_loc[p_type] += [loc]
+    return params_loc
+
+
+def get_data(database: pd.DataFrame):
+    """get data to fit
+
+    Args:
+        database (pd.DataFrame): _description_
+
+    Returns:
+        pd.Series: _description_
+    """
     # get stimulus feature mean
-    stim_mean = data["stim_mean"]
+    stim_mean = database["stim_mean"]
 
     # set 0 to 360 deg
-    loc_zero = data["estimate"] == 0
-    data["estimate"][loc_zero] = 360
-    estimate = data["estimate"]
+    loc_zero = database["estimate"] == 0
+    database["estimate"][loc_zero] = 360
+    estimate = database["estimate"]
     return stim_mean, estimate
 
 
-def set_task_params(data, prior_shape, prior_mode):
-    # store task params
-    task_params = (
-        (
-            data["stim_std"],
-            prior_mode,
-            data["prior_std"],
-            prior_shape,
-        ),
-    )
-    return task_params
-
-
-def set_model_params(readout):
-
-    # initialize model params
-    K_LLH = [1]
-    K_PRIOR = [1]
-    K_CARD = [1]
-    PRIOR_TAIL = [0]
-    PRAND = [0]
-
-    # store model params
-    model_params = [
-        K_LLH,
-        K_PRIOR,
-        K_CARD,
-        PRIOR_TAIL,
-        PRAND,
-    ]
-
-    # set model architecture
-    model = (readout,)
-    return model_params, model
-
-
 def get_logl(
-    model_params: list,
+    fit_p: np.ndarray,
+    params: dict,
     stim_mean: pd.Series,
     estimate: pd.Series,
-    task_params: tuple,
-    model: tuple,
-):
-    """calculate log(likelihood) of the 
-    data given the model
+) -> float:
+    """calculate the log(likelihood) of the 
+    observed stimulus feature mean's estimate
+    given the model
 
     Args:
-        model_params (list): _description_
-        stim_mean (pd.Series): _description_
-        estimate (pd.Series): _description_
-        task_params (tuple): _description_
+        fit_p (np.ndarray): model fit parameters
+        params (dict): fixed parameters
+        stim_mean (pd.Series): stimulus feature mean
+        estimate (pd.Series): data estimate to fit
 
     Returns:
-        _type_: _description_
+        float: -log(likelihood) of 
+            data estimate given model
     """
 
-    # get task params
-    (
-        stim_std,
-        prior_mode,
-        prior_std,
-        prior_shape,
-    ) = task_params[0]
+    # get fixed parameters
+    # ....................
+    # stimulus
+    stim_std = params["task"]["fixed_params"]["stim_std"]
+    prior_shape = params["model"]["fixed_params"][
+        "prior_shape"
+    ]
+
+    # prior
+    prior_mode = params["model"]["fixed_params"][
+        "prior_mode"
+    ]
+    prior_std = params["task"]["fixed_params"]["prior_std"]
+
+    # percept readout
+    readout = params["model"]["fixed_params"]["readout"]
 
     # sort stimulus & prior std
     stim_std_set = sorted(np.unique(stim_std), reverse=True)
@@ -163,19 +272,23 @@ def get_logl(
     n_stim_std = len(stim_std_set)
     n_prior_std = len(prior_std_set)
 
-    # get number of free parameters
-    # to train
-    n_fit_params = sum(~np.isnan(model_params))
+    # count free params
+    n_fit_params = sum(~np.isnan(fit_p))
 
-    # get model params
-    model_params = model_params.tolist()
-    k_llh = model_params[:n_stim_std]
-    del model_params[:n_stim_std]
-    k_prior = model_params[:n_prior_std]
-    del model_params[:n_prior_std]
-    k_cardinal = model_params.pop(0)
-    prior_tail = model_params.pop(0)
-    p_rand = model_params[0]
+    # get fit parameters
+    # ..................
+    # locate each type
+    params_loc = locate_fit_params(
+        params["model"]["init_params"]
+    )
+
+    # get params
+    k_llh = fit_p[params_loc["k_llh"]]
+    k_prior = fit_p[params_loc["k_prior"]]
+    k_card = fit_p[params_loc["k_card"]]
+    prior_tail = fit_p[params_loc["prior_tail"]][0]
+    p_rand = fit_p[params_loc["p_rand"]][0]
+    k_m = fit_p[params_loc["k_m"]][0]
 
     # boolean matrix to locate stim std conditions
     # each column of LLHs is mapped to a
@@ -199,24 +312,21 @@ def get_logl(
     llh_map = defaultdict(dict)
 
     # store by prior std
-    for i in range(len(prior_std_set)):
-        for j in range(n_stim_std):
+    for ix in range(len(prior_std_set)):
+        for jx in range(n_stim_std):
 
-            # record stimulus strength
-            # vrg{:}{numVarg+2} = stim_noise[j]
-
-            # compute percept distribution
+            # compute percept density
             # map: maximum a posteriori readouts
-            map, llh_map[i][j] = get_bayes_lookup(
+            map, llh_map[ix][jx] = get_bayes_lookup(
                 percept_space,
                 stim_mean_set,
-                k_llh[j],
+                k_llh[jx],
                 prior_mode,
-                k_prior[i],
-                k_cardinal,
+                k_prior[ix],
+                k_card,
                 prior_tail,
                 prior_shape,
-                readout=model[0],
+                readout=readout,
             )
 
     # now get matrix 'PupoGivenBI' of likelihood values
@@ -225,22 +335,31 @@ def get_logl(
     PupoGivenBI = (
         np.zeros((len(map), len(estimate))) * np.nan
     )
-    for i in range(len(stim_mean_set)):
-        # displayed direction
-        thisd = stim_mean == stim_mean_set[i]
-        for j in range(n_prior_std):
-            for k in range(len(stim_std_set)):
+    for ix in range(len(stim_mean_set)):
+
+        # locate stimulus feature mean condition
+        thisd = stim_mean == stim_mean_set[ix]
+
+        # locate prior noise condition
+        for jx in range(n_prior_std):
+
+            # locate stimulus noise condition
+            for kx in range(len(stim_std_set)):
+
+                # locate combined condition
                 loc_conditions = np.logical_and(
-                    thisd.values, LLHs[:, k], Prior[:, k]
+                    thisd.values, LLHs[:, kx], Prior[:, jx]
                 ).astype(bool)
                 n_cond_repeat = sum(loc_conditions)
                 stim_mean_loc = (
-                    stim_mean_set[np.tile(i, n_cond_repeat)]
+                    stim_mean_set[
+                        np.tile(ix, n_cond_repeat)
+                    ]
                     - 1
                 )
-                PupoGivenBI[:, loc_conditions] = llh_map[j][
-                    k
-                ][:, stim_mean_loc]
+                PupoGivenBI[:, loc_conditions] = llh_map[
+                    jx
+                ][kx][:, stim_mean_loc]
 
     # normalize to probabilities
     PupoGivenBI = PupoGivenBI / sum(PupoGivenBI)[None, :]
@@ -265,8 +384,8 @@ def get_logl(
     # the mean '0' to work. Then we set back upo to its initial value. This have
     # no effect on the calculations.
     upo = np.arange(1, 361, 1)
-    stuff = np.array([360])
-    Pmot = VonMises(p=True).get(upo, stuff, k_llh)
+    motor_mean = np.array([360])
+    Pmot = VonMises(p=True).get(upo, motor_mean, [k_m])
     Pmot_to_conv = np.tile(Pmot, len(stim_mean))
     PestimateGivenModel = get_circ_conv(
         PupoGivenModel, Pmot_to_conv
@@ -302,7 +421,8 @@ def get_logl(
     # other case are when we just want estimates
     # distributions prediction given
     # model parameters
-    estimate[estimate[estimate == 0]] = 360
+    if (estimate == 0).any():
+        estimate[estimate == 0] = 360
 
     # single trial's measurement, its position(row)
     # for each trial(col) and its probability
@@ -340,13 +460,15 @@ def get_logl(
     aic = 2 * (n_fit_params - sum(Logl_pertrial))
 
     # print
+    # [TODO]: add logging here
     print(
         f"""-logl: {negLogl}, aic: {aic}, 
                              k_llh: {k_llh}, 
                              k_prior: {k_prior}, 
-                             k_card: {k_cardinal}, 
+                             k_card: {k_card}, 
                              pr_tail: {prior_tail}, 
-                             p_rnd: {p_rand}"""
+                             p_rnd: {p_rand},
+                             k_m: {p_rand}"""
     )
     return negLogl
 
@@ -357,7 +479,7 @@ def get_bayes_lookup(
     k_llh: float,
     prior_mode: float,
     k_prior: float,
-    k_cardinal: float,
+    k_card: float,
     prior_tail: float,
     prior_shape: str,
     readout: str,
@@ -376,7 +498,7 @@ def get_bayes_lookup(
             k_llh=5,
             prior_mode=225,
             k_prior=4.77,
-            k_cardinal=0,
+            k_card=0,
             prior_tail=0,
             prior_shape='von_mises',
             )

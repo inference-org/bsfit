@@ -64,9 +64,9 @@ def make_database(subject: str, data_path: str, prior: str):
 
 
 def simulate_database(
-    stim_std: float,
+    stim_noise: float,
     prior_mode: float,
-    prior_std: float,
+    prior_noise: float,
     prior_shape: str,
 ):
     """Simulate a test database
@@ -78,29 +78,41 @@ def simulate_database(
     # initialize dataframe
     data = pd.DataFrame()
 
-    # set stimulus mean (e.g., 5 to 355)
-    data["stim_mean"] = np.arange(5, 365, 5)
+    # loop over stimulus and prior
+    # noises to simulate task conditions
+    for stim_noise_i in stim_noise:
+        for prior_noise_i in prior_noise:
 
-    # set stimulus std
-    data["stim_std"] = np.repeat(
-        stim_std, len(data["stim_mean"])
-    )
+            # init df
+            df = pd.DataFrame()
 
-    # set prior mode
-    data["prior_mode"] = np.repeat(
-        prior_mode, len(data["stim_mean"])
-    )
+            # set stimulus mean (e.g., 5 to 355)
+            df["stim_mean"] = np.arange(5, 365, 5)
 
-    # set prior std
-    data["prior_std"] = np.repeat(
-        prior_std, len(data["stim_mean"])
-    )
+            # set stimulus std
+            df["stim_std"] = np.repeat(
+                stim_noise_i, len(df["stim_mean"])
+            )
 
-    # set prior std
-    data["prior_shape"] = np.repeat(
-        prior_shape, len(data["stim_mean"])
-    )
+            # set prior mode
+            df["prior_mode"] = np.repeat(
+                prior_mode, len(df["stim_mean"])
+            )
 
-    # simulate estimate choices (0 to 359)
-    data["estimate"] = data["stim_mean"]
+            # set prior std
+            df["prior_std"] = np.repeat(
+                prior_noise_i, len(df["stim_mean"])
+            )
+
+            # set prior std
+            df["prior_shape"] = np.repeat(
+                prior_shape, len(df["stim_mean"])
+            )
+
+            # simulate estimate choices (0 to 359)
+            df["estimate"] = df["stim_mean"]
+
+            # record
+            data = pd.concat([data, df])
+
     return data
