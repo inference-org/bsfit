@@ -18,8 +18,12 @@ import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 from src.nodes.data import VonMises
-from src.nodes.util import (get_circ_conv, get_deg_to_rad, get_rad_to_deg,
-                            is_empty)
+from src.nodes.util import (
+    get_circ_conv,
+    get_deg_to_rad,
+    get_rad_to_deg,
+    is_empty,
+)
 
 pd.options.mode.chained_assignment = None
 
@@ -29,12 +33,12 @@ def fit_maxlogl(
     prior_shape: str,
     prior_mode: float,
     readout: str,
-)->Dict[str, Any]:
-    """Fits observed estimate data with the
-    method of maximum log(likelihood) 
-    This method searches for the model parameters
-    that maximize the log(likeligood) of the data
-    given the model
+) -> Dict[str, Any]:
+    """Fits observed estimate data of the stimulus 
+    feature mean with the method of maximum 
+    log(likelihood). This method searches for the 
+    model parameters that maximize the log(likeligood) 
+    of the observed data given the model.
 
     Args:
         data (pd.DataFrame): database
@@ -76,11 +80,11 @@ def fit_maxlogl(
     }
 
 
-def unpack(params: Dict[str, list]) -> list:
-    """unpack parameters
+def unpack(my_dict: Dict[str, list]) -> list:
+    """unpack dict into a flat list
 
     Args:
-        params (Dict[list]): dictionary of parameters
+        my_dict (Dict[list]): dictionary of list
 
             e.g., {
                 "k_llh": [1,2,3],
@@ -88,11 +92,11 @@ def unpack(params: Dict[str, list]) -> list:
             }
 
     Returns:
-        (list): list of parameter values
+        (list): flat list
 
             e.g., [1,2,3,4,5,6]
     """
-    return flatten([params[keys] for keys in params])
+    return flatten([my_dict[keys] for keys in my_dict])
 
 
 def flatten(x: List[list]) -> list:
