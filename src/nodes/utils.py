@@ -18,8 +18,12 @@ import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 from src.nodes.data import VonMises
-from src.nodes.util import (get_circ_conv, get_deg_to_rad, get_rad_to_deg,
-                            is_empty)
+from src.nodes.util import (
+    get_circ_conv,
+    get_deg_to_rad,
+    get_rad_to_deg,
+    is_empty,
+)
 
 pd.options.mode.chained_assignment = None
 
