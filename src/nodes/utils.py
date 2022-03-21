@@ -18,12 +18,8 @@ import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 from src.nodes.data import VonMises
-from src.nodes.util import (
-    get_circ_conv,
-    get_deg_to_rad,
-    get_rad_to_deg,
-    is_empty,
-)
+from src.nodes.util import (get_circ_conv, get_deg_to_rad, get_rad_to_deg,
+                            is_empty)
 
 pd.options.mode.chained_assignment = None
 
@@ -34,10 +30,10 @@ def fit_maxlogl(
     prior_mode: float,
     readout: str,
 ) -> Dict[str, Any]:
-    """Fits observed estimate data of the stimulus 
-    feature mean with the method of maximum 
-    log(likelihood). This method searches for the 
-    model parameters that maximize the log(likeligood) 
+    """Fits observed estimate data of the stimulus
+    feature mean with the method of maximum
+    log(likelihood). This method searches for the
+    model parameters that maximize the log(likeligood)
     of the observed data given the model.
 
     Args:
@@ -86,21 +82,14 @@ def unpack(my_dict: Dict[str, list]) -> list:
     Args:
         my_dict (Dict[list]): dictionary of list
 
-            e.g., {
-                "k_llh": [1,2,3],
-                "k_prior": [4,5,6]
-            }
-
     Returns:
         (list): flat list
-
-            e.g., [1,2,3,4,5,6]
     """
     return flatten([my_dict[keys] for keys in my_dict])
 
 
 def flatten(x: List[list]) -> list:
-    """flatten list of list
+    """flattens list of list
 
     Args:
         x (List[list]): list of list
@@ -175,26 +164,28 @@ def locate_fit_params(
         dict: dictionary of
         the location of each parameter
         type. e.g., 
-        
-        {
-            'k_llh': [0, 1], 
-            'k_prior': [2, 3], 
-            'k_card': [4], 
-            'prior_tail': [5], 
-            'p_rand': [6]
-        }
+
+        .. code-block::
+
+            {
+                'k_llh': [0, 1],
+                'k_prior': [2, 3],
+                'k_card': [4],
+                'prior_tail': [5],
+                'p_rand': [6]
+            }
 
     Usage:
-
-        params = {
-            'k_llh': [1, 1], 
-            'k_prior': [1, 1], 
-            'k_card': [0], 
-            'prior_tail': [0], 
-            'p_rand': [0]
-        }
-        params_loc = locate_fit_params(params)
-
+        .. code-block::
+        
+            params = {
+                'k_llh': [1, 1],
+                'k_prior': [1, 1],
+                'k_card': [0],
+                'prior_tail': [0],
+                'p_rand': [0]
+            }
+            params_loc = locate_fit_params(params)
     """
     loc = -1
     params_loc = params.copy()
@@ -495,18 +486,19 @@ def get_bayes_lookup(
     cols: N stimulus feature means
     value: log(likelihood) of percept
 
-    usage:
-
-        percept, logl_percept = get_bayes_lookup(
-            percept_space=1:1:360,
-            stim_mean=5:10:355,
-            k_llh=5,
-            prior_mode=225,
-            k_prior=4.77,
-            k_card=0,
-            prior_tail=0,
-            prior_shape='von_mises',
-            )
+    Usage:
+        .. code-block::
+        
+            percept, logl_percept = get_bayes_lookup(
+                percept_space=1:1:360,
+                stim_mean=5:10:355,
+                k_llh=5,
+                prior_mode=225,
+                k_prior=4.77,
+                k_card=0,
+                prior_tail=0,
+                prior_shape='von_mises',
+                )
 
     Returns:
         (np.array): percepts
@@ -589,7 +581,8 @@ def get_percept_likelihood(
     percept,
     max_nb_percept,
 ):
-    """calculate percepts' likelihood. 
+    """calculate percepts' likelihood.
+    
     It is the P(m_i|s_i) of the m_i that produced that data
     map m_i and percept(s) p_i in P(p|m_i)
     P(p|m_i) is important because e.g., when
@@ -608,18 +601,7 @@ def get_percept_likelihood(
     feature means (cols). m_i rows are repeated in the matrix
     when a m_i produces many percepts.
     e.g., the matrices for a max number of percept per m_i=2
-    
-       mPdfs_p_1 . . s_S
-           .
-           .
-          m_i_M
-       mPdfs_p_2 . . s_S
-           .
-           .
-          m_i_M
-           .
-           .
-
+        
     Args:
         percept_space (_type_): _description_
         stim_mean (_type_): _description_
