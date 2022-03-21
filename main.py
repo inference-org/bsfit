@@ -14,7 +14,7 @@ This is the software's entry point.
     
         python main.py
 
-Copyright 2022 by Steeve Laquitaine, GNU license 
+Copyright 2022 by Steeve Laquitaine, GNU license
 """
 
 import logging
@@ -23,7 +23,10 @@ import os
 
 import yaml
 
-from src.nodes.dataEng import make_database, simulate_database
+from src.nodes.dataEng import (
+    make_database,
+    simulate_database,
+)
 from src.nodes.models import bayes
 
 # setup logging
@@ -47,7 +50,7 @@ PRIOR_NOISE = [80, 40]  # e.g., prior's std
 STIM_NOISE = [0.33, 0.66]  # e.g., motion's coherence
 
 if __name__ == "__main__":
-    """Entry point
+    """Entry point that runs analyses pipelines
     """
     # simulate a database
     logger.info("Simulating database ...")

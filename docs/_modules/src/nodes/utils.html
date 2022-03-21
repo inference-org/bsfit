@@ -25,6 +25,7 @@
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
     
     <script type="text/javascript" src="../../../_static/js/theme.js"></script>
 
@@ -171,12 +172,8 @@
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arctan2</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fmin</span>
 <span class="kn">from</span> <span class="nn">src.nodes.data</span> <span class="kn">import</span> <span class="n">VonMises</span>
-<span class="kn">from</span> <span class="nn">src.nodes.util</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">get_circ_conv</span><span class="p">,</span>
-    <span class="n">get_deg_to_rad</span><span class="p">,</span>
-    <span class="n">get_rad_to_deg</span><span class="p">,</span>
-    <span class="n">is_empty</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">src.nodes.util</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_circ_conv</span><span class="p">,</span> <span class="n">get_deg_to_rad</span><span class="p">,</span> <span class="n">get_rad_to_deg</span><span class="p">,</span>
+                            <span class="n">is_empty</span><span class="p">)</span>
 
 <span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">chained_assignment</span> <span class="o">=</span> <span class="kc">None</span>
 

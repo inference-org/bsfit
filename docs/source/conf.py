@@ -32,11 +32,13 @@ release = "0.0.1"
 # - "sphinx.ext.autosummary" to create summary tables
 # - "sphinx.ext.napoleon": to parse NumPy, Google style docstrings
 # - "sphinx.ext.viewcode": add [source] hyperlink to view code
+# - "nbsphinx_link": to parse and display notebooks
 extensions = [
     "sphinx.ext.autosummary",
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
+    "nbsphinx_link",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

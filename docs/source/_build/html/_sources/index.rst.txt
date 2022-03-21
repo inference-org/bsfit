@@ -13,12 +13,13 @@ Welcome to bsfit's software!
    intro, get_started ...End of comment.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
    :caption: Contents
 
    intro
    get_started
-   tutorials   
+   tutorials
+   
    
 ..
    # This is a comment: Below, I created custom
@@ -33,4 +34,3 @@ Welcome to bsfit's software!
    :recursive:
    
    src
-
