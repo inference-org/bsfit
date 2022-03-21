@@ -17,34 +17,49 @@ This is the software's entry point.
 Copyright 2022 by Steeve Laquitaine, GNU license 
 """
 
-from src.nodes.dataEng import (
-    make_database,
-    simulate_database,
-)
+import logging
+import logging.config
+import os
+
+import yaml
+
+from src.nodes.dataEng import make_database, simulate_database
 from src.nodes.models import bayes
 
-# setup parameters
+# setup logging
+proj_path = os.getcwd()
+logging_path = os.path.join(proj_path + "/conf/logging.yml")
+
+with open(logging_path, "r") as f:
+    LOG_CONF = yaml.load(f, Loader=yaml.FullLoader)
+
+logging.config.dictConfig(LOG_CONF)
+logger = logging.getLogger(__name__)
+
+# set parameters
 DATA_PATH = "data/data01_direction4priors/data/"
 SUBJECT = "sub01"
 PRIOR_SHAPE = "vonMisesPrior"
 PRIOR_MODE = 225
 OBJ_FUN = "maxLLH"
 READOUT = "map"
-PRIOR_STD = 80
-STIM_STD = 0.33
+PRIOR_NOISE = [80, 40]  # e.g., prior's std
+STIM_NOISE = [0.33, 0.66]  # e.g., motion's coherence
 
 if __name__ == "__main__":
     """Entry point
     """
     # simulate a database
+    logger.info("Simulating database ...")
     database = simulate_database(
-        stim_std=STIM_STD,
+        stim_noise=STIM_NOISE,
         prior_mode=PRIOR_MODE,
-        prior_std=PRIOR_STD,
+        prior_noise=PRIOR_NOISE,
         prior_shape=PRIOR_SHAPE,
     )
 
     # train model
+    logger.info("Fitting bayes model ...")
     output = bayes.fit(
         database=database,
         data_path=DATA_PATH,
@@ -54,4 +69,8 @@ if __name__ == "__main__":
     )
 
     # print results
+    logger.info("Printing results ...")
     print(output)
+
+    # done
+    logger.info("Done.")

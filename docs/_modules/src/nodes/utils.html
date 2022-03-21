@@ -1,29 +1,67 @@
+
+
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>src.nodes.utils &mdash; bsfit 0.0.1 documentation</title><link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
-    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
-  <!--[if lt IE 9]>
-    <script src="../../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  <script id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>src.nodes.utils &mdash; bsfit 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
         <script src="../../../_static/jquery.js"></script>
         <script src="../../../_static/underscore.js"></script>
         <script src="../../../_static/doctools.js"></script>
-    <script src="../../../_static/js/theme.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" /> 
 </head>
 
-<body class="wy-body-for-nav"> 
+<body class="wy-body-for-nav">
+
+   
   <div class="wy-grid-for-nav">
+    
     <nav data-toggle="wy-nav-shift" class="wy-nav-side">
       <div class="wy-side-scroll">
         <div class="wy-side-nav-search" >
+          
+
+          
             <a href="../../../index.html" class="icon icon-home"> bsfit
+          
+
+          
           </a>
+
+          
+            
+            
+          
+
+          
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
@@ -31,8 +69,18 @@
     <input type="hidden" name="area" value="default" />
   </form>
 </div>
-        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
-              <p class="caption"><span class="caption-text">Contents</span></p>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Intro</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../get_started.html">Get started</a></li>
@@ -42,30 +90,66 @@
 <li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/src.html">src</a></li>
 </ul>
 
+            
+          
         </div>
       </div>
     </nav>
 
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
           <a href="../../../index.html">bsfit</a>
+        
       </nav>
 
+
       <div class="wy-nav-content">
+        
         <div class="rst-content">
-          <div role="navigation" aria-label="Page navigation">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
   <ul class="wy-breadcrumbs">
-      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
           <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
       <li>src.nodes.utils</li>
+    
+    
       <li class="wy-breadcrumbs-aside">
+        
       </li>
+    
   </ul>
+
+  
   <hr/>
 </div>
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
-             
+            
   <h1>Source code for src.nodes.utils</h1><div class="highlight"><pre>
 <span></span><span class="c1"># note: the doctsring code below within</span>
 <span class="c1"># &quot;&quot;&quot; is converted to a restructuredText</span>
@@ -80,6 +164,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -97,71 +182,49 @@
 
 
 <div class="viewcode-block" id="fit_maxlogl"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.fit_maxlogl.html#src.nodes.utils.fit_maxlogl">[docs]</a><span class="k">def</span> <span class="nf">fit_maxlogl</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">,</span> <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span>
-<span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Fits estimate data with the</span>
-<span class="sd">    maximum log(likelihood) method</span>
-<span class="sd">    This method searches for the model parameters</span>
-<span class="sd">    that maximize the log(likeligood) of the data</span>
+    <span class="n">database</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="sd">&quot;&quot;&quot;Fits observed estimate data of the stimulus</span>
+<span class="sd">    feature mean with the method of maximum</span>
+<span class="sd">    log(likelihood). This method searches for the</span>
+<span class="sd">    model parameters that maximize the log(likeligood)</span>
+<span class="sd">    of the observed data given the model.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data (pd.DataFrame): _description_  </span>
+<span class="sd">        data (pd.DataFrame): database</span>
 <span class="sd">        prior_shape (str): shape of the prior  </span>
 <span class="sd">        - &quot;vonMisesPrior&quot;  </span>
 <span class="sd">        prior_mode: (float): mode of the prior  </span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        Dict[str, Any]: results of the fit</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># set 0 to 360 deg</span>
-    <span class="n">loc_zero</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">][</span><span class="n">loc_zero</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
 
-    <span class="c1"># initialize model params</span>
-    <span class="n">K_LLH</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">K_PRIOR</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">K_CARD</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">PRIOR_TAIL</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">PRAND</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-
-    <span class="c1"># store model params</span>
-    <span class="n">model_params</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">K_LLH</span><span class="p">,</span>
-        <span class="n">K_PRIOR</span><span class="p">,</span>
-        <span class="n">K_CARD</span><span class="p">,</span>
-        <span class="n">PRIOR_TAIL</span><span class="p">,</span>
-        <span class="n">PRAND</span><span class="p">,</span>
-    <span class="p">]</span>
-
-    <span class="c1"># set model architecture</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="p">(</span><span class="n">readout</span><span class="p">,)</span>
-
-    <span class="c1"># store task params</span>
-    <span class="n">task_params</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="p">(</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;stim_std&quot;</span><span class="p">],</span>
-            <span class="n">prior_mode</span><span class="p">,</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;prior_std&quot;</span><span class="p">],</span>
-            <span class="n">prior_shape</span><span class="p">,</span>
-        <span class="p">),</span>
+    <span class="c1"># set parameters</span>
+    <span class="c1"># (model and task)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
+        <span class="n">database</span><span class="p">,</span> <span class="n">prior_shape</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="n">readout</span>
     <span class="p">)</span>
 
-    <span class="c1"># set data</span>
-    <span class="n">stim_mean</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">]</span>
-    <span class="n">estimate</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span>
+    <span class="c1"># set the data to fit</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
 
-    <span class="c1"># train model</span>
+    <span class="c1"># fit the model</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">fmin</span><span class="p">(</span>
-        <span class="n">get_logl</span><span class="p">,</span>
-        <span class="n">model_params</span><span class="p">,</span>
-        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">,</span> <span class="n">estimate</span><span class="p">,</span> <span class="n">task_params</span><span class="p">,</span> <span class="n">model</span><span class="p">),</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">get_logl</span><span class="p">,</span>
+        <span class="n">x0</span><span class="o">=</span><span class="n">unpack</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">]),</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">),</span>
         <span class="n">disp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">retall</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># get solutions after iter</span>
-        <span class="n">maxiter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># max nb of iter</span>
+        <span class="n">maxiter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># max nb of iterations</span>
         <span class="n">maxfun</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># max nb of func eval</span>
+        <span class="n">ftol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>  <span class="c1"># objfun convergence</span>
     <span class="p">)</span>
 
-    <span class="c1"># get results</span>
+    <span class="c1"># get fit results</span>
     <span class="n">best_fit_params</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">neglogl</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">return</span> <span class="p">{</span>
@@ -170,60 +233,188 @@
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="test"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.test.html#src.nodes.utils.test">[docs]</a><span class="k">def</span> <span class="nf">test</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;_summary_</span>
+<div class="viewcode-block" id="unpack"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.unpack.html#src.nodes.utils.unpack">[docs]</a><span class="k">def</span> <span class="nf">unpack</span><span class="p">(</span><span class="n">my_dict</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;unpack dict into a flat list</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        my_dict (Dict[list]): dictionary of list</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        (list): flat list</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># parametric function, x is the independent variable</span>
-    <span class="c1"># and c are the parameters.</span>
-    <span class="c1"># it&#39;s a polynomial of degree 2</span>
-    <span class="n">fp</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
-    <span class="n">real_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">flatten</span><span class="p">([</span><span class="n">my_dict</span><span class="p">[</span><span class="n">keys</span><span class="p">]</span> <span class="k">for</span> <span class="n">keys</span> <span class="ow">in</span> <span class="n">my_dict</span><span class="p">])</span></div>
 
-    <span class="c1"># error function to minimize</span>
-    <span class="n">e</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="p">(</span><span class="nb">abs</span><span class="p">((</span><span class="n">fp</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">y</span><span class="p">)))</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
-    <span class="c1"># generating data with noise</span>
-    <span class="n">n</span> <span class="o">=</span> <span class="mi">30</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">fp</span><span class="p">(</span><span class="n">real_p</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+<div class="viewcode-block" id="flatten"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.flatten.html#src.nodes.utils.flatten">[docs]</a><span class="k">def</span> <span class="nf">flatten</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">list</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;flattens list of list</span>
 
-    <span class="c1"># fitting the data with fmin</span>
-    <span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>  <span class="c1"># initial parameter value</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">fmin</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="n">p0</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">p</span></div>
+<span class="sd">    Args:</span>
+<span class="sd">        x (List[list]): list of list</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        list: a list</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="get_params"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.get_params.html#src.nodes.utils.get_params">[docs]</a><span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span>
+    <span class="n">database</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Set model and task parameters</span>
+<span class="sd">    free and fixed</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        database (pd.DataFrame): _description_</span>
+<span class="sd">        prior_shape (str): _description_</span>
+<span class="sd">        prior_mode (float): _description_</span>
+<span class="sd">        readout (str): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (dict): _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># set model parameters</span>
+    <span class="c1"># ....................</span>
+    <span class="c1"># set initial</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">model</span><span class="p">[</span><span class="s2">&quot;init_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;k_llh&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;k_prior&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;k_card&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="s2">&quot;prior_tail&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;p_rand&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s2">&quot;k_m&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="c1"># set fixed</span>
+    <span class="n">model</span><span class="p">[</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;prior_shape&quot;</span><span class="p">:</span> <span class="n">prior_shape</span><span class="p">,</span>
+        <span class="s2">&quot;prior_mode&quot;</span><span class="p">:</span> <span class="n">prior_mode</span><span class="p">,</span>
+        <span class="s2">&quot;readout&quot;</span><span class="p">:</span> <span class="n">readout</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># set task parameters</span>
+    <span class="c1"># ....................</span>
+    <span class="c1"># set fixed</span>
+    <span class="n">task</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">task</span><span class="p">[</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;stim_std&quot;</span><span class="p">:</span> <span class="n">database</span><span class="p">[</span><span class="s2">&quot;stim_std&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;prior_std&quot;</span><span class="p">:</span> <span class="n">database</span><span class="p">[</span><span class="s2">&quot;prior_std&quot;</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="n">task</span><span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="locate_fit_params"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.locate_fit_params.html#src.nodes.utils.locate_fit_params">[docs]</a><span class="k">def</span> <span class="nf">locate_fit_params</span><span class="p">(</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">]:</span>
+
+    <span class="sd">&quot;&quot;&quot;locate fit parameters</span>
+<span class="sd">    in parameter dictionary</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        params (Dict[str, list]): parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: dictionary of</span>
+<span class="sd">        the location of each parameter</span>
+<span class="sd">        type. e.g., </span>
+
+<span class="sd">        .. code-block::</span>
+
+<span class="sd">            {</span>
+<span class="sd">                &#39;k_llh&#39;: [0, 1],</span>
+<span class="sd">                &#39;k_prior&#39;: [2, 3],</span>
+<span class="sd">                &#39;k_card&#39;: [4],</span>
+<span class="sd">                &#39;prior_tail&#39;: [5],</span>
+<span class="sd">                &#39;p_rand&#39;: [6]</span>
+<span class="sd">            }</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block::</span>
+<span class="sd">        </span>
+<span class="sd">            params = {</span>
+<span class="sd">                &#39;k_llh&#39;: [1, 1],</span>
+<span class="sd">                &#39;k_prior&#39;: [1, 1],</span>
+<span class="sd">                &#39;k_card&#39;: [0],</span>
+<span class="sd">                &#39;prior_tail&#39;: [0],</span>
+<span class="sd">                &#39;p_rand&#39;: [0]</span>
+<span class="sd">            }</span>
+<span class="sd">            params_loc = locate_fit_params(params)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">loc</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">params_loc</span> <span class="o">=</span> <span class="n">params</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># loop over parameter types</span>
+    <span class="k">for</span> <span class="n">p_type</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+        <span class="n">params_loc</span><span class="p">[</span><span class="n">p_type</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># store each param&#39;s index</span>
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">params</span><span class="p">[</span><span class="n">p_type</span><span class="p">]:</span>
+            <span class="n">loc</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">params_loc</span><span class="p">[</span><span class="n">p_type</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span><span class="n">loc</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">params_loc</span></div>
+
+
+<div class="viewcode-block" id="get_data"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.get_data.html#src.nodes.utils.get_data">[docs]</a><span class="k">def</span> <span class="nf">get_data</span><span class="p">(</span><span class="n">database</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;get data to fit</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        database (pd.DataFrame): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.Series: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get stimulus feature mean</span>
+    <span class="n">stim_mean</span> <span class="o">=</span> <span class="n">database</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">]</span>
+
+    <span class="c1"># set 0 to 360 deg</span>
+    <span class="n">loc_zero</span> <span class="o">=</span> <span class="n">database</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span>
+    <span class="n">database</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">][</span><span class="n">loc_zero</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
+    <span class="n">estimate</span> <span class="o">=</span> <span class="n">database</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="n">estimate</span></div>
 
 
 <div class="viewcode-block" id="get_logl"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.get_logl.html#src.nodes.utils.get_logl">[docs]</a><span class="k">def</span> <span class="nf">get_logl</span><span class="p">(</span>
-    <span class="n">model_params</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
+    <span class="n">fit_p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="n">estimate</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
-    <span class="n">task_params</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
-    <span class="n">model</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
-<span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;_summary_</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;calculate the log(likelihood) of the </span>
+<span class="sd">    observed stimulus feature mean&#39;s estimate</span>
+<span class="sd">    given the model</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        model_params (list): _description_</span>
-<span class="sd">        stim_mean (pd.Series): _description_</span>
-<span class="sd">        estimate (pd.Series): _description_</span>
-<span class="sd">        task_params (tuple): _description_</span>
+<span class="sd">        fit_p (np.ndarray): model fit parameters</span>
+<span class="sd">        params (dict): fixed parameters</span>
+<span class="sd">        stim_mean (pd.Series): stimulus feature mean</span>
+<span class="sd">        estimate (pd.Series): data estimate to fit</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        float: -log(likelihood) of </span>
+<span class="sd">            data estimate given model</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># get task params</span>
-    <span class="p">(</span>
-        <span class="n">stim_std</span><span class="p">,</span>
-        <span class="n">prior_mode</span><span class="p">,</span>
-        <span class="n">prior_std</span><span class="p">,</span>
-        <span class="n">prior_shape</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">=</span> <span class="n">task_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># get fixed parameters</span>
+    <span class="c1"># ....................</span>
+    <span class="c1"># stimulus</span>
+    <span class="n">stim_std</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span><span class="s2">&quot;stim_std&quot;</span><span class="p">]</span>
+    <span class="n">prior_shape</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;prior_shape&quot;</span>
+    <span class="p">]</span>
 
-    <span class="c1"># sort stim and prior std</span>
+    <span class="c1"># prior</span>
+    <span class="n">prior_mode</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;prior_mode&quot;</span>
+    <span class="p">]</span>
+    <span class="n">prior_std</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span><span class="s2">&quot;prior_std&quot;</span><span class="p">]</span>
+
+    <span class="c1"># percept readout</span>
+    <span class="n">readout</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span><span class="s2">&quot;readout&quot;</span><span class="p">]</span>
+
+    <span class="c1"># sort stimulus &amp; prior std</span>
     <span class="n">stim_std_set</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">stim_std</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">prior_std_set</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">prior_std</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
@@ -234,19 +425,23 @@
     <span class="n">n_stim_std</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_std_set</span><span class="p">)</span>
     <span class="n">n_prior_std</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prior_std_set</span><span class="p">)</span>
 
-    <span class="c1"># get number of free parameters</span>
-    <span class="c1"># to train</span>
-    <span class="n">n_fit_params</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">model_params</span><span class="p">))</span>
+    <span class="c1"># count free params</span>
+    <span class="n">n_fit_params</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">fit_p</span><span class="p">))</span>
 
-    <span class="c1"># get model params</span>
-    <span class="n">model_params</span> <span class="o">=</span> <span class="n">model_params</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-    <span class="n">k_llh</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[:</span><span class="n">n_stim_std</span><span class="p">]</span>
-    <span class="k">del</span> <span class="n">model_params</span><span class="p">[:</span><span class="n">n_stim_std</span><span class="p">]</span>
-    <span class="n">k_prior</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[:</span><span class="n">n_prior_std</span><span class="p">]</span>
-    <span class="k">del</span> <span class="n">model_params</span><span class="p">[:</span><span class="n">n_prior_std</span><span class="p">]</span>
-    <span class="n">k_cardinal</span> <span class="o">=</span> <span class="n">model_params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">prior_tail</span> <span class="o">=</span> <span class="n">model_params</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-    <span class="n">p_rand</span> <span class="o">=</span> <span class="n">model_params</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># get fit parameters</span>
+    <span class="c1"># ..................</span>
+    <span class="c1"># locate each type</span>
+    <span class="n">params_loc</span> <span class="o">=</span> <span class="n">locate_fit_params</span><span class="p">(</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># get params</span>
+    <span class="n">k_llh</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_llh&quot;</span><span class="p">]]</span>
+    <span class="n">k_prior</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_prior&quot;</span><span class="p">]]</span>
+    <span class="n">k_card</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_card&quot;</span><span class="p">]]</span>
+    <span class="n">prior_tail</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;prior_tail&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">p_rand</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;p_rand&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">k_m</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_m&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
 
     <span class="c1"># boolean matrix to locate stim std conditions</span>
     <span class="c1"># each column of LLHs is mapped to a</span>
@@ -270,24 +465,21 @@
     <span class="n">llh_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
 
     <span class="c1"># store by prior std</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prior_std_set</span><span class="p">)):</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_stim_std</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prior_std_set</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">jx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_stim_std</span><span class="p">):</span>
 
-            <span class="c1"># record stimulus strength</span>
-            <span class="c1"># vrg{:}{numVarg+2} = stim_noise[j]</span>
-
-            <span class="c1"># compute percept distribution</span>
+            <span class="c1"># compute percept density</span>
             <span class="c1"># map: maximum a posteriori readouts</span>
-            <span class="nb">map</span><span class="p">,</span> <span class="n">llh_map</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_bayes_lookup</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">,</span> <span class="n">llh_map</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">jx</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_bayes_lookup</span><span class="p">(</span>
                 <span class="n">percept_space</span><span class="p">,</span>
                 <span class="n">stim_mean_set</span><span class="p">,</span>
-                <span class="n">k_llh</span><span class="p">[</span><span class="n">j</span><span class="p">],</span>
+                <span class="n">k_llh</span><span class="p">[</span><span class="n">jx</span><span class="p">],</span>
                 <span class="n">prior_mode</span><span class="p">,</span>
-                <span class="n">k_prior</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
-                <span class="n">k_cardinal</span><span class="p">,</span>
+                <span class="n">k_prior</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
+                <span class="n">k_card</span><span class="p">,</span>
                 <span class="n">prior_tail</span><span class="p">,</span>
                 <span class="n">prior_shape</span><span class="p">,</span>
-                <span class="n">readout</span><span class="o">=</span><span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="n">readout</span><span class="o">=</span><span class="n">readout</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="c1"># now get matrix &#39;PupoGivenBI&#39; of likelihood values</span>
@@ -296,22 +488,31 @@
     <span class="n">PupoGivenBI</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="nb">map</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimate</span><span class="p">)))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_mean_set</span><span class="p">)):</span>
-        <span class="c1"># displayed direction</span>
-        <span class="n">thisd</span> <span class="o">=</span> <span class="n">stim_mean</span> <span class="o">==</span> <span class="n">stim_mean_set</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_prior_std</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_std_set</span><span class="p">)):</span>
-                <span class="n">condition_loc</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">thisd</span> <span class="o">&amp;</span> <span class="n">LLHs</span><span class="p">[:,</span> <span class="n">k</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">Prior</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>
-                <span class="p">)</span>
-                <span class="n">n_cond_repeat</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">condition_loc</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_mean_set</span><span class="p">)):</span>
+
+        <span class="c1"># locate stimulus feature mean condition</span>
+        <span class="n">thisd</span> <span class="o">=</span> <span class="n">stim_mean</span> <span class="o">==</span> <span class="n">stim_mean_set</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+
+        <span class="c1"># locate prior noise condition</span>
+        <span class="k">for</span> <span class="n">jx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_prior_std</span><span class="p">):</span>
+
+            <span class="c1"># locate stimulus noise condition</span>
+            <span class="k">for</span> <span class="n">kx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_std_set</span><span class="p">)):</span>
+
+                <span class="c1"># locate combined condition</span>
+                <span class="n">loc_conditions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+                    <span class="n">thisd</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">LLHs</span><span class="p">[:,</span> <span class="n">kx</span><span class="p">],</span> <span class="n">Prior</span><span class="p">[:,</span> <span class="n">jx</span><span class="p">]</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="n">n_cond_repeat</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">loc_conditions</span><span class="p">)</span>
                 <span class="n">stim_mean_loc</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">stim_mean_set</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">n_cond_repeat</span><span class="p">)]</span>
+                    <span class="n">stim_mean_set</span><span class="p">[</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">n_cond_repeat</span><span class="p">)</span>
+                    <span class="p">]</span>
                     <span class="o">-</span> <span class="mi">1</span>
                 <span class="p">)</span>
-                <span class="n">PupoGivenBI</span><span class="p">[:,</span> <span class="n">condition_loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_map</span><span class="p">[</span><span class="n">j</span><span class="p">][</span>
-                    <span class="n">k</span>
-                <span class="p">][:,</span> <span class="n">stim_mean_loc</span><span class="p">]</span>
+                <span class="n">PupoGivenBI</span><span class="p">[:,</span> <span class="n">loc_conditions</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_map</span><span class="p">[</span>
+                    <span class="n">jx</span>
+                <span class="p">][</span><span class="n">kx</span><span class="p">][:,</span> <span class="n">stim_mean_loc</span><span class="p">]</span>
 
     <span class="c1"># normalize to probabilities</span>
     <span class="n">PupoGivenBI</span> <span class="o">=</span> <span class="n">PupoGivenBI</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">PupoGivenBI</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
@@ -336,8 +537,8 @@
     <span class="c1"># the mean &#39;0&#39; to work. Then we set back upo to its initial value. This have</span>
     <span class="c1"># no effect on the calculations.</span>
     <span class="n">upo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">361</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">stuff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">360</span><span class="p">])</span>
-    <span class="n">Pmot</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">upo</span><span class="p">,</span> <span class="n">stuff</span><span class="p">,</span> <span class="n">k_llh</span><span class="p">)</span>
+    <span class="n">motor_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">360</span><span class="p">])</span>
+    <span class="n">Pmot</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">upo</span><span class="p">,</span> <span class="n">motor_mean</span><span class="p">,</span> <span class="p">[</span><span class="n">k_m</span><span class="p">])</span>
     <span class="n">Pmot_to_conv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">Pmot</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">))</span>
     <span class="n">PestimateGivenModel</span> <span class="o">=</span> <span class="n">get_circ_conv</span><span class="p">(</span>
         <span class="n">PupoGivenModel</span><span class="p">,</span> <span class="n">Pmot_to_conv</span>
@@ -373,7 +574,8 @@
     <span class="c1"># other case are when we just want estimates</span>
     <span class="c1"># distributions prediction given</span>
     <span class="c1"># model parameters</span>
-    <span class="n">estimate</span><span class="p">[</span><span class="n">estimate</span><span class="p">[</span><span class="n">estimate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="mi">360</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">estimate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="n">estimate</span><span class="p">[</span><span class="n">estimate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
 
     <span class="c1"># single trial&#39;s measurement, its position(row)</span>
     <span class="c1"># for each trial(col) and its probability</span>
@@ -411,13 +613,15 @@
     <span class="n">aic</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_fit_params</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">Logl_pertrial</span><span class="p">))</span>
 
     <span class="c1"># print</span>
+    <span class="c1"># [TODO]: add logging here</span>
     <span class="nb">print</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;&quot;&quot;-logl: </span><span class="si">{</span><span class="n">negLogl</span><span class="si">}</span><span class="s2">, aic: </span><span class="si">{</span><span class="n">aic</span><span class="si">}</span><span class="s2">, </span>
 <span class="s2">                             k_llh: </span><span class="si">{</span><span class="n">k_llh</span><span class="si">}</span><span class="s2">, </span>
 <span class="s2">                             k_prior: </span><span class="si">{</span><span class="n">k_prior</span><span class="si">}</span><span class="s2">, </span>
-<span class="s2">                             k_card: </span><span class="si">{</span><span class="n">k_cardinal</span><span class="si">}</span><span class="s2">, </span>
+<span class="s2">                             k_card: </span><span class="si">{</span><span class="n">k_card</span><span class="si">}</span><span class="s2">, </span>
 <span class="s2">                             pr_tail: </span><span class="si">{</span><span class="n">prior_tail</span><span class="si">}</span><span class="s2">, </span>
-<span class="s2">                             p_rnd: </span><span class="si">{</span><span class="n">p_rand</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                             p_rnd: </span><span class="si">{</span><span class="n">p_rand</span><span class="si">}</span><span class="s2">,</span>
+<span class="s2">                             k_m: </span><span class="si">{</span><span class="n">p_rand</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">negLogl</span></div>
 
@@ -428,65 +632,76 @@
     <span class="n">k_llh</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">k_prior</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
-    <span class="n">k_cardinal</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">k_card</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">prior_tail</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a bayes lookup matrix</span>
 <span class="sd">    based on Girshick&#39;s paper</span>
-<span class="sd">    M measurements in rows</span>
-<span class="sd">    x N stimulus feature means in columns</span>
+<span class="sd">    rows: M measurements</span>
+<span class="sd">    cols: N stimulus feature means</span>
+<span class="sd">    value: log(likelihood) of percept</span>
 
-<span class="sd">    usage:</span>
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block::</span>
+<span class="sd">        </span>
+<span class="sd">            percept, logl_percept = get_bayes_lookup(</span>
+<span class="sd">                percept_space=1:1:360,</span>
+<span class="sd">                stim_mean=5:10:355,</span>
+<span class="sd">                k_llh=5,</span>
+<span class="sd">                prior_mode=225,</span>
+<span class="sd">                k_prior=4.77,</span>
+<span class="sd">                k_card=0,</span>
+<span class="sd">                prior_tail=0,</span>
+<span class="sd">                prior_shape=&#39;von_mises&#39;,</span>
+<span class="sd">                )</span>
 
-<span class="sd">        percept, logl_percept = get_bayes_lookup(</span>
-<span class="sd">            percept_space=1:1:360,</span>
-<span class="sd">            stim_mean=5:10:355,</span>
-<span class="sd">            k_llh=5,</span>
-<span class="sd">            prior_mode=225,</span>
-<span class="sd">            k_prior=4.77,</span>
-<span class="sd">            k_cardinal=0,</span>
-<span class="sd">            prior_tail=0,</span>
-<span class="sd">            prior_shape=&#39;von_mises&#39;,</span>
-<span class="sd">            )</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (np.array): percepts</span>
+<span class="sd">        (np.array): percept likelihood</span>
+
+<span class="sd">    [TODO]: clarify the conceptual objects used:</span>
+<span class="sd">        stimulus space, percept space ... </span>
+
+
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># set stimulus feature space (the</span>
-    <span class="c1"># entire discretized circular space with unitary</span>
-    <span class="c1"># unit). An example feature could be an object&#39;s</span>
-    <span class="c1"># motion direction</span>
+    <span class="c1"># set stimulus feature mean space s (the</span>
+    <span class="c1"># discrete circular space with unit 1).</span>
+    <span class="c1"># e.g., feature could be motion direction</span>
+    <span class="c1"># s_i are each stimulus feature mean</span>
     <span class="n">stim_mean_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">361</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># cast prior mode as array</span>
+    <span class="c1"># cast prior mode as an array</span>
     <span class="n">prior_mode</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">prior_mode</span><span class="p">])</span>
 
-    <span class="c1"># calculate measurement densities ~v(di,kl)</span>
-    <span class="c1"># di are stimulus mean in columns</span>
-    <span class="c1"># over range of possible measurement in rows</span>
+    <span class="c1"># calculate measurement densities ~v(s_i,k_llh)</span>
+    <span class="c1"># (m_i x s_i)</span>
+    <span class="c1"># m_i is measurement i. percept space</span>
+    <span class="c1"># is the same as the measurement space</span>
     <span class="n">meas_density</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
         <span class="n">percept_space</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="p">[</span><span class="n">k_llh</span><span class="p">]</span>
     <span class="p">)</span>
 
     <span class="c1"># calculate likelihood densities</span>
-    <span class="c1"># likelihood of stimulus feature di (row)</span>
-    <span class="c1"># given measurements mi (col)</span>
+    <span class="c1"># (s space x m_i)</span>
     <span class="n">llh</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
         <span class="n">stim_mean_space</span><span class="p">,</span> <span class="n">percept_space</span><span class="p">,</span> <span class="p">[</span><span class="n">k_llh</span><span class="p">]</span>
     <span class="p">)</span>
 
     <span class="c1"># calculate learnt prior densities</span>
-    <span class="c1"># it is the same for each mi in cols over motion</span>
-    <span class="c1"># directions in rows</span>
-    <span class="k">if</span> <span class="n">prior_shape</span> <span class="o">==</span> <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">:</span>
-        <span class="n">learnt_prior</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="n">stim_mean_space</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="p">[</span><span class="n">k_prior</span><span class="p">],</span>
-        <span class="p">)</span>
-        <span class="n">learnt_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
-            <span class="n">learnt_prior</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">percept_space</span><span class="p">)</span>
-        <span class="p">)</span>
+    <span class="c1"># (s space  x m_i)</span>
+    <span class="n">learnt_prior</span> <span class="o">=</span> <span class="n">get_learnt_prior</span><span class="p">(</span>
+        <span class="n">percept_space</span><span class="p">,</span>
+        <span class="n">prior_mode</span><span class="p">,</span>
+        <span class="n">k_prior</span><span class="p">,</span>
+        <span class="n">prior_shape</span><span class="p">,</span>
+        <span class="n">stim_mean_space</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="c1"># calculate posterior</span>
+    <span class="c1"># calculate posterior densities</span>
+    <span class="c1"># (s space  x m_i)</span>
     <span class="n">posterior</span> <span class="o">=</span> <span class="n">do_bayes_inference</span><span class="p">(</span>
         <span class="n">k_llh</span><span class="p">,</span>
         <span class="n">prior_mode</span><span class="p">,</span>
@@ -496,79 +711,93 @@
         <span class="n">learnt_prior</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="c1"># choose a percept (readout)</span>
-    <span class="n">percept</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_mean_space</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">percept_space</span><span class="p">)))</span>
-        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="c1"># choose percepts</span>
+    <span class="c1"># (m_i x p_i)</span>
+    <span class="n">percept</span><span class="p">,</span> <span class="n">max_nb_percept</span> <span class="o">=</span> <span class="n">choose_percept</span><span class="p">(</span>
+        <span class="n">readout</span><span class="p">,</span> <span class="n">stim_mean_space</span><span class="p">,</span> <span class="n">posterior</span>
     <span class="p">)</span>
-    <span class="k">if</span> <span class="n">readout</span> <span class="o">==</span> <span class="s2">&quot;map&quot;</span><span class="p">:</span>
-        <span class="c1"># find the MAPs estimates (values) of each mi (rows).</span>
-        <span class="c1"># A mi may produce more than one MAP (more than one value for a row).</span>
-        <span class="c1"># e.g., when both likelihood and learnt prior are weak, an evidence produces</span>
-        <span class="c1"># a relatively flat posterior which maximum can not be estimated accurately.</span>
-        <span class="c1"># max(posterior) produces two (or more) MAP values. Those MAP values are</span>
-        <span class="c1"># observed with the same probability (e.g., 50#  if two MAPs) given a mi.</span>
-        <span class="k">for</span> <span class="n">meas_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">percept</span><span class="p">)):</span>
-            <span class="c1"># get each posterior&#39;s maximum</span>
-            <span class="c1"># a posteriori(s)</span>
-            <span class="n">map_loc</span> <span class="o">=</span> <span class="n">posterior</span><span class="p">[:,</span> <span class="n">meas_i</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
-                <span class="n">posterior</span><span class="p">[:,</span> <span class="n">meas_i</span><span class="p">]</span>
-            <span class="p">)</span>
-            <span class="n">n_maps</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">map_loc</span><span class="p">)</span>
-            <span class="n">percept</span><span class="p">[</span><span class="n">meas_i</span><span class="p">,</span> <span class="mi">0</span><span class="p">:</span><span class="n">n_maps</span><span class="p">]</span> <span class="o">=</span> <span class="n">stim_mean_space</span><span class="p">[</span>
-                <span class="n">map_loc</span>
-            <span class="p">]</span>
 
-            <span class="c1"># sanity checks</span>
-            <span class="c1"># check that all measurements have at</span>
-            <span class="c1"># least a percept</span>
-            <span class="k">if</span> <span class="n">n_maps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="sd">&quot;&quot;&quot;Some measurements </span>
-<span class="sd">                    have no percepts.&quot;&quot;&quot;</span>
-                <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
-            <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">            readout has not yet</span>
-<span class="sd">            been implemented</span>
-<span class="sd">            &quot;&quot;&quot;</span>
-        <span class="p">)</span>
+    <span class="c1"># get each percept likelihood</span>
+    <span class="c1"># for each measurement m_i</span>
+    <span class="n">percept</span><span class="p">,</span> <span class="n">percept_likelihood</span> <span class="o">=</span> <span class="n">get_percept_likelihood</span><span class="p">(</span>
+        <span class="n">percept_space</span><span class="p">,</span>
+        <span class="n">stim_mean</span><span class="p">,</span>
+        <span class="n">stim_mean_space</span><span class="p">,</span>
+        <span class="n">meas_density</span><span class="p">,</span>
+        <span class="n">percept</span><span class="p">,</span>
+        <span class="n">max_nb_percept</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">percept</span><span class="p">,</span> <span class="n">percept_likelihood</span></div>
 
-    <span class="n">percept</span><span class="p">[</span><span class="n">percept</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
 
-    <span class="c1"># run sanity check</span>
-    <span class="n">is_percept</span> <span class="o">=</span> <span class="n">percept</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">percept</span><span class="p">)]</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">is_percept</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="n">is_percept</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sd">&quot;&quot;&quot;percept must be &gt;=1 and &lt;=360&quot;&quot;&quot;</span>
-        <span class="p">)</span>
+<div class="viewcode-block" id="get_percept_likelihood"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.get_percept_likelihood.html#src.nodes.utils.get_percept_likelihood">[docs]</a><span class="k">def</span> <span class="nf">get_percept_likelihood</span><span class="p">(</span>
+    <span class="n">percept_space</span><span class="p">,</span>
+    <span class="n">stim_mean</span><span class="p">,</span>
+    <span class="n">stim_mean_space</span><span class="p">,</span>
+    <span class="n">meas_density</span><span class="p">,</span>
+    <span class="n">percept</span><span class="p">,</span>
+    <span class="n">max_nb_percept</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;calculate percepts&#39; likelihood.</span>
+<span class="sd">    </span>
+<span class="sd">    It is the P(m_i|s_i) of the m_i that produced that data</span>
+<span class="sd">    map m_i and percept(s) p_i in P(p|m_i)</span>
+<span class="sd">    P(p|m_i) is important because e.g., when</span>
+<span class="sd">    a m_i produces a bimodal posterior in response to</span>
+<span class="sd">    a stimulus (e.g., {flat likelihood, bimodal prior}),</span>
+<span class="sd">    the two modes are equally likely P(p_1|m_i)</span>
+<span class="sd">    = P(p_2|mi) = 0.5 and P(p_1|s_i) =</span>
+<span class="sd">    P(p_1|s_i) = P(p_1|m_i)*P(m_i|s_i)</span>
+<span class="sd">    = 0.5*P(m_i|s_i). Similarly, P(p_2|s_i) =</span>
+<span class="sd">    P(p_2|m_i)*P(m_i|s_i) = 0.5*P(m_i|s_i).</span>
+<span class="sd">    The P(p|m_i) of each percept observed for a</span>
+<span class="sd">    m_i is 1/len(p).</span>
+<span class="sd">    percepts only depend on m_i which determines likelihood.</span>
+<span class="sd">    The displayed stimulus determines percept probability.</span>
+<span class="sd">    Percepts per m_i (rows) are the same across stimulus</span>
+<span class="sd">    feature means (cols). m_i rows are repeated in the matrix</span>
+<span class="sd">    when a m_i produces many percepts.</span>
+<span class="sd">    e.g., the matrices for a max number of percept per m_i=2</span>
+<span class="sd">        </span>
+<span class="sd">    Args:</span>
+<span class="sd">        percept_space (_type_): _description_</span>
+<span class="sd">        stim_mean (_type_): _description_</span>
+<span class="sd">        stim_mean_space (_type_): _description_</span>
+<span class="sd">        meas_density (_type_): _description_</span>
+<span class="sd">        percept (_type_): _description_</span>
+<span class="sd">        max_nb_percept (_type_): _description_</span>
 
-    <span class="c1"># calculate likelihood of each data upo that is the P(mi|motion dir)</span>
-    <span class="c1"># of the mi that produced the upo</span>
-    <span class="n">max_n_percept</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">percept</span><span class="p">),</span> <span class="mi">0</span><span class="p">))</span>
-    <span class="n">ul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">percept_space</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">max_n_percept</span><span class="p">)</span>
-    <span class="n">ul</span> <span class="o">=</span> <span class="n">ul</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[:,</span> <span class="kc">None</span><span class="p">]</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="c1"># map to percept estimates</span>
-    <span class="n">percept</span> <span class="o">=</span> <span class="n">percept</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">:</span><span class="n">max_n_percept</span><span class="p">]</span>
+    <span class="c1"># count percepts by m_i</span>
+    <span class="c1"># (m_i x 0)</span>
+    <span class="n">max_nb_pi_given_mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">percept</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
 
-    <span class="c1"># associate P(percept|mi)</span>
-    <span class="c1"># P(percept|mi) is important because e.g., when the same mi produces a</span>
-    <span class="c1"># posterior with two modes given a motion direction (flat likelihood and bimodal prior),</span>
-    <span class="c1"># the two modes are observed equiprobably P(percept_1|mi) = P(percept_2|mi) = 0.5 and P(percept_1|di) =</span>
-    <span class="c1"># P(percept_1|di) = P(percept_1|mi)*P(mi|di) = 0.5*P(mi|di) and in the same way</span>
-    <span class="c1"># P(percept_2|di) = P(percept_2|mi)*P(mi|di) = 0.5*P(mi|di)</span>
-    <span class="c1"># The P(percept|mi) of each percept observed for a mi is 1/nb_of_percept</span>
-    <span class="n">n_percept_each_mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">percept</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="c1"># probability of percepts given m_i</span>
+    <span class="c1"># p(p_i|m_i)</span>
+    <span class="c1"># (m_i x 1)</span>
+    <span class="n">prob_pi_given_mi</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">max_nb_pi_given_mi</span>
 
-    <span class="c1"># percepts value only depends on mi value which determine likelihood position</span>
-    <span class="c1"># and thus posterior position. The displayed motion directions have not control on</span>
-    <span class="c1"># percepts values. They only determine the Probability of observing percepts.</span>
-    <span class="c1"># So the percepts and the number of percepts observed for each mi (row) is the same for</span>
-    <span class="c1"># all motion directions displayed (col). Row (mi) repetitions appears in the matrix</span>
-    <span class="c1"># when a mi produced a posterior with two modes.</span>
-    <span class="c1"># e.g., the matrices for a max number of percept per mi of 2</span>
+    <span class="c1"># assign equiprobability to percepts with</span>
+    <span class="c1"># same m_i (across cols)</span>
+    <span class="c1"># (m_i x p_i)</span>
+    <span class="n">prob_pi_given_mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+        <span class="n">prob_pi_given_mi</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">max_nb_percept</span>
+    <span class="p">)</span>
+
+    <span class="c1"># reshape as column vector (column-major)</span>
+    <span class="c1"># (m_i*p_i x s_i)</span>
+    <span class="n">prob_pi_given_mi</span> <span class="o">=</span> <span class="n">prob_pi_given_mi</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">)</span>
+    <span class="n">prob_pi_given_mi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+        <span class="n">prob_pi_given_mi</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)</span>
+    <span class="p">)</span>
+
+    <span class="c1"># associate P(m_i|s_i) of each m_i (row)</span>
+    <span class="c1"># for each stimulus feature mean s_i(col)</span>
+    <span class="c1"># e.g., the matrices for a max number of</span>
+    <span class="c1"># percept per m_i = 2</span>
     <span class="c1">#</span>
     <span class="c1">#    mPdfs_percept1 . . dir_D</span>
     <span class="c1">#        .</span>
@@ -578,81 +807,74 @@
     <span class="c1">#        .</span>
     <span class="c1">#        .</span>
     <span class="c1">#       mi_M</span>
-
-    <span class="c1"># sanity checks</span>
-    <span class="c1"># check that all mi have a percept</span>
-    <span class="c1"># if (n_percept_each_mi == 0).any():</span>
-    <span class="c1">#     print(n_percept_each_mi)</span>
-    <span class="c1">#     raise ValueError(&quot;n_percept_each_mi==0&quot;)</span>
-
-    <span class="n">PperceptgivenMi</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_percept_each_mi</span>
-    <span class="n">PperceptgivenMi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
-        <span class="n">PperceptgivenMi</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">max_n_percept</span>
-    <span class="p">)</span>
-    <span class="n">PperceptgivenMi</span> <span class="o">=</span> <span class="n">PperceptgivenMi</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="n">PperceptgivenMi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
-        <span class="n">PperceptgivenMi</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)</span>
+    <span class="c1"># (x si)</span>
+    <span class="n">prob_mi_given_si</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+        <span class="n">meas_density</span><span class="p">,</span> <span class="p">(</span><span class="n">max_nb_percept</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="p">)</span>
 
-    <span class="c1"># associate P(mi|di) of each mi (row) for each motion dir di(col)</span>
-    <span class="c1"># e.g., the matrices for a max number of percept per mi of 2</span>
-    <span class="c1">#</span>
-    <span class="c1">#    mPdfs_percept1 . . dir_D</span>
-    <span class="c1">#        .</span>
-    <span class="c1">#        .</span>
-    <span class="c1">#       mi_M</span>
-    <span class="c1">#    mPdfs_percept2 . . dir_D</span>
-    <span class="c1">#        .</span>
-    <span class="c1">#        .</span>
-    <span class="c1">#       mi_M</span>
-    <span class="n">PmiGivenDi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">meas_density</span><span class="p">,</span> <span class="n">max_n_percept</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+    <span class="c1"># reshape as column vector (column-major)</span>
+    <span class="n">flatten_percept</span> <span class="o">=</span> <span class="n">percept</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
 
-    <span class="n">flat_percept</span> <span class="o">=</span> <span class="n">percept</span><span class="o">.</span><span class="n">flatten</span><span class="p">()[:,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">the_matx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ul</span><span class="p">,</span> <span class="n">flat_percept</span><span class="p">,</span> <span class="n">PperceptgivenMi</span><span class="p">,</span> <span class="n">PmiGivenDi</span><span class="p">,]</span>
+    <span class="c1"># create a percept space</span>
+    <span class="c1"># to map with likelihood values</span>
+    <span class="n">u_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">percept_space</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">],</span> <span class="n">max_nb_percept</span><span class="p">)</span>
+
+    <span class="c1"># reshape as column vector (column-major)</span>
+    <span class="n">u_l</span> <span class="o">=</span> <span class="n">u_l</span><span class="o">.</span><span class="n">flatten</span><span class="p">(</span><span class="s2">&quot;F&quot;</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+    <span class="c1"># map percept and its likelihood</span>
+    <span class="c1"># to sort by percept</span>
+    <span class="n">to_sort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="n">u_l</span><span class="p">,</span>
+            <span class="n">flatten_percept</span><span class="p">,</span>
+            <span class="n">prob_pi_given_mi</span><span class="p">,</span>
+            <span class="n">prob_mi_given_si</span><span class="p">,</span>
+        <span class="p">]</span>
     <span class="p">)</span>
 
     <span class="c1"># sort by percept</span>
-    <span class="n">the_matx</span> <span class="o">=</span> <span class="n">the_matx</span><span class="p">[</span><span class="n">the_matx</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()]</span>
+    <span class="n">to_sort</span> <span class="o">=</span> <span class="n">to_sort</span><span class="p">[</span><span class="n">to_sort</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()]</span>
 
-    <span class="c1"># re-extract</span>
-    <span class="n">ul</span> <span class="o">=</span> <span class="n">the_matx</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">percept</span> <span class="o">=</span> <span class="n">the_matx</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">PperceptgivenMi</span> <span class="o">=</span> <span class="n">the_matx</span><span class="p">[:,</span> <span class="mi">2</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)]</span>
-    <span class="n">PmiGivenDi</span> <span class="o">=</span> <span class="n">the_matx</span><span class="p">[:,</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)</span> <span class="p">:]</span>
+    <span class="c1"># unpack</span>
+    <span class="n">u_l</span> <span class="o">=</span> <span class="n">to_sort</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">percept</span> <span class="o">=</span> <span class="n">to_sort</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">][:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">prob_pi_given_mi</span> <span class="o">=</span> <span class="n">to_sort</span><span class="p">[:,</span> <span class="mi">2</span> <span class="p">:</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)]</span>
+    <span class="n">prob_mi_given_si</span> <span class="o">=</span> <span class="n">to_sort</span><span class="p">[:,</span> <span class="mi">2</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)</span> <span class="p">:]</span>
 
-    <span class="c1"># likelihood of each percept estimate</span>
-    <span class="n">PperceptgivenDi</span> <span class="o">=</span> <span class="n">PperceptgivenMi</span> <span class="o">*</span> <span class="n">PmiGivenDi</span>
+    <span class="c1"># likelihood of percepts given stimulus</span>
+    <span class="c1"># p(p_i|s_i)</span>
+    <span class="n">prob_pi_given_si</span> <span class="o">=</span> <span class="n">prob_pi_given_mi</span> <span class="o">*</span> <span class="n">prob_mi_given_si</span>
 
-    <span class="c1"># Set the likelihood of percepts not produced at 0 because the model cannot</span>
-    <span class="c1"># produce those estimates even at a reasonable resolutions of motion</span>
-    <span class="c1"># direction</span>
-    <span class="n">uniqpercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">percept</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">percept</span><span class="p">)])</span>
-    <span class="n">missingpercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="nb">tuple</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">361</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">uniqpercept</span><span class="p">))</span>
+    <span class="c1"># Set the likelihood=0 for percepts not produced</span>
+    <span class="c1"># because the model cannot produce those percepts</span>
+    <span class="c1"># even at a reasonable resolution of stimulus feature</span>
+    <span class="c1"># mean</span>
+    <span class="n">percept_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">percept</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">percept</span><span class="p">)])</span>
+    <span class="n">missing_pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="nb">tuple</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">percept_space</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">percept_set</span><span class="p">))</span>
     <span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">numMissingpercept</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">missingpercept</span><span class="p">)</span>
+    <span class="n">nb_missing_pi</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">missing_pi</span><span class="p">)</span>
 
-    <span class="c1"># Add unproduced percept and set their likelihood=0</span>
-    <span class="c1"># the re-sort by percept</span>
-    <span class="n">PmissingperceptgivenDi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
-        <span class="p">(</span><span class="n">numMissingpercept</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">))</span>
+    <span class="c1"># Add unproduced percept and set their</span>
+    <span class="c1"># likelihood=0, then re-sort by percept</span>
+    <span class="n">prob_missing_pi_given_si</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">nb_missing_pi</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">))</span>
     <span class="p">)</span>
-    <span class="n">PallperceptgivenDi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">PperceptgivenDi</span><span class="p">,</span> <span class="n">PmissingperceptgivenDi</span><span class="p">]</span>
+    <span class="n">prob_all_pi_given_si</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">prob_pi_given_si</span><span class="p">,</span> <span class="n">prob_missing_pi_given_si</span><span class="p">]</span>
     <span class="p">)</span>
-    <span class="n">allpercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">percept</span><span class="p">,</span> <span class="n">missingpercept</span><span class="p">])</span>
-    <span class="n">ulnonExistent</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">numMissingpercept</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-    <span class="p">)</span>
-    <span class="n">ul</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">ul</span><span class="p">,</span> <span class="n">ulnonExistent</span><span class="p">])</span>
-    <span class="n">TheMatrixII</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">ul</span><span class="p">,</span> <span class="n">allpercept</span><span class="p">,</span> <span class="n">PallperceptgivenDi</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="n">all_pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">percept</span><span class="p">,</span> <span class="n">missing_pi</span><span class="p">])</span>
+    <span class="n">missing_u_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nb_missing_pi</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">u_l</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">u_l</span><span class="p">,</span> <span class="n">missing_u_l</span><span class="p">])</span>
+
+    <span class="c1"># map all objects to sort them</span>
+    <span class="n">to_sort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">u_l</span><span class="p">,</span> <span class="n">all_pi</span><span class="p">,</span> <span class="n">prob_all_pi_given_si</span><span class="p">])</span>
+
     <span class="c1"># sort by percept</span>
-    <span class="n">TheMatrixII</span> <span class="o">=</span> <span class="n">TheMatrixII</span><span class="p">[</span><span class="n">TheMatrixII</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()]</span>
-    <span class="n">allpercept</span> <span class="o">=</span> <span class="n">TheMatrixII</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">PallperceptgivenDi</span> <span class="o">=</span> <span class="n">TheMatrixII</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span>
+    <span class="n">to_sort</span> <span class="o">=</span> <span class="n">to_sort</span><span class="p">[</span><span class="n">to_sort</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">argsort</span><span class="p">()]</span>
+    <span class="n">all_pi</span> <span class="o">=</span> <span class="n">to_sort</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">prob_all_pi_given_si</span> <span class="o">=</span> <span class="n">to_sort</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">:]</span>
 
     <span class="c1"># likelihood of each percept (rows are percepts, cols are motion directions,</span>
     <span class="c1"># values are likelihood). When a same percept has been produced by different</span>
@@ -672,42 +894,183 @@
     <span class="c1"># cardinal prior is strong because obliques percepts are never produced.</span>
     <span class="c1"># The range of percepts not produced near the obliques increase significantly</span>
     <span class="c1"># with cardinal prior strength.</span>
-    <span class="n">uniqallpercept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
-        <span class="n">allpercept</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">allpercept</span><span class="p">)]</span>
-    <span class="p">)</span>
-    <span class="n">PuniqperceptgivenDi</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">uniqallpercept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)])</span>
-        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">percept</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">all_pi</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">all_pi</span><span class="p">)])</span>
+    <span class="n">prob_pi_set_given_si</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">percept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)])</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="p">)</span>
 
     <span class="c1"># find measurements that produced this same percept</span>
     <span class="c1"># and average probabilities over evidences mi that</span>
     <span class="c1"># produces this same percept</span>
-    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">uniqallpercept</span><span class="p">)):</span>
-        <span class="n">posUniqpercept</span> <span class="o">=</span> <span class="n">allpercept</span> <span class="o">==</span> <span class="n">uniqallpercept</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
-        <span class="n">PuniqperceptgivenDi</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-            <span class="n">PallperceptgivenDi</span><span class="p">[</span><span class="n">posUniqpercept</span><span class="p">,</span> <span class="p">:],</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">percept</span><span class="p">)):</span>
+        <span class="n">loc_pi_set</span> <span class="o">=</span> <span class="n">all_pi</span> <span class="o">==</span> <span class="n">percept</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+        <span class="n">prob_pi_set_given_si</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">prob_all_pi_given_si</span><span class="p">[</span><span class="n">loc_pi_set</span><span class="p">,</span> <span class="p">:],</span> <span class="mi">0</span>
         <span class="p">)</span>
-    <span class="n">PuniqperceptgivenDi</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">PuniqperceptgivenDi</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">prob_pi_set_given_si</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">prob_pi_set_given_si</span><span class="p">)]</span> <span class="o">=</span> <span class="mi">0</span>
 
     <span class="c1"># calculate likelihood of each</span>
     <span class="c1"># unique percept</span>
     <span class="c1"># matrix of percepts (rows) x</span>
-    <span class="c1"># 360 stimulus mean (cols)</span>
-    <span class="n">llh_percept</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
-            <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">uniqallpercept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean_space</span><span class="p">))</span>
-        <span class="p">)</span>
+    <span class="c1"># 360 stimulus mean space (cols)</span>
+    <span class="n">percept_likelihood</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">percept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean_space</span><span class="p">)))</span>
         <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="p">)</span>
     <span class="n">stim_mean_loc</span> <span class="o">=</span> <span class="n">stim_mean</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">llh_percept</span><span class="p">[:,</span> <span class="n">stim_mean_loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">PuniqperceptgivenDi</span>
+    <span class="n">percept_likelihood</span><span class="p">[</span>
+        <span class="p">:,</span> <span class="n">stim_mean_loc</span>
+    <span class="p">]</span> <span class="o">=</span> <span class="n">prob_pi_set_given_si</span>
 
     <span class="c1"># normalize to probability</span>
-    <span class="n">llh_percept</span> <span class="o">=</span> <span class="n">llh_percept</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">llh_percept</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="c1"># from matplotlib import pyplot as plt</span>
-    <span class="c1"># plt.imshow(llh_percept); plt.show()</span>
-    <span class="k">return</span> <span class="n">uniqallpercept</span><span class="p">,</span> <span class="n">llh_percept</span></div>
+    <span class="n">percept_likelihood</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">percept_likelihood</span>
+        <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">percept_likelihood</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">percept</span><span class="p">,</span> <span class="n">percept_likelihood</span></div>
+
+
+<div class="viewcode-block" id="choose_percept"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.choose_percept.html#src.nodes.utils.choose_percept">[docs]</a><span class="k">def</span> <span class="nf">choose_percept</span><span class="p">(</span>
+    <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">stim_mean_space</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">posterior</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;choose percept(s) for each</span>
+<span class="sd">    measurement m_i produced by a stimulus</span>
+<span class="sd">    s_i</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        readout (str): the posterior readout</span>
+<span class="sd">        - &#39;map&#39;: maximum a posteriori decision</span>
+<span class="sd">        stim_mean_space (np.ndarray): the space</span>
+<span class="sd">            of stimulus feature mean (e.g., motion </span>
+<span class="sd">            directions)</span>
+<span class="sd">        posterior (np.ndarray): the posterior </span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: _description_</span>
+<span class="sd">        NotImplementedError: _description_</span>
+<span class="sd">        ValueError: _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (np.ndarray): percept </span>
+<span class="sd">        (int): max_n_percept </span>
+<span class="sd">        ul</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># choose a percept p_i (readout)</span>
+    <span class="c1"># (s_i x p_i)</span>
+    <span class="c1"># the measurement space is assumed to</span>
+    <span class="c1"># be the same as the stimulus feature space</span>
+    <span class="n">meas_space_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean_space</span><span class="p">)</span>
+    <span class="n">stim_space_size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean_space</span><span class="p">)</span>
+    <span class="n">percept</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">stim_space_size</span><span class="p">,</span> <span class="n">meas_space_size</span><span class="p">))</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="p">)</span>
+
+    <span class="c1"># when the readout is maximum-a-posteriori</span>
+    <span class="k">if</span> <span class="n">readout</span> <span class="o">==</span> <span class="s2">&quot;map&quot;</span><span class="p">:</span>
+
+        <span class="c1"># find the maximum-a-posteriori estimate(s)(maps)</span>
+        <span class="c1"># mapped with each m_i (rows). A m_i can produce</span>
+        <span class="c1"># many maps (many cols for a row) .e.g., when both</span>
+        <span class="c1"># likelihood and learnt prior are weak, an evidence</span>
+        <span class="c1"># produces a relatively flat posterior which maximum</span>
+        <span class="c1"># can not be estimated accurately. max(posterior)</span>
+        <span class="c1"># produces many maps with equal probabilities.</span>
+
+        <span class="c1"># map each m_i with its percept(s)</span>
+        <span class="k">for</span> <span class="n">meas_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">meas_space_size</span><span class="p">):</span>
+
+            <span class="c1"># locate each posterior&#39;s maximum</span>
+            <span class="c1"># a posteriori(s)</span>
+            <span class="n">loc_percept</span> <span class="o">=</span> <span class="n">posterior</span><span class="p">[:,</span> <span class="n">meas_i</span><span class="p">]</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+                <span class="n">posterior</span><span class="p">[:,</span> <span class="n">meas_i</span><span class="p">]</span>
+            <span class="p">)</span>
+
+            <span class="c1"># count number of percepts</span>
+            <span class="n">n_percepts</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">loc_percept</span><span class="p">)</span>
+
+            <span class="c1"># map measurements (rows)</span>
+            <span class="c1"># with their percepts (cols)</span>
+            <span class="n">percept</span><span class="p">[</span><span class="n">meas_i</span><span class="p">,</span> <span class="p">:</span><span class="n">n_percepts</span><span class="p">]</span> <span class="o">=</span> <span class="n">stim_mean_space</span><span class="p">[</span>
+                <span class="n">loc_percept</span>
+            <span class="p">]</span>
+
+            <span class="c1"># handle exception</span>
+            <span class="c1"># check that all measurements have at</span>
+            <span class="c1"># least a percept</span>
+            <span class="k">if</span> <span class="n">n_percepts</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;&quot;&quot;Measurement </span><span class="si">{</span><span class="n">meas_i</span><span class="si">}</span><span class="s2"></span>
+<span class="s2">                    has no percept(s).&quot;&quot;&quot;</span>
+                <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># handle exception</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">            Readout </span><span class="si">{</span><span class="n">readout</span><span class="si">}</span><span class="s2"> has not </span>
+<span class="s2">            yet been implemented. </span>
+<span class="s2">            &quot;&quot;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># replace 0 by 360 degree</span>
+    <span class="n">percept</span><span class="p">[</span><span class="n">percept</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
+
+    <span class="c1"># handle exception</span>
+    <span class="n">is_percept</span> <span class="o">=</span> <span class="n">percept</span><span class="p">[</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">percept</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">is_percept</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">()</span> <span class="ow">or</span> <span class="p">(</span><span class="n">is_percept</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;Percepts must belong to [1,360].&quot;&quot;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="c1"># drop nan percepts from cols</span>
+    <span class="c1"># (m_i x max_nb_percept)</span>
+    <span class="n">max_nb_percept</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">percept</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">percept</span> <span class="o">=</span> <span class="n">percept</span><span class="p">[:,</span> <span class="p">:</span><span class="n">max_nb_percept</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">percept</span><span class="p">,</span> <span class="n">max_nb_percept</span></div>
+
+
+<div class="viewcode-block" id="get_learnt_prior"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.get_learnt_prior.html#src.nodes.utils.get_learnt_prior">[docs]</a><span class="k">def</span> <span class="nf">get_learnt_prior</span><span class="p">(</span>
+    <span class="n">percept_space</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">k_prior</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">stim_mean_space</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;calculate the learnt prior probability </span>
+<span class="sd">    distribution</span>
+<span class="sd">    cols: prior for each m_i, are the same</span>
+<span class="sd">    rows: stimulus feature mean space (e.g.,</span>
+<span class="sd">    motion direction) </span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        percept_space (np.ndarray): _description_</span>
+<span class="sd">        prior_mode (np.ndarray): _description_</span>
+<span class="sd">        k_prior (float): _description_</span>
+<span class="sd">        prior_shape (str): shape of the prior</span>
+<span class="sd">        - &#39;vonMisesPrior&#39;</span>
+<span class="sd">        stim_mean_space (np.ndarray): stimulus </span>
+<span class="sd">        feature mean space: (1:1:360)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (np.ndarray): matrix of learnt priors</span>
+<span class="sd">        rows: stimulus feature mean space</span>
+<span class="sd">        cols: m_i</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">prior_shape</span> <span class="o">==</span> <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">:</span>
+        <span class="c1"># create prior density</span>
+        <span class="c1"># (Nstim mean x 1)</span>
+        <span class="n">learnt_prior</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">stim_mean_space</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="p">[</span><span class="n">k_prior</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="c1"># repeat the prior across cols</span>
+        <span class="c1"># (Nstim mean x Nm_i)</span>
+        <span class="n">learnt_prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">learnt_prior</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">percept_space</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">learnt_prior</span></div>
 
 
 <div class="viewcode-block" id="do_bayes_inference"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.do_bayes_inference.html#src.nodes.utils.do_bayes_inference">[docs]</a><span class="k">def</span> <span class="nf">do_bayes_inference</span><span class="p">(</span>
@@ -719,31 +1082,37 @@
     <span class="n">learnt_prior</span><span class="p">,</span>
 <span class="p">):</span>
 
+    <span class="sd">&quot;&quot;&quot;Realize Bayesian inference    </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># do Bayesian integration</span>
     <span class="n">posterior</span> <span class="o">=</span> <span class="n">llh</span> <span class="o">*</span> <span class="n">learnt_prior</span>
 
     <span class="c1"># normalize cols to sum to 1</span>
     <span class="n">posterior</span> <span class="o">=</span> <span class="n">posterior</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">posterior</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
 
-    <span class="c1"># round posterior</span>
+    <span class="c1"># round posteriors</span>
     <span class="c1"># We fix probabilities at 10e-6 floating points</span>
-    <span class="c1"># This permits to get the modes of the posterior despite round-off</span>
-    <span class="c1"># errors. Try with different combinations of 10^6 and round instead of fix</span>
-    <span class="c1"># If we don&#39;t round enough we cannot get the modes of the posterior</span>
-    <span class="c1"># accurately due to round-off errors. But, now if we</span>
-    <span class="c1"># round too much we get more modes than we should, but the values</span>
-    <span class="c1"># obtained surf around the values of the true modes so I choose to round</span>
-    <span class="c1"># more than not enough (same as in simulations).</span>
+    <span class="c1"># We can get posterior modes despite round-off errors</span>
+    <span class="c1"># We tried with different combinations of 10^6 and</span>
+    <span class="c1"># round instead of fix. If we don&#39;t round enough we</span>
+    <span class="c1"># cannot get the modes of the posterior accurately</span>
+    <span class="c1"># because of round-off errors. If we round too much</span>
+    <span class="c1"># we get more modes than we should, but the values</span>
+    <span class="c1"># obtained are near the true modes so I choose to round</span>
+    <span class="c1"># more (same as in simulations).</span>
     <span class="c1"># sum over rows</span>
     <span class="n">posterior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">posterior</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 
-    <span class="c1"># TRICK: When k gets very large, e.g., for the prior, most values of the prior</span>
-    <span class="c1"># becomes 0 except close to the mean. The product of the likelihood and</span>
-    <span class="c1"># prior only produces 0 values for all directions, particularly as motion</span>
-    <span class="c1"># direction is far from the prior. Marginalization (scaling) makes them NaN.</span>
-    <span class="c1"># If we don&#39;t correct for that fit is not possible. In reality a von Mises</span>
-    <span class="c1"># density will never have a zero value at its tails. We use the closed-from</span>
-    <span class="c1"># equation derived in Murray and Morgenstern, 2010.</span>
+    <span class="c1"># TRICK: When k gets very large, e.g., for the prior,</span>
+    <span class="c1"># most values of the prior becomes 0 except close to</span>
+    <span class="c1"># the mean. The product of the likelihood and prior</span>
+    <span class="c1"># only produces 0 values for all directions, particularly</span>
+    <span class="c1"># as motion direction is far from the prior. Marginalization</span>
+    <span class="c1"># (scaling) makes them NaN. If we don&#39;t correct for that,</span>
+    <span class="c1"># fit is impossible. In reality a von Mises density will</span>
+    <span class="c1"># never have a zero value at its tails. We use the closed-from</span>
+    <span class="c1"># equation derived by Murray and Morgenstern, 2010.</span>
     <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">posterior</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]))[</span><span class="mi">0</span><span class="p">]</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">is_empty</span><span class="p">(</span><span class="n">loc</span><span class="p">):</span>
         <span class="c1"># use Murray and Morgenstern., 2010</span>
@@ -791,30 +1160,42 @@
 </pre></div>
 
            </div>
+           
           </div>
           <footer>
+  
 
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2022, steeve laquitaine.</p>
-  </div>
+    <p>
+        &copy; Copyright 2022, steeve laquitaine
 
-  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
-    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
-    provided by <a href="https://readthedocs.org">Read the Docs</a>.
-   
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
 
 </footer>
+
         </div>
       </div>
+
     </section>
+
   </div>
-  <script>
+  
+
+
+  <script type="text/javascript">
       jQuery(function () {
           SphinxRtdTheme.Navigation.enable(true);
       });
-  </script> 
+  </script>
+
+  
+  
+    
+   
 
 </body>
 </html>

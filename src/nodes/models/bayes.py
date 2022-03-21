@@ -48,7 +48,7 @@ def fit(
 
     # fit
     output = fit_maxlogl(
-        database, prior_shape, prior_mode, readout
+        database, prior_shape, prior_mode, readout,
     )
     return output
 
