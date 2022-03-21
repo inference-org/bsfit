@@ -1,0 +1,3 @@
+{
+    "path": "../../tutorials/fit_standard_bayes.ipynb"
+}

@@ -15,6 +15,10 @@ conda install --file src/requirements.txt -y
 ```
 
 ## Docs
+
+Best practices:
+- Keep Doctstrings in Google Style Guide format.
+  
 ### Update docs
 
 1. Edit docs/source/ 
@@ -43,4 +47,12 @@ Unit-Test all the package's functions:
 
 ```bash
 pytest src/test.py
+```
+
+## Tutorials
+
+Setup jupyter notebook:
+
+```bash
+conda install -n heuristic ipykernel --update-deps --force-reinstall
 ```

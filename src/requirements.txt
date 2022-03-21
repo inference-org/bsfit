@@ -4,6 +4,11 @@ pandas      # data engineering
 numpy       # data engineering
 scipy       # data engineering
 matplotlib  # viz
-sphinx_rtd_theme # docs
-sphinx      # docs
 pyyaml      # read/write conf
+jupyter     # jupyter notebook
+notebook    # jupyter notebook
+ipykernel   # jupyter notebook
+sphinx      # docs
+nbsphinx    # docs
+sphinx_rtd_theme # docs
+nbsphinx-link # docs

@@ -1,6 +1,8 @@
 Tutorials
 ===========
 
-.. code-block:: bash
+.. toctree::
+   :maxdepth: 3
+   :caption: Contents
 
-   python main.py
+   notebooks.nblink

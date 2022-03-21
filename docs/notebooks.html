@@ -1,0 +1,1249 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Fit standard Bayesian model &mdash; bsfit 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="src" href="_autosummary/src.html" />
+    <link rel="prev" title="Tutorials" href="tutorials.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> bsfit
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="get_started.html">Get started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="tutorials.html">Tutorials</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Fit standard Bayesian model</a></li>
+</ul>
+</li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="_autosummary/src.html">src</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">bsfit</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="tutorials.html">Tutorials</a> &raquo;</li>
+        
+      <li>Fit standard Bayesian model</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/notebooks.nblink.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  
+<style>
+/* CSS for nbsphinx extension */
+
+/* remove conflicting styling from Sphinx themes */
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt *,
+div.nbinput.container div.input_area pre,
+div.nboutput.container div.output_area pre,
+div.nbinput.container div.input_area .highlight,
+div.nboutput.container div.output_area .highlight {
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: none;
+}
+
+div.nbinput.container > div[class*=highlight],
+div.nboutput.container > div[class*=highlight] {
+    margin: 0;
+}
+
+div.nbinput.container div.prompt *,
+div.nboutput.container div.prompt * {
+    background: none;
+}
+
+div.nboutput.container div.output_area .highlight,
+div.nboutput.container div.output_area pre {
+    background: unset;
+}
+
+div.nboutput.container div.output_area div.highlight {
+    color: unset;  /* override Pygments text color */
+}
+
+/* avoid gaps between output lines */
+div.nboutput.container div[class*=highlight] pre {
+    line-height: normal;
+}
+
+/* input/output containers */
+div.nbinput.container,
+div.nboutput.container {
+    display: -webkit-flex;
+    display: flex;
+    align-items: flex-start;
+    margin: 0;
+    width: 100%;
+}
+@media (max-width: 540px) {
+    div.nbinput.container,
+    div.nboutput.container {
+        flex-direction: column;
+    }
+}
+
+/* input container */
+div.nbinput.container {
+    padding-top: 5px;
+}
+
+/* last container */
+div.nblast.container {
+    padding-bottom: 5px;
+}
+
+/* input prompt */
+div.nbinput.container div.prompt pre {
+    color: #307FC1;
+}
+
+/* output prompt */
+div.nboutput.container div.prompt pre {
+    color: #BF5B3D;
+}
+
+/* all prompts */
+div.nbinput.container div.prompt,
+div.nboutput.container div.prompt {
+    width: 4.5ex;
+    padding-top: 5px;
+    position: relative;
+    user-select: none;
+}
+
+div.nbinput.container div.prompt > div,
+div.nboutput.container div.prompt > div {
+    position: absolute;
+    right: 0;
+    margin-right: 0.3ex;
+}
+
+@media (max-width: 540px) {
+    div.nbinput.container div.prompt,
+    div.nboutput.container div.prompt {
+        width: unset;
+        text-align: left;
+        padding: 0.4em;
+    }
+    div.nboutput.container div.prompt.empty {
+        padding: 0;
+    }
+
+    div.nbinput.container div.prompt > div,
+    div.nboutput.container div.prompt > div {
+        position: unset;
+    }
+}
+
+/* disable scrollbars on prompts */
+div.nbinput.container div.prompt pre,
+div.nboutput.container div.prompt pre {
+    overflow: hidden;
+}
+
+/* input/output area */
+div.nbinput.container div.input_area,
+div.nboutput.container div.output_area {
+    -webkit-flex: 1;
+    flex: 1;
+    overflow: auto;
+}
+@media (max-width: 540px) {
+    div.nbinput.container div.input_area,
+    div.nboutput.container div.output_area {
+        width: 100%;
+    }
+}
+
+/* input area */
+div.nbinput.container div.input_area {
+    border: 1px solid #e0e0e0;
+    border-radius: 2px;
+    /*background: #f5f5f5;*/
+}
+
+/* override MathJax center alignment in output cells */
+div.nboutput.container div[class*=MathJax] {
+    text-align: left !important;
+}
+
+/* override sphinx.ext.imgmath center alignment in output cells */
+div.nboutput.container div.math p {
+    text-align: left;
+}
+
+/* standard error */
+div.nboutput.container div.output_area.stderr {
+    background: #fdd;
+}
+
+/* ANSI colors */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-default-inverse-fg { color: #FFFFFF; }
+.ansi-default-inverse-bg { background-color: #000000; }
+
+.ansi-bold { font-weight: bold; }
+.ansi-underline { text-decoration: underline; }
+
+
+div.nbinput.container div.input_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight] > pre,
+div.nboutput.container div.output_area div[class*=highlight].math,
+div.nboutput.container div.output_area.rendered_html,
+div.nboutput.container div.output_area > div.output_javascript,
+div.nboutput.container div.output_area:not(.rendered_html) > img{
+    padding: 5px;
+    margin: 0;
+}
+
+/* fix copybtn overflow problem in chromium (needed for 'sphinx_copybutton') */
+div.nbinput.container div.input_area > div[class^='highlight'],
+div.nboutput.container div.output_area > div[class^='highlight']{
+    overflow-y: hidden;
+}
+
+/* hide copybtn icon on prompts (needed for 'sphinx_copybutton') */
+.prompt .copybtn {
+    display: none;
+}
+
+/* Some additional styling taken form the Jupyter notebook CSS */
+div.rendered_html table {
+  border: none;
+  border-collapse: collapse;
+  border-spacing: 0;
+  color: black;
+  font-size: 12px;
+  table-layout: fixed;
+}
+div.rendered_html thead {
+  border-bottom: 1px solid black;
+  vertical-align: bottom;
+}
+div.rendered_html tr,
+div.rendered_html th,
+div.rendered_html td {
+  text-align: right;
+  vertical-align: middle;
+  padding: 0.5em 0.5em;
+  line-height: normal;
+  white-space: normal;
+  max-width: none;
+  border: none;
+}
+div.rendered_html th {
+  font-weight: bold;
+}
+div.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+div.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+
+/* CSS overrides for sphinx_rtd_theme */
+
+/* 24px margin */
+.nbinput.nblast.container,
+.nboutput.nblast.container {
+    margin-bottom: 19px;  /* padding has already 5px */
+}
+
+/* ... except between code cells! */
+.nblast.container + .nbinput.container {
+    margin-top: -19px;
+}
+
+.admonition > p:before {
+    margin-right: 4px;  /* make room for the exclamation icon */
+}
+
+/* Fix math alignment, see https://github.com/rtfd/sphinx_rtd_theme/pull/686 */
+.math {
+    text-align: unset;
+}
+</style>
+<section id="Fit-standard-Bayesian-model">
+<h1>Fit standard Bayesian model<a class="headerlink" href="#Fit-standard-Bayesian-model" title="Permalink to this headline">¶</a></h1>
+<p>author: steeve laquitaine</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to project&#39;s root path</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># fit the model</span>
+<span class="o">%</span><span class="k">run</span> main.py
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-logl: 2382.091915787947, aic: 4780.183831575894,
+                             k_llh: [1. 1.],
+                             k_prior: [1. 1.],
+                             k_card: [1.],
+                             pr_tail: 0.0,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 2018.5977597576048, aic: 4053.1955195152095,
+                             k_llh: [1.05 1.  ],
+                             k_prior: [1. 1.],
+                             k_card: [1.],
+                             pr_tail: 0.0,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 2018.5977597576048, aic: 4053.1955195152095,
+                             k_llh: [1.   1.05],
+                             k_prior: [1. 1.],
+                             k_card: [1.],
+                             pr_tail: 0.0,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 2382.091915787947, aic: 4780.183831575894,
+                             k_llh: [1. 1.],
+                             k_prior: [1.05 1.  ],
+                             k_card: [1.],
+                             pr_tail: 0.0,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 126883.29325282325, aic: 253782.5865056465,
+                             k_llh: [1. 1.],
+                             k_prior: [1.   1.05],
+                             k_card: [1.],
+                             pr_tail: 0.0,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 2382.091915787947, aic: 4780.183831575894,
+                             k_llh: [1. 1.],
+                             k_prior: [1. 1.],
+                             k_card: [1.05],
+                             pr_tail: 0.0,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 2382.091915787947, aic: 4780.183831575894,
+                             k_llh: [1. 1.],
+                             k_prior: [1. 1.],
+                             k_card: [1.],
+                             pr_tail: 0.00025,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 2371.3715269674703, aic: 4758.743053934941,
+                             k_llh: [1. 1.],
+                             k_prior: [1. 1.],
+                             k_card: [1.],
+                             pr_tail: 0.0,
+                             p_rnd: 0.00025,
+                             k_m: 0.00025
+-logl: 2382.059508149926, aic: 4780.119016299852,
+                             k_llh: [1. 1.],
+                             k_prior: [1. 1.],
+                             k_card: [1.],
+                             pr_tail: 0.0,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 2202.682500542153, aic: 4421.365001084306,
+                             k_llh: [1.0125 1.0125],
+                             k_prior: [1.0125 0.95  ],
+                             k_card: [1.0125],
+                             pr_tail: 6.25e-05,
+                             p_rnd: 6.25e-05,
+                             k_m: 6.25e-05
+-logl: 2353.6635977486303, aic: 4723.327195497261,
+                             k_llh: [1.015625 1.015625],
+                             k_prior: [1.015625 0.9875  ],
+                             k_card: [1.015625],
+                             pr_tail: -0.000234375,
+                             p_rnd: 7.8125e-05,
+                             k_m: 7.8125e-05
+-logl: 2164.9935517384997, aic: 4345.987103476999,
+                             k_llh: [1.01953125 1.01953125],
+                             k_prior: [1.01953125 0.984375  ],
+                             k_card: [0.95703125],
+                             pr_tail: -4.296875e-05,
+                             p_rnd: 9.765625e-05,
+                             k_m: 9.765625e-05
+-logl: 2132.6049536274104, aic: 4281.209907254821,
+                             k_llh: [1.02441406 1.02441406],
+                             k_prior: [0.96191406 0.98046875],
+                             k_card: [0.99628906],
+                             pr_tail: -5.3710937499999993e-05,
+                             p_rnd: 0.0001220703125,
+                             k_m: 0.0001220703125
+-logl: 2062.866767239828, aic: 4141.733534479656,
+                             k_llh: [1.03051758 1.03051758],
+                             k_prior: [1.00239258 0.97558594],
+                             k_card: [0.99536133],
+                             pr_tail: -6.713867187499999e-05,
+                             p_rnd: 0.000152587890625,
+                             k_m: 0.000152587890625
+-logl: 2166.152696384256, aic: 4348.305392768512,
+                             k_llh: [1.03814697 1.03814697],
+                             k_prior: [1.00299072 0.96948242],
+                             k_card: [0.99420166],
+                             pr_tail: -8.392333984375e-05,
+                             p_rnd: 0.00019073486328125,
+                             k_m: 0.00019073486328125
+-logl: 7645.891807158, aic: 15307.783614316,
+                             k_llh: [1.04768372 1.04768372],
+                             k_prior: [1.0037384  0.96185303],
+                             k_card: [0.99275208],
+                             pr_tail: -0.00010490417480468749,
+                             p_rnd: -7.408142089843753e-05,
+                             k_m: -7.408142089843753e-05
+-logl: 2328.123738967999, aic: 4672.247477935998,
+                             k_llh: [1.01192093 1.01192093],
+                             k_prior: [1.0009346  0.99046326],
+                             k_card: [0.99818802],
+                             pr_tail: -2.622604370117187e-05,
+                             p_rnd: 0.00016897964477539061,
+                             k_m: 0.00016897964477539061
+-logl: 2067.2815861358026, aic: 4150.563172271605,
+                             k_llh: [1.0311327 1.0311327],
+                             k_prior: [0.9844408  0.97509384],
+                             k_card: [0.97276783],
+                             pr_tail: 0.00018150806427001952,
+                             p_rnd: 0.00012050724029541013,
+                             k_m: 0.00012050724029541013
+-logl: 2064.854426262519, aic: 4145.708852525038,
+                             k_llh: [1.03963971 1.03963971],
+                             k_prior: [0.99500775 0.96828823],
+                             k_card: [0.98384976],
+                             pr_tail: 2.5292634963989256e-05,
+                             p_rnd: 1.753449440002443e-05,
+                             k_m: 1.753449440002443e-05
+-logl: 2285.479258821453, aic: 4586.958517642906,
+                             k_llh: [1.04584557 1.04584557],
+                             k_prior: [0.97906929 1.01332355],
+                             k_card: [0.96237522],
+                             pr_tail: -7.273524999618531e-05,
+                             p_rnd: 0.00011277276277542114,
+                             k_m: 0.00011277276277542114
+-logl: 2158.3960532428623, aic: 4332.792106485725,
+                             k_llh: [1.02083639 1.02083639],
+                             k_prior: [1.00414232 0.96583089],
+                             k_card: [0.99996881],
+                             pr_tail: 2.8691187500953674e-05,
+                             p_rnd: 7.506819069385529e-05,
+                             k_m: 7.506819069385529e-05
+-logl: 54198.195605758774, aic: 108412.39121151755,
+                             k_llh: [1.01587095 1.01587095],
+                             k_prior: [0.98886647 0.99292824],
+                             k_card: [0.98211535],
+                             pr_tail: 0.00010184172168374062,
+                             p_rnd: -4.437876865267753e-05,
+                             k_m: -4.437876865267753e-05
+-logl: 2188.236889000102, aic: 4392.473778000204,
+                             k_llh: [1.03257797 1.03257797],
+                             k_prior: [0.99945966 0.97534388],
+                             k_card: [0.99118008],
+                             pr_tail: -3.748207446187734e-05,
+                             p_rnd: 0.00013195645529776812,
+                             k_m: 0.00013195645529776812
+-logl: 36778.39297622605, aic: 73572.7859524521,
+                             k_llh: [1.025 1.025],
+                             k_prior: [1. 1.],
+                             k_card: [1.],
+                             pr_tail: 0.0,
+                             p_rnd: 0.0,
+                             k_m: 0.0
+-logl: 2070.3716989528007, aic: 4156.743397905601,
+                             k_llh: [1.04025879 1.01525879],
+                             k_prior: [1.00119629 0.98779297],
+                             k_card: [0.99768066],
+                             pr_tail: -3.3569335937499996e-05,
+                             p_rnd: 7.62939453125e-05,
+                             k_m: 7.62939453125e-05
+-logl: 2053.3195310113483, aic: 4122.639062022697,
+                             k_llh: [1.04481986 1.01981986],
+                             k_prior: [0.99750388 0.98414412],
+                             k_card: [0.99192488],
+                             pr_tail: 1.2646317481994628e-05,
+                             p_rnd: 8.767247200012216e-06,
+                             k_m: 8.767247200012216e-06
+-logl: 2088.0991526243824, aic: 4192.198305248765,
+                             k_llh: [1.04056635 1.01556635],
+                             k_prior: [0.9922204  0.98754692],
+                             k_card: [0.98638391],
+                             pr_tail: 9.075403213500976e-05,
+                             p_rnd: 6.0253620147705067e-05,
+                             k_m: 6.0253620147705067e-05
+-logl: 2157.020465412707, aic: 4330.040930825414,
+                             k_llh: [1.03720703 1.01220703],
+                             k_prior: [0.98095703 0.99023438],
+                             k_card: [0.99814453],
+                             pr_tail: -2.6855468749999997e-05,
+                             p_rnd: 6.103515625e-05,
+                             k_m: 6.103515625e-05
+-logl: 2158.4392953303354, aic: 4332.878590660671,
+                             k_llh: [1.0354182 1.0104182],
+                             k_prior: [1.00207116 0.98291544],
+                             k_card: [0.9999844],
+                             pr_tail: 1.4345593750476837e-05,
+                             p_rnd: 3.753409534692764e-05,
+                             k_m: 3.753409534692764e-05
+-logl: 2157.1565693293087, aic: 4330.313138658617,
+                             k_llh: [1.03476562 1.00976562],
+                             k_prior: [1.00976562 0.9921875 ],
+                             k_card: [0.97851562],
+                             pr_tail: -2.1484375e-05,
+                             p_rnd: 4.8828125e-05,
+                             k_m: 4.8828125e-05
+-logl: 1983.1614760418813, aic: 3982.3229520837626,
+                             k_llh: [1.04407349 1.01907349],
+                             k_prior: [1.00149536 0.98474121],
+                             k_card: [0.99710083],
+                             pr_tail: -4.1961669921875e-05,
+                             p_rnd: 9.5367431640625e-05,
+                             k_m: 9.5367431640625e-05
+-logl: 2077.48362530843, aic: 4170.96725061686,
+                             k_llh: [1.05677733 1.00052733],
+                             k_prior: [0.99630244 0.97739063],
+                             k_card: [0.98743371],
+                             pr_tail: -1.531226560473442e-06,
+                             p_rnd: 9.701990522444248e-05,
+                             k_m: 9.701990522444248e-05
+-logl: 2102.807897612209, aic: 4221.615795224418,
+                             k_llh: [1.05169892 1.01263642],
+                             k_prior: [0.99278909 0.99309399],
+                             k_card: [0.98431164],
+                             pr_tail: -1.984602538868785e-05,
+                             p_rnd: 7.435726234689355e-05,
+                             k_m: 7.435726234689355e-05
+-logl: 2126.9172096773837, aic: 4269.834419354767,
+                             k_llh: [1.05658482 1.01400669],
+                             k_prior: [0.9808505  0.98404855],
+                             k_card: [1.00722942],
+                             pr_tail: 1.639353076461702e-05,
+                             p_rnd: 6.944551703054458e-05,
+                             k_m: 6.944551703054458e-05
+-logl: 2018.2337791569219, aic: 4052.4675583138437,
+                             k_llh: [1.05898786 1.0120152 ],
+                             k_prior: [1.00963246 0.98445522],
+                             k_card: [0.98987173],
+                             pr_tail: 3.257687439327128e-05,
+                             p_rnd: 5.934107597568073e-05,
+                             k_m: 5.934107597568073e-05
+-logl: 2156.731259560142, aic: 4329.462519120284,
+                             k_llh: [1.04021083 1.00971767],
+                             k_prior: [1.01693448 0.99074271],
+                             k_card: [0.97644743],
+                             pr_tail: -6.626289214182177e-06,
+                             p_rnd: 4.840460493142019e-05,
+                             k_m: 4.840460493142019e-05
+-logl: 2113.3073964630853, aic: 4242.614792926171,
+                             k_llh: [1.05249132 1.01293444],
+                             k_prior: [0.98987149 0.98572209],
+                             k_card: [0.99953392],
+                             pr_tail: 1.0638575769917221e-05,
+                             p_rnd: 6.418528900576349e-05,
+                             k_m: 6.418528900576349e-05
+-logl: 2063.086079199605, aic: 4142.17215839921,
+                             k_llh: [1.04430433 1.01078992],
+                             k_prior: [1.00791349 0.98906917],
+                             k_card: [0.98414292],
+                             pr_tail: -8.71334219482377e-07,
+                             p_rnd: 5.366483295620128e-05,
+                             k_m: 5.366483295620128e-05
+-logl: 2090.938292952441, aic: 4197.876585904882,
+                             k_llh: [1.04324808 1.01062631],
+                             k_prior: [1.00877698 0.98069107],
+                             k_card: [0.99932303],
+                             pr_tail: 3.435693973142406e-05,
+                             p_rnd: 3.831975226739815e-05,
+                             k_m: 3.831975226739815e-05
+-logl: 2168.7430016582525, aic: 4353.486003316505,
+                             k_llh: [1.04536079 1.01112884],
+                             k_prior: [1.00478001 0.9837918 ],
+                             k_card: [0.99557018],
+                             pr_tail: 2.0806198451396084e-05,
+                             p_rnd: 4.7329129787272e-05,
+                             k_m: 4.7329129787272e-05
+-logl: 1979.759687519811, aic: 3975.519375039622,
+                             k_llh: [1.05153067 1.01554434],
+                             k_prior: [1.00556391 0.98459822],
+                             k_card: [0.99348628],
+                             pr_tail: -4.692397764301858e-06,
+                             p_rnd: 7.735425380815287e-05,
+                             k_m: 7.735425380815287e-05
+-logl: 2223.8081439684643, aic: 4463.6162879369285,
+                             k_llh: [1.04703674 1.00953674],
+                             k_prior: [1.00074768 0.99237061],
+                             k_card: [0.99855042],
+                             pr_tail: -2.09808349609375e-05,
+                             p_rnd: 4.76837158203125e-05,
+                             k_m: 4.76837158203125e-05
+-logl: 2179.034254671536, aic: 4374.068509343072,
+                             k_llh: [1.04444667 1.01944667],
+                             k_prior: [0.99949962 0.98444266],
+                             k_card: [0.99451286],
+                             pr_tail: -1.4657676219940187e-05,
+                             p_rnd: 5.206733942031861e-05,
+                             k_m: 5.206733942031861e-05
+-logl: 2083.6043813683686, aic: 4183.208762736737,
+                             k_llh: [1.04418891 1.0149317 ],
+                             k_prior: [1.00470442 0.98690519],
+                             k_card: [0.99062188],
+                             pr_tail: -2.141650207067869e-05,
+                             p_rnd: 7.451613229841314e-05,
+                             k_m: 7.451613229841314e-05
+-logl: 2017.7739217034652, aic: 4051.5478434069305,
+                             k_llh: [1.04216614 1.01716614],
+                             k_prior: [1.00134583 0.98626709],
+                             k_card: [0.99739075],
+                             pr_tail: -3.7765502929687495e-05,
+                             p_rnd: 8.58306884765625e-05,
+                             k_m: 8.58306884765625e-05
+-logl: 2016.1950206680583, aic: 4048.3900413361166,
+                             k_llh: [1.05042541 1.00980041],
+                             k_prior: [0.9988989  0.98106592],
+                             k_card: [0.99226727],
+                             pr_tail: -2.174644824117422e-05,
+                             p_rnd: 9.619366843253375e-05,
+                             k_m: 9.619366843253375e-05
+-logl: 1967.3601543630016, aic: 3950.720308726003,
+                             k_llh: [1.04231992 1.01731992],
+                             k_prior: [0.99685788 0.98614407],
+                             k_card: [0.99174237],
+                             pr_tail: 2.439618110656738e-05,
+                             p_rnd: 7.781052589416504e-05,
+                             k_m: 7.781052589416504e-05
+-logl: 2076.8675587209123, aic: 4169.7351174418245,
+                             k_llh: [1.0478862  1.01585495],
+                             k_prior: [0.99714223 0.9889176 ],
+                             k_card: [0.99070623],
+                             pr_tail: -3.090384765528143e-05,
+                             p_rnd: 8.486234699375928e-05,
+                             k_m: 8.486234699375928e-05
+-logl: 2039.211416174737, aic: 4094.422832349474,
+                             k_llh: [1.04472261 1.02274766],
+                             k_prior: [1.00062936 0.97839988],
+                             k_card: [0.9884067],
+                             pr_tail: -1.6206130963155373e-05,
+                             p_rnd: 0.00011331688092082004,
+                             k_m: 0.00011331688092082004
+-logl: 1974.7837240902113, aic: 3965.5674481804226,
+                             k_llh: [1.04738166 1.01366298],
+                             k_prior: [1.00215985 0.98481713],
+                             k_card: [0.99091772],
+                             pr_tail: -2.2916403389956487e-05,
+                             p_rnd: 0.0001242456426959393,
+                             k_m: 0.0001242456426959393
+-logl: 1989.4541638979795, aic: 3994.908327795959,
+                             k_llh: [1.04843762 1.01786077],
+                             k_prior: [0.9963189  0.98183259],
+                             k_card: [0.99488266],
+                             pr_tail: -1.653255286903743e-05,
+                             p_rnd: 0.0001142292274172263,
+                             k_m: 0.0001142292274172263
+-logl: 1989.351519366925, aic: 3994.70303873385,
+                             k_llh: [1.04487817 1.01743897],
+                             k_prior: [1.00367527 0.97804893],
+                             k_card: [0.99584241],
+                             pr_tail: -3.452383587873691e-06,
+                             p_rnd: 0.00011122473282774694,
+                             k_m: 0.00011122473282774694
+-logl: 2123.502696310405, aic: 4263.00539262081,
+                             k_llh: [1.04808066 1.00921909],
+                             k_prior: [1.00094962 0.9884789 ],
+                             k_card: [1.00000087],
+                             pr_tail: -1.4961663436179326e-05,
+                             p_rnd: 8.224716187741791e-05,
+                             k_m: 8.224716187741791e-05
+-logl: 2072.5603320986797, aic: 4161.1206641973595,
+                             k_llh: [1.04556212 1.01936552],
+                             k_prior: [1.00070942 0.98091964],
+                             k_card: [0.99130525],
+                             pr_tail: -1.589501408141136e-05,
+                             p_rnd: 0.0001055494511599695,
+                             k_m: 0.0001055494511599695
+-logl: 2009.3259317025347, aic: 4034.6518634050694,
+                             k_llh: [1.04485079 1.01549145],
+                             k_prior: [0.99950887 0.9854806 ],
+                             k_card: [0.99133005],
+                             pr_tail: 7.39888858305448e-07,
+                             p_rnd: 0.00010102808429505216,
+                             k_m: 0.00010102808429505216
+-logl: 2063.7259645621916, aic: 4143.451929124383,
+                             k_llh: [1.04692529 1.01643213],
+                             k_prior: [1.0012109  0.98537114],
+                             k_card: [0.99261433],
+                             pr_tail: 9.851891671132761e-06,
+                             p_rnd: 7.758238985115895e-05,
+                             k_m: 7.758238985115895e-05
+-logl: 2025.0419137831361, aic: 4066.0838275662722,
+                             k_llh: [1.0431967 1.0181967],
+                             k_prior: [0.99917662 0.98544264],
+                             k_card: [0.9944216],
+                             pr_tail: -8.78274440765381e-06,
+                             p_rnd: 8.658897876739502e-05,
+                             k_m: 8.658897876739502e-05
+-logl: 2012.072242950872, aic: 4040.144485901744,
+                             k_llh: [1.04359905 1.01737945],
+                             k_prior: [1.00026658 0.9820965 ],
+                             k_card: [0.99379239],
+                             pr_tail: 1.0471898759346845e-05,
+                             p_rnd: 9.451762936095599e-05,
+                             k_m: 9.451762936095599e-05
+-logl: 2020.8437445063169, aic: 4057.6874890126337,
+                             k_llh: [1.04537877 1.01759034],
+                             k_prior: [0.99658839 0.98398833],
+                             k_card: [0.99331252],
+                             pr_tail: 3.931814118764977e-06,
+                             p_rnd: 9.601987665569567e-05,
+                             k_m: 9.601987665569567e-05
+-logl: 2110.019997978595, aic: 4236.03999595719,
+                             k_llh: [1.04637266 1.01356016],
+                             k_prior: [0.99787839 0.98360499],
+                             k_card: [0.99200482],
+                             pr_tail: 1.3248664326965813e-06,
+                             p_rnd: 8.700209716334939e-05,
+                             k_m: 8.700209716334939e-05
+-logl: 2120.9165784062125, aic: 4257.833156812425,
+                             k_llh: [1.04224303 1.01724303],
+                             k_prior: [0.99910185 0.98620558],
+                             k_card: [0.99456656],
+                             pr_tail: -6.684660911560057e-06,
+                             p_rnd: 8.182060718536377e-05,
+                             k_m: 8.182060718536377e-05
+-logl: 2036.8527342888433, aic: 4089.7054685776866,
+                             k_llh: [1.04352126 1.02003379],
+                             k_prior: [0.99874362 0.98227198],
+                             k_card: [0.99007454],
+                             pr_tail: 4.095025071706003e-06,
+                             p_rnd: 9.556370340749254e-05,
+                             k_m: 9.556370340749254e-05
+-logl: 2018.2622604827516, aic: 4052.524520965503,
+                             k_llh: [1.04679808 1.01675796],
+                             k_prior: [0.99845596 0.98239448],
+                             k_card: [0.9902566],
+                             pr_tail: 1.8191866314276604e-05,
+                             p_rnd: 9.720771416345241e-05,
+                             k_m: 9.720771416345241e-05
+-logl: 2020.2669962695709, aic: 4056.5339925391418,
+                             k_llh: [1.0427748  1.02124027],
+                             k_prior: [0.99982381 0.98469244],
+                             k_card: [0.99238128],
+                             pr_tail: 1.4399088940414972e-05,
+                             p_rnd: 9.457762843549254e-05,
+                             k_m: 9.457762843549254e-05
+-logl: 2012.7903998120723, aic: 4041.5807996241447,
+                             k_llh: [1.04118455 1.01957034],
+                             k_prior: [0.99614454 0.98275661],
+                             k_card: [0.99171351],
+                             pr_tail: 7.008863019299343e-06,
+                             p_rnd: 0.00010824614539376638,
+                             k_m: 0.00010824614539376638
+-logl: 2013.520150674106, aic: 4043.040301348212,
+                             k_llh: [1.0440044  1.01585282],
+                             k_prior: [0.99796204 0.98597694],
+                             k_card: [0.99466304],
+                             pr_tail: 1.349418910562444e-05,
+                             p_rnd: 9.343544233400126e-05,
+                             k_m: 9.343544233400126e-05
+-logl: 2068.8891047673756, aic: 4153.778209534751,
+                             k_llh: [1.04453089 1.01710393],
+                             k_prior: [0.99722539 0.98293985],
+                             k_card: [0.99037634],
+                             pr_tail: 3.194119196330381e-05,
+                             p_rnd: 0.00010412178286575034,
+                             k_m: 0.00010412178286575034
+-logl: 2051.5048693976532, aic: 4119.0097387953065,
+                             k_llh: [1.04353025 1.01792351],
+                             k_prior: [0.99868881 0.98481694],
+                             k_card: [0.99341029],
+                             pr_tail: 1.3982396850855955e-06,
+                             p_rnd: 9.097217979198385e-05,
+                             k_m: 9.097217979198385e-05
+-logl: 2036.0722034868024, aic: 4088.144406973605,
+                             k_llh: [1.04358535 1.01640568],
+                             k_prior: [0.99818337 0.98581233],
+                             k_card: [0.99153621],
+                             pr_tail: 1.2568034982436414e-05,
+                             p_rnd: 8.94193050946086e-05,
+                             k_m: 8.94193050946086e-05
+-logl: 2061.5914066053265, aic: 4139.182813210653,
+                             k_llh: [1.04295948 1.01734968],
+                             k_prior: [0.99856223 0.98412028],
+                             k_card: [0.99276738],
+                             pr_tail: 1.743403993295711e-05,
+                             p_rnd: 8.61640776275605e-05,
+                             k_m: 8.61640776275605e-05
+-logl: 2003.655453673365, aic: 4023.31090734673,
+                             k_llh: [1.04175223 1.01844513],
+                             k_prior: [0.99650121 0.98445034],
+                             k_card: [0.99172794],
+                             pr_tail: 1.5702522062933363e-05,
+                             p_rnd: 9.302833564396571e-05,
+                             k_m: 9.302833564396571e-05
+-logl: 1984.8765463343389, aic: 3985.7530926686777,
+                             k_llh: [1.04316216 1.01658637],
+                             k_prior: [0.99740996 0.9860605 ],
+                             k_card: [0.99320271],
+                             pr_tail: 1.894518510609591e-05,
+                             p_rnd: 8.562298411408315e-05,
+                             k_m: 8.562298411408315e-05
+-logl: 2070.8819705746982, aic: 4157.7639411493965,
+                             k_llh: [1.044559   1.01703894],
+                             k_prior: [0.99765692 0.98426927],
+                             k_card: [0.99099948],
+                             pr_tail: 2.1294023710421992e-05,
+                             p_rnd: 8.750912002880872e-05,
+                             k_m: 8.750912002880872e-05
+-logl: 2011.1328774897372, aic: 4038.2657549794744,
+                             k_llh: [1.04254736 1.01928009],
+                             k_prior: [0.99834085 0.98541825],
+                             k_card: [0.99206182],
+                             pr_tail: 1.9397635023491176e-05,
+                             p_rnd: 8.619407716482879e-05,
+                             k_m: 8.619407716482879e-05
+-logl: 1999.4290289858432, aic: 4014.8580579716863,
+                             k_llh: [1.04384934 1.01745513],
+                             k_prior: [0.99672314 0.9850662 ],
+                             k_card: [0.99252745],
+                             pr_tail: 1.4163997612666178e-05,
+                             p_rnd: 8.691520127493036e-05,
+                             k_m: 8.691520127493036e-05
+-logl: 2028.8606926948291, aic: 4073.7213853896583,
+                             k_llh: [1.04275831 1.01775831],
+                             k_prior: [0.99801725 0.98579335],
+                             k_card: [0.99308199],
+                             pr_tail: 7.806718349456785e-06,
+                             p_rnd: 8.219975233078003e-05,
+                             k_m: 8.219975233078003e-05
+-logl: 2069.1099085541036, aic: 4154.219817108207,
+                             k_llh: [1.04117454 1.01811114],
+                             k_prior: [0.99749205 0.98644706],
+                             k_card: [0.99366248],
+                             pr_tail: 1.1309554833729084e-05,
+                             p_rnd: 8.432944475742185e-05,
+                             k_m: 8.432944475742185e-05
+-logl: 2133.130398464163, aic: 4282.260796928326,
+                             k_llh: [1.04202065 1.01784309],
+                             k_prior: [0.99753327 0.98590261],
+                             k_card: [0.99299673],
+                             pr_tail: 1.380567205290231e-05,
+                             p_rnd: 8.512436357526856e-05,
+                             k_m: 8.512436357526856e-05
+-logl: 1961.8930201111248, aic: 3939.7860402222495,
+                             k_llh: [1.04274104 1.01695314],
+                             k_prior: [0.99713392 0.98610228],
+                             k_card: [0.99247254],
+                             pr_tail: 2.1670683106331647e-05,
+                             p_rnd: 8.17167550041241e-05,
+                             k_m: 8.17167550041241e-05
+-logl: 2131.8812758649337, aic: 4279.7625517298675,
+                             k_llh: [1.04308463 1.01738752],
+                             k_prior: [0.99679051 0.98560513],
+                             k_card: [0.99213491],
+                             pr_tail: 1.9280089359616778e-05,
+                             p_rnd: 8.23628635845477e-05,
+                             k_m: 8.23628635845477e-05
+-logl: 2026.3245105246294, aic: 4068.649021049259,
+                             k_llh: [1.04203608 1.01788252],
+                             k_prior: [0.99667955 0.9852972 ],
+                             k_card: [0.99173516],
+                             pr_tail: 2.004935158475037e-05,
+                             p_rnd: 8.541943076906537e-05,
+                             k_m: 8.541943076906537e-05
+-logl: 1969.9918137969412, aic: 3955.9836275938824,
+                             k_llh: [1.04243364 1.01830001],
+                             k_prior: [0.99759936 0.98578116],
+                             k_card: [0.9919021],
+                             pr_tail: 2.189690806502928e-05,
+                             p_rnd: 8.200230152949692e-05,
+                             k_m: 8.200230152949692e-05
+-logl: 1976.7500615586819, aic: 3969.5001231173637,
+                             k_llh: [1.04253911 1.01753911],
+                             k_prior: [0.99743757 0.98596871],
+                             k_card: [0.99241218],
+                             pr_tail: 1.610144972801208e-05,
+                             p_rnd: 8.000513911247254e-05,
+                             k_m: 8.000513911247254e-05
+-logl: 2017.0041474879317, aic: 4050.0082949758635,
+                             k_llh: [1.04295264 1.0168628 ],
+                             k_prior: [0.99752063 0.9859782 ],
+                             k_card: [0.99163929],
+                             pr_tail: 1.8482108044501897e-05,
+                             p_rnd: 8.361491549438682e-05,
+                             k_m: 8.361491549438682e-05
+-logl: 1985.5957185806797, aic: 3987.1914371613593,
+                             k_llh: [1.0426397 1.0173348],
+                             k_prior: [0.99771006 0.98513217],
+                             k_card: [0.99225488],
+                             pr_tail: 2.0915110519762245e-05,
+                             p_rnd: 8.198730176086277e-05,
+                             k_m: 8.198730176086277e-05
+-logl: 2031.0825363364645, aic: 4078.165072672929,
+                             k_llh: [1.04343946 1.01717943],
+                             k_prior: [0.9972574  0.98520667],
+                             k_card: [0.99137093],
+                             pr_tail: 2.2845102408494684e-05,
+                             p_rnd: 8.265982296148688e-05,
+                             k_m: 8.265982296148688e-05
+-logl: 2037.4670777830743, aic: 4090.9341555661485,
+                             k_llh: [1.04219076 1.01745541],
+                             k_prior: [0.99775858 0.98579748],
+                             k_card: [0.99174745],
+                             pr_tail: 2.2309134281245614e-05,
+                             p_rnd: 8.144118454696738e-05,
+                             k_m: 8.144118454696738e-05
+-logl: 1992.7779596232701, aic: 4001.5559192465403,
+                             k_llh: [1.04241423 1.01743844],
+                             k_prior: [0.99751656 0.9857494 ],
+                             k_card: [0.99184432],
+                             pr_tail: 2.1551873050838405e-05,
+                             p_rnd: 8.167160430636246e-05,
+                             k_m: 8.167160430636246e-05
+-logl: 2016.942215224901, aic: 4049.884430449802,
+                             k_llh: [1.04157963 1.01772826],
+                             k_prior: [0.99735648 0.98633163],
+                             k_card: [0.99262978],
+                             pr_tail: 1.842081389295364e-05,
+                             p_rnd: 8.089717050624712e-05,
+                             k_m: 8.089717050624712e-05
+-logl: 2034.7427171365966, aic: 4085.4854342731933,
+                             k_llh: [1.0428689 1.0169866],
+                             k_prior: [0.99810357 0.9864997 ],
+                             k_card: [0.99248921],
+                             pr_tail: 2.080943029374877e-05,
+                             p_rnd: 7.700699763296405e-05,
+                             k_m: 7.700699763296405e-05
+-logl: 1973.0705687980146, aic: 3962.1411375960292,
+                             k_llh: [1.04224428 1.01765854],
+                             k_prior: [0.99703555 0.98559783],
+                             k_card: [0.99192367],
+                             pr_tail: 2.023937126199997e-05,
+                             p_rnd: 8.331632248504004e-05,
+                             k_m: 8.331632248504004e-05
+-logl: 2068.110300151113, aic: 4152.220600302226,
+                             k_llh: [1.04177525 1.01820525],
+                             k_prior: [0.99714122 0.98572361],
+                             k_card: [0.99265617],
+                             pr_tail: 2.2815989638371764e-05,
+                             p_rnd: 7.873686465530595e-05,
+                             k_m: 7.873686465530595e-05
+-logl: 2024.9519929594387, aic: 4065.9039859188774,
+                             k_llh: [1.04265829 1.01719841],
+                             k_prior: [0.99742578 0.98591455],
+                             k_card: [0.99189351],
+                             pr_tail: 1.9565578442969366e-05,
+                             p_rnd: 8.23954027846166e-05,
+                             k_m: 8.23954027846166e-05
+-logl: 2114.70185215405, aic: 4245.4037043081,
+                             k_llh: [1.04253048 1.01713653],
+                             k_prior: [0.9969959  0.98612318],
+                             k_card: [0.99210746],
+                             pr_tail: 2.3033432106449513e-05,
+                             p_rnd: 7.976364044914457e-05,
+                             k_m: 7.976364044914457e-05
+-logl: 1966.0451930020322, aic: 3948.0903860040644,
+                             k_llh: [1.04258734 1.01762657],
+                             k_prior: [0.99736664 0.98594172],
+                             k_card: [0.99218732],
+                             pr_tail: 2.1783795585680463e-05,
+                             p_rnd: 8.185952826681051e-05,
+                             k_m: 8.185952826681051e-05
+-logl: 2024.2611150259618, aic: 4064.5222300519235,
+                             k_llh: [1.04249266 1.01730584],
+                             k_prior: [0.99708474 0.98585006],
+                             k_card: [0.9921981],
+                             pr_tail: 2.095502718416581e-05,
+                             p_rnd: 8.251653874458208e-05,
+                             k_m: 8.251653874458208e-05
+-logl: 1955.4088622279198, aic: 3926.8177244558397,
+                             k_llh: [1.04264008 1.01724613],
+                             k_prior: [0.99728574 0.9860355 ],
+                             k_card: [0.99244236],
+                             pr_tail: 1.8886066417171864e-05,
+                             p_rnd: 8.086094705829832e-05,
+                             k_m: 8.086094705829832e-05
+-logl: 2032.6253827440828, aic: 4081.2507654881656,
+                             k_llh: [1.04269037 1.01714397],
+                             k_prior: [0.99742199 0.98561723],
+                             k_card: [0.99236371],
+                             pr_tail: 2.1292896813046946e-05,
+                             p_rnd: 8.185202838249343e-05,
+                             k_m: 8.185202838249343e-05
+-logl: 1970.4898730376592, aic: 3956.9797460753184,
+                             k_llh: [1.04257763 1.01719579],
+                             k_prior: [0.99732524 0.98592584],
+                             k_card: [0.99215843],
+                             pr_tail: 2.1611278078585027e-05,
+                             p_rnd: 8.169417965524329e-05,
+                             k_m: 8.169417965524329e-05
+-logl: 2072.6953230565373, aic: 4161.390646113075,
+                             k_llh: [1.04216033 1.0173407 ],
+                             k_prior: [0.9972452  0.98621696],
+                             k_card: [0.99255116],
+                             pr_tail: 2.0045748499642643e-05,
+                             p_rnd: 8.130696275518562e-05,
+                             k_m: 8.130696275518562e-05
+-logl: 2035.4901312016846, aic: 4086.980262403369,
+                             k_llh: [1.04284684 1.01690797],
+                             k_prior: [0.99732727 0.98604024],
+                             k_card: [0.99205592],
+                             pr_tail: 2.0076395575416772e-05,
+                             p_rnd: 8.266583524925546e-05,
+                             k_m: 8.266583524925546e-05
+Warning: Maximum number of function evaluations has been exceeded.
+{&#39;neglogl&#39;: [array([1., 1., 1., 1., 1., 0., 0., 0.]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([1.05, 1.  , 1.  , 1.  , 1.  , 0.  , 0.  , 0.  ]), array([ 1.04407349e+00,  1.01907349e+00,  1.00149536e+00,  9.84741211e-01,
+        9.97100830e-01, -4.19616699e-05,  9.53674316e-05, -6.08825684e-05]), array([ 1.04407349e+00,  1.01907349e+00,  1.00149536e+00,  9.84741211e-01,
+        9.97100830e-01, -4.19616699e-05,  9.53674316e-05, -6.08825684e-05]), array([ 1.04407349e+00,  1.01907349e+00,  1.00149536e+00,  9.84741211e-01,
+        9.97100830e-01, -4.19616699e-05,  9.53674316e-05, -6.08825684e-05]), array([ 1.04407349e+00,  1.01907349e+00,  1.00149536e+00,  9.84741211e-01,
+        9.97100830e-01, -4.19616699e-05,  9.53674316e-05, -6.08825684e-05]), array([ 1.04407349e+00,  1.01907349e+00,  1.00149536e+00,  9.84741211e-01,
+        9.97100830e-01, -4.19616699e-05,  9.53674316e-05, -6.08825684e-05]), array([ 1.04407349e+00,  1.01907349e+00,  1.00149536e+00,  9.84741211e-01,
+        9.97100830e-01, -4.19616699e-05,  9.53674316e-05, -6.08825684e-05]), array([ 1.04407349e+00,  1.01907349e+00,  1.00149536e+00,  9.84741211e-01,
+        9.97100830e-01, -4.19616699e-05,  9.53674316e-05, -6.08825684e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04231992e+00,  1.01731992e+00,  9.96857882e-01,  9.86144066e-01,
+        9.91742373e-01,  2.43961811e-05,  7.78105259e-05, -2.88789272e-05]), array([ 1.04274104e+00,  1.01695314e+00,  9.97133922e-01,  9.86102284e-01,
+        9.92472540e-01,  2.16706831e-05,  8.17167550e-05, -3.47420662e-05]), array([ 1.04274104e+00,  1.01695314e+00,  9.97133922e-01,  9.86102284e-01,
+        9.92472540e-01,  2.16706831e-05,  8.17167550e-05, -3.47420662e-05]), array([ 1.04274104e+00,  1.01695314e+00,  9.97133922e-01,  9.86102284e-01,
+        9.92472540e-01,  2.16706831e-05,  8.17167550e-05, -3.47420662e-05]), array([ 1.04274104e+00,  1.01695314e+00,  9.97133922e-01,  9.86102284e-01,
+        9.92472540e-01,  2.16706831e-05,  8.17167550e-05, -3.47420662e-05]), array([ 1.04264008e+00,  1.01724613e+00,  9.97285744e-01,  9.86035497e-01,
+        9.92442360e-01,  1.88860664e-05,  8.08609471e-05, -3.38107243e-05])], &#39;best_fit_params&#39;: array([ 1.04264008e+00,  1.01724613e+00,  9.97285744e-01,  9.86035497e-01,
+        9.92442360e-01,  1.88860664e-05,  8.08609471e-05, -3.38107243e-05])}
+</pre></div></div>
+</div>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="_autosummary/src.html" class="btn btn-neutral float-right" title="src" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="tutorials.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, steeve laquitaine
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
