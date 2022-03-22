@@ -81,14 +81,21 @@
               
             
             
-              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Intro</a></li>
-<li class="toctree-l1"><a class="reference internal" href="get_started.html">Get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="_autosummary/src.html">src</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">contribution</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html#docstrings">Docstrings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html#update-docs">Update docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html#build-deploy">Build &amp; deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contribution.html#unit-testing">Unit-testing</a></li>
 </ul>
 
             
@@ -163,6 +170,7 @@
  | <a href="#I"><strong>I</strong></a>
  | <a href="#L"><strong>L</strong></a>
  | <a href="#M"><strong>M</strong></a>
+ | <a href="#P"><strong>P</strong></a>
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
@@ -214,14 +222,22 @@
 </li>
       <li><a href="_autosummary/src.nodes.utils.get_bayes_lookup.html#src.nodes.utils.get_bayes_lookup">get_bayes_lookup() (in module src.nodes.utils)</a>
 </li>
-      <li><a href="_autosummary/src.nodes.util.get_circ_conv.html#src.nodes.util.get_circ_conv">get_circ_conv() (in module src.nodes.util)</a>
+      <li><a href="_autosummary/src.nodes.circpy.get_cartesian_to_deg.html#src.nodes.circpy.get_cartesian_to_deg">get_cartesian_to_deg() (in module src.nodes.circpy)</a>
+</li>
+      <li><a href="_autosummary/src.nodes.circpy.get_circ_conv.html#src.nodes.circpy.get_circ_conv">get_circ_conv() (in module src.nodes.circpy)</a>
+</li>
+      <li><a href="_autosummary/src.nodes.circpy.get_circ_weighted_mean_std.html#src.nodes.circpy.get_circ_weighted_mean_std">get_circ_weighted_mean_std() (in module src.nodes.circpy)</a>
+</li>
+      <li><a href="_autosummary/src.nodes.utils.get_combination_set.html#src.nodes.utils.get_combination_set">get_combination_set() (in module src.nodes.utils)</a>
 </li>
       <li><a href="_autosummary/src.nodes.utils.get_data.html#src.nodes.utils.get_data">get_data() (in module src.nodes.utils)</a>
 </li>
-      <li><a href="_autosummary/src.nodes.util.get_deg_to_rad.html#src.nodes.util.get_deg_to_rad">get_deg_to_rad() (in module src.nodes.util)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/src.nodes.circpy.get_deg_to_rad.html#src.nodes.circpy.get_deg_to_rad">get_deg_to_rad() (in module src.nodes.circpy)</a>
+</li>
+      <li><a href="_autosummary/src.nodes.utils.get_fit_variables.html#src.nodes.utils.get_fit_variables">get_fit_variables() (in module src.nodes.utils)</a>
+</li>
       <li><a href="_autosummary/src.nodes.utils.get_learnt_prior.html#src.nodes.utils.get_learnt_prior">get_learnt_prior() (in module src.nodes.utils)</a>
 </li>
       <li><a href="_autosummary/src.nodes.utils.get_logl.html#src.nodes.utils.get_logl">get_logl() (in module src.nodes.utils)</a>
@@ -230,7 +246,9 @@
 </li>
       <li><a href="_autosummary/src.nodes.utils.get_percept_likelihood.html#src.nodes.utils.get_percept_likelihood">get_percept_likelihood() (in module src.nodes.utils)</a>
 </li>
-      <li><a href="_autosummary/src.nodes.util.get_rad_to_deg.html#src.nodes.util.get_rad_to_deg">get_rad_to_deg() (in module src.nodes.util)</a>
+      <li><a href="_autosummary/src.nodes.circpy.get_polar_to_cartesian.html#src.nodes.circpy.get_polar_to_cartesian">get_polar_to_cartesian() (in module src.nodes.circpy)</a>
+</li>
+      <li><a href="_autosummary/src.nodes.circpy.get_rad_to_deg.html#src.nodes.circpy.get_rad_to_deg">get_rad_to_deg() (in module src.nodes.circpy)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -274,6 +292,8 @@
 </li>
         <li><a href="_autosummary/src.nodes.html#module-src.nodes">src.nodes</a>
 </li>
+        <li><a href="_autosummary/src.nodes.circpy.html#module-src.nodes.circpy">src.nodes.circpy</a>
+</li>
         <li><a href="_autosummary/src.nodes.data.html#module-src.nodes.data">src.nodes.data</a>
 </li>
         <li><a href="_autosummary/src.nodes.dataEng.html#module-src.nodes.dataEng">src.nodes.dataEng</a>
@@ -289,6 +309,14 @@
         <li><a href="_autosummary/src.test.html#module-src.test">src.test</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="_autosummary/src.nodes.utils.predict.html#src.nodes.utils.predict">predict() (in module src.nodes.utils)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -312,6 +340,13 @@
 </li>
       </ul></li>
       <li>
+    src.nodes.circpy
+
+      <ul>
+        <li><a href="_autosummary/src.nodes.circpy.html#module-src.nodes.circpy">module</a>
+</li>
+      </ul></li>
+      <li>
     src.nodes.data
 
       <ul>
@@ -325,6 +360,8 @@
         <li><a href="_autosummary/src.nodes.dataEng.html#module-src.nodes.dataEng">module</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     src.nodes.models
 
@@ -332,8 +369,6 @@
         <li><a href="_autosummary/src.nodes.models.html#module-src.nodes.models">module</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li>
     src.nodes.models.bayes
 

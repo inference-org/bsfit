@@ -84,15 +84,15 @@
               
             
             
-              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../intro.html">Intro</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="src.html">src</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="src.nodes.html">src.nodes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="src.nodes.circpy.html">src.nodes.circpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.data.html">src.nodes.data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.dataEng.html">src.nodes.dataEng</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.models.html">src.nodes.models</a></li>
@@ -103,12 +103,15 @@
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.fit_maxlogl.html">src.nodes.utils.fit_maxlogl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.flatten.html">src.nodes.utils.flatten</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_bayes_lookup.html">src.nodes.utils.get_bayes_lookup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_combination_set.html">src.nodes.utils.get_combination_set</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_data.html">src.nodes.utils.get_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_fit_variables.html">src.nodes.utils.get_fit_variables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_learnt_prior.html">src.nodes.utils.get_learnt_prior</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_logl.html">src.nodes.utils.get_logl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_params.html">src.nodes.utils.get_params</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_percept_likelihood.html">src.nodes.utils.get_percept_likelihood</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.locate_fit_params.html">src.nodes.utils.locate_fit_params</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.predict.html">src.nodes.utils.predict</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.unpack.html">src.nodes.utils.unpack</a></li>
 </ul>
 </li>
@@ -117,6 +120,14 @@
 <li class="toctree-l2"><a class="reference internal" href="src.test.html">src.test</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">contribution</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#docstrings">Docstrings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#update-docs">Update docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#build-deploy">Build &amp; deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#unit-testing">Unit-testing</a></li>
 </ul>
 
             
@@ -235,14 +246,20 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="src.nodes.utils.get_bayes_lookup.html#src.nodes.utils.get_bayes_lookup" title="src.nodes.utils.get_bayes_lookup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_bayes_lookup</span></code></a>(percept_space, stim_mean, ...)</p></td>
 <td><p>Create a bayes lookup matrix based on Girshick's paper rows: M measurements cols: N stimulus feature means value: log(likelihood) of percept</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="src.nodes.utils.get_data.html#src.nodes.utils.get_data" title="src.nodes.utils.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data</span></code></a>(database)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="src.nodes.utils.get_combination_set.html#src.nodes.utils.get_combination_set" title="src.nodes.utils.get_combination_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_combination_set</span></code></a>(database)</p></td>
+<td><p>Get set of combinations</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="src.nodes.utils.get_data.html#src.nodes.utils.get_data" title="src.nodes.utils.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data</span></code></a>(database)</p></td>
 <td><p>get data to fit</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="src.nodes.utils.get_fit_variables.html#src.nodes.utils.get_fit_variables" title="src.nodes.utils.get_fit_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fit_variables</span></code></a>(fit_p, params, stim_mean, ...)</p></td>
+<td><p>calculate the log(likelihood) of the observed stimulus feature mean's estimate given the model.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="src.nodes.utils.get_learnt_prior.html#src.nodes.utils.get_learnt_prior" title="src.nodes.utils.get_learnt_prior"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_learnt_prior</span></code></a>(percept_space, prior_mode, ...)</p></td>
 <td><p>calculate the learnt prior probability distribution cols: prior for each m_i, are the same rows: stimulus feature mean space (e.g., motion direction)</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="src.nodes.utils.get_logl.html#src.nodes.utils.get_logl" title="src.nodes.utils.get_logl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl</span></code></a>(fit_p, params, stim_mean, estimate)</p></td>
-<td><p>calculate the log(likelihood) of the observed stimulus feature mean's estimate given the model</p></td>
+<td><p>calculate the log(likelihood) of the observed stimulus feature mean's estimate given the model.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="src.nodes.utils.get_params.html#src.nodes.utils.get_params" title="src.nodes.utils.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(database, prior_shape, ...)</p></td>
 <td><p>Set model and task parameters free and fixed</p></td>
@@ -253,7 +270,10 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="src.nodes.utils.locate_fit_params.html#src.nodes.utils.locate_fit_params" title="src.nodes.utils.locate_fit_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locate_fit_params</span></code></a>(params)</p></td>
 <td><p>locate fit parameters in parameter dictionary</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="src.nodes.utils.unpack.html#src.nodes.utils.unpack" title="src.nodes.utils.unpack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unpack</span></code></a>(my_dict)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="src.nodes.utils.predict.html#src.nodes.utils.predict" title="src.nodes.utils.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(fit_p, params, stim_mean, ...)</p></td>
+<td><p></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="src.nodes.utils.unpack.html#src.nodes.utils.unpack" title="src.nodes.utils.unpack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unpack</span></code></a>(my_dict)</p></td>
 <td><p>unpack dict into a flat list</p></td>
 </tr>
 </tbody>

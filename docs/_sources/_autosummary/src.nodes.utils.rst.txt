@@ -1,4 +1,4 @@
-﻿..
+..
    # This is a comment: I customized
    this .rst template to automatically
    generate page docs for modules and 
@@ -27,12 +27,15 @@ src.nodes.utils
       fit_maxlogl
       flatten
       get_bayes_lookup
+      get_combination_set
       get_data
+      get_fit_variables
       get_learnt_prior
       get_logl
       get_params
       get_percept_likelihood
       locate_fit_params
+      predict
       unpack
    
    

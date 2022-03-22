@@ -36,6 +36,7 @@ src.nodes
    :template: custom-module-template.rst                 
    :recursive:
 
+   src.nodes.circpy
    src.nodes.data
    src.nodes.dataEng
    src.nodes.models

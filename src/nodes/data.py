@@ -14,7 +14,7 @@
 import numpy as np
 from numpy import cos, exp, pi
 from scipy.special import iv
-from src.nodes.util import get_deg_to_rad
+from src.nodes.circpy import get_deg_to_rad
 
 
 class VonMises:
