@@ -13,3 +13,9 @@ src/nodes/old/SLgetLoglBayesianModel.m
 src/nodes/old/SLGirshickBayesLookupTable.m
 src/nodes/old/SLMakedatabank.m
 src/nodes/old/vmPdfs.py
+src/nodes/old/SLcircWeightedMeanStd.py
+src/nodes/old/SLfitBayesianModel.py
+src/nodes/old/SLgetangle.py
+src/nodes/old/SLmakePredictionsBayesianModel.py
+src/nodes/old/SLcircWeightedMeanStd.py
+src/nodes/old/SLfitBayesianModel.py

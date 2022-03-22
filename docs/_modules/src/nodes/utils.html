@@ -81,14 +81,21 @@
               
             
             
-              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Intro</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../get_started.html">Get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../tutorials.html">Tutorials</a></li>
 </ul>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../_autosummary/src.html">src</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">contribution</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#docstrings">Docstrings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#update-docs">Update docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#build-deploy">Build &amp; deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#unit-testing">Unit-testing</a></li>
 </ul>
 
             
@@ -171,9 +178,11 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arctan2</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fmin</span>
+<span class="kn">from</span> <span class="nn">src.nodes.circpy</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_cartesian_to_deg</span><span class="p">,</span> <span class="n">get_circ_conv</span><span class="p">,</span>
+                              <span class="n">get_circ_weighted_mean_std</span><span class="p">,</span> <span class="n">get_deg_to_rad</span><span class="p">,</span>
+                              <span class="n">get_polar_to_cartesian</span><span class="p">,</span> <span class="n">get_rad_to_deg</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">src.nodes.data</span> <span class="kn">import</span> <span class="n">VonMises</span>
-<span class="kn">from</span> <span class="nn">src.nodes.util</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_circ_conv</span><span class="p">,</span> <span class="n">get_deg_to_rad</span><span class="p">,</span> <span class="n">get_rad_to_deg</span><span class="p">,</span>
-                            <span class="n">is_empty</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">src.nodes.util</span> <span class="kn">import</span> <span class="n">is_empty</span>
 
 <span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">chained_assignment</span> <span class="o">=</span> <span class="kc">None</span>
 
@@ -191,7 +200,7 @@
 <span class="sd">    of the observed data given the model.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        data (pd.DataFrame): database</span>
+<span class="sd">        database (pd.DataFrame): database</span>
 <span class="sd">        prior_shape (str): shape of the prior  </span>
 <span class="sd">        - &quot;vonMisesPrior&quot;  </span>
 <span class="sd">        prior_mode: (float): mode of the prior  </span>
@@ -216,17 +225,30 @@
         <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">),</span>
         <span class="n">disp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">retall</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># get solutions after iter</span>
-        <span class="n">maxiter</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># max nb of iterations</span>
-        <span class="n">maxfun</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>  <span class="c1"># max nb of func eval</span>
-        <span class="n">ftol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>  <span class="c1"># objfun convergence</span>
+        <span class="n">maxiter</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 100,  # max nb of iterations</span>
+        <span class="n">maxfun</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 100,  # max nb of func eval</span>
+        <span class="c1"># ftol=0.0001,  # objfun convergence</span>
     <span class="p">)</span>
 
     <span class="c1"># get fit results</span>
-    <span class="n">best_fit_params</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">best_fit_p</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">neglogl</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># TO REMOVE !!</span>
+    <span class="c1"># best_fit_p = np.array(</span>
+    <span class="c1">#     unpack(params[&quot;model&quot;][&quot;init_params&quot;])</span>
+    <span class="c1"># )</span>
+    <span class="c1"># neglogl = 1</span>
+
+    <span class="c1"># get predictions</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span>
+        <span class="n">best_fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="s2">&quot;trial&quot;</span>
+    <span class="p">)</span>
+
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;neglogl&quot;</span><span class="p">:</span> <span class="n">neglogl</span><span class="p">,</span>
-        <span class="s2">&quot;best_fit_params&quot;</span><span class="p">:</span> <span class="n">best_fit_params</span><span class="p">,</span>
+        <span class="s2">&quot;best_fit_params&quot;</span><span class="p">:</span> <span class="n">best_fit_p</span><span class="p">,</span>
+        <span class="s2">&quot;predictions&quot;</span><span class="p">:</span> <span class="n">predictions</span><span class="p">,</span>
     <span class="p">}</span></div>
 
 
@@ -378,20 +400,54 @@
     <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="n">estimate</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;calculate the log(likelihood) of the </span>
 <span class="sd">    observed stimulus feature mean&#39;s estimate</span>
-<span class="sd">    given the model</span>
+<span class="sd">    given the model.</span>
+<span class="sd">    This function is called by scipy.optimize.fmin().</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        fit_p (np.ndarray): model fit parameters</span>
 <span class="sd">        params (dict): fixed parameters</span>
+<span class="sd">        - &quot;task&quot;: &quot;fixed_params&quot;</span>
+<span class="sd">        - &quot;model&quot;: &quot;fixed_params&quot;, &quot;init_params&quot;</span>
 <span class="sd">        stim_mean (pd.Series): stimulus feature mean</span>
 <span class="sd">        estimate (pd.Series): data estimate to fit</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        float: -log(likelihood) of </span>
+<span class="sd">        (float): -log(likelihood) of </span>
 <span class="sd">            data estimate given model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get -logl and intermediate</span>
+    <span class="c1"># calculated variables</span>
+    <span class="n">neglogl</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_fit_variables</span><span class="p">(</span>
+        <span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="n">estimate</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">neglogl</span></div>
+
+
+<div class="viewcode-block" id="get_fit_variables"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.get_fit_variables.html#src.nodes.utils.get_fit_variables">[docs]</a><span class="k">def</span> <span class="nf">get_fit_variables</span><span class="p">(</span>
+    <span class="n">fit_p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">estimate</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;calculate the log(likelihood) of the </span>
+<span class="sd">    observed stimulus feature mean&#39;s estimate</span>
+<span class="sd">    given the model.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fit_p (np.ndarray): model fit parameters</span>
+<span class="sd">        params (dict): fixed parameters</span>
+<span class="sd">        - &quot;task&quot;: &quot;fixed_params&quot;</span>
+<span class="sd">        - &quot;model&quot;: &quot;fixed_params&quot;, &quot;init_params&quot;</span>
+<span class="sd">        stim_mean (pd.Series): stimulus feature mean</span>
+<span class="sd">        estimate (pd.Series): data estimate to fit</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (float): -log(likelihood) of </span>
+<span class="sd">        data estimate given model</span>
+<span class="sd">        (dict): intermediate variables</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># get fixed parameters</span>
@@ -620,7 +676,13 @@
 <span class="s2">                             p_rnd: </span><span class="si">{</span><span class="n">p_rand</span><span class="si">}</span><span class="s2">,</span>
 <span class="s2">                             k_m: </span><span class="si">{</span><span class="n">p_rand</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span>
     <span class="p">)</span>
-    <span class="k">return</span> <span class="n">negLogl</span></div>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">negLogl</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">:</span> <span class="n">PestimateGivenModel</span><span class="p">,</span>
+            <span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="get_bayes_lookup"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.get_bayes_lookup.html#src.nodes.utils.get_bayes_lookup">[docs]</a><span class="k">def</span> <span class="nf">get_bayes_lookup</span><span class="p">(</span>
@@ -1154,6 +1216,114 @@
             <span class="n">stim_mean_space</span><span class="p">,</span> <span class="n">upo</span><span class="p">,</span> <span class="p">[</span><span class="n">kpo</span><span class="p">],</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">posterior</span></div>
+
+
+<div class="viewcode-block" id="predict"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.predict.html#src.nodes.utils.predict">[docs]</a><span class="k">def</span> <span class="nf">predict</span><span class="p">(</span>
+    <span class="n">fit_p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">any</span><span class="p">],</span>
+    <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">stim_estimate</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">trial_or_mean</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+
+    <span class="c1"># get best fit&#39;s calculated variables</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">get_fit_variables</span><span class="p">(</span>
+        <span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="n">stim_estimate</span>
+    <span class="p">)</span>
+
+    <span class="c1"># extract fit variables</span>
+    <span class="n">PestimateGivenModel</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">]</span>
+    <span class="nb">map</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;map&quot;</span><span class="p">]</span>
+
+    <span class="c1"># get task conditions by trial</span>
+    <span class="n">prior_noise</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;prior_std&quot;</span>
+    <span class="p">]</span>
+    <span class="n">stim_noise</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span><span class="s2">&quot;stim_std&quot;</span><span class="p">]</span>
+    <span class="n">task_fixed_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+        <span class="p">[</span><span class="n">prior_noise</span><span class="p">,</span> <span class="n">stim_noise</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># get set of conditions</span>
+    <span class="n">cond</span><span class="p">,</span> <span class="n">idxCondUniqtrial</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_combination_set</span><span class="p">(</span>
+        <span class="n">task_fixed_params</span><span class="o">.</span><span class="n">T</span>
+    <span class="p">)</span>
+
+    <span class="n">PestimateGivenModelUniq</span> <span class="o">=</span> <span class="n">PestimateGivenModel</span><span class="p">[</span>
+        <span class="p">:,</span> <span class="n">idxCondUniqtrial</span>
+    <span class="p">]</span>
+
+    <span class="c1"># map conditions with</span>
+    <span class="c1"># estimate likelihood (ascending order)</span>
+    <span class="c1"># sort first by prior noise (ascending),</span>
+    <span class="c1"># then by stimulus noise (ascending)</span>
+    <span class="n">PosSorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lexsort</span><span class="p">(</span>
+        <span class="p">(</span><span class="n">cond</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">cond</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">sorted_cond</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="n">PosSorted</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">PestimateGivenModelUniq</span> <span class="o">=</span> <span class="n">PestimateGivenModelUniq</span><span class="p">[</span>
+        <span class="p">:,</span> <span class="n">PosSorted</span>
+    <span class="p">]</span>
+
+    <span class="c1"># get predictions about</span>
+    <span class="c1"># estimate circular mean and std for</span>
+    <span class="c1"># each task condition (columns)</span>
+    <span class="n">n_cond</span> <span class="o">=</span> <span class="n">sorted_cond</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># predict estimate mean, std per</span>
+    <span class="c1"># condition</span>
+    <span class="n">meanPred</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stdPred</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cond</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">get_circ_weighted_mean_std</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">,</span>
+            <span class="n">PestimateGivenModelUniq</span><span class="p">[:,</span> <span class="n">ix</span><span class="p">],</span>
+            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">meanPred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">])</span>
+        <span class="n">stdPred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_std&quot;</span><span class="p">])</span>
+
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;meanPred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meanPred</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;stdPred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stdPred</span>
+
+    <span class="c1"># predict per trial</span>
+    <span class="k">if</span> <span class="n">trial_or_mean</span> <span class="o">==</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span>
+        <span class="n">output</span><span class="p">[</span><span class="s2">&quot;trial_pred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">prior_noise</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="p">)</span>
+        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cond</span><span class="p">):</span>
+            <span class="n">loc_prior_noise</span> <span class="o">=</span> <span class="n">prior_noise</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="n">loc_stim_noise</span> <span class="o">=</span> <span class="n">stim_noise</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="n">loc_stim_mean</span> <span class="o">=</span> <span class="n">stim_mean</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+            <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
+                <span class="n">loc_prior_noise</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="n">loc_stim_noise</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+                <span class="n">loc_stim_mean</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">output</span><span class="p">[</span><span class="s2">&quot;trial_pred&quot;</span><span class="p">][</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">meanPred</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="get_combination_set"><a class="viewcode-back" href="../../../_autosummary/src.nodes.utils.get_combination_set.html#src.nodes.utils.get_combination_set">[docs]</a><span class="k">def</span> <span class="nf">get_combination_set</span><span class="p">(</span><span class="n">database</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get set of combinations</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        database (np.ndarray): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">        combs is the set of combinations</span>
+<span class="sd">        b are the row indices for each combination in database</span>
+<span class="sd">        c are the rows indices for each combination in combs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">combs</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ic</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+        <span class="n">database</span><span class="p">,</span>
+        <span class="n">return_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">return_inverse</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">combs</span><span class="p">,</span> <span class="n">ia</span><span class="p">,</span> <span class="n">ic</span></div>
+
 </pre></div>
 
            </div>

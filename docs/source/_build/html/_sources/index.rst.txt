@@ -7,6 +7,13 @@
 
 Welcome to bsfit's software!
 ============================
+
+Python software to model psychophysics data
+with Bayesian and heuristics models.
+
+#. Simple API inspired by scikit-learn 
+#. Free software: BSD license 
+
 ..
    # This is a comment: Below, I create the
    main table of contents with sections
@@ -14,13 +21,11 @@ Welcome to bsfit's software!
 
 .. toctree::
    :maxdepth: 3
-   :caption: Contents
+   :caption: Getting started
 
-   intro
-   get_started
+   installation
    tutorials
-   
-   
+      
 ..
    # This is a comment: Below, I created custom
    module and class templates to generate
@@ -34,3 +39,16 @@ Welcome to bsfit's software!
    :recursive:
    
    src
+
+.. toctree::
+   :maxdepth: 3
+   :caption: contribution
+
+   contribution
+
+
+Citing
+======
+
+If you want to cite bsfit, please refer to the publication 
+"A Switching Observer for human perceptual estimation" 

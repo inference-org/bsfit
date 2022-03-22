@@ -1,0 +1,6 @@
+src.nodes.circpy.circ\_weighted\_mean\_std
+==========================================
+
+.. currentmodule:: src.nodes.circpy
+
+.. autofunction:: circ_weighted_mean_std

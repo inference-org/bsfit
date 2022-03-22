@@ -84,15 +84,15 @@
               
             
             
-              <p class="caption" role="heading"><span class="caption-text">Contents</span></p>
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../intro.html">Intro</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../get_started.html">Get started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="src.html">src</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="src.nodes.html">src.nodes</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="src.nodes.circpy.html">src.nodes.circpy</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.data.html">src.nodes.data</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.dataEng.html">src.nodes.dataEng</a></li>
 <li class="toctree-l3"><a class="reference internal" href="src.nodes.models.html">src.nodes.models</a></li>
@@ -103,12 +103,15 @@
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.fit_maxlogl.html">src.nodes.utils.fit_maxlogl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.flatten.html">src.nodes.utils.flatten</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_bayes_lookup.html">src.nodes.utils.get_bayes_lookup</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_combination_set.html">src.nodes.utils.get_combination_set</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_data.html">src.nodes.utils.get_data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_fit_variables.html">src.nodes.utils.get_fit_variables</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_learnt_prior.html">src.nodes.utils.get_learnt_prior</a></li>
 <li class="toctree-l4 current"><a class="current reference internal" href="#">src.nodes.utils.get_logl</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_params.html">src.nodes.utils.get_params</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.get_percept_likelihood.html">src.nodes.utils.get_percept_likelihood</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.locate_fit_params.html">src.nodes.utils.locate_fit_params</a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.predict.html">src.nodes.utils.predict</a></li>
 <li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.unpack.html">src.nodes.utils.unpack</a></li>
 </ul>
 </li>
@@ -117,6 +120,14 @@
 <li class="toctree-l2"><a class="reference internal" href="src.test.html">src.test</a></li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">contribution</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#docstrings">Docstrings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#update-docs">Update docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#build-deploy">Build &amp; deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#unit-testing">Unit-testing</a></li>
 </ul>
 
             
@@ -215,15 +226,18 @@
 <h1>src.nodes.utils.get_logl<a class="headerlink" href="#src-nodes-utils-get-logl" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="src.nodes.utils.get_logl">
-<span class="sig-prename descclassname"><span class="pre">src.nodes.utils.</span></span><span class="sig-name descname"><span class="pre">get_logl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/src/nodes/utils.html#get_logl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.utils.get_logl" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">src.nodes.utils.</span></span><span class="sig-name descname"><span class="pre">get_logl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/nodes/utils.html#get_logl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.utils.get_logl" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate the log(likelihood) of the
 observed stimulus feature mean’s estimate
-given the model</p>
+given the model.
+This function is called by scipy.optimize.fmin().</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fit_p</strong> (<em>np.ndarray</em>) – model fit parameters</p></li>
 <li><p><strong>params</strong> (<em>dict</em>) – fixed parameters</p></li>
+<li><p><strong>&quot;task&quot;</strong> (<em>-</em>) – “fixed_params”</p></li>
+<li><p><strong>&quot;model&quot;</strong> (<em>-</em>) – “fixed_params”, “init_params”</p></li>
 <li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – stimulus feature mean</p></li>
 <li><p><strong>estimate</strong> (<em>pd.Series</em>) – data estimate to fit</p></li>
 </ul>
@@ -236,7 +250,7 @@ given the model</p>
 </p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>float</p>
+<dd class="field-odd"><p>(float)</p>
 </dd>
 </dl>
 </dd></dl>
