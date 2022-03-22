@@ -17,9 +17,11 @@ import numpy as np
 import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
+from src.nodes.circpy import (get_cartesian_to_deg, get_circ_conv,
+                              get_circ_weighted_mean_std, get_deg_to_rad,
+                              get_polar_to_cartesian, get_rad_to_deg)
 from src.nodes.data import VonMises
-from src.nodes.util import (get_circ_conv, get_deg_to_rad, get_rad_to_deg,
-                            is_empty)
+from src.nodes.util import is_empty
 
 pd.options.mode.chained_assignment = None
 
@@ -37,7 +39,7 @@ def fit_maxlogl(
     of the observed data given the model.
 
     Args:
-        data (pd.DataFrame): database
+        database (pd.DataFrame): database
         prior_shape (str): shape of the prior  
         - "vonMisesPrior"  
         prior_mode: (float): mode of the prior  
@@ -62,17 +64,30 @@ def fit_maxlogl(
         args=(params, *data),
         disp=True,
         retall=True,  # get solutions after iter
-        maxiter=100,  # max nb of iterations
-        maxfun=100,  # max nb of func eval
-        ftol=0.0001,  # objfun convergence
+        maxiter=1,  # 100,  # max nb of iterations
+        maxfun=1,  # 100,  # max nb of func eval
+        # ftol=0.0001,  # objfun convergence
     )
 
     # get fit results
-    best_fit_params = output[0]
+    best_fit_p = output[0]
     neglogl = output[1]
+
+    # TO REMOVE !!
+    # best_fit_p = np.array(
+    #     unpack(params["model"]["init_params"])
+    # )
+    # neglogl = 1
+
+    # get predictions
+    predictions = predict(
+        best_fit_p, params, *data, "trial"
+    )
+
     return {
         "neglogl": neglogl,
-        "best_fit_params": best_fit_params,
+        "best_fit_params": best_fit_p,
+        "predictions": predictions,
     }
 
 
@@ -224,20 +239,54 @@ def get_logl(
     params: dict,
     stim_mean: pd.Series,
     estimate: pd.Series,
-) -> float:
+):
     """calculate the log(likelihood) of the 
     observed stimulus feature mean's estimate
-    given the model
+    given the model.
+    This function is called by scipy.optimize.fmin().
 
     Args:
         fit_p (np.ndarray): model fit parameters
         params (dict): fixed parameters
+        - "task": "fixed_params"
+        - "model": "fixed_params", "init_params"
         stim_mean (pd.Series): stimulus feature mean
         estimate (pd.Series): data estimate to fit
 
     Returns:
-        float: -log(likelihood) of 
+        (float): -log(likelihood) of 
             data estimate given model
+    """
+    # get -logl and intermediate
+    # calculated variables
+    neglogl, _ = get_fit_variables(
+        fit_p, params, stim_mean, estimate
+    )
+    return neglogl
+
+
+def get_fit_variables(
+    fit_p: np.ndarray,
+    params: dict,
+    stim_mean: pd.Series,
+    estimate: pd.Series,
+) -> float:
+    """calculate the log(likelihood) of the 
+    observed stimulus feature mean's estimate
+    given the model.
+
+    Args:
+        fit_p (np.ndarray): model fit parameters
+        params (dict): fixed parameters
+        - "task": "fixed_params"
+        - "model": "fixed_params", "init_params"
+        stim_mean (pd.Series): stimulus feature mean
+        estimate (pd.Series): data estimate to fit
+
+    Returns:
+        (float): -log(likelihood) of 
+        data estimate given model
+        (dict): intermediate variables
     """
 
     # get fixed parameters
@@ -466,7 +515,13 @@ def get_logl(
                              p_rnd: {p_rand},
                              k_m: {p_rand}"""
     )
-    return negLogl
+    return (
+        negLogl,
+        {
+            "PestimateGivenModel": PestimateGivenModel,
+            "map": map,
+        },
+    )
 
 
 def get_bayes_lookup(
@@ -1000,3 +1055,111 @@ def do_bayes_inference(
             stim_mean_space, upo, [kpo],
         )
     return posterior
+
+
+def predict(
+    fit_p: np.ndarray,
+    params: Dict[str, any],
+    stim_mean: pd.Series,
+    stim_estimate: pd.Series,
+    trial_or_mean: str,
+):
+
+    # get best fit's calculated variables
+    _, output = get_fit_variables(
+        fit_p, params, stim_mean, stim_estimate
+    )
+
+    # extract fit variables
+    PestimateGivenModel = output["PestimateGivenModel"]
+    map = output["map"]
+
+    # get task conditions by trial
+    prior_noise = params["task"]["fixed_params"][
+        "prior_std"
+    ]
+    stim_noise = params["task"]["fixed_params"]["stim_std"]
+    task_fixed_params = np.vstack(
+        [prior_noise, stim_noise, stim_mean]
+    )
+
+    # get set of conditions
+    cond, idxCondUniqtrial, _ = get_combination_set(
+        task_fixed_params.T
+    )
+
+    PestimateGivenModelUniq = PestimateGivenModel[
+        :, idxCondUniqtrial
+    ]
+
+    # map conditions with
+    # estimate likelihood (ascending order)
+    # sort first by prior noise (ascending),
+    # then by stimulus noise (ascending)
+    PosSorted = np.lexsort(
+        (cond[:, 1][::-1], cond[:, 0][::-1])
+    )
+    sorted_cond = cond[PosSorted, :]
+    PestimateGivenModelUniq = PestimateGivenModelUniq[
+        :, PosSorted
+    ]
+
+    # get predictions about
+    # estimate circular mean and std for
+    # each task condition (columns)
+    n_cond = sorted_cond.shape[1]
+
+    # predict estimate mean, std per
+    # condition
+    meanPred = []
+    stdPred = []
+    for ix in range(n_cond):
+        data = get_circ_weighted_mean_std(
+            map,
+            PestimateGivenModelUniq[:, ix],
+            type="polar",
+        )
+        meanPred.append(data["deg_mean"])
+        stdPred.append(data["deg_std"])
+
+    output["meanPred"] = meanPred
+    output["stdPred"] = stdPred
+
+    # predict per trial
+    if trial_or_mean == "trial":
+        output["trial_pred"] = (
+            np.zeros(prior_noise.shape) * np.nan
+        )
+        for ix in range(n_cond):
+            loc_prior_noise = prior_noise == cond[ix, 0]
+            loc_stim_noise = stim_noise == cond[ix, 1]
+            loc_stim_mean = stim_mean == cond[ix, 2]
+            loc = np.logical_and(
+                loc_prior_noise.values,
+                loc_stim_noise.values,
+                loc_stim_mean.values,
+            )
+            output["trial_pred"][loc] = meanPred[ix]
+    return output
+
+
+def get_combination_set(database: np.ndarray):
+    """Get set of combinations
+
+    Args:
+        database (np.ndarray): _description_
+
+    Returns:
+        _type_: _description_
+        combs is the set of combinations
+        b are the row indices for each combination in database
+        c are the rows indices for each combination in combs
+    """
+    combs, ia, ic = np.unique(
+        database,
+        return_index=True,
+        return_inverse=True,
+        axis=0,
+    )
+    return combs, ia, ic
+
