@@ -38,9 +38,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="src.nodes.utils.get_combination_set" href="src.nodes.utils.get_combination_set.html" />
-    <link rel="prev" title="src.nodes.utils.flatten" href="src.nodes.utils.flatten.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,23 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="src.html">src</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="src.nodes.html">src.nodes</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.circpy.html">src.nodes.circpy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.data.html">src.nodes.data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.dataEng.html">src.nodes.dataEng</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.models.html">src.nodes.models</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.util.html">src.nodes.util</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="src.nodes.utils.html">src.nodes.utils</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Reference</a></li>
 </ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="src.test.html">src.test</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">Releases</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
@@ -115,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#build-deploy">Build &amp; deploy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#unit-testing">Unit-testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#packaging">Packaging</a></li>
 </ul>
 
             
@@ -159,14 +147,6 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="../api.html">Reference</a> &raquo;</li>
-        
-          <li><a href="src.html">src</a> &raquo;</li>
-        
-          <li><a href="src.nodes.html">src.nodes</a> &raquo;</li>
-        
-          <li><a href="src.nodes.utils.html">src.nodes.utils</a> &raquo;</li>
         
       <li>src.nodes.utils.get_bayes_lookup</li>
     
@@ -213,44 +193,6 @@
 </style>
 <section id="src-nodes-utils-get-bayes-lookup">
 <h1>src.nodes.utils.get_bayes_lookup<a class="headerlink" href="#src-nodes-utils-get-bayes-lookup" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="src.nodes.utils.get_bayes_lookup">
-<span class="sig-prename descclassname"><span class="pre">src.nodes.utils.</span></span><span class="sig-name descname"><span class="pre">get_bayes_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percept_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_llh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_tail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/nodes/utils.html#get_bayes_lookup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.utils.get_bayes_lookup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a bayes lookup matrix
-based on Girshick’s paper
-rows: M measurements
-cols: N stimulus feature means
-value: log(likelihood) of percept</p>
-<dl>
-<dt>Usage:</dt><dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">percept</span><span class="p">,</span> <span class="n">logl_percept</span> <span class="o">=</span> <span class="n">get_bayes_lookup</span><span class="p">(</span>
-    <span class="n">percept_space</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">360</span><span class="p">,</span>
-    <span class="n">stim_mean</span><span class="o">=</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">355</span><span class="p">,</span>
-    <span class="n">k_llh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">prior_mode</span><span class="o">=</span><span class="mi">225</span><span class="p">,</span>
-    <span class="n">k_prior</span><span class="o">=</span><span class="mf">4.77</span><span class="p">,</span>
-    <span class="n">k_card</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">prior_tail</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">prior_shape</span><span class="o">=</span><span class="s1">&#39;von_mises&#39;</span><span class="p">,</span>
-    <span class="p">)</span>
-</pre></div>
-</div>
-</dd>
-</dl>
-<dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>percepts
-(np.array): percept likelihood</p>
-</dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>(np.array)</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>[TODO]: clarify the conceptual objects used:</dt><dd><p>stimulus space, percept space …</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 
@@ -258,15 +200,6 @@ value: log(likelihood) of percept</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="src.nodes.utils.get_combination_set.html" class="btn btn-neutral float-right" title="src.nodes.utils.get_combination_set" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="src.nodes.utils.flatten.html" class="btn btn-neutral float-left" title="src.nodes.utils.flatten" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

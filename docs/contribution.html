@@ -39,7 +39,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="src.test.test_is_all_in" href="_autosummary/src.test.test_is_all_in.html" /> 
+    <link rel="prev" title="History" href="releases.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -92,6 +92,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="api.html">Reference</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Releases</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="releases.html">History</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Best practices</a></li>
@@ -99,6 +103,7 @@
 <li class="toctree-l1"><a class="reference internal" href="#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#build-deploy">Build &amp; deploy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#unit-testing">Unit-testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#packaging">Packaging</a></li>
 </ul>
 
             
@@ -231,7 +236,19 @@
 <h1>Unit-testing<a class="headerlink" href="#unit-testing" title="Permalink to this headline">¶</a></h1>
 <p>Unit-test the package’s functions:</p>
 <p>Run in the terminal:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pytest src/test.py</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pytest bsfit/test.py</span>
+</pre></div>
+</div>
+</section>
+<section id="packaging">
+<h1>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp"># </span>install setuptools
+<span class="go">pip install --upgrade setuptools wheel</span>
+
+<span class="gp"># </span>package <span class="k">in</span> development mode <span class="k">then</span> import
+<span class="gp"># </span>run conda list bsfit or pip freeze to check
+<span class="gp"># </span>that it is listed among dependencies
+<span class="go">pip install -e .</span>
 </pre></div>
 </div>
 </section>
@@ -245,7 +262,7 @@
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
       
-        <a href="_autosummary/src.test.test_is_all_in.html" class="btn btn-neutral float-left" title="src.test.test_is_all_in" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="releases.html" class="btn btn-neutral float-left" title="History" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

@@ -1,0 +1,6 @@
+bsfit.nodes.models.bayes.fit
+============================
+
+.. currentmodule:: bsfit.nodes.models.bayes
+
+.. autofunction:: fit

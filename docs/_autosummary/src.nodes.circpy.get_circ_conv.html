@@ -38,9 +38,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="src.nodes.circpy.get_circ_weighted_mean_std" href="src.nodes.circpy.get_circ_weighted_mean_std.html" />
-    <link rel="prev" title="src.nodes.circpy.get_cartesian_to_deg" href="src.nodes.circpy.get_cartesian_to_deg.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,23 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="src.html">src</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="src.nodes.html">src.nodes</a><ul class="current">
-<li class="toctree-l4 current"><a class="reference internal" href="src.nodes.circpy.html">src.nodes.circpy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.data.html">src.nodes.data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.dataEng.html">src.nodes.dataEng</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.models.html">src.nodes.models</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.util.html">src.nodes.util</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.utils.html">src.nodes.utils</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Reference</a></li>
 </ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="src.test.html">src.test</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">Releases</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
@@ -115,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#build-deploy">Build &amp; deploy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#unit-testing">Unit-testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#packaging">Packaging</a></li>
 </ul>
 
             
@@ -159,14 +147,6 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="../api.html">Reference</a> &raquo;</li>
-        
-          <li><a href="src.html">src</a> &raquo;</li>
-        
-          <li><a href="src.nodes.html">src.nodes</a> &raquo;</li>
-        
-          <li><a href="src.nodes.circpy.html">src.nodes.circpy</a> &raquo;</li>
         
       <li>src.nodes.circpy.get_circ_conv</li>
     
@@ -213,29 +193,6 @@
 </style>
 <section id="src-nodes-circpy-get-circ-conv">
 <h1>src.nodes.circpy.get_circ_conv<a class="headerlink" href="#src-nodes-circpy-get-circ-conv" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="src.nodes.circpy.get_circ_conv">
-<span class="sig-prename descclassname"><span class="pre">src.nodes.circpy.</span></span><span class="sig-name descname"><span class="pre">get_circ_conv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/nodes/circpy.html#get_circ_conv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.circpy.get_circ_conv" title="Permalink to this definition">¶</a></dt>
-<dd><p>calculate circular convolutions
-for circular data.
-The probability that value i in vector 2 would be
-combined with at least one value from vector 1
-vector 1 and 2 are col vectors (vertical)
-or matrices for convolution
-column by column. e.g., two probability densities</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>X_1</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>X_2</strong> (<em>np.ndarray</em>) – _description_</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – _description_</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 
@@ -243,15 +200,6 @@ column by column. e.g., two probability densities</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="src.nodes.circpy.get_circ_weighted_mean_std.html" class="btn btn-neutral float-right" title="src.nodes.circpy.get_circ_weighted_mean_std" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="src.nodes.circpy.get_cartesian_to_deg.html" class="btn btn-neutral float-left" title="src.nodes.circpy.get_cartesian_to_deg" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>

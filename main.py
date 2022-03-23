@@ -23,8 +23,9 @@ import os
 
 import yaml
 
-from src.nodes.dataEng import make_database, simulate_database
-from src.nodes.models import bayes
+from bsfit.nodes.dataEng import make_dataset, simulate_dataset
+from bsfit.nodes.models.bayes import StandardBayes
+from bsfit.nodes.utils import get_data
 
 # setup logging
 proj_path = os.getcwd()
@@ -37,7 +38,6 @@ logging.config.dictConfig(LOG_CONF)
 logger = logging.getLogger(__name__)
 
 # set parameters
-DATA_PATH = "data/data01_direction4priors/data/"
 SUBJECT = "sub01"
 PRIOR_SHAPE = "vonMisesPrior"
 PRIOR_MODE = 225
@@ -46,12 +46,15 @@ READOUT = "map"
 PRIOR_NOISE = [80, 40]  # e.g., prior's std
 STIM_NOISE = [0.33, 0.66]  # e.g., motion's coherence
 
+
 if __name__ == "__main__":
     """Entry point that runs analyses pipelines
+    e.g., for now the standard bayesian model fitting
+    and predictions
     """
-    # simulate a database
-    logger.info("Simulating database ...")
-    database = simulate_database(
+    # simulate a dataset
+    logger.info("Simulating dataset ...")
+    dataset = simulate_dataset(
         stim_noise=STIM_NOISE,
         prior_mode=PRIOR_MODE,
         prior_noise=PRIOR_NOISE,
@@ -60,17 +63,33 @@ if __name__ == "__main__":
 
     # train model
     logger.info("Fitting bayes model ...")
-    output = bayes.fit(
-        database=database,
-        data_path=DATA_PATH,
+
+    # instantiate model
+    model = StandardBayes(
         prior_shape=PRIOR_SHAPE,
         prior_mode=PRIOR_MODE,
         readout=READOUT,
     )
 
+    # train model
+    model = model.fit(dataset=dataset)
+
     # print results
-    logger.info("Printing results ...")
-    print(output)
+    logger.info("Printing fitting results ...")
+    logger.info(
+        f"""best fit params: {model.best_fit_p} 
+        - neglogl: {model.neglogl}"""
+    )
+
+    # get test dataset
+    test_dataset = get_data(dataset)
+
+    # get predictions
+    output = model.predict(
+        test_dataset, granularity="trial"
+    )
+    logger.info("Printing predict results ...")
+    logger.info(output.keys())
 
     # done
     logger.info("Done.")

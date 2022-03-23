@@ -7,7 +7,7 @@ Installation
 
     conda create -n bsfit python==3.6.13
     conda activate bsfit
-    conda install --file src/requirements.txt -y
+    conda install --file bsfit/requirements.txt -y
 
 
 #. Clone the repository: 
