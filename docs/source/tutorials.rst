@@ -13,6 +13,6 @@ Setup jupyter notebook:
 Notebooks
 ---------
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 1
 
    notebooks.nblink
