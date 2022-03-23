@@ -17,39 +17,76 @@
 """
 
 
-from time import time
-
 import pandas as pd
 
-from ..utils import fit_maxlogl
+from ..utils import fit_maxlogl, predict
 
 
-def fit(
-    database: pd.DataFrame,
-    prior_shape: str,
-    prior_mode: float,
-    readout: str,
-):
-    """fit model
+class StandardBayes:
+    def __init__(
+        self,
+        prior_shape: str,
+        prior_mode: float,
+        readout: str,
+    ):
+        """Instantiate Standard Bayesian model
 
-    Args:
-        database (pd.DataFrame): _description_
-        prior_shape (str): prior shape
-        - "vonMisesPrior"
-        prior_mode (float): prior mode
-        readout (str): the posterior readout
-        - "map": maximum a posteriori
+        Args:
+            prior_shape (str): prior shape
+            - "vonMisesPrior"
+            prior_mode (float): prior mode
+            readout (str): the posterior readout
+            - "map": maximum a posteriori
+        """
+        self.prior_shape = prior_shape
+        self.prior_mode = prior_mode
+        self.readout = readout
 
-    Returns:
-        _type_: _description_
-    """
+    def fit(self, dataset: pd.DataFrame):
+        """fit the model
 
-    # time
-    t0 = time()
+        Args:
+            dataset (pd.DataFrame): _description_
 
-    # fit
-    output = fit_maxlogl(
-        database, prior_shape, prior_mode, readout,
-    )
-    return output
+        Returns:
+            (StandarBayes): fitted model
+        """
+        print("Training the model ...\n")
+        output = fit_maxlogl(
+            dataset,
+            self.prior_shape,
+            self.prior_mode,
+            self.readout,
+        )
+
+        # get fitted parameters
+        self.best_fit_p = output["best_fit_p"]
+        self.neglogl = output["neglogl"]
+        self.params = output["params"]
+        print("\nTraining is complete !")
+        return self
+
+    def predict(
+        self, data: tuple, granularity: str
+    ) -> dict:
+        """Calculate the model's predictions
+
+        Args:
+            data (tuple): the data to predict
+            - tuple of (stim_mean, stim_estimate) 
+            granularity (str): predict single trial or mean estimate
+            - "trial"
+
+        Returns:
+            (dict): _description_
+        """
+        # get predictions
+        print("Calculating predictions ...\n")
+        predictions = predict(
+            self.best_fit_p,
+            self.params,
+            *data,
+            granularity=granularity,
+        )
+        return predictions
 

@@ -33,8 +33,8 @@ def load_mat(file_path: str):
     return scipy.io.loadmat(file_path)
 
 
-def make_database(subject: str, data_path: str, prior: str):
-    """Load and engineer database
+def make_dataset(subject: str, data_path: str, prior: str):
+    """Load and engineer dataset
 
     Args:
         subject (str): _description_
@@ -42,11 +42,11 @@ def make_database(subject: str, data_path: str, prior: str):
         prior (str): _description_
     
     Returns:
-        database():
+        dataset:
 
     Usage:
                
-        database = make_database(
+        dataset = make_dataset(
             subject='sub01',
             data_path='data/',...
             prior='vonMisesPrior'
@@ -63,13 +63,13 @@ def make_database(subject: str, data_path: str, prior: str):
     pass
 
 
-def simulate_database(
+def simulate_dataset(
     stim_noise: float,
     prior_mode: float,
     prior_noise: float,
     prior_shape: str,
 ):
-    """Simulate a test database
+    """Simulate a test dataset
 
     Returns:
         (pd.DataFrame): _description_

@@ -73,21 +73,15 @@ def fit_maxlogl(
     best_fit_p = output[0]
     neglogl = output[1]
 
-    # TO REMOVE !!
+    # [TO REMOVE] FOR QUICK TEST ONLY
     # best_fit_p = np.array(
     #     unpack(params["model"]["init_params"])
     # )
     # neglogl = 1
-
-    # get predictions
-    predictions = predict(
-        best_fit_p, params, *data, "trial"
-    )
-
     return {
         "neglogl": neglogl,
-        "best_fit_params": best_fit_p,
-        "predictions": predictions,
+        "best_fit_p": best_fit_p,
+        "params": params,
     }
 
 
@@ -498,22 +492,23 @@ def get_fit_variables(
     Logl_pertrial = np.log(PdataGivenModel)
 
     # we minimize the objective function
-    # -sum(log(likelihood))
     negLogl = -sum(Logl_pertrial)
 
     # akaike information criterion metric
     aic = 2 * (n_fit_params - sum(Logl_pertrial))
 
-    # print
-    # [TODO]: add logging here
+    # [TODO] setup logging
     print(
-        f"""-logl: {negLogl}, aic: {aic}, 
-                             k_llh: {k_llh}, 
-                             k_prior: {k_prior}, 
-                             k_card: {k_card}, 
-                             pr_tail: {prior_tail}, 
-                             p_rnd: {p_rand},
-                             k_m: {p_rand}"""
+        "-logl:{:.2f}, aic:{:.2f}, kl:{}, kp:{}, kc:{}, pt:{:.2f}, pr:{:.2f}, km:{:.2f}".format(
+            negLogl,
+            aic,
+            k_llh,
+            k_prior,
+            k_card,
+            prior_tail,
+            p_rand,
+            k_m,
+        )
     )
     return (
         negLogl,
@@ -1062,8 +1057,24 @@ def predict(
     params: Dict[str, any],
     stim_mean: pd.Series,
     stim_estimate: pd.Series,
-    trial_or_mean: str,
+    granularity: str,
 ):
+    """""get model predictions
+
+    Args:
+        fit_p (np.ndarray): model free parameters
+        params (Dict[str, any]): model and task 
+        fixed parameters
+        stim_mean (pd.Series): _description_
+        stim_estimate (pd.Series): _description_
+        granularity (str): 
+        - "trial"
+
+    Returns:
+        _type_: _description_
+
+    [TODO]: drop "stim_estimate" from Args
+    """
 
     # get best fit's calculated variables
     _, output = get_fit_variables(
@@ -1126,7 +1137,7 @@ def predict(
     output["stdPred"] = stdPred
 
     # predict per trial
-    if trial_or_mean == "trial":
+    if granularity == "trial":
         output["trial_pred"] = (
             np.zeros(prior_noise.shape) * np.nan
         )
