@@ -11,7 +11,7 @@ Create virtual environment and install dependencies:
 ```bash
 conda create -n bsfit python==3.6.13
 conda activate bsfit
-conda install --file src/requirements.txt -y
+conda install --file bsfit/requirements.txt -y
 ```
 
 ## Tutorials
@@ -29,15 +29,7 @@ conda install -n heuristic ipykernel --update-deps --force-reinstall
 Unit-Test all the package's functions:
 
 ```bash
-pytest src/test.py
-```
-
-### Packaging
-
-Install setuptools:
-
-```bash
-pip install --upgrade setuptools wheel
+pytest bsfit/test.py
 ```
 
 ### Documentation
