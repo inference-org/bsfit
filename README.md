@@ -14,17 +14,44 @@ conda activate bsfit
 conda install --file src/requirements.txt -y
 ```
 
-## Docs
+## Tutorials
 
-Best practices:
+Setup jupyter notebook:
+
+```bash
+conda install -n heuristic ipykernel --update-deps --force-reinstall
+```
+
+## Contribute
+
+### Unit-testing
+
+Unit-Test all the package's functions:
+
+```bash
+pytest src/test.py
+```
+
+### Packaging
+
+Install setuptools:
+
+```bash
+pip install --upgrade setuptools wheel
+```
+
+### Documentation
+
+#### Best practices:
+
 - Keep Doctstrings in Google Style Guide format.
   
-### Update docs
+#### Update
 
 1. Edit docs/source/ 
 2. Go to "Build & deploy" section
 
-### Build & deploy
+#### Build & deploy
 
 Basic steps: develop (features) -> pre-prod (homologation) -> master (production)
 
@@ -40,19 +67,3 @@ Basic steps: develop (features) -> pre-prod (homologation) -> master (production
 
 3. Pull request to `master` (production branch for end-users)
     - when: the entire codebase is clean
-
-## Unit-testing
-
-Unit-Test all the package's functions:
-
-```bash
-pytest src/test.py
-```
-
-## Tutorials
-
-Setup jupyter notebook:
-
-```bash
-conda install -n heuristic ipykernel --update-deps --force-reinstall
-```
