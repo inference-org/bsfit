@@ -1,0 +1,6 @@
+bsfit.nodes.dataEng.simulate\_database
+======================================
+
+.. currentmodule:: bsfit.nodes.dataEng
+
+.. autofunction:: simulate_database

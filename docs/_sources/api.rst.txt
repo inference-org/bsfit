@@ -13,4 +13,4 @@ Reference
    :template: custom-module-template.rst
    :recursive:
    
-   src
+   bsfit

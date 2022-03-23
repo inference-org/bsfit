@@ -39,4 +39,19 @@ Run in the terminal:
 
 .. code-block:: console
 
-    pytest src/test.py
+    pytest bsfit/test.py
+
+
+Packaging
+=========
+
+.. code-block:: console
+
+    # install setuptools
+    pip install --upgrade setuptools wheel
+
+    # package in development mode then import
+    # run conda list bsfit or pip freeze to check
+    # that it is listed among dependencies
+    pip install -e .
+

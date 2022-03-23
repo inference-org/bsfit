@@ -38,9 +38,7 @@
   <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="src.nodes.utils.get_logl" href="src.nodes.utils.get_logl.html" />
-    <link rel="prev" title="src.nodes.utils.get_fit_variables" href="src.nodes.utils.get_fit_variables.html" /> 
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -90,23 +88,12 @@
 <li class="toctree-l1"><a class="reference internal" href="../tutorials.html">Tutorials</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">API</span></p>
-<ul class="current">
-<li class="toctree-l1 current"><a class="reference internal" href="../api.html">Reference</a><ul class="current">
-<li class="toctree-l2 current"><a class="reference internal" href="src.html">src</a><ul class="current">
-<li class="toctree-l3 current"><a class="reference internal" href="src.nodes.html">src.nodes</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.circpy.html">src.nodes.circpy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.data.html">src.nodes.data</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.dataEng.html">src.nodes.dataEng</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.models.html">src.nodes.models</a></li>
-<li class="toctree-l4"><a class="reference internal" href="src.nodes.util.html">src.nodes.util</a></li>
-<li class="toctree-l4 current"><a class="reference internal" href="src.nodes.utils.html">src.nodes.utils</a></li>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">Reference</a></li>
 </ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="src.test.html">src.test</a></li>
-</ul>
-</li>
-</ul>
-</li>
+<p class="caption" role="heading"><span class="caption-text">Releases</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
@@ -115,6 +102,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#build-deploy">Build &amp; deploy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#unit-testing">Unit-testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html#packaging">Packaging</a></li>
 </ul>
 
             
@@ -159,14 +147,6 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="../api.html">Reference</a> &raquo;</li>
-        
-          <li><a href="src.html">src</a> &raquo;</li>
-        
-          <li><a href="src.nodes.html">src.nodes</a> &raquo;</li>
-        
-          <li><a href="src.nodes.utils.html">src.nodes.utils</a> &raquo;</li>
         
       <li>src.nodes.utils.get_learnt_prior</li>
     
@@ -213,37 +193,6 @@
 </style>
 <section id="src-nodes-utils-get-learnt-prior">
 <h1>src.nodes.utils.get_learnt_prior<a class="headerlink" href="#src-nodes-utils-get-learnt-prior" title="Permalink to this headline">¶</a></h1>
-<dl class="py function">
-<dt class="sig sig-object py" id="src.nodes.utils.get_learnt_prior">
-<span class="sig-prename descclassname"><span class="pre">src.nodes.utils.</span></span><span class="sig-name descname"><span class="pre">get_learnt_prior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percept_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean_space</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/src/nodes/utils.html#get_learnt_prior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.nodes.utils.get_learnt_prior" title="Permalink to this definition">¶</a></dt>
-<dd><p>calculate the learnt prior probability
-distribution
-cols: prior for each m_i, are the same
-rows: stimulus feature mean space (e.g.,
-motion direction)</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>percept_space</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>prior_mode</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>k_prior</strong> (<em>float</em>) – _description_</p></li>
-<li><p><strong>prior_shape</strong> (<em>str</em>) – shape of the prior</p></li>
-<li><p><strong>'vonMisesPrior'</strong> (<em>-</em>) – </p></li>
-<li><p><strong>stim_mean_space</strong> (<em>np.ndarray</em>) – stimulus</p></li>
-<li><p><strong>space</strong> (<em>feature mean</em>) – (1:1:360)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>matrix of learnt priors
-rows: stimulus feature mean space
-cols: m_i</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>(np.ndarray)</p>
-</dd>
-</dl>
-</dd></dl>
-
 </section>
 
 
@@ -251,15 +200,6 @@ cols: m_i</p>
            
           </div>
           <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="src.nodes.utils.get_logl.html" class="btn btn-neutral float-right" title="src.nodes.utils.get_logl" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="src.nodes.utils.get_fit_variables.html" class="btn btn-neutral float-left" title="src.nodes.utils.get_fit_variables" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
   
 
   <hr/>
