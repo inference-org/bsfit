@@ -34,6 +34,9 @@ bsfit.nodes.utils
       get_logl
       get_params
       get_percept_likelihood
+      get_proba_data
+      get_proba_estimate
+      get_proba_upo
       locate_fit_params
       predict
       unpack

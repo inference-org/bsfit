@@ -25,7 +25,8 @@ import yaml
 
 from bsfit.nodes.dataEng import make_dataset, simulate_dataset
 from bsfit.nodes.models.bayes import StandardBayes
-from bsfit.nodes.utils import get_data
+from bsfit.nodes.utils import get_data, get_data_stats
+from bsfit.nodes.viz.prediction import plot_mean
 
 # setup logging
 proj_path = os.getcwd()
@@ -88,6 +89,21 @@ if __name__ == "__main__":
     output = model.predict(
         test_dataset, granularity="trial"
     )
+
+    # get stats for data and prediction
+    estimate = test_dataset[1]
+    output = get_data_stats(estimate, output)
+
+    # plot mean
+    plot_mean(
+        output["data_mean"],
+        output["data_std"],
+        output["prediction_mean"],
+        output["prediction_std"],
+        output["conditions"],
+        prior_mode=PRIOR_MODE,
+    )
+    # log status
     logger.info("Printing predict results ...")
     logger.info(output.keys())
 

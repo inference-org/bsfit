@@ -55,6 +55,9 @@
           
 
           
+            
+            <img src="../../../../_static/bsfit_logo.png" class="logo" alt="Logo"/>
+          
           </a>
 
           
@@ -207,7 +210,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_shape</span> <span class="o">=</span> <span class="n">prior_shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_mode</span> <span class="o">=</span> <span class="n">prior_mode</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">readout</span> <span class="o">=</span> <span class="n">readout</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">readout</span> <span class="o">=</span> <span class="n">readout</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">best_fit_p</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neglogl</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[]</span></div>
 
 <div class="viewcode-block" id="StandardBayes.fit"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;fit the model</span>

@@ -60,6 +60,9 @@
           
 
           
+            
+            <img src="_static/bsfit_logo.png" class="logo" alt="Logo"/>
+          
           </a>
 
           
@@ -96,6 +99,8 @@
 <li class="toctree-l4"><a class="reference internal" href="#Setup">Setup</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Set-parameters">Set parameters</a></li>
 <li class="toctree-l4"><a class="reference internal" href="#Simulate-dataset">Simulate dataset</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Train-model-and-predict">Train model and predict</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#Plot-predictions">Plot predictions</a></li>
 </ul>
 </li>
 </ul>
@@ -461,8 +466,8 @@ div.rendered_html tbody tr:hover {
 <p>Fit the standard Bayesian model to psychophysics circular estimates and use it make predictions.</p>
 <section id="Setup">
 <h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[41]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to the project&#39;s root path</span>
@@ -477,14 +482,25 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">bsfit.nodes.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_data</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div></div>
 </div>
 </section>
 <section id="Set-parameters">
 <h2>Set parameters<a class="headerlink" href="#Set-parameters" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the parameters</span>
@@ -502,7 +518,7 @@ div.rendered_html tbody tr:hover {
 <section id="Simulate-dataset">
 <h2>Simulate dataset<a class="headerlink" href="#Simulate-dataset" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[29]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate a training dataset</span>
@@ -519,8 +535,11 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+</section>
+<section id="Train-model-and-predict">
+<h2>Train model and predict<a class="headerlink" href="#Train-model-and-predict" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate the model</span>
@@ -540,7 +559,7 @@ div.rendered_html tbody tr:hover {
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-Training model ...
+Training the model ...
 
 -logl:2382.09, aic:4780.18, kl:[1. 1.], kp:[1. 1.], kc:[1.], pt:0.00, pr:0.00, km:0.00
 -logl:2018.60, aic:4053.20, kl:[1.05 1.  ], kp:[1. 1.], kc:[1.], pt:0.00, pr:0.00, km:0.00
@@ -557,7 +576,7 @@ Training is complete !
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[40]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get predictions</span>
@@ -574,7 +593,57 @@ Training is complete !
 Calculating predictions ...
 
 -logl:2018.60, aic:4053.20, kl:[1.05 1.  ], kp:[1. 1.], kc:[1.], pt:0.00, pr:0.00, km:0.00
-predictions data: dict_keys([&#39;PestimateGivenModel&#39;, &#39;map&#39;, &#39;meanPred&#39;, &#39;stdPred&#39;, &#39;trial_pred&#39;])
+predictions data: dict_keys([&#39;PestimateGivenModel&#39;, &#39;map&#39;, &#39;conditions&#39;, &#39;meanPred&#39;, &#39;stdPred&#39;, &#39;trial_pred&#39;])
+</pre></div></div>
+</div>
+</section>
+<section id="Plot-predictions">
+<h2>Plot predictions<a class="headerlink" href="#Plot-predictions" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.viz.prediction</span> <span class="kn">import</span> <span class="n">plot_mean</span>
+<span class="n">plot_mean</span><span class="p">(</span>
+    <span class="n">meanData</span><span class="p">,</span>
+    <span class="n">errorOfmeanData</span><span class="p">,</span>
+    <span class="n">stdData</span><span class="p">,</span>
+    <span class="n">errorOfstdData</span><span class="p">,</span>
+    <span class="n">meanPred</span><span class="p">,</span>
+    <span class="n">errorOfmeanPred</span><span class="p">,</span>
+    <span class="n">stdPred</span><span class="p">,</span>
+    <span class="n">errorOfstdPred</span><span class="p">,</span>
+    <span class="n">dataCond</span><span class="p">,</span>
+    <span class="n">priorModes</span><span class="p">,</span>
+    <span class="n">priorShape</span><span class="p">,</span>
+    <span class="n">varargin</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+<span class="ansi-red-fg">---------------------------------------------------------------------------</span>
+<span class="ansi-red-fg">NameError</span>                                 Traceback (most recent call last)
+<span class="ansi-green-fg">&lt;ipython-input-4-59ae5a2c00f0&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">      1</span> os<span class="ansi-blue-fg">.</span>chdir<span class="ansi-blue-fg">(</span><span class="ansi-blue-fg">&#34;..&#34;</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-fg">----&gt; 2</span><span class="ansi-red-fg"> </span><span class="ansi-green-fg">from</span> bsfit<span class="ansi-blue-fg">.</span>nodes<span class="ansi-blue-fg">.</span>viz<span class="ansi-blue-fg">.</span>prediction <span class="ansi-green-fg">import</span> plot_mean
+<span class="ansi-green-intense-fg ansi-bold">      3</span> plot_mean(
+<span class="ansi-green-intense-fg ansi-bold">      4</span>     meanData<span class="ansi-blue-fg">,</span>
+<span class="ansi-green-intense-fg ansi-bold">      5</span>     errorOfmeanData<span class="ansi-blue-fg">,</span>
+
+<span class="ansi-green-fg">/Users/steeve_laquitaine/Desktop/CodeHub/bsfit/bsfit/nodes/viz/__init__.py</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span><span class="ansi-blue-fg">()</span>
+<span class="ansi-green-intense-fg ansi-bold">     20</span>
+<span class="ansi-green-intense-fg ansi-bold">     21</span> <span class="ansi-red-fg"># get levels</span>
+<span class="ansi-green-fg">---&gt; 22</span><span class="ansi-red-fg"> </span>levels_1 <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>unique<span class="ansi-blue-fg">(</span>condition<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">0</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     23</span> levels_2 <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>unique<span class="ansi-blue-fg">(</span>condition<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">1</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+<span class="ansi-green-intense-fg ansi-bold">     24</span> levels_3 <span class="ansi-blue-fg">=</span> np<span class="ansi-blue-fg">.</span>unique<span class="ansi-blue-fg">(</span>condition<span class="ansi-blue-fg">[</span><span class="ansi-blue-fg">:</span><span class="ansi-blue-fg">,</span> <span class="ansi-cyan-fg">2</span><span class="ansi-blue-fg">]</span><span class="ansi-blue-fg">)</span>
+
+<span class="ansi-red-fg">NameError</span>: name &#39;condition&#39; is not defined
 </pre></div></div>
 </div>
 <p>Tutorial complete !</p>

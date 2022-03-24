@@ -57,27 +57,27 @@ def fit_maxlogl(
     # set the data to fit
     data = get_data(database)
 
-    # fit the model
-    output = fmin(
-        func=get_logl,
-        x0=unpack(params["model"]["init_params"]),
-        args=(params, *data),
-        disp=True,
-        retall=True,  # get solutions after iter
-        maxiter=1,  # 100,  # max nb of iterations
-        maxfun=1,  # 100,  # max nb of func eval
-        # ftol=0.0001,  # objfun convergence
-    )
+    # # fit the model
+    # output = fmin(
+    #     func=get_logl,
+    #     x0=unpack(params["model"]["init_params"]),
+    #     args=(params, *data),
+    #     disp=True,
+    #     retall=True,  # get solutions after iter
+    #     maxiter=1,  # 100,  # max nb of iterations
+    #     maxfun=1,  # 100,  # max nb of func eval
+    #     # ftol=0.0001,  # objfun convergence
+    # )
 
-    # get fit results
-    best_fit_p = output[0]
-    neglogl = output[1]
+    # # get fit results
+    # best_fit_p = output[0]
+    # neglogl = output[1]
 
     # [TO REMOVE] FOR QUICK TEST ONLY
-    # best_fit_p = np.array(
-    #     unpack(params["model"]["init_params"])
-    # )
-    # neglogl = 1
+    best_fit_p = np.array(
+        unpack(params["model"]["init_params"])
+    )
+    neglogl = 1
     return {
         "neglogl": neglogl,
         "best_fit_p": best_fit_p,
@@ -1145,65 +1145,102 @@ def predict(
         fit_p, params, stim_mean, stim_estimate
     )
 
-    # extract fit variables
-    PestimateGivenModel = output["PestimateGivenModel"]
-    map = output["map"]
+    # get prediction stats
+    output = get_prediction_stats(output)
 
+    # predict per trial
+    if granularity == "trial":
+        output = get_trial_prediction(
+            stim_mean, output, params
+        )
+    return output
+
+
+def get_trial_prediction(stim_mean, output, params):
     # get task conditions by trial
     prior_noise = params["task"]["fixed_params"][
         "prior_std"
     ]
     stim_noise = params["task"]["fixed_params"]["stim_std"]
-    task_fixed_params = np.vstack(
-        [prior_noise, stim_noise, stim_mean]
+
+    output["trial_pred"] = (
+        np.zeros(prior_noise.shape) * np.nan
     )
-
-    PestimateGivenModelUniq = PestimateGivenModel
     cond = output["conditions"]
-    n_cond = cond.T.shape[1]
 
-    # predict estimate mean, std per
-    # condition
-    meanPred = []
-    stdPred = []
+    for c_i in range(len(cond)):
+        loc_prior_noise = prior_noise == cond[c_i, 0]
+        loc_stim_noise = stim_noise == cond[c_i, 1]
+        loc_stim_mean = stim_mean == cond[c_i, 2]
+        prior_noice_bool = loc_prior_noise.values.astype(
+            bool
+        )
+        stim_noise_bool = loc_stim_noise.values.astype(bool)
+        stim_mean_bool = loc_stim_mean.values.astype(bool)
+        loc = (
+            prior_noice_bool
+            & stim_noise_bool
+            & stim_mean_bool
+        )
+        output["trial_pred"][loc] = output[
+            "prediction_mean"
+        ][c_i]
+    return output
+
+
+def get_prediction_stats(output):
+
+    # extract fit variables
+    proba_estimate = output["PestimateGivenModel"]
+    map = output["map"]
+
+    # get conditions
+    cond = output["conditions"]
+    n_cond = len(cond)
+
+    # initiatise stats
+    prediction_mean = []
+    prediction_std = []
+
+    # record prediction stats by condition
     for c_i in range(n_cond):
         data = get_circ_weighted_mean_std(
-            map,
-            PestimateGivenModelUniq[:, c_i],
-            type="polar",
+            map, proba_estimate[:, c_i], type="polar",
         )
-        meanPred.append(data["deg_mean"])
-        stdPred.append(data["deg_std"])
+        prediction_mean.append(data["deg_mean"])
+        prediction_std.append(data["deg_std"])
 
     # record predictions stats
-    output["meanPred"] = meanPred
-    output["stdPred"] = stdPred
-    
+    output["prediction_mean"] = prediction_mean
+    output["prediction_std"] = prediction_std
+    return output
 
-    # predict per trial
-    if granularity == "trial":
-        output["trial_pred"] = (
-            np.zeros(prior_noise.shape) * np.nan
+
+def get_data_stats(data: np.ndarray, output: dict):
+
+    # get conditions
+    cond = output["conditions"]
+    n_cond = len(cond)
+
+    # initialise stats
+    data_mean = []
+    data_std = []
+
+    # set trial datas to equal probability
+    n_trials = len(data)
+    trial_proba = np.tile(1 / n_trials, n_trials)
+
+    # record stats by condition
+    for _ in range(n_cond):
+        stats = get_circ_weighted_mean_std(
+            data.values, trial_proba, type="polar",
         )
-        for c_i in range(n_cond):
-            loc_prior_noise = prior_noise == cond[c_i, 0]
-            loc_stim_noise = stim_noise == cond[c_i, 1]
-            loc_stim_mean = stim_mean == cond[c_i, 2]
-            prior_noice_bool = loc_prior_noise.values.astype(
-                bool
-            )
-            stim_noise_bool = loc_stim_noise.values.astype(
-                bool
-            )
-            stim_mean_bool = loc_stim_mean.values.astype(
-                bool
-            )
-            loc = (
-                prior_noice_bool
-                & stim_noise_bool
-                & stim_mean_bool
-            )
-            output["trial_pred"][loc] = meanPred[c_i]
+        data_mean.append(stats["deg_mean"])
+        data_std.append(stats["deg_std"])
+
+    # record stats
+    output["data_mean"] = data_mean
+    output["data_std"] = data_std
     return output
 
 
