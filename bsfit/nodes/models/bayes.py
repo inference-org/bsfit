@@ -41,6 +41,9 @@ class StandardBayes:
         self.prior_shape = prior_shape
         self.prior_mode = prior_mode
         self.readout = readout
+        self.best_fit_p = []
+        self.neglogl = []
+        self.params = []
 
     def fit(self, dataset: pd.DataFrame):
         """fit the model

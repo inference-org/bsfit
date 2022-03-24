@@ -283,6 +283,114 @@ def get_fit_variables(
         (dict): intermediate variables
     """
 
+    # count fit params
+    n_fit_params = sum(~np.isnan(fit_p))
+
+    # get fit parameters
+    # locate by type
+    params_loc = locate_fit_params(
+        params["model"]["init_params"]
+    )
+    k_llh = fit_p[params_loc["k_llh"]]
+    k_prior = fit_p[params_loc["k_prior"]]
+    k_card = fit_p[params_loc["k_card"]]
+    prior_tail = fit_p[params_loc["prior_tail"]][0]
+    p_rand = fit_p[params_loc["p_rand"]][0]
+    k_m = fit_p[params_loc["k_m"]][0]
+
+    # calculate probability density over
+    # percept space
+    map, proba_percept = get_proba_upo(
+        stim_mean,
+        estimate,
+        params,
+        k_llh,
+        k_prior,
+        k_card,
+        prior_tail,
+        p_rand,
+    )
+
+    # calculate probability density over
+    # estimate space
+    proba_estimate = get_proba_estimate(k_m, proba_percept)
+
+    # calculate probability density of data
+    proba_data = get_proba_data(estimate, proba_estimate)
+
+    # get the log likelihood of the observed estimates
+    # It circumvents numerical unstability for small 
+    # probabilities
+    # (N stim_mean x 0)
+    Logl_pertrial = np.log(proba_data)
+
+    # we minimize the objective function
+    negLogl = -sum(Logl_pertrial)
+
+    # akaike information criterion metric
+    aic = 2 * (n_fit_params - sum(Logl_pertrial))
+
+    # [TODO] setup logging
+    print(
+        "-logl:{:.2f}, aic:{:.2f}, kl:{}, kp:{}, kc:{}, pt:{:.2f}, pr:{:.2f}, km:{:.2f}".format(
+            negLogl,
+            aic,
+            k_llh,
+            k_prior,
+            k_card,
+            prior_tail,
+            p_rand,
+            k_m,
+        )
+    )
+    return (
+        negLogl,
+        {
+            "PestimateGivenModel": proba_estimate,
+            "map": map,
+        },
+    )
+
+
+def get_proba_data(estimate, proba_estimate):
+
+    # normalize 0 values to 360
+    if (estimate == 0).any():
+        estimate[estimate == 0] = 360
+
+    # single trial's measurement, its position(row)
+    # for each trial(col) and its probability
+    # (also maxlikelihood of trial's data).
+    n_stim_mean = proba_estimate.shape[1]
+    conditions_loc = np.arange(0, n_stim_mean, 1)
+    estimate_loc = estimate.values - 1
+    proba_data = proba_estimate[
+        estimate_loc, conditions_loc
+    ]
+
+    # sanity checks
+    if (proba_data <= 0).any():
+        raise ValueError("""likelihood<0, but must be>0""")
+    elif (~np.isreal(proba_data)).any():
+        raise ValueError(
+            """likelihood is a complex nb.
+            It should be Real"""
+        )
+
+    return proba_data
+
+
+def get_proba_upo(
+    stim_mean,
+    estimate,
+    params,
+    k_llh,
+    k_prior,
+    k_card,
+    prior_tail,
+    p_rand,
+):
+
     # get fixed parameters
     # ....................
     # stimulus
@@ -306,28 +414,10 @@ def get_fit_variables(
         np.unique(prior_std), reverse=True
     )
 
-    # get unique task params
+    # get set of task parameters
     stim_mean_set = np.unique(stim_mean)
     n_stim_std = len(stim_std_set)
     n_prior_std = len(prior_std_set)
-
-    # count free params
-    n_fit_params = sum(~np.isnan(fit_p))
-
-    # get fit parameters
-    # ..................
-    # locate each type
-    params_loc = locate_fit_params(
-        params["model"]["init_params"]
-    )
-
-    # get params
-    k_llh = fit_p[params_loc["k_llh"]]
-    k_prior = fit_p[params_loc["k_prior"]]
-    k_card = fit_p[params_loc["k_card"]]
-    prior_tail = fit_p[params_loc["prior_tail"]][0]
-    p_rand = fit_p[params_loc["p_rand"]][0]
-    k_m = fit_p[params_loc["k_m"]][0]
 
     # boolean matrix to locate stim std conditions
     # each column of LLHs is mapped to a
@@ -350,12 +440,10 @@ def get_fit_variables(
     # init outputs
     llh_map = defaultdict(dict)
 
-    # store by prior std
+    # compute MAP percept density
+    # over prior and stimlus noises
     for ix in range(len(prior_std_set)):
         for jx in range(n_stim_std):
-
-            # compute percept density
-            # map: maximum a posteriori readouts
             map, llh_map[ix][jx] = get_bayes_lookup(
                 percept_space,
                 stim_mean_set,
@@ -374,18 +462,12 @@ def get_fit_variables(
     PupoGivenBI = (
         np.zeros((len(map), len(estimate))) * np.nan
     )
+    # compute PupoGivenBI for each condition
+    # in columns
     for ix in range(len(stim_mean_set)):
-
-        # locate stimulus feature mean condition
         thisd = stim_mean == stim_mean_set[ix]
-
-        # locate prior noise condition
         for jx in range(n_prior_std):
-
-            # locate stimulus noise condition
             for kx in range(len(stim_std_set)):
-
-                # locate combined condition
                 loc_conditions = np.logical_and(
                     thisd.values, LLHs[:, kx], Prior[:, jx]
                 ).astype(bool)
@@ -412,22 +494,31 @@ def get_fit_variables(
         PupoGivenBI * PBI + PupoGivenRand * p_rand
     )
 
-    # check PupoGivenModel sum to 1
+    # sanity check that proba_percept are probabilitoes
     if not all(sum(PupoGivenModel)) == 1:
-        raise ValueError("PupoGivenModel should sum to 1")
+        raise ValueError(
+            """PupoGivenModel should sum to 1"""
+        )
 
-    # convolve with motor noise
-    # -------------------------
+    return map, PupoGivenModel
+
+
+def get_proba_estimate(k_m, PupoGivenModel):
+
+    # convolve percept density with motor noise
     # Now we shortly replace upo=1:1:360 by upo=0:1:359 because motor noise
     # distribution need to peak at 0 and vmPdfs function needs 'x' to contain
     # the mean '0' to work. Then we set back upo to its initial value. This have
     # no effect on the calculations.
     upo = np.arange(1, 361, 1)
     motor_mean = np.array([360])
-    Pmot = VonMises(p=True).get(upo, motor_mean, [k_m])
-    Pmot_to_conv = np.tile(Pmot, len(stim_mean))
+    proba_motor = VonMises(p=True).get(
+        upo, motor_mean, [k_m]
+    )
+    n_stim_mean = PupoGivenModel.shape[1]
+    proba_motor = np.tile(proba_motor, n_stim_mean)
     PestimateGivenModel = get_circ_conv(
-        PupoGivenModel, Pmot_to_conv
+        PupoGivenModel, proba_motor
     )
     # check that probability of estimates Given Model are positive values.
     # circular convolution sometimes produces negative values very close to zero
@@ -455,68 +546,7 @@ def get_fit_variables(
         PestimateGivenModel
         / sum(PestimateGivenModel)[None, :]
     )
-
-    # get the log likelihood of the observed estimates
-    # other case are when we just want estimates
-    # distributions prediction given
-    # model parameters
-    if (estimate == 0).any():
-        estimate[estimate == 0] = 360
-
-    # single trial's measurement, its position(row)
-    # for each trial(col) and its probability
-    # (also maxlikelihood of trial's data).
-    # make sure sub2ind inputs are the same size
-    conditions_loc = np.arange(0, len(stim_mean), 1)
-    estimate_loc = estimate.values - 1
-    PdataGivenModel = PestimateGivenModel[
-        estimate_loc, conditions_loc
-    ]
-
-    # sanity checks
-    if (PdataGivenModel <= 0).any():
-        raise ValueError("""likelihood<0, but must be>0""")
-    elif (~np.isreal(PdataGivenModel)).any():
-        raise ValueError(
-            """likelihood is complex. 
-            It should be Real"""
-        )
-
-    # We use log likelihood because
-    # likelihood is so small that matlab cannot
-    # encode it properly (numerical unstability).
-    # We can use single trials log
-    # likelihood to calculate AIC in the conditions
-    # that maximize differences in
-    # predictions of two models.
-    Logl_pertrial = np.log(PdataGivenModel)
-
-    # we minimize the objective function
-    negLogl = -sum(Logl_pertrial)
-
-    # akaike information criterion metric
-    aic = 2 * (n_fit_params - sum(Logl_pertrial))
-
-    # [TODO] setup logging
-    print(
-        "-logl:{:.2f}, aic:{:.2f}, kl:{}, kp:{}, kc:{}, pt:{:.2f}, pr:{:.2f}, km:{:.2f}".format(
-            negLogl,
-            aic,
-            k_llh,
-            k_prior,
-            k_card,
-            prior_tail,
-            p_rand,
-            k_m,
-        )
-    )
-    return (
-        negLogl,
-        {
-            "PestimateGivenModel": PestimateGivenModel,
-            "map": map,
-        },
-    )
+    return PestimateGivenModel
 
 
 def get_bayes_lookup(
