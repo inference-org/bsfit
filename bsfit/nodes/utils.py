@@ -300,7 +300,7 @@ def get_fit_variables(
 
     # calculate probability density over
     # percept space
-    map, proba_percept = get_proba_upo(
+    output = get_proba_upo(
         stim_mean,
         estimate,
         params,
@@ -310,6 +310,9 @@ def get_fit_variables(
         prior_tail,
         p_rand,
     )
+    map = output["readout_percept"]
+    proba_percept = output["PupoGivenModel"]
+    conditions = output["conditions"]
 
     # calculate probability density over
     # estimate space
@@ -319,7 +322,7 @@ def get_fit_variables(
     proba_data = get_proba_data(estimate, proba_estimate)
 
     # get the log likelihood of the observed estimates
-    # It circumvents numerical unstability for small 
+    # It circumvents numerical unstability for small
     # probabilities
     # (N stim_mean x 0)
     Logl_pertrial = np.log(proba_data)
@@ -348,6 +351,7 @@ def get_fit_variables(
         {
             "PestimateGivenModel": proba_estimate,
             "map": map,
+            "conditions": conditions,
         },
     )
 
@@ -405,6 +409,9 @@ def get_proba_upo(
     ]
     prior_std = params["task"]["fixed_params"]["prior_std"]
 
+    # track trials
+    n_trials = len(stim_std)
+
     # percept readout
     readout = params["model"]["fixed_params"]["readout"]
 
@@ -422,29 +429,29 @@ def get_proba_upo(
     # boolean matrix to locate stim std conditions
     # each column of LLHs is mapped to a
     # stim_std_set
-    LLHs = (
-        np.zeros((len(stim_std), len(stim_std_set)))
-        * np.nan
-    )
-    for i in range(len(stim_std_set)):
-        LLHs[:, i] = stim_std == stim_std_set[i]
+    LLHs = np.zeros((n_trials, n_stim_std)) * np.nan
+    for ix in range(n_stim_std):
+        LLHs[:, ix] = stim_std == stim_std_set[ix]
 
     # boolean matrix to locate stim std conditions
-    Prior = np.zeros((len(prior_std), n_prior_std)) * np.nan
-    for i in range(n_prior_std):
-        Prior[:, i] = prior_std == prior_std_set[i]
+    Prior = np.zeros((n_trials, n_prior_std)) * np.nan
+    for ix in range(n_prior_std):
+        Prior[:, ix] = prior_std == prior_std_set[ix]
 
     # set percept space
     percept_space = np.arange(1, 361, 1)
 
     # init outputs
-    llh_map = defaultdict(dict)
+    percept_llh = defaultdict(dict)
 
     # compute MAP percept density
     # over prior and stimlus noises
     for ix in range(len(prior_std_set)):
         for jx in range(n_stim_std):
-            map, llh_map[ix][jx] = get_bayes_lookup(
+            (
+                readout_percept,
+                percept_llh[ix][jx],
+            ) = get_bayes_lookup(
                 percept_space,
                 stim_mean_set,
                 k_llh[jx],
@@ -460,33 +467,56 @@ def get_proba_upo(
     # (upos=1:1:360,trials) for possible values of upo
     # (rows) for each trial (column)
     PupoGivenBI = (
-        np.zeros((len(map), len(estimate))) * np.nan
+        np.zeros((len(readout_percept), len(estimate)))
+        * np.nan
     )
+    conditions = np.zeros((3, len(estimate))) * np.nan
+
     # compute PupoGivenBI for each condition
     # in columns
     for ix in range(len(stim_mean_set)):
         thisd = stim_mean == stim_mean_set[ix]
         for jx in range(n_prior_std):
             for kx in range(len(stim_std_set)):
-                loc_conditions = np.logical_and(
-                    thisd.values, LLHs[:, kx], Prior[:, jx]
-                ).astype(bool)
+
+                # locate this condition's trials
+                # for PupoGivenBI
+                ix_bool = thisd.values.astype(bool)
+                kx_bool = LLHs[:, kx].astype(bool)
+                jx_bool = Prior[:, jx].astype(bool)
+                loc_conditions = ix_bool & kx_bool & jx_bool
                 n_cond_repeat = sum(loc_conditions)
+
+                # locate trials for stimulus means
+                # in percept_llh
                 stim_mean_loc = (
                     stim_mean_set[
                         np.tile(ix, n_cond_repeat)
                     ]
                     - 1
                 )
-                PupoGivenBI[:, loc_conditions] = llh_map[
-                    jx
-                ][kx][:, stim_mean_loc]
+
+                # fill in
+                PupoGivenBI[
+                    :, loc_conditions
+                ] = percept_llh[jx][kx][:, stim_mean_loc]
+
+                # record conditions
+                conditions[
+                    0, loc_conditions
+                ] = prior_std_set[jx]
+                conditions[
+                    1, loc_conditions
+                ] = stim_std_set[kx]
+                conditions[
+                    2, loc_conditions
+                ] = stim_mean_set[ix]
 
     # normalize to probabilities
     PupoGivenBI = PupoGivenBI / sum(PupoGivenBI)[None, :]
 
     # probabilities of percepts "upo" given random estimation
-    PupoGivenRand = np.ones((360, len(stim_mean))) / 360
+    PupoGivenRand = np.ones((360, n_trials)) / 360
 
     # calculate probability of percepts "upo" given the model
     PBI = 1 - p_rand
@@ -500,7 +530,11 @@ def get_proba_upo(
             """PupoGivenModel should sum to 1"""
         )
 
-    return map, PupoGivenModel
+    return {
+        "readout_percept": readout_percept,
+        "PupoGivenModel": PupoGivenModel,
+        "conditions": conditions,
+    }
 
 
 def get_proba_estimate(k_m, PupoGivenModel):
@@ -1124,63 +1158,52 @@ def predict(
         [prior_noise, stim_noise, stim_mean]
     )
 
-    # get set of conditions
-    cond, idxCondUniqtrial, _ = get_combination_set(
-        task_fixed_params.T
-    )
-
-    PestimateGivenModelUniq = PestimateGivenModel[
-        :, idxCondUniqtrial
-    ]
-
-    # map conditions with
-    # estimate likelihood (ascending order)
-    # sort first by prior noise (ascending),
-    # then by stimulus noise (ascending)
-    PosSorted = np.lexsort(
-        (cond[:, 1][::-1], cond[:, 0][::-1])
-    )
-    sorted_cond = cond[PosSorted, :]
-    PestimateGivenModelUniq = PestimateGivenModelUniq[
-        :, PosSorted
-    ]
-
-    # get predictions about
-    # estimate circular mean and std for
-    # each task condition (columns)
-    n_cond = sorted_cond.shape[1]
+    PestimateGivenModelUniq = PestimateGivenModel
+    cond = output["conditions"]
+    n_cond = cond.T.shape[1]
 
     # predict estimate mean, std per
     # condition
     meanPred = []
     stdPred = []
-    for ix in range(n_cond):
+    for c_i in range(n_cond):
         data = get_circ_weighted_mean_std(
             map,
-            PestimateGivenModelUniq[:, ix],
+            PestimateGivenModelUniq[:, c_i],
             type="polar",
         )
         meanPred.append(data["deg_mean"])
         stdPred.append(data["deg_std"])
 
+    # record predictions stats
     output["meanPred"] = meanPred
     output["stdPred"] = stdPred
+    
 
     # predict per trial
     if granularity == "trial":
         output["trial_pred"] = (
             np.zeros(prior_noise.shape) * np.nan
         )
-        for ix in range(n_cond):
-            loc_prior_noise = prior_noise == cond[ix, 0]
-            loc_stim_noise = stim_noise == cond[ix, 1]
-            loc_stim_mean = stim_mean == cond[ix, 2]
-            loc = np.logical_and(
-                loc_prior_noise.values,
-                loc_stim_noise.values,
-                loc_stim_mean.values,
+        for c_i in range(n_cond):
+            loc_prior_noise = prior_noise == cond[c_i, 0]
+            loc_stim_noise = stim_noise == cond[c_i, 1]
+            loc_stim_mean = stim_mean == cond[c_i, 2]
+            prior_noice_bool = loc_prior_noise.values.astype(
+                bool
             )
-            output["trial_pred"][loc] = meanPred[ix]
+            stim_noise_bool = loc_stim_noise.values.astype(
+                bool
+            )
+            stim_mean_bool = loc_stim_mean.values.astype(
+                bool
+            )
+            loc = (
+                prior_noice_bool
+                & stim_noise_bool
+                & stim_mean_bool
+            )
+            output["trial_pred"][loc] = meanPred[c_i]
     return output
 
 
