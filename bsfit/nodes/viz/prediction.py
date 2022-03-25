@@ -4,14 +4,29 @@ from matplotlib import pyplot as plt
 
 
 def plot_mean(
-    data_mean,
-    data_std,
-    prediction_mean,
-    prediction_std,
-    condition,
-    prior_mode,
+    data_mean: np.ndarray,
+    data_std: np.ndarray,
+    prediction_mean: np.ndarray,
+    prediction_std: np.ndarray,
+    condition: np.ndarray,
+    prior_mode: float,
+    centering: bool,
 ):
+    """plot data and prediction mean and std
+    for three conditions (x-axis, colors and panels)
 
+    Args:
+        data_mean (np.ndarray): data mean by condition
+        data_std (np.ndarray): data std by condition
+        prediction_mean (np.ndarray): prediction mean by condition
+        prediction_std (np.ndarray): prediction std by condition
+        condition (np.ndarray): associated conditions
+        prior_mode (float): the mode of the prior
+        centering (bool): center x-axis or not
+
+    Returns:
+        _type_: _description_
+    """
     # get condition levels
     levels_1 = np.unique(condition[:, 0])
     levels_2 = np.unique(condition[:, 1])
@@ -49,6 +64,8 @@ def plot_mean(
 
         # set condition 3 within panels
         for level1_ix in range(len(levels_1)):
+
+            # find condition's instances
             loc_lev1 = (
                 condition[:, 0] == levels_1[level1_ix]
             )
@@ -58,33 +75,34 @@ def plot_mean(
             loc_condition = loc_lev2 & loc_lev1
 
             # center to prior mode
-            x_centered = np.round(
-                get_signed_angle(
-                    condition[:, 2][loc_condition],
-                    prior_mode,
-                    "polar",
+            x_centered = condition[:, 2][loc_condition]
+            if centering:
+                x_centered = np.round(
+                    get_signed_angle(
+                        x_centered, prior_mode, "polar",
+                    )
                 )
-            )
+
             x_centered[x_centered == -180] = 180
 
             # make 2-D array
             x_centered = x_centered[:, None]
 
-            # sort x
-            i_sort = np.argsort(x_centered.squeeze())
-            x_centered = x_centered[i_sort]
+            # sort data stats
+            y_data_centered = data_mean[loc_condition]
+            y_data_std_centered = data_std[loc_condition]
 
             # sort prediction stats
             y_centered = prediction_mean[loc_condition]
             y_std_centered = prediction_std[loc_condition]
+
+            # sort all
+            i_sort = np.argsort(x_centered.squeeze())
+            x_centered = x_centered[i_sort]
             y_centered = y_centered[i_sort]
             y_std_centered = y_std_centered[i_sort]
-
-            # sort data stats
-            y_data_centered = data_mean[loc_condition][
-                i_sort
-            ]
-            y_data_std_centered = data_std[loc_condition][
+            y_data_centered = y_data_centered[i_sort]
+            y_data_std_centered = y_data_std_centered[
                 i_sort
             ]
 
@@ -138,10 +156,6 @@ def plot_mean(
                 x_tick_centered = x_centered
                 y_tick_centered = x_centered
 
-            # set labels
-            x_tick_label = levels_3[i_sort]
-            y_tick_label = levels_3[i_sort]
-
             # plot data
             plt.errorbar(
                 x_centered.squeeze(),
@@ -171,6 +185,6 @@ def plot_mean(
                 + y_std_centered.squeeze(),
                 color=levels_2_color_prediction[level2_ix],
             )
-        plt.show()
+    plt.show()
     return None
 
