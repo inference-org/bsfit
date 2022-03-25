@@ -39,19 +39,28 @@ logging.config.dictConfig(LOG_CONF)
 logger = logging.getLogger(__name__)
 
 # set parameters
+# - PRIOR_NOISE: e.g., an object's motion direction density's std
+# - STIM_NOISE: e.g., an object's motion coherence
 SUBJECT = "sub01"
 PRIOR_SHAPE = "vonMisesPrior"
 PRIOR_MODE = 225
 OBJ_FUN = "maxLLH"
 READOUT = "map"
-PRIOR_NOISE = [80, 40]  # e.g., prior's std
-STIM_NOISE = [0.33, 0.66]  # e.g., motion's coherence
-
+PRIOR_NOISE = [80, 40]
+STIM_NOISE = [0.33, 0.66, 1.0]
+INIT_P = {
+    "k_llh": [1, 1, 1],
+    "k_prior": [1, 1],
+    "k_card": [1],
+    "prior_tail": [0],
+    "p_rand": [0],
+    "k_m": [0],
+}
 
 if __name__ == "__main__":
-    """Entry point that runs analyses pipelines
-    e.g., for now the standard bayesian model fitting
-    and predictions
+    """Entry point that runs analytical pipelines
+    e.g., for now fiiting the standard bayesian model 
+    and generating predictions
     """
     # simulate a dataset
     logger.info("Simulating dataset ...")
@@ -62,7 +71,7 @@ if __name__ == "__main__":
         prior_shape=PRIOR_SHAPE,
     )
 
-    # train model
+    # log status
     logger.info("Fitting bayes model ...")
 
     # instantiate model
@@ -73,7 +82,7 @@ if __name__ == "__main__":
     )
 
     # train model
-    model = model.fit(dataset=dataset)
+    model = model.fit(dataset=dataset, init_p=INIT_P)
 
     # print results
     logger.info("Printing fitting results ...")
@@ -90,11 +99,11 @@ if __name__ == "__main__":
         test_dataset, granularity="trial"
     )
 
-    # get stats for data and prediction
+    # get data and prediction stats
     estimate = test_dataset[1]
     output = get_data_stats(estimate, output)
 
-    # plot mean
+    # plot data and prediction mean
     plot_mean(
         output["data_mean"],
         output["data_std"],
@@ -103,6 +112,7 @@ if __name__ == "__main__":
         output["conditions"],
         prior_mode=PRIOR_MODE,
     )
+
     # log status
     logger.info("Printing predict results ...")
     logger.info(output.keys())

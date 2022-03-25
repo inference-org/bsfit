@@ -45,11 +45,12 @@ class StandardBayes:
         self.neglogl = []
         self.params = []
 
-    def fit(self, dataset: pd.DataFrame):
+    def fit(self, dataset: pd.DataFrame, init_p: dict):
         """fit the model
 
         Args:
             dataset (pd.DataFrame): _description_
+            init_p (dict): _description_
 
         Returns:
             (StandarBayes): fitted model
@@ -57,6 +58,7 @@ class StandardBayes:
         print("Training the model ...\n")
         output = fit_maxlogl(
             dataset,
+            init_p,
             self.prior_shape,
             self.prior_mode,
             self.readout,
