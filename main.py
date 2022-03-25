@@ -23,7 +23,10 @@ import os
 
 import yaml
 
-from bsfit.nodes.dataEng import make_dataset, simulate_dataset
+from bsfit.nodes.dataEng import (
+    make_dataset,
+    simulate_dataset,
+)
 from bsfit.nodes.models.bayes import StandardBayes
 from bsfit.nodes.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
@@ -41,6 +44,7 @@ logger = logging.getLogger(__name__)
 # set parameters
 # - PRIOR_NOISE: e.g., an object's motion direction density's std
 # - STIM_NOISE: e.g., an object's motion coherence
+# - CENTERING: center or not plot relative to prior mode
 SUBJECT = "sub01"
 PRIOR_SHAPE = "vonMisesPrior"
 PRIOR_MODE = 225
@@ -56,6 +60,7 @@ INIT_P = {
     "p_rand": [0],
     "k_m": [0],
 }
+CENTERING = True
 
 if __name__ == "__main__":
     """Entry point that runs analytical pipelines
@@ -101,7 +106,7 @@ if __name__ == "__main__":
 
     # get data and prediction stats
     estimate = test_dataset[1]
-    output = get_data_stats(estimate, output)
+    output2 = get_data_stats(estimate, output)
 
     # plot data and prediction mean
     plot_mean(
@@ -111,6 +116,7 @@ if __name__ == "__main__":
         output["prediction_std"],
         output["conditions"],
         prior_mode=PRIOR_MODE,
+        centering=CENTERING,
     )
 
     # log status
