@@ -18,8 +18,12 @@ import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 
-from .circpy import (get_circ_conv, get_circ_weighted_mean_std, get_deg_to_rad,
-                     get_rad_to_deg)
+from .circpy import (
+    get_circ_conv,
+    get_circ_weighted_mean_std,
+    get_deg_to_rad,
+    get_rad_to_deg,
+)
 from .data import VonMises
 from .util import is_empty
 
@@ -28,6 +32,7 @@ pd.options.mode.chained_assignment = None
 
 def fit_maxlogl(
     database: pd.DataFrame,
+    init_p: dict,
     prior_shape: str,
     prior_mode: float,
     readout: str,
@@ -40,6 +45,7 @@ def fit_maxlogl(
 
     Args:
         database (pd.DataFrame): database
+        init_p (dict): initial parameters
         prior_shape (str): shape of the prior  
         - "vonMisesPrior"  
         prior_mode: (float): mode of the prior  
@@ -51,7 +57,7 @@ def fit_maxlogl(
     # set parameters
     # (model and task)
     params = get_params(
-        database, prior_shape, prior_mode, readout
+        database, init_p, prior_shape, prior_mode, readout
     )
 
     # set the data to fit
@@ -111,6 +117,7 @@ def flatten(x: List[list]) -> list:
 
 def get_params(
     database: pd.DataFrame,
+    init_p: dict,
     prior_shape: str,
     prior_mode: float,
     readout: str,
@@ -120,6 +127,7 @@ def get_params(
 
     Args:
         database (pd.DataFrame): _description_
+        init_p (dict): _description_
         prior_shape (str): _description_
         prior_mode (float): _description_
         readout (str): _description_
@@ -132,14 +140,7 @@ def get_params(
     # ....................
     # set initial
     model = dict()
-    model["init_params"] = {
-        "k_llh": [1, 1],
-        "k_prior": [1, 1],
-        "k_card": [1],
-        "prior_tail": [0],
-        "p_rand": [0],
-        "k_m": [0],
-    }
+    model["init_params"] = init_p
 
     # set fixed
     model["fixed_params"] = {
@@ -312,7 +313,6 @@ def get_fit_variables(
     )
     map = output["readout_percept"]
     proba_percept = output["PupoGivenModel"]
-    conditions = output["conditions"]
 
     # calculate probability density over
     # estimate space
@@ -351,7 +351,7 @@ def get_fit_variables(
         {
             "PestimateGivenModel": proba_estimate,
             "map": map,
-            "conditions": conditions,
+            "conditions": output["conditions"],
         },
     )
 
@@ -470,7 +470,9 @@ def get_proba_upo(
         np.zeros((len(readout_percept), len(estimate)))
         * np.nan
     )
-    conditions = np.zeros((3, len(estimate))) * np.nan
+
+    # record conditions
+    conditions = np.zeros((len(estimate), 3)) * np.nan
 
     # compute PupoGivenBI for each condition
     # in columns
@@ -503,13 +505,13 @@ def get_proba_upo(
 
                 # record conditions
                 conditions[
-                    0, loc_conditions
+                    loc_conditions, 0
                 ] = prior_std_set[jx]
                 conditions[
-                    1, loc_conditions
+                    loc_conditions, 1
                 ] = stim_std_set[kx]
                 conditions[
-                    2, loc_conditions
+                    loc_conditions, 2
                 ] = stim_mean_set[ix]
 
     # normalize to probabilities
@@ -1168,17 +1170,17 @@ def get_trial_prediction(stim_mean, output, params):
     )
     cond = output["conditions"]
 
-    for c_i in range(len(cond)):
+    for c_i in range(cond.shape[1]):
         loc_prior_noise = prior_noise == cond[c_i, 0]
         loc_stim_noise = stim_noise == cond[c_i, 1]
         loc_stim_mean = stim_mean == cond[c_i, 2]
-        prior_noice_bool = loc_prior_noise.values.astype(
+        prior_noise_bool = loc_prior_noise.values.astype(
             bool
         )
         stim_noise_bool = loc_stim_noise.values.astype(bool)
         stim_mean_bool = loc_stim_mean.values.astype(bool)
         loc = (
-            prior_noice_bool
+            prior_noise_bool
             & stim_noise_bool
             & stim_mean_bool
         )
@@ -1194,15 +1196,12 @@ def get_prediction_stats(output):
     proba_estimate = output["PestimateGivenModel"]
     map = output["map"]
 
-    # get conditions
-    cond = output["conditions"]
-    n_cond = len(cond)
-
     # initiatise stats
     prediction_mean = []
     prediction_std = []
 
     # record prediction stats by condition
+    n_cond = output["conditions"].shape[0]
     for c_i in range(n_cond):
         data = get_circ_weighted_mean_std(
             map, proba_estimate[:, c_i], type="polar",
@@ -1211,8 +1210,8 @@ def get_prediction_stats(output):
         prediction_std.append(data["deg_std"])
 
     # record predictions stats
-    output["prediction_mean"] = prediction_mean
-    output["prediction_std"] = prediction_std
+    output["prediction_mean"] = np.array(prediction_mean)
+    output["prediction_std"] = np.array(prediction_std)
     return output
 
 
@@ -1220,27 +1219,38 @@ def get_data_stats(data: np.ndarray, output: dict):
 
     # get conditions
     cond = output["conditions"]
-    n_cond = len(cond)
 
     # initialise stats
     data_mean = []
     data_std = []
 
-    # set trial datas to equal probability
-    n_trials = len(data)
-    trial_proba = np.tile(1 / n_trials, n_trials)
+    # get set of conditions
+    cond_set, ix, _ = get_combination_set(cond)
 
     # record stats by condition
-    for _ in range(n_cond):
+    for c_i in range(len(cond_set)):
+
+        # find condition's data
+        loc_1 = cond[:, 0] == cond_set[c_i, 0]
+        loc_2 = cond[:, 1] == cond_set[c_i, 1]
+        loc_3 = cond[:, 2] == cond_set[c_i, 2]
+        data_c_i = data.values[loc_1 & loc_2 & loc_3]
+
+        # set trial data to equal probability
+        trial_proba = np.tile(
+            1 / len(data_c_i), len(data_c_i)
+        )
+
+        # get stats
         stats = get_circ_weighted_mean_std(
-            data.values, trial_proba, type="polar",
+            data_c_i, trial_proba, type="polar",
         )
         data_mean.append(stats["deg_mean"])
         data_std.append(stats["deg_std"])
 
     # record stats
-    output["data_mean"] = data_mean
-    output["data_std"] = data_std
+    output["data_mean"] = np.array(data_mean)
+    output["data_std"] = np.array(data_std)
     return output
 
 
