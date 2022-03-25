@@ -55,6 +55,9 @@
           
 
           
+            
+            <img src="../../../_static/bsfit_logo.png" class="logo" alt="Logo"/>
+          
           </a>
 
           
@@ -250,28 +253,48 @@
     <span class="p">)</span><span class="o">.</span><span class="n">real</span></div>
 
 
-<div class="viewcode-block" id="get_cartesian_to_deg"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.circpy.get_cartesian_to_deg.html#bsfit.nodes.circpy.get_cartesian_to_deg">[docs]</a><span class="k">def</span> <span class="nf">get_cartesian_to_deg</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<div class="viewcode-block" id="get_cartesian_to_deg"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.circpy.get_cartesian_to_deg.html#bsfit.nodes.circpy.get_cartesian_to_deg">[docs]</a><span class="k">def</span> <span class="nf">get_cartesian_to_deg</span><span class="p">(</span>
+    <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;convert cartesian coordinates to </span>
+<span class="sd">    angle in degree</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        x (np.ndarray): x coordinate</span>
+<span class="sd">        y (np.ndarray): y coordinate</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        np.ndarray: angle(s) in degree</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># round</span>
-    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="c1"># x = np.round(x, 4)</span>
+    <span class="c1"># y = np.round(y, 4)</span>
 
-    <span class="c1"># convert cartesian to radian</span>
-    <span class="n">radian</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">x</span><span class="p">)</span>
+    <span class="c1"># convert to radian</span>
+    <span class="n">degree</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan</span><span class="p">(</span><span class="n">y</span> <span class="o">/</span> <span class="n">x</span><span class="p">)</span>
 
+    <span class="c1"># convert to degree and adjust based</span>
+    <span class="c1"># on quadrant</span>
     <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)):</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">radian</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">radian</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">degree</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">):</span>
+            <span class="n">degree</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">degree</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
         <span class="k">elif</span> <span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">radian</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">radian</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mi">180</span>
+            <span class="n">degree</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">degree</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mi">180</span>
         <span class="k">elif</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">):</span>
-            <span class="n">radian</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">radian</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mi">360</span>
-    <span class="k">return</span> <span class="n">get_rad_to_deg</span><span class="p">(</span><span class="n">radian</span><span class="p">)</span></div>
+            <span class="n">degree</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">degree</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span> <span class="o">*</span> <span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">+</span> <span class="mi">360</span>
+    <span class="k">return</span> <span class="n">degree</span></div>
 
 
 <div class="viewcode-block" id="get_polar_to_cartesian"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.circpy.get_polar_to_cartesian.html#bsfit.nodes.circpy.get_polar_to_cartesian">[docs]</a><span class="k">def</span> <span class="nf">get_polar_to_cartesian</span><span class="p">(</span>
-    <span class="n">angle</span><span class="p">,</span> <span class="n">radius</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">angle</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+
+    <span class="c1"># convert to radian if needed</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;polar&quot;</span><span class="p">:</span>
         <span class="n">theta</span><span class="p">[</span><span class="s2">&quot;deg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
@@ -280,14 +303,16 @@
         <span class="n">theta</span><span class="p">[</span><span class="s2">&quot;deg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_deg_to_rad</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="n">theta</span><span class="p">[</span><span class="s2">&quot;rad&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">angle</span>
 
-    <span class="c1"># convert radians to cartesian</span>
+    <span class="c1"># convert to cartesian coordinates</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="s2">&quot;rad&quot;</span><span class="p">])</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">radius</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="s2">&quot;rad&quot;</span><span class="p">])</span>
 
     <span class="c1"># round to 10e-4</span>
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
-    <span class="n">theta</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+
+    <span class="c1"># reshape as (N angles x 2 coord)</span>
+    <span class="n">theta</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span><span class="o">.</span><span class="n">T</span>
     <span class="k">return</span> <span class="n">theta</span></div>
 
 
@@ -316,8 +341,8 @@
 
     <span class="c1"># store angles</span>
     <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;coord_all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="s2">&quot;deg&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;coord_all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">]</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_all&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">coord</span><span class="p">[</span><span class="s2">&quot;deg&quot;</span><span class="p">]</span>
 
     <span class="c1"># calculate mean</span>
     <span class="c1"># ..............</span>
@@ -330,6 +355,9 @@
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;coord_mean&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;coord_mean&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
     <span class="p">)</span>
 
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">])[</span><span class="mi">0</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;HERE&quot;</span><span class="p">)</span>
+
     <span class="c1"># calculate std</span>
     <span class="c1"># ..............</span>
     <span class="n">n_data</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_all&quot;</span><span class="p">])</span>
@@ -338,6 +366,7 @@
         <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">],</span> <span class="n">n_data</span>
     <span class="p">)</span>
 
+    <span class="c1"># apply corrections</span>
     <span class="k">if</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">180</span> <span class="o">&lt;=</span> <span class="mi">360</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
             <span class="k">if</span> <span class="p">(</span>
@@ -345,7 +374,7 @@
                 <span class="o">&gt;=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mi">180</span>
             <span class="p">):</span>
                 <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_all_for_std&quot;</span><span class="p">][</span><span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_all&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="mi">360</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_all&quot;</span><span class="p">][</span><span class="n">ix</span><span class="p">]</span> <span class="o">-</span> <span class="mi">360</span>
                 <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_data</span><span class="p">):</span>
@@ -359,18 +388,69 @@
 
     <span class="c1"># get variance, standard deviation and</span>
     <span class="c1"># standard error to the mean</span>
-    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_var&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span>
-        <span class="n">proba</span>
-        <span class="o">*</span> <span class="p">(</span>
-            <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_all_for_std&quot;</span><span class="p">]</span>
-            <span class="o">-</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean_for_std&quot;</span><span class="p">]</span>
-        <span class="p">)</span>
-        <span class="o">**</span> <span class="mi">2</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_var&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="nb">sum</span><span class="p">(</span>
+                <span class="n">proba</span>
+                <span class="o">*</span> <span class="p">(</span>
+                    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_all_for_std&quot;</span><span class="p">]</span>
+                    <span class="o">-</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean_for_std&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+                <span class="o">**</span> <span class="mi">2</span>
+            <span class="p">)</span>
+        <span class="p">]</span>
     <span class="p">)</span>
     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_var&quot;</span><span class="p">])</span>
     <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_sem&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_std&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_data</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">data</span></div>
 
+
+<div class="viewcode-block" id="get_signed_angle"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.circpy.get_signed_angle.html#bsfit.nodes.circpy.get_signed_angle">[docs]</a><span class="k">def</span> <span class="nf">get_signed_angle</span><span class="p">(</span>
+    <span class="n">angle_1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">angle_2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;get signed angle between angle 1 and 2</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        angle_1 (np.ndarray): _description_</span>
+<span class="sd">        angle_2 (np.ndarray): _description_</span>
+<span class="sd">        type (str): _description_</span>
+<span class="sd">        - &quot;polar&quot;</span>
+<span class="sd">        - &quot;radian&quot;</span>
+<span class="sd">        - &quot;cartesian&quot;</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (np.ndarray): angle difference between </span>
+<span class="sd">        angle 1 and 2</span>
+<span class="sd">    </span>
+<span class="sd">    Usage:</span>
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">        angle = get_signed_angle(90, 45, &#39;polar&#39;)</span>
+<span class="sd">        angle = get_signed_angle(90, 45, &#39;radian&#39;)</span>
+<span class="sd">        angle = get_signed_angle([0 1], [1 0])</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># convert to cartesian coordinates</span>
+    <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;polar&quot;</span> <span class="ow">or</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;radian&quot;</span><span class="p">:</span>
+        <span class="n">angle_1</span> <span class="o">=</span> <span class="n">get_polar_to_cartesian</span><span class="p">(</span>
+            <span class="n">angle_1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span>
+        <span class="p">)</span>
+        <span class="n">angle_2</span> <span class="o">=</span> <span class="n">get_polar_to_cartesian</span><span class="p">(</span>
+            <span class="n">angle_2</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span>
+        <span class="p">)</span>
+
+    <span class="c1"># get coordinates</span>
+    <span class="n">xV1</span> <span class="o">=</span> <span class="n">angle_1</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">yV1</span> <span class="o">=</span> <span class="n">angle_1</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">xV2</span> <span class="o">=</span> <span class="n">angle_2</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">yV2</span> <span class="o">=</span> <span class="n">angle_2</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">]</span>
+
+    <span class="c1"># Calculate the angle separating the</span>
+    <span class="c1"># two vectors in degrees</span>
+    <span class="n">angle</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">180</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span>
+        <span class="n">xV1</span> <span class="o">*</span> <span class="n">yV2</span> <span class="o">-</span> <span class="n">yV1</span> <span class="o">*</span> <span class="n">xV2</span><span class="p">,</span> <span class="n">xV1</span> <span class="o">*</span> <span class="n">xV2</span> <span class="o">+</span> <span class="n">yV1</span> <span class="o">*</span> <span class="n">yV2</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">angle</span></div>
 </pre></div>
 
            </div>

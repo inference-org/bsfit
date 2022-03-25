@@ -24,3 +24,5 @@ bsfit.egg-info/PKG-INFO
 bsfit.egg-info/requires.txt
 bsfit.egg-info/SOURCES.txt
 bsfit.egg-info/top_level.txt
+bsfit/nodes/old/SLdrawModelsPredictionCentered.py
+bsfit/nodes/old/SLdrawModelsPredictionHistwithDataCentered.py

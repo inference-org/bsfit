@@ -13,6 +13,7 @@ with Bayesian and heuristics models.
 
 #. Simple API inspired by scikit-learn 
 #. Free software: BSD license 
+#. See `Github <https://github.com/steevelaquitaine/bsfit>`_
 
 ..
    # This is a comment: Below, I create the

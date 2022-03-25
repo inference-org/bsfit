@@ -1,0 +1,6 @@
+bsfit.nodes.utils.get\_proba\_upo
+=================================
+
+.. currentmodule:: bsfit.nodes.utils
+
+.. autofunction:: get_proba_upo

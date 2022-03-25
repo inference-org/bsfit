@@ -55,6 +55,9 @@
           
 
           
+            
+            <img src="../../../_static/bsfit_logo.png" class="logo" alt="Logo"/>
+          
           </a>
 
           
@@ -195,6 +198,7 @@
 
 <div class="viewcode-block" id="fit_maxlogl"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.fit_maxlogl.html#bsfit.nodes.utils.fit_maxlogl">[docs]</a><span class="k">def</span> <span class="nf">fit_maxlogl</span><span class="p">(</span>
     <span class="n">database</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">init_p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -207,6 +211,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        database (pd.DataFrame): database</span>
+<span class="sd">        init_p (dict): initial parameters</span>
 <span class="sd">        prior_shape (str): shape of the prior  </span>
 <span class="sd">        - &quot;vonMisesPrior&quot;  </span>
 <span class="sd">        prior_mode: (float): mode of the prior  </span>
@@ -218,33 +223,33 @@
     <span class="c1"># set parameters</span>
     <span class="c1"># (model and task)</span>
     <span class="n">params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
-        <span class="n">database</span><span class="p">,</span> <span class="n">prior_shape</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="n">readout</span>
+        <span class="n">database</span><span class="p">,</span> <span class="n">init_p</span><span class="p">,</span> <span class="n">prior_shape</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="n">readout</span>
     <span class="p">)</span>
 
     <span class="c1"># set the data to fit</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
 
-    <span class="c1"># fit the model</span>
-    <span class="n">output</span> <span class="o">=</span> <span class="n">fmin</span><span class="p">(</span>
-        <span class="n">func</span><span class="o">=</span><span class="n">get_logl</span><span class="p">,</span>
-        <span class="n">x0</span><span class="o">=</span><span class="n">unpack</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">]),</span>
-        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">),</span>
-        <span class="n">disp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-        <span class="n">retall</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># get solutions after iter</span>
-        <span class="n">maxiter</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 100,  # max nb of iterations</span>
-        <span class="n">maxfun</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 100,  # max nb of func eval</span>
-        <span class="c1"># ftol=0.0001,  # objfun convergence</span>
-    <span class="p">)</span>
+    <span class="c1"># # fit the model</span>
+    <span class="c1"># output = fmin(</span>
+    <span class="c1">#     func=get_logl,</span>
+    <span class="c1">#     x0=unpack(params[&quot;model&quot;][&quot;init_params&quot;]),</span>
+    <span class="c1">#     args=(params, *data),</span>
+    <span class="c1">#     disp=True,</span>
+    <span class="c1">#     retall=True,  # get solutions after iter</span>
+    <span class="c1">#     maxiter=1,  # 100,  # max nb of iterations</span>
+    <span class="c1">#     maxfun=1,  # 100,  # max nb of func eval</span>
+    <span class="c1">#     # ftol=0.0001,  # objfun convergence</span>
+    <span class="c1"># )</span>
 
-    <span class="c1"># get fit results</span>
-    <span class="n">best_fit_p</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">neglogl</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="c1"># # get fit results</span>
+    <span class="c1"># best_fit_p = output[0]</span>
+    <span class="c1"># neglogl = output[1]</span>
 
     <span class="c1"># [TO REMOVE] FOR QUICK TEST ONLY</span>
-    <span class="c1"># best_fit_p = np.array(</span>
-    <span class="c1">#     unpack(params[&quot;model&quot;][&quot;init_params&quot;])</span>
-    <span class="c1"># )</span>
-    <span class="c1"># neglogl = 1</span>
+    <span class="n">best_fit_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="n">unpack</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">])</span>
+    <span class="p">)</span>
+    <span class="n">neglogl</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;neglogl&quot;</span><span class="p">:</span> <span class="n">neglogl</span><span class="p">,</span>
         <span class="s2">&quot;best_fit_p&quot;</span><span class="p">:</span> <span class="n">best_fit_p</span><span class="p">,</span>
@@ -278,6 +283,7 @@
 
 <div class="viewcode-block" id="get_params"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_params.html#bsfit.nodes.utils.get_params">[docs]</a><span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span>
     <span class="n">database</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
+    <span class="n">init_p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -287,6 +293,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        database (pd.DataFrame): _description_</span>
+<span class="sd">        init_p (dict): _description_</span>
 <span class="sd">        prior_shape (str): _description_</span>
 <span class="sd">        prior_mode (float): _description_</span>
 <span class="sd">        readout (str): _description_</span>
@@ -299,14 +306,7 @@
     <span class="c1"># ....................</span>
     <span class="c1"># set initial</span>
     <span class="n">model</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-    <span class="n">model</span><span class="p">[</span><span class="s2">&quot;init_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;k_llh&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-        <span class="s2">&quot;k_prior&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-        <span class="s2">&quot;k_card&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
-        <span class="s2">&quot;prior_tail&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="s2">&quot;p_rand&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-        <span class="s2">&quot;k_m&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="p">}</span>
+    <span class="n">model</span><span class="p">[</span><span class="s2">&quot;init_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">init_p</span>
 
     <span class="c1"># set fixed</span>
     <span class="n">model</span><span class="p">[</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
@@ -450,6 +450,117 @@
 <span class="sd">        (dict): intermediate variables</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
+    <span class="c1"># count fit params</span>
+    <span class="n">n_fit_params</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">fit_p</span><span class="p">))</span>
+
+    <span class="c1"># get fit parameters</span>
+    <span class="c1"># locate by type</span>
+    <span class="n">params_loc</span> <span class="o">=</span> <span class="n">locate_fit_params</span><span class="p">(</span>
+        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">k_llh</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_llh&quot;</span><span class="p">]]</span>
+    <span class="n">k_prior</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_prior&quot;</span><span class="p">]]</span>
+    <span class="n">k_card</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_card&quot;</span><span class="p">]]</span>
+    <span class="n">prior_tail</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;prior_tail&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">p_rand</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;p_rand&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">k_m</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_m&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># calculate probability density over</span>
+    <span class="c1"># percept space</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">get_proba_upo</span><span class="p">(</span>
+        <span class="n">stim_mean</span><span class="p">,</span>
+        <span class="n">estimate</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">,</span>
+        <span class="n">k_llh</span><span class="p">,</span>
+        <span class="n">k_prior</span><span class="p">,</span>
+        <span class="n">k_card</span><span class="p">,</span>
+        <span class="n">prior_tail</span><span class="p">,</span>
+        <span class="n">p_rand</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="nb">map</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;readout_percept&quot;</span><span class="p">]</span>
+    <span class="n">proba_percept</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;PupoGivenModel&quot;</span><span class="p">]</span>
+
+    <span class="c1"># calculate probability density over</span>
+    <span class="c1"># estimate space</span>
+    <span class="n">proba_estimate</span> <span class="o">=</span> <span class="n">get_proba_estimate</span><span class="p">(</span><span class="n">k_m</span><span class="p">,</span> <span class="n">proba_percept</span><span class="p">)</span>
+
+    <span class="c1"># calculate probability density of data</span>
+    <span class="n">proba_data</span> <span class="o">=</span> <span class="n">get_proba_data</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">proba_estimate</span><span class="p">)</span>
+
+    <span class="c1"># get the log likelihood of the observed estimates</span>
+    <span class="c1"># It circumvents numerical unstability for small</span>
+    <span class="c1"># probabilities</span>
+    <span class="c1"># (N stim_mean x 0)</span>
+    <span class="n">Logl_pertrial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">proba_data</span><span class="p">)</span>
+
+    <span class="c1"># we minimize the objective function</span>
+    <span class="n">negLogl</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">Logl_pertrial</span><span class="p">)</span>
+
+    <span class="c1"># akaike information criterion metric</span>
+    <span class="n">aic</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_fit_params</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">Logl_pertrial</span><span class="p">))</span>
+
+    <span class="c1"># [TODO] setup logging</span>
+    <span class="nb">print</span><span class="p">(</span>
+        <span class="s2">&quot;-logl:</span><span class="si">{:.2f}</span><span class="s2">, aic:</span><span class="si">{:.2f}</span><span class="s2">, kl:</span><span class="si">{}</span><span class="s2">, kp:</span><span class="si">{}</span><span class="s2">, kc:</span><span class="si">{}</span><span class="s2">, pt:</span><span class="si">{:.2f}</span><span class="s2">, pr:</span><span class="si">{:.2f}</span><span class="s2">, km:</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+            <span class="n">negLogl</span><span class="p">,</span>
+            <span class="n">aic</span><span class="p">,</span>
+            <span class="n">k_llh</span><span class="p">,</span>
+            <span class="n">k_prior</span><span class="p">,</span>
+            <span class="n">k_card</span><span class="p">,</span>
+            <span class="n">prior_tail</span><span class="p">,</span>
+            <span class="n">p_rand</span><span class="p">,</span>
+            <span class="n">k_m</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span>
+        <span class="n">negLogl</span><span class="p">,</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">:</span> <span class="n">proba_estimate</span><span class="p">,</span>
+            <span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span>
+            <span class="s2">&quot;conditions&quot;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">],</span>
+        <span class="p">},</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_proba_data"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_proba_data.html#bsfit.nodes.utils.get_proba_data">[docs]</a><span class="k">def</span> <span class="nf">get_proba_data</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">proba_estimate</span><span class="p">):</span>
+
+    <span class="c1"># normalize 0 values to 360</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">estimate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="n">estimate</span><span class="p">[</span><span class="n">estimate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
+
+    <span class="c1"># single trial&#39;s measurement, its position(row)</span>
+    <span class="c1"># for each trial(col) and its probability</span>
+    <span class="c1"># (also maxlikelihood of trial&#39;s data).</span>
+    <span class="n">n_stim_mean</span> <span class="o">=</span> <span class="n">proba_estimate</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">conditions_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_stim_mean</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">estimate_loc</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">proba_data</span> <span class="o">=</span> <span class="n">proba_estimate</span><span class="p">[</span>
+        <span class="n">estimate_loc</span><span class="p">,</span> <span class="n">conditions_loc</span>
+    <span class="p">]</span>
+
+    <span class="c1"># sanity checks</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">proba_data</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;likelihood&lt;0, but must be&gt;0&quot;&quot;&quot;</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isreal</span><span class="p">(</span><span class="n">proba_data</span><span class="p">))</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;likelihood is a complex nb.</span>
+<span class="sd">            It should be Real&quot;&quot;&quot;</span>
+        <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">proba_data</span></div>
+
+
+<div class="viewcode-block" id="get_proba_upo"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_proba_upo.html#bsfit.nodes.utils.get_proba_upo">[docs]</a><span class="k">def</span> <span class="nf">get_proba_upo</span><span class="p">(</span>
+    <span class="n">stim_mean</span><span class="p">,</span>
+    <span class="n">estimate</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">,</span>
+    <span class="n">k_llh</span><span class="p">,</span>
+    <span class="n">k_prior</span><span class="p">,</span>
+    <span class="n">k_card</span><span class="p">,</span>
+    <span class="n">prior_tail</span><span class="p">,</span>
+    <span class="n">p_rand</span><span class="p">,</span>
+<span class="p">):</span>
+
     <span class="c1"># get fixed parameters</span>
     <span class="c1"># ....................</span>
     <span class="c1"># stimulus</span>
@@ -464,6 +575,9 @@
     <span class="p">]</span>
     <span class="n">prior_std</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span><span class="s2">&quot;prior_std&quot;</span><span class="p">]</span>
 
+    <span class="c1"># track trials</span>
+    <span class="n">n_trials</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_std</span><span class="p">)</span>
+
     <span class="c1"># percept readout</span>
     <span class="n">readout</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span><span class="s2">&quot;readout&quot;</span><span class="p">]</span>
 
@@ -473,57 +587,37 @@
         <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">prior_std</span><span class="p">),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span>
     <span class="p">)</span>
 
-    <span class="c1"># get unique task params</span>
+    <span class="c1"># get set of task parameters</span>
     <span class="n">stim_mean_set</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)</span>
     <span class="n">n_stim_std</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_std_set</span><span class="p">)</span>
     <span class="n">n_prior_std</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">prior_std_set</span><span class="p">)</span>
 
-    <span class="c1"># count free params</span>
-    <span class="n">n_fit_params</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">fit_p</span><span class="p">))</span>
-
-    <span class="c1"># get fit parameters</span>
-    <span class="c1"># ..................</span>
-    <span class="c1"># locate each type</span>
-    <span class="n">params_loc</span> <span class="o">=</span> <span class="n">locate_fit_params</span><span class="p">(</span>
-        <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">]</span>
-    <span class="p">)</span>
-
-    <span class="c1"># get params</span>
-    <span class="n">k_llh</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_llh&quot;</span><span class="p">]]</span>
-    <span class="n">k_prior</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_prior&quot;</span><span class="p">]]</span>
-    <span class="n">k_card</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_card&quot;</span><span class="p">]]</span>
-    <span class="n">prior_tail</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;prior_tail&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">p_rand</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;p_rand&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">k_m</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_m&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
-
     <span class="c1"># boolean matrix to locate stim std conditions</span>
     <span class="c1"># each column of LLHs is mapped to a</span>
     <span class="c1"># stim_std_set</span>
-    <span class="n">LLHs</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_std</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_std_set</span><span class="p">)))</span>
-        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-    <span class="p">)</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_std_set</span><span class="p">)):</span>
-        <span class="n">LLHs</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">stim_std</span> <span class="o">==</span> <span class="n">stim_std_set</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">LLHs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_trials</span><span class="p">,</span> <span class="n">n_stim_std</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_stim_std</span><span class="p">):</span>
+        <span class="n">LLHs</span><span class="p">[:,</span> <span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">stim_std</span> <span class="o">==</span> <span class="n">stim_std_set</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
 
     <span class="c1"># boolean matrix to locate stim std conditions</span>
-    <span class="n">Prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">prior_std</span><span class="p">),</span> <span class="n">n_prior_std</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_prior_std</span><span class="p">):</span>
-        <span class="n">Prior</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">prior_std</span> <span class="o">==</span> <span class="n">prior_std_set</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">Prior</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n_trials</span><span class="p">,</span> <span class="n">n_prior_std</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_prior_std</span><span class="p">):</span>
+        <span class="n">Prior</span><span class="p">[:,</span> <span class="n">ix</span><span class="p">]</span> <span class="o">=</span> <span class="n">prior_std</span> <span class="o">==</span> <span class="n">prior_std_set</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
 
     <span class="c1"># set percept space</span>
     <span class="n">percept_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">361</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 
     <span class="c1"># init outputs</span>
-    <span class="n">llh_map</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
+    <span class="n">percept_llh</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">dict</span><span class="p">)</span>
 
-    <span class="c1"># store by prior std</span>
+    <span class="c1"># compute MAP percept density</span>
+    <span class="c1"># over prior and stimlus noises</span>
     <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">prior_std_set</span><span class="p">)):</span>
         <span class="k">for</span> <span class="n">jx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_stim_std</span><span class="p">):</span>
-
-            <span class="c1"># compute percept density</span>
-            <span class="c1"># map: maximum a posteriori readouts</span>
-            <span class="nb">map</span><span class="p">,</span> <span class="n">llh_map</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">jx</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_bayes_lookup</span><span class="p">(</span>
+            <span class="p">(</span>
+                <span class="n">readout_percept</span><span class="p">,</span>
+                <span class="n">percept_llh</span><span class="p">[</span><span class="n">ix</span><span class="p">][</span><span class="n">jx</span><span class="p">],</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="n">get_bayes_lookup</span><span class="p">(</span>
                 <span class="n">percept_space</span><span class="p">,</span>
                 <span class="n">stim_mean_set</span><span class="p">,</span>
                 <span class="n">k_llh</span><span class="p">[</span><span class="n">jx</span><span class="p">],</span>
@@ -539,39 +633,58 @@
     <span class="c1"># (upos=1:1:360,trials) for possible values of upo</span>
     <span class="c1"># (rows) for each trial (column)</span>
     <span class="n">PupoGivenBI</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="nb">map</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimate</span><span class="p">)))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">readout_percept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimate</span><span class="p">)))</span>
+        <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="p">)</span>
+
+    <span class="c1"># record conditions</span>
+    <span class="n">conditions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">estimate</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="c1"># compute PupoGivenBI for each condition</span>
+    <span class="c1"># in columns</span>
     <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_mean_set</span><span class="p">)):</span>
-
-        <span class="c1"># locate stimulus feature mean condition</span>
         <span class="n">thisd</span> <span class="o">=</span> <span class="n">stim_mean</span> <span class="o">==</span> <span class="n">stim_mean_set</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
-
-        <span class="c1"># locate prior noise condition</span>
         <span class="k">for</span> <span class="n">jx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_prior_std</span><span class="p">):</span>
-
-            <span class="c1"># locate stimulus noise condition</span>
             <span class="k">for</span> <span class="n">kx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_std_set</span><span class="p">)):</span>
 
-                <span class="c1"># locate combined condition</span>
-                <span class="n">loc_conditions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
-                    <span class="n">thisd</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">LLHs</span><span class="p">[:,</span> <span class="n">kx</span><span class="p">],</span> <span class="n">Prior</span><span class="p">[:,</span> <span class="n">jx</span><span class="p">]</span>
-                <span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="c1"># locate this condition&#39;s trials</span>
+                <span class="c1"># for PupoGivenBI</span>
+                <span class="n">ix_bool</span> <span class="o">=</span> <span class="n">thisd</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="n">kx_bool</span> <span class="o">=</span> <span class="n">LLHs</span><span class="p">[:,</span> <span class="n">kx</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="n">jx_bool</span> <span class="o">=</span> <span class="n">Prior</span><span class="p">[:,</span> <span class="n">jx</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+                <span class="n">loc_conditions</span> <span class="o">=</span> <span class="n">ix_bool</span> <span class="o">&amp;</span> <span class="n">kx_bool</span> <span class="o">&amp;</span> <span class="n">jx_bool</span>
                 <span class="n">n_cond_repeat</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">loc_conditions</span><span class="p">)</span>
+
+                <span class="c1"># locate trials for stimulus means</span>
+                <span class="c1"># in percept_llh</span>
                 <span class="n">stim_mean_loc</span> <span class="o">=</span> <span class="p">(</span>
                     <span class="n">stim_mean_set</span><span class="p">[</span>
                         <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">ix</span><span class="p">,</span> <span class="n">n_cond_repeat</span><span class="p">)</span>
                     <span class="p">]</span>
                     <span class="o">-</span> <span class="mi">1</span>
                 <span class="p">)</span>
-                <span class="n">PupoGivenBI</span><span class="p">[:,</span> <span class="n">loc_conditions</span><span class="p">]</span> <span class="o">=</span> <span class="n">llh_map</span><span class="p">[</span>
-                    <span class="n">jx</span>
-                <span class="p">][</span><span class="n">kx</span><span class="p">][:,</span> <span class="n">stim_mean_loc</span><span class="p">]</span>
+
+                <span class="c1"># fill in</span>
+                <span class="n">PupoGivenBI</span><span class="p">[</span>
+                    <span class="p">:,</span> <span class="n">loc_conditions</span>
+                <span class="p">]</span> <span class="o">=</span> <span class="n">percept_llh</span><span class="p">[</span><span class="n">jx</span><span class="p">][</span><span class="n">kx</span><span class="p">][:,</span> <span class="n">stim_mean_loc</span><span class="p">]</span>
+
+                <span class="c1"># record conditions</span>
+                <span class="n">conditions</span><span class="p">[</span>
+                    <span class="n">loc_conditions</span><span class="p">,</span> <span class="mi">0</span>
+                <span class="p">]</span> <span class="o">=</span> <span class="n">prior_std_set</span><span class="p">[</span><span class="n">jx</span><span class="p">]</span>
+                <span class="n">conditions</span><span class="p">[</span>
+                    <span class="n">loc_conditions</span><span class="p">,</span> <span class="mi">1</span>
+                <span class="p">]</span> <span class="o">=</span> <span class="n">stim_std_set</span><span class="p">[</span><span class="n">kx</span><span class="p">]</span>
+                <span class="n">conditions</span><span class="p">[</span>
+                    <span class="n">loc_conditions</span><span class="p">,</span> <span class="mi">2</span>
+                <span class="p">]</span> <span class="o">=</span> <span class="n">stim_mean_set</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
 
     <span class="c1"># normalize to probabilities</span>
     <span class="n">PupoGivenBI</span> <span class="o">=</span> <span class="n">PupoGivenBI</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">PupoGivenBI</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
 
     <span class="c1"># probabilities of percepts &quot;upo&quot; given random estimation</span>
-    <span class="n">PupoGivenRand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">360</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)))</span> <span class="o">/</span> <span class="mi">360</span>
+    <span class="n">PupoGivenRand</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">360</span><span class="p">,</span> <span class="n">n_trials</span><span class="p">))</span> <span class="o">/</span> <span class="mi">360</span>
 
     <span class="c1"># calculate probability of percepts &quot;upo&quot; given the model</span>
     <span class="n">PBI</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">p_rand</span>
@@ -579,22 +692,35 @@
         <span class="n">PupoGivenBI</span> <span class="o">*</span> <span class="n">PBI</span> <span class="o">+</span> <span class="n">PupoGivenRand</span> <span class="o">*</span> <span class="n">p_rand</span>
     <span class="p">)</span>
 
-    <span class="c1"># check PupoGivenModel sum to 1</span>
+    <span class="c1"># sanity check that proba_percept are probabilitoes</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">PupoGivenModel</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;PupoGivenModel should sum to 1&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;PupoGivenModel should sum to 1&quot;&quot;&quot;</span>
+        <span class="p">)</span>
 
-    <span class="c1"># convolve with motor noise</span>
-    <span class="c1"># -------------------------</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s2">&quot;readout_percept&quot;</span><span class="p">:</span> <span class="n">readout_percept</span><span class="p">,</span>
+        <span class="s2">&quot;PupoGivenModel&quot;</span><span class="p">:</span> <span class="n">PupoGivenModel</span><span class="p">,</span>
+        <span class="s2">&quot;conditions&quot;</span><span class="p">:</span> <span class="n">conditions</span><span class="p">,</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="get_proba_estimate"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_proba_estimate.html#bsfit.nodes.utils.get_proba_estimate">[docs]</a><span class="k">def</span> <span class="nf">get_proba_estimate</span><span class="p">(</span><span class="n">k_m</span><span class="p">,</span> <span class="n">PupoGivenModel</span><span class="p">):</span>
+
+    <span class="c1"># convolve percept density with motor noise</span>
     <span class="c1"># Now we shortly replace upo=1:1:360 by upo=0:1:359 because motor noise</span>
     <span class="c1"># distribution need to peak at 0 and vmPdfs function needs &#39;x&#39; to contain</span>
     <span class="c1"># the mean &#39;0&#39; to work. Then we set back upo to its initial value. This have</span>
     <span class="c1"># no effect on the calculations.</span>
     <span class="n">upo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">361</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="n">motor_mean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">360</span><span class="p">])</span>
-    <span class="n">Pmot</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">upo</span><span class="p">,</span> <span class="n">motor_mean</span><span class="p">,</span> <span class="p">[</span><span class="n">k_m</span><span class="p">])</span>
-    <span class="n">Pmot_to_conv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">Pmot</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">))</span>
+    <span class="n">proba_motor</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="n">upo</span><span class="p">,</span> <span class="n">motor_mean</span><span class="p">,</span> <span class="p">[</span><span class="n">k_m</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">n_stim_mean</span> <span class="o">=</span> <span class="n">PupoGivenModel</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">proba_motor</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">proba_motor</span><span class="p">,</span> <span class="n">n_stim_mean</span><span class="p">)</span>
     <span class="n">PestimateGivenModel</span> <span class="o">=</span> <span class="n">get_circ_conv</span><span class="p">(</span>
-        <span class="n">PupoGivenModel</span><span class="p">,</span> <span class="n">Pmot_to_conv</span>
+        <span class="n">PupoGivenModel</span><span class="p">,</span> <span class="n">proba_motor</span>
     <span class="p">)</span>
     <span class="c1"># check that probability of estimates Given Model are positive values.</span>
     <span class="c1"># circular convolution sometimes produces negative values very close to zero</span>
@@ -622,68 +748,7 @@
         <span class="n">PestimateGivenModel</span>
         <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">PestimateGivenModel</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
     <span class="p">)</span>
-
-    <span class="c1"># get the log likelihood of the observed estimates</span>
-    <span class="c1"># other case are when we just want estimates</span>
-    <span class="c1"># distributions prediction given</span>
-    <span class="c1"># model parameters</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">estimate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="n">estimate</span><span class="p">[</span><span class="n">estimate</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
-
-    <span class="c1"># single trial&#39;s measurement, its position(row)</span>
-    <span class="c1"># for each trial(col) and its probability</span>
-    <span class="c1"># (also maxlikelihood of trial&#39;s data).</span>
-    <span class="c1"># make sure sub2ind inputs are the same size</span>
-    <span class="n">conditions_loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">estimate_loc</span> <span class="o">=</span> <span class="n">estimate</span><span class="o">.</span><span class="n">values</span> <span class="o">-</span> <span class="mi">1</span>
-    <span class="n">PdataGivenModel</span> <span class="o">=</span> <span class="n">PestimateGivenModel</span><span class="p">[</span>
-        <span class="n">estimate_loc</span><span class="p">,</span> <span class="n">conditions_loc</span>
-    <span class="p">]</span>
-
-    <span class="c1"># sanity checks</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">PdataGivenModel</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;likelihood&lt;0, but must be&gt;0&quot;&quot;&quot;</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="p">(</span><span class="o">~</span><span class="n">np</span><span class="o">.</span><span class="n">isreal</span><span class="p">(</span><span class="n">PdataGivenModel</span><span class="p">))</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sd">&quot;&quot;&quot;likelihood is complex. </span>
-<span class="sd">            It should be Real&quot;&quot;&quot;</span>
-        <span class="p">)</span>
-
-    <span class="c1"># We use log likelihood because</span>
-    <span class="c1"># likelihood is so small that matlab cannot</span>
-    <span class="c1"># encode it properly (numerical unstability).</span>
-    <span class="c1"># We can use single trials log</span>
-    <span class="c1"># likelihood to calculate AIC in the conditions</span>
-    <span class="c1"># that maximize differences in</span>
-    <span class="c1"># predictions of two models.</span>
-    <span class="n">Logl_pertrial</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">PdataGivenModel</span><span class="p">)</span>
-
-    <span class="c1"># we minimize the objective function</span>
-    <span class="n">negLogl</span> <span class="o">=</span> <span class="o">-</span><span class="nb">sum</span><span class="p">(</span><span class="n">Logl_pertrial</span><span class="p">)</span>
-
-    <span class="c1"># akaike information criterion metric</span>
-    <span class="n">aic</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">n_fit_params</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">Logl_pertrial</span><span class="p">))</span>
-
-    <span class="c1"># [TODO] setup logging</span>
-    <span class="nb">print</span><span class="p">(</span>
-        <span class="s2">&quot;-logl:</span><span class="si">{:.2f}</span><span class="s2">, aic:</span><span class="si">{:.2f}</span><span class="s2">, kl:</span><span class="si">{}</span><span class="s2">, kp:</span><span class="si">{}</span><span class="s2">, kc:</span><span class="si">{}</span><span class="s2">, pt:</span><span class="si">{:.2f}</span><span class="s2">, pr:</span><span class="si">{:.2f}</span><span class="s2">, km:</span><span class="si">{:.2f}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
-            <span class="n">negLogl</span><span class="p">,</span>
-            <span class="n">aic</span><span class="p">,</span>
-            <span class="n">k_llh</span><span class="p">,</span>
-            <span class="n">k_prior</span><span class="p">,</span>
-            <span class="n">k_card</span><span class="p">,</span>
-            <span class="n">prior_tail</span><span class="p">,</span>
-            <span class="n">p_rand</span><span class="p">,</span>
-            <span class="n">k_m</span><span class="p">,</span>
-        <span class="p">)</span>
-    <span class="p">)</span>
-    <span class="k">return</span> <span class="p">(</span>
-        <span class="n">negLogl</span><span class="p">,</span>
-        <span class="p">{</span>
-            <span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">:</span> <span class="n">PestimateGivenModel</span><span class="p">,</span>
-            <span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span>
-        <span class="p">},</span>
-    <span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">PestimateGivenModel</span></div>
 
 
 <div class="viewcode-block" id="get_bayes_lookup"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_bayes_lookup.html#bsfit.nodes.utils.get_bayes_lookup">[docs]</a><span class="k">def</span> <span class="nf">get_bayes_lookup</span><span class="p">(</span>
@@ -1248,76 +1313,114 @@
         <span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="n">stim_estimate</span>
     <span class="p">)</span>
 
-    <span class="c1"># extract fit variables</span>
-    <span class="n">PestimateGivenModel</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">]</span>
-    <span class="nb">map</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;map&quot;</span><span class="p">]</span>
+    <span class="c1"># get prediction stats</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">get_prediction_stats</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 
+    <span class="c1"># predict per trial</span>
+    <span class="k">if</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">get_trial_prediction</span><span class="p">(</span>
+            <span class="n">stim_mean</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">params</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="get_trial_prediction"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_trial_prediction.html#bsfit.nodes.utils.get_trial_prediction">[docs]</a><span class="k">def</span> <span class="nf">get_trial_prediction</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
     <span class="c1"># get task conditions by trial</span>
     <span class="n">prior_noise</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span>
         <span class="s2">&quot;prior_std&quot;</span>
     <span class="p">]</span>
     <span class="n">stim_noise</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span><span class="s2">&quot;stim_std&quot;</span><span class="p">]</span>
-    <span class="n">task_fixed_params</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
-        <span class="p">[</span><span class="n">prior_noise</span><span class="p">,</span> <span class="n">stim_noise</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">]</span>
+
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;trial_pred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">prior_noise</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="p">)</span>
+    <span class="n">cond</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">]</span>
+
+    <span class="k">for</span> <span class="n">c_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cond</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">loc_prior_noise</span> <span class="o">=</span> <span class="n">prior_noise</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">loc_stim_noise</span> <span class="o">=</span> <span class="n">stim_noise</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">loc_stim_mean</span> <span class="o">=</span> <span class="n">stim_mean</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">prior_noise_bool</span> <span class="o">=</span> <span class="n">loc_prior_noise</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
+            <span class="nb">bool</span>
+        <span class="p">)</span>
+        <span class="n">stim_noise_bool</span> <span class="o">=</span> <span class="n">loc_stim_noise</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">stim_mean_bool</span> <span class="o">=</span> <span class="n">loc_stim_mean</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="n">loc</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">prior_noise_bool</span>
+            <span class="o">&amp;</span> <span class="n">stim_noise_bool</span>
+            <span class="o">&amp;</span> <span class="n">stim_mean_bool</span>
+        <span class="p">)</span>
+        <span class="n">output</span><span class="p">[</span><span class="s2">&quot;trial_pred&quot;</span><span class="p">][</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span>
+            <span class="s2">&quot;prediction_mean&quot;</span>
+        <span class="p">][</span><span class="n">c_i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="get_prediction_stats"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_prediction_stats.html#bsfit.nodes.utils.get_prediction_stats">[docs]</a><span class="k">def</span> <span class="nf">get_prediction_stats</span><span class="p">(</span><span class="n">output</span><span class="p">):</span>
+
+    <span class="c1"># extract fit variables</span>
+    <span class="n">proba_estimate</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">]</span>
+    <span class="nb">map</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;map&quot;</span><span class="p">]</span>
+
+    <span class="c1"># initiatise stats</span>
+    <span class="n">prediction_mean</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prediction_std</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># record prediction stats by condition</span>
+    <span class="n">n_cond</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">c_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cond</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">get_circ_weighted_mean_std</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">,</span> <span class="n">proba_estimate</span><span class="p">[:,</span> <span class="n">c_i</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">prediction_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">])</span>
+        <span class="n">prediction_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_std&quot;</span><span class="p">])</span>
+
+    <span class="c1"># record predictions stats</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;prediction_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prediction_mean</span><span class="p">)</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;prediction_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prediction_std</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="get_data_stats"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_data_stats.html#bsfit.nodes.utils.get_data_stats">[docs]</a><span class="k">def</span> <span class="nf">get_data_stats</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+
+    <span class="c1"># get conditions</span>
+    <span class="n">cond</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">]</span>
+
+    <span class="c1"># initialise statistics</span>
+    <span class="n">data_mean</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">data_std</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="c1"># get set of conditions</span>
-    <span class="n">cond</span><span class="p">,</span> <span class="n">idxCondUniqtrial</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_combination_set</span><span class="p">(</span>
-        <span class="n">task_fixed_params</span><span class="o">.</span><span class="n">T</span>
-    <span class="p">)</span>
+    <span class="n">cond_set</span><span class="p">,</span> <span class="n">ix</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_combination_set</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
 
-    <span class="n">PestimateGivenModelUniq</span> <span class="o">=</span> <span class="n">PestimateGivenModel</span><span class="p">[</span>
-        <span class="p">:,</span> <span class="n">idxCondUniqtrial</span>
-    <span class="p">]</span>
+    <span class="c1"># record stats by condition</span>
+    <span class="k">for</span> <span class="n">c_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cond_set</span><span class="p">)):</span>
 
-    <span class="c1"># map conditions with</span>
-    <span class="c1"># estimate likelihood (ascending order)</span>
-    <span class="c1"># sort first by prior noise (ascending),</span>
-    <span class="c1"># then by stimulus noise (ascending)</span>
-    <span class="n">PosSorted</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">lexsort</span><span class="p">(</span>
-        <span class="p">(</span><span class="n">cond</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">cond</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">][::</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-    <span class="p">)</span>
-    <span class="n">sorted_cond</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[</span><span class="n">PosSorted</span><span class="p">,</span> <span class="p">:]</span>
-    <span class="n">PestimateGivenModelUniq</span> <span class="o">=</span> <span class="n">PestimateGivenModelUniq</span><span class="p">[</span>
-        <span class="p">:,</span> <span class="n">PosSorted</span>
-    <span class="p">]</span>
+        <span class="c1"># find condition&#39;s instances</span>
+        <span class="n">loc_1</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">cond_set</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">loc_2</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">cond_set</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">loc_3</span> <span class="o">=</span> <span class="n">cond</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">cond_set</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
 
-    <span class="c1"># get predictions about</span>
-    <span class="c1"># estimate circular mean and std for</span>
-    <span class="c1"># each task condition (columns)</span>
-    <span class="n">n_cond</span> <span class="o">=</span> <span class="n">sorted_cond</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="c1"># get associated data</span>
+        <span class="n">data_c_i</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="n">loc_1</span> <span class="o">&amp;</span> <span class="n">loc_2</span> <span class="o">&amp;</span> <span class="n">loc_3</span><span class="p">]</span>
 
-    <span class="c1"># predict estimate mean, std per</span>
-    <span class="c1"># condition</span>
-    <span class="n">meanPred</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">stdPred</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cond</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">get_circ_weighted_mean_std</span><span class="p">(</span>
-            <span class="nb">map</span><span class="p">,</span>
-            <span class="n">PestimateGivenModelUniq</span><span class="p">[:,</span> <span class="n">ix</span><span class="p">],</span>
-            <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">,</span>
+        <span class="c1"># set each instance with equal probability</span>
+        <span class="n">trial_proba</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_c_i</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">data_c_i</span><span class="p">)</span>
         <span class="p">)</span>
-        <span class="n">meanPred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">])</span>
-        <span class="n">stdPred</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_std&quot;</span><span class="p">])</span>
 
-    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;meanPred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">meanPred</span>
-    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;stdPred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stdPred</span>
-
-    <span class="c1"># predict per trial</span>
-    <span class="k">if</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span>
-        <span class="n">output</span><span class="p">[</span><span class="s2">&quot;trial_pred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">prior_noise</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="c1"># get statistics</span>
+        <span class="n">stats</span> <span class="o">=</span> <span class="n">get_circ_weighted_mean_std</span><span class="p">(</span>
+            <span class="n">data_c_i</span><span class="p">,</span> <span class="n">trial_proba</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">for</span> <span class="n">ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cond</span><span class="p">):</span>
-            <span class="n">loc_prior_noise</span> <span class="o">=</span> <span class="n">prior_noise</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-            <span class="n">loc_stim_noise</span> <span class="o">=</span> <span class="n">stim_noise</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-            <span class="n">loc_stim_mean</span> <span class="o">=</span> <span class="n">stim_mean</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-            <span class="n">loc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_and</span><span class="p">(</span>
-                <span class="n">loc_prior_noise</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                <span class="n">loc_stim_noise</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-                <span class="n">loc_stim_mean</span><span class="o">.</span><span class="n">values</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="n">output</span><span class="p">[</span><span class="s2">&quot;trial_pred&quot;</span><span class="p">][</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">meanPred</span><span class="p">[</span><span class="n">ix</span><span class="p">]</span>
+
+        <span class="c1"># record statistics</span>
+        <span class="n">data_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">])</span>
+        <span class="n">data_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">stats</span><span class="p">[</span><span class="s2">&quot;deg_std&quot;</span><span class="p">])</span>
+
+    <span class="c1"># record statistics</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_mean</span><span class="p">)</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_std</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 

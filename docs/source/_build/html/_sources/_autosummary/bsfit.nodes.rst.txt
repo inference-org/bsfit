@@ -42,4 +42,5 @@ bsfit.nodes
    bsfit.nodes.models
    bsfit.nodes.util
    bsfit.nodes.utils
+   bsfit.nodes.viz
 

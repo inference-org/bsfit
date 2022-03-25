@@ -83,28 +83,48 @@ def get_circ_conv(X_1: np.ndarray, X_2: np.ndarray):
     ).real
 
 
-def get_cartesian_to_deg(x, y):
+def get_cartesian_to_deg(
+    x: np.ndarray, y: np.ndarray
+) -> np.ndarray:
+    """convert cartesian coordinates to 
+    angle in degree
 
+    Args:
+        x (np.ndarray): x coordinate
+        y (np.ndarray): y coordinate
+
+    Raises:
+        ValueError: _description_
+
+    Returns:
+        np.ndarray: angle(s) in degree
+    """
     # round
-    x = np.round(x, 4)
-    y = np.round(y, 4)
+    # x = np.round(x, 4)
+    # y = np.round(y, 4)
 
-    # convert cartesian to radian
-    radian = np.arctan(y / x)
+    # convert to radian
+    degree = np.arctan(y / x)
 
+    # convert to degree and adjust based
+    # on quadrant
     for ix in range(len(x)):
-        if (x[ix] >= 0) and (y[ix] >= 0):
-            radian[ix] = radian[ix] * 180 / np.pi
+        if (x[ix] == 0) and (y[ix] == 0):
+            degree[ix] = 0
+        elif (x[ix] >= 0) and (y[ix] >= 0):
+            degree[ix] = degree[ix] * 180 / np.pi
         elif x[ix] < 0:
-            radian[ix] = radian[ix] * 180 / np.pi + 180
+            degree[ix] = degree[ix] * 180 / np.pi + 180
         elif (x[ix] >= 0) and (y[ix] < 0):
-            radian[ix] = radian[ix] * 180 / np.pi + 360
-    return get_rad_to_deg(radian)
+            degree[ix] = degree[ix] * 180 / np.pi + 360
+    return degree
 
 
 def get_polar_to_cartesian(
-    angle, radius, type: str
+    angle: np.ndarray, radius: float, type: str
 ) -> dict:
+
+    # convert to radian if needed
     theta = dict()
     if type == "polar":
         theta["deg"] = angle
@@ -113,14 +133,16 @@ def get_polar_to_cartesian(
         theta["deg"] = get_deg_to_rad(angle, False)
         theta["rad"] = angle
 
-    # convert radians to cartesian
+    # convert to cartesian coordinates
     x = radius * np.cos(theta["rad"])
     y = radius * np.sin(theta["rad"])
 
     # round to 10e-4
     x = np.round(x, 4)
     y = np.round(y, 4)
-    theta["cart"] = np.vstack([x, y])
+
+    # reshape as (N angles x 2 coord)
+    theta["cart"] = np.vstack([x, y]).T
     return theta
 
 
@@ -149,8 +171,8 @@ def get_circ_weighted_mean_std(
 
     # store angles
     data = dict()
-    data["coord_all"] = coord["cart"].T
-    data["deg_all"] = coord["deg"].T
+    data["coord_all"] = coord["cart"]
+    data["deg_all"] = coord["deg"]
 
     # calculate mean
     # ..............
@@ -163,6 +185,9 @@ def get_circ_weighted_mean_std(
         data["coord_mean"][0], data["coord_mean"][1]
     )
 
+    if np.isnan(data["deg_mean"])[0]:
+        print("HERE")
+
     # calculate std
     # ..............
     n_data = len(data["deg_all"])
@@ -171,6 +196,7 @@ def get_circ_weighted_mean_std(
         data["deg_mean"], n_data
     )
 
+    # apply corrections
     if data["deg_mean"] + 180 <= 360:
         for ix in range(n_data):
             if (
@@ -178,7 +204,7 @@ def get_circ_weighted_mean_std(
                 >= data["deg_mean"] + 180
             ):
                 data["deg_all_for_std"][ix] = (
-                    data["deg_all"] - 360
+                    data["deg_all"][ix] - 360
                 )
     else:
         for ix in range(n_data):
@@ -192,15 +218,66 @@ def get_circ_weighted_mean_std(
 
     # get variance, standard deviation and
     # standard error to the mean
-    data["deg_var"] = sum(
-        proba
-        * (
-            data["deg_all_for_std"]
-            - data["deg_mean_for_std"]
-        )
-        ** 2
+    data["deg_var"] = np.array(
+        [
+            sum(
+                proba
+                * (
+                    data["deg_all_for_std"]
+                    - data["deg_mean_for_std"]
+                )
+                ** 2
+            )
+        ]
     )
     data["deg_std"] = np.sqrt(data["deg_var"])
     data["deg_sem"] = data["deg_std"] / np.sqrt(n_data)
     return data
 
+
+def get_signed_angle(
+    angle_1: np.ndarray, angle_2: np.ndarray, type: str
+):
+    """get signed angle between angle 1 and 2
+
+    Args:
+        angle_1 (np.ndarray): _description_
+        angle_2 (np.ndarray): _description_
+        type (str): _description_
+        - "polar"
+        - "radian"
+        - "cartesian"
+
+    Returns:
+        (np.ndarray): angle difference between 
+        angle 1 and 2
+    
+    Usage:
+    .. code-block:: python
+
+        angle = get_signed_angle(90, 45, 'polar')
+        angle = get_signed_angle(90, 45, 'radian')
+        angle = get_signed_angle([0 1], [1 0])
+    """
+
+    # convert to cartesian coordinates
+    if type == "polar" or type == "radian":
+        angle_1 = get_polar_to_cartesian(
+            angle_1, radius=1, type=type
+        )
+        angle_2 = get_polar_to_cartesian(
+            angle_2, radius=1, type=type
+        )
+
+    # get coordinates
+    xV1 = angle_1["cart"][:, 0]
+    yV1 = angle_1["cart"][:, 1]
+    xV2 = angle_2["cart"][:, 0]
+    yV2 = angle_2["cart"][:, 1]
+
+    # Calculate the angle separating the
+    # two vectors in degrees
+    angle = -(180 / np.pi) * np.arctan2(
+        xV1 * yV2 - yV1 * xV2, xV1 * xV2 + yV1 * yV2
+    )
+    return angle
