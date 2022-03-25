@@ -83,23 +83,42 @@ def get_circ_conv(X_1: np.ndarray, X_2: np.ndarray):
     ).real
 
 
-def get_cartesian_to_deg(x, y):
+def get_cartesian_to_deg(
+    x: np.ndarray, y: np.ndarray
+) -> np.ndarray:
+    """convert cartesian coordinates to 
+    angle in degree
 
+    Args:
+        x (np.ndarray): x coordinate
+        y (np.ndarray): y coordinate
+
+    Raises:
+        ValueError: _description_
+
+    Returns:
+        np.ndarray: angle(s) in degree
+    """
     # round
-    x = np.round(x, 4)
-    y = np.round(y, 4)
+    # x = np.round(x, 4)
+    # y = np.round(y, 4)
 
-    # convert cartesian to radian
-    radian = np.arctan(y / x)
+    # convert to degree
+    degree = np.arctan2(y, x)
 
     for ix in range(len(x)):
         if (x[ix] >= 0) and (y[ix] >= 0):
-            radian[ix] = radian[ix] * 180 / np.pi
+            degree[ix] = degree[ix] * 180 / np.pi
         elif x[ix] < 0:
-            radian[ix] = radian[ix] * 180 / np.pi + 180
+            degree[ix] = degree[ix] * 180 / np.pi + 180
         elif (x[ix] >= 0) and (y[ix] < 0):
-            radian[ix] = radian[ix] * 180 / np.pi + 360
-    return get_rad_to_deg(radian)
+            degree[ix] = degree[ix] * 180 / np.pi + 360
+
+    # handle exceptions
+    if np.isnan(degree)[0]:
+        raise ValueError("radian is nan")
+
+    return degree
 
 
 def get_polar_to_cartesian(
@@ -167,6 +186,9 @@ def get_circ_weighted_mean_std(
         data["coord_mean"][0], data["coord_mean"][1]
     )
 
+    if np.isnan(data["deg_mean"])[0]:
+        print("HERE")
+
     # calculate std
     # ..............
     n_data = len(data["deg_all"])
@@ -183,7 +205,7 @@ def get_circ_weighted_mean_std(
                 >= data["deg_mean"] + 180
             ):
                 data["deg_all_for_std"][ix] = (
-                    data["deg_all"] - 360
+                    data["deg_all"][ix] - 360
                 )
     else:
         for ix in range(n_data):
@@ -197,13 +219,17 @@ def get_circ_weighted_mean_std(
 
     # get variance, standard deviation and
     # standard error to the mean
-    data["deg_var"] = sum(
-        proba
-        * (
-            data["deg_all_for_std"]
-            - data["deg_mean_for_std"]
-        )
-        ** 2
+    data["deg_var"] = np.array(
+        [
+            sum(
+                proba
+                * (
+                    data["deg_all_for_std"]
+                    - data["deg_mean_for_std"]
+                )
+                ** 2
+            )
+        ]
     )
     data["deg_std"] = np.sqrt(data["deg_var"])
     data["deg_sem"] = data["deg_std"] / np.sqrt(n_data)
