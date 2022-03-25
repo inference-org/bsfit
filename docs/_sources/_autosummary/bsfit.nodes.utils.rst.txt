@@ -1,4 +1,4 @@
-..
+﻿..
    # This is a comment: I customized
    this .rst template to automatically
    generate page docs for modules and 
@@ -29,14 +29,17 @@ bsfit.nodes.utils
       get_bayes_lookup
       get_combination_set
       get_data
+      get_data_stats
       get_fit_variables
       get_learnt_prior
       get_logl
       get_params
       get_percept_likelihood
+      get_prediction_stats
       get_proba_data
       get_proba_estimate
       get_proba_upo
+      get_trial_prediction
       locate_fit_params
       predict
       unpack

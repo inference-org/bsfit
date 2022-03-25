@@ -215,11 +215,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">neglogl</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[]</span></div>
 
-<div class="viewcode-block" id="StandardBayes.fit"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardBayes.fit"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">init_p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;fit the model</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            dataset (pd.DataFrame): _description_</span>
+<span class="sd">            init_p (dict): _description_</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (StandarBayes): fitted model</span>
@@ -227,6 +228,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training the model ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">fit_maxlogl</span><span class="p">(</span>
             <span class="n">dataset</span><span class="p">,</span>
+            <span class="n">init_p</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prior_shape</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prior_mode</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">readout</span><span class="p">,</span>
