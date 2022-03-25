@@ -18,12 +18,8 @@ import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 
-from .circpy import (
-    get_circ_conv,
-    get_circ_weighted_mean_std,
-    get_deg_to_rad,
-    get_rad_to_deg,
-)
+from .circpy import (get_circ_conv, get_circ_weighted_mean_std, get_deg_to_rad,
+                     get_rad_to_deg)
 from .data import VonMises
 from .util import is_empty
 
@@ -1220,7 +1216,7 @@ def get_data_stats(data: np.ndarray, output: dict):
     # get conditions
     cond = output["conditions"]
 
-    # initialise stats
+    # initialise statistics
     data_mean = []
     data_std = []
 
@@ -1230,25 +1226,29 @@ def get_data_stats(data: np.ndarray, output: dict):
     # record stats by condition
     for c_i in range(len(cond_set)):
 
-        # find condition's data
+        # find condition's instances
         loc_1 = cond[:, 0] == cond_set[c_i, 0]
         loc_2 = cond[:, 1] == cond_set[c_i, 1]
         loc_3 = cond[:, 2] == cond_set[c_i, 2]
+
+        # get associated data
         data_c_i = data.values[loc_1 & loc_2 & loc_3]
 
-        # set trial data to equal probability
+        # set each instance with equal probability
         trial_proba = np.tile(
             1 / len(data_c_i), len(data_c_i)
         )
 
-        # get stats
+        # get statistics
         stats = get_circ_weighted_mean_std(
             data_c_i, trial_proba, type="polar",
         )
+
+        # record statistics
         data_mean.append(stats["deg_mean"])
         data_std.append(stats["deg_std"])
 
-    # record stats
+    # record statistics
     output["data_mean"] = np.array(data_mean)
     output["data_std"] = np.array(data_std)
     return output
