@@ -63,6 +63,115 @@ def make_dataset(subject: str, data_path: str, prior: str):
     pass
 
 
+def simulate_small_dataset():
+    """simulate a case of prior-induced bias
+    in circular estimates
+    - 1 stimulus noise
+    - 2 prior noises
+
+    Returns:
+        _type_: _description_
+    """
+    # init df
+    data = pd.DataFrame()
+
+    # set stimulus mean (e.g., 5 to 355)
+    data["stim_mean"] = np.array(
+        [
+            200,
+            210,
+            220,
+            230,
+            240,
+            250,
+            200,
+            210,
+            220,
+            230,
+            240,
+            250,
+        ]
+    )
+
+    # set stimulus std
+    data["stim_std"] = np.array(
+        [
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+            0.66,
+        ]
+    )
+
+    # set prior mode
+    data["prior_mode"] = np.array(
+        [
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+            225,
+        ]
+    )
+
+    # set prior std
+    data["prior_std"] = np.array(
+        [80, 80, 80, 80, 80, 80, 20, 20, 20, 20, 20, 20,]
+    )
+
+    # set prior std
+    data["prior_shape"] = np.array(
+        [
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+            "vonMisesPrior",
+        ]
+    )
+
+    # simulate estimate choices
+    data["estimate"] = np.array(
+        [
+            200,
+            210,
+            220,
+            230,
+            240,
+            250,
+            218,
+            220,
+            223,
+            227,
+            230,
+            233,
+        ]
+    )
+    return data
+
+
 def simulate_dataset(
     stim_noise: float,
     prior_mode: float,
