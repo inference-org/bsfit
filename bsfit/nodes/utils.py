@@ -297,7 +297,7 @@ def get_fit_variables(
 
     # calculate probability density over
     # percept space
-    output = get_proba_upo(
+    output = get_proba_percept(
         stim_mean,
         estimate,
         params,
@@ -380,7 +380,7 @@ def get_proba_data(estimate, proba_estimate):
     return proba_data
 
 
-def get_proba_upo(
+def get_proba_percept(
     stim_mean,
     estimate,
     params,
@@ -453,8 +453,6 @@ def get_proba_upo(
                 k_llh[jx],
                 prior_mode,
                 k_prior[ix],
-                k_card,
-                prior_tail,
                 prior_shape,
                 readout=readout,
             )
@@ -472,24 +470,30 @@ def get_proba_upo(
 
     # compute PupoGivenBI for each condition
     # in columns
-    for ix in range(len(stim_mean_set)):
-        thisd = stim_mean == stim_mean_set[ix]
-        for jx in range(n_prior_std):
-            for kx in range(len(stim_std_set)):
+    for s_mean_i in range(len(stim_mean_set)):
+        thisd = stim_mean == stim_mean_set[s_mean_i]
+        for p_i in range(n_prior_std):
+            for s_noise_i in range(len(stim_std_set)):
 
                 # locate this condition's trials
                 # for PupoGivenBI
-                ix_bool = thisd.values.astype(bool)
-                kx_bool = LLHs[:, kx].astype(bool)
-                jx_bool = Prior[:, jx].astype(bool)
-                loc_conditions = ix_bool & kx_bool & jx_bool
+                s_mean_i_bool = thisd.values.astype(bool)
+                s_noise_i_bool = LLHs[:, s_noise_i].astype(
+                    bool
+                )
+                p_i_bool = Prior[:, p_i].astype(bool)
+                loc_conditions = (
+                    s_mean_i_bool
+                    & s_noise_i_bool
+                    & p_i_bool
+                )
                 n_cond_repeat = sum(loc_conditions)
 
                 # locate trials for stimulus means
                 # in percept_llh
                 stim_mean_loc = (
                     stim_mean_set[
-                        np.tile(ix, n_cond_repeat)
+                        np.tile(s_mean_i, n_cond_repeat)
                     ]
                     - 1
                 )
@@ -497,18 +501,20 @@ def get_proba_upo(
                 # fill in
                 PupoGivenBI[
                     :, loc_conditions
-                ] = percept_llh[jx][kx][:, stim_mean_loc]
+                ] = percept_llh[p_i][s_noise_i][
+                    :, stim_mean_loc
+                ]
 
                 # record conditions
                 conditions[
                     loc_conditions, 0
-                ] = prior_std_set[jx]
+                ] = prior_std_set[p_i]
                 conditions[
                     loc_conditions, 1
-                ] = stim_std_set[kx]
+                ] = stim_std_set[s_noise_i]
                 conditions[
                     loc_conditions, 2
-                ] = stim_mean_set[ix]
+                ] = stim_mean_set[s_mean_i]
 
     # normalize to probabilities
     PupoGivenBI = PupoGivenBI / sum(PupoGivenBI)[None, :]
@@ -542,10 +548,10 @@ def get_proba_estimate(k_m, PupoGivenModel):
     # distribution need to peak at 0 and vmPdfs function needs 'x' to contain
     # the mean '0' to work. Then we set back upo to its initial value. This have
     # no effect on the calculations.
-    upo = np.arange(1, 361, 1)
-    motor_mean = np.array([360])
+    percept_space = np.arange(0, 360, 1)
+    motor_mean = np.array([0])
     proba_motor = VonMises(p=True).get(
-        upo, motor_mean, [k_m]
+        percept_space, motor_mean, [k_m]
     )
     n_stim_mean = PupoGivenModel.shape[1]
     proba_motor = np.tile(proba_motor, n_stim_mean)
@@ -570,9 +576,6 @@ def get_proba_estimate(k_m, PupoGivenModel):
             PestimateGivenModel <= 0
         ] = 10e-320
 
-    # set upo to initial values any case we use it later
-    upo = np.arange(1, 361, 1)
-
     # normalize to probabilities
     PestimateGivenModel = (
         PestimateGivenModel
@@ -587,8 +590,6 @@ def get_bayes_lookup(
     k_llh: float,
     prior_mode: float,
     k_prior: float,
-    k_card: float,
-    prior_tail: float,
     prior_shape: str,
     readout: str,
 ):
@@ -1212,7 +1213,15 @@ def get_prediction_stats(output):
 
 
 def get_data_stats(data: np.ndarray, output: dict):
+    """calculate the data mean and std statistics 
 
+    Args:
+        data (np.ndarray): _description_
+        output (dict): _description_
+
+    Returns:
+        _type_: _description_
+    """
     # get conditions
     cond = output["conditions"]
 
