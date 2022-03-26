@@ -65,22 +65,28 @@ def get_rad_to_deg(rad: float):
 def get_circ_conv(X_1: np.ndarray, X_2: np.ndarray):
     """calculate circular convolutions 
     for circular data.
+    Convolution is applied column-wise between columns 
+    i of X_1 and i of X_2
     The probability that value i in vector 2 would be 
     combined with at least one value from vector 1
     vector 1 and 2 are col vectors (vertical) 
-    or matrices for convolution 
-    column by column. e.g., two probability densities
 
     Args:
-        X_1 (np.ndarray): _description_
-        X_2 (np.ndarray): _description_
+        X_1 (np.ndarray): a column vector or matrix        
+        X_2 (np.ndarray): a column vector or matrix
 
-    Raises:
-        ValueError: _description_
+    Returns:
+        (np.array):
     """
-    return np.fft.ifft(
-        np.fft.fft(X_1) * np.fft.fft(X_2)
-    ).real
+    convolved = []
+    for col in range(X_1.shape[1]):
+        convolved.append(
+            np.fft.ifft(
+                np.fft.fft(X_1[:, col])
+                * np.fft.fft(X_2[:, col])
+            ).real
+        )
+    return np.array(convolved).T
 
 
 def get_cartesian_to_deg(
