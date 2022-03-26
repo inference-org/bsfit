@@ -73,7 +73,6 @@ class VonMises:
             vmises = self._get_different_k_and_means(
                 x_rad, u_rad, v_k
             )
-
         return vmises
 
     def _get_same_k_different_means(
@@ -108,10 +107,8 @@ class VonMises:
             when mean is not in x    
         """
 
+        # case the mean is not in the support space
         if not self._is_all_in(set(v_u), set(v_x)):
-            from ipdb import set_trace
-
-            set_trace()
             raise Exception(
                 """(get_vonMises) The mean "u"
                 is not in support space "x".
@@ -120,7 +117,7 @@ class VonMises:
         else:
             # when k -> +inf von mises
             # are delta functions
-            if v_k[0] > 1e300:
+            if v_k[0] > 713:
 
                 # make the first a delta
                 first_vm = np.zeros((len(v_x)))
@@ -221,7 +218,15 @@ class VonMises:
         Returns:
             np.array: f(x_rad,u_rad,k_rad)
         """
+        # handle exceptions
+        if v_k > 713:
+            raise ValueError(
+                """v_k must be < 713
+                else, bessel function=inf
+                """
+            )
 
+        # calculate von mises
         amp = 1
         bessel_order = 0
         scaling = 2 * pi * iv(bessel_order, v_k)
