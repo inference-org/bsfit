@@ -23,10 +23,8 @@ import os
 
 import yaml
 
-from bsfit.nodes.dataEng import (
-    make_dataset,
-    simulate_dataset,
-)
+from bsfit.nodes.dataEng import (make_dataset, simulate_dataset,
+                                 simulate_small_dataset)
 from bsfit.nodes.models.bayes import StandardBayes
 from bsfit.nodes.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
@@ -50,17 +48,29 @@ PRIOR_SHAPE = "vonMisesPrior"
 PRIOR_MODE = 225
 OBJ_FUN = "maxLLH"
 READOUT = "map"
-PRIOR_NOISE = [80, 40]
-STIM_NOISE = [0.33, 0.66, 1.0]
+CENTERING = True
+
+# simulate case 0
 INIT_P = {
-    "k_llh": [1, 1, 1],
-    "k_prior": [1, 1],
-    "k_card": [1],
+    "k_llh": [33],
+    "k_prior": [0, 33],
+    "k_card": [0],
     "prior_tail": [0],
     "p_rand": [0],
-    "k_m": [0],
+    "k_m": [2000],
 }
-CENTERING = True
+
+# simulate case 1
+# PRIOR_NOISE = [80, 40]
+# STIM_NOISE = [0.33, 0.66, 1.0]
+# INIT_P = {
+#     "k_llh": [0.1, 0.7, 3],
+#     "k_prior": [0.1, 0.4],
+#     "k_card": [0],
+#     "prior_tail": [0],
+#     "p_rand": [0],
+#     "k_m": [0],
+# }
 
 if __name__ == "__main__":
     """Entry point that runs analytical pipelines
@@ -69,12 +79,17 @@ if __name__ == "__main__":
     """
     # simulate a dataset
     logger.info("Simulating dataset ...")
-    dataset = simulate_dataset(
-        stim_noise=STIM_NOISE,
-        prior_mode=PRIOR_MODE,
-        prior_noise=PRIOR_NOISE,
-        prior_shape=PRIOR_SHAPE,
-    )
+
+    # simulate case 0
+    dataset = simulate_small_dataset()
+
+    # simulate case 1
+    # dataset = simulate_dataset(
+    #     stim_noise=STIM_NOISE,
+    #     prior_mode=PRIOR_MODE,
+    #     prior_noise=PRIOR_NOISE,
+    #     prior_shape=PRIOR_SHAPE,
+    # )
 
     # log status
     logger.info("Fitting bayes model ...")
