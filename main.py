@@ -23,8 +23,11 @@ import os
 
 import yaml
 
-from bsfit.nodes.dataEng import (make_dataset, simulate_dataset,
-                                 simulate_small_dataset)
+from bsfit.nodes.dataEng import (
+    make_dataset,
+    simulate_dataset,
+    simulate_small_dataset,
+)
 from bsfit.nodes.models.bayes import StandardBayes
 from bsfit.nodes.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
