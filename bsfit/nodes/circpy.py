@@ -105,20 +105,17 @@ def get_cartesian_to_deg(
     Returns:
         np.ndarray: angle(s) in degree
     """
-    # round
-    # x = np.round(x, 4)
-    # y = np.round(y, 4)
-
-    # convert to radian
-    degree = np.arctan(y / x)
+    # convert to radian (ignoring divide by 0 warning)
+    with np.errstate(divide="ignore"):
+        degree = np.arctan(y / x)
 
     # convert to degree and adjust based
     # on quadrant
     for ix in range(len(x)):
-        if (x[ix] == 0) and (y[ix] == 0):
-            degree[ix] = 0
-        elif (x[ix] >= 0) and (y[ix] >= 0):
+        if (x[ix] >= 0) and (y[ix] >= 0):
             degree[ix] = degree[ix] * 180 / np.pi
+        elif (x[ix] == 0) and (y[ix] == 0):
+            degree[ix] = 0
         elif x[ix] < 0:
             degree[ix] = degree[ix] * 180 / np.pi + 180
         elif (x[ix] >= 0) and (y[ix] < 0):
