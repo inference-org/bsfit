@@ -59,27 +59,22 @@ def fit_maxlogl(
     # set the data to fit
     data = get_data(database)
 
-    # # fit the model
-    # output = fmin(
-    #     func=get_logl,
-    #     x0=unpack(params["model"]["init_params"]),
-    #     args=(params, *data),
-    #     disp=True,
-    #     retall=True,  # get solutions after iter
-    #     maxiter=1,  # 100,  # max nb of iterations
-    #     maxfun=1,  # 100,  # max nb of func eval
-    #     # ftol=0.0001,  # objfun convergence
-    # )
-
-    # # get fit results
-    # best_fit_p = output[0]
-    # neglogl = output[1]
-
-    # [TO REMOVE] FOR QUICK TEST ONLY
-    best_fit_p = np.array(
-        unpack(params["model"]["init_params"])
+    # fit the model
+    output = fmin(
+        func=get_logl,
+        x0=unpack(params["model"]["init_params"]),
+        args=(params, *data),
+        disp=True,
+        retall=True,  # get solutions after iter
+        maxiter=1,  # 100,  # max nb of iterations
+        maxfun=1,  # 100,  # max nb of func eval
+        # ftol=0.0001,  # objfun convergence
     )
-    neglogl = 1
+
+    # get fit results
+    best_fit_p = output[0]
+    neglogl = output[1]
+
     return {
         "neglogl": neglogl,
         "best_fit_p": best_fit_p,
