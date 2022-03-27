@@ -1265,9 +1265,9 @@ def get_prediction_stats(output: dict) -> dict:
 
     # extract fit variables
     proba_estimate = output["PestimateGivenModel"]
-    map = output["map"]
+    map = output["map"].copy()
 
-    # initiatise stats
+    # initialise stats
     prediction_mean = []
     prediction_std = []
 

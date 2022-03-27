@@ -90,14 +90,15 @@ def get_circ_conv(X_1: np.ndarray, X_2: np.ndarray):
 
 
 def get_cartesian_to_deg(
-    x: np.ndarray, y: np.ndarray
+    x: np.ndarray, y: np.ndarray, signed: bool
 ) -> np.ndarray:
     """convert cartesian coordinates to 
-    angle in degree
+    angles in degree
 
     Args:
         x (np.ndarray): x coordinate
         y (np.ndarray): y coordinate
+        signed (boolean): signed or unsigned degree
 
     Raises:
         ValueError: _description_
@@ -120,6 +121,10 @@ def get_cartesian_to_deg(
             degree[ix] = degree[ix] * 180 / np.pi + 180
         elif (x[ix] >= 0) and (y[ix] < 0):
             degree[ix] = degree[ix] * 180 / np.pi + 360
+
+    # if needed, convert signed to unsigned
+    if not signed:
+        degree[degree < 0] = degree[degree < 0] + 360
     return degree
 
 
@@ -164,6 +169,7 @@ def get_circ_weighted_mean_std(
         (dict): angle mean and std
     """
     # if polar, convert to cartesian
+    angle = angle.copy()
     if type == "polar":
         radius = 1
         coord = get_polar_to_cartesian(
@@ -185,11 +191,10 @@ def get_circ_weighted_mean_std(
     )
     data["coord_mean"] = data["coord_mean"][:, None]
     data["deg_mean"] = get_cartesian_to_deg(
-        data["coord_mean"][0], data["coord_mean"][1]
+        data["coord_mean"][0],
+        data["coord_mean"][1],
+        signed=False,
     )
-
-    if np.isnan(data["deg_mean"])[0]:
-        print("HERE")
 
     # calculate std
     # ..............
@@ -200,6 +205,7 @@ def get_circ_weighted_mean_std(
     )
 
     # apply corrections
+    # when 0 <= mean <= 180
     if data["deg_mean"] + 180 <= 360:
         for ix in range(n_data):
             if (
@@ -210,6 +216,7 @@ def get_circ_weighted_mean_std(
                     data["deg_all"][ix] - 360
                 )
     else:
+        # when 180 <= mean <= 360
         for ix in range(n_data):
             if (
                 data["deg_all"][ix]
@@ -219,7 +226,7 @@ def get_circ_weighted_mean_std(
                     data["deg_mean"] - 360
                 )
 
-    # get variance, standard deviation and
+    # calculate variance, standard deviation and
     # standard error to the mean
     data["deg_var"] = np.array(
         [

@@ -160,7 +160,6 @@ def plot_mean(
 
                 # set ticks
                 x_tick_centered = x_centered
-                y_tick_centered = x_centered
 
             # plot data stats
             plt.errorbar(
@@ -193,6 +192,7 @@ def plot_mean(
                 color=levels_2_color_er_prediction[
                     level1_ix
                 ],
+                alpha=0.5,
             )
     plt.show()
     return None
