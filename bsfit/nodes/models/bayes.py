@@ -18,8 +18,10 @@
 
 
 import pandas as pd
+from bsfit.nodes.utils import get_data, get_data_stats
+from bsfit.nodes.viz.prediction import plot_mean
 
-from ..utils import fit_maxlogl, predict
+from ..utils import fit_maxlogl, predict, simulate
 
 
 class StandardBayes:
@@ -69,6 +71,65 @@ class StandardBayes:
         self.neglogl = output["neglogl"]
         self.params = output["params"]
         print("\nTraining is complete !")
+        return self
+
+    def simulate(
+        self,
+        dataset: pd.DataFrame,
+        sim_p: dict,
+        granularity: str,
+        centering: bool,
+    ):
+        """simulate predictions
+
+        Args:
+            dataset (pd.DataFrame): _description_
+            sim_p (dict): _description_
+            granularity (str): _description_
+            centering (bool): _description_
+
+        Returns:
+            _type_: _description_
+        """
+        print("Running simulation ...\n")
+
+        # calculate simulation data
+        output = simulate(
+            dataset,
+            sim_p,
+            self.prior_shape,
+            self.prior_mode,
+            self.readout,
+        )
+
+        # record parameters
+        self.best_fit_p = output["best_fit_p"]
+        self.neglogl = output["neglogl"]
+        self.params = output["params"]
+
+        # predict
+        dataset = get_data(dataset)
+
+        # get predictions
+        output = self.predict(
+            dataset, granularity=granularity
+        )
+
+        # get data and prediction stats
+        estimate = dataset[1]
+        output = get_data_stats(estimate, output)
+
+        # plot data and prediction mean
+        plot_mean(
+            output["data_mean"],
+            output["data_std"],
+            output["prediction_mean"],
+            output["prediction_std"],
+            output["conditions"],
+            prior_mode=self.prior_mode,
+            centering=centering,
+        )
+        print("\nSimulation is complete !")
         return self
 
     def predict(

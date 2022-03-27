@@ -227,20 +227,20 @@
 <span class="sig-prename descclassname"><span class="pre">bsfit.nodes.circpy.</span></span><span class="sig-name descname"><span class="pre">get_circ_conv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">X_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">X_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/circpy.html#get_circ_conv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.circpy.get_circ_conv" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate circular convolutions
 for circular data.
+Convolution is applied column-wise between columns
+i of X_1 and i of X_2
 The probability that value i in vector 2 would be
 combined with at least one value from vector 1
-vector 1 and 2 are col vectors (vertical)
-or matrices for convolution
-column by column. e.g., two probability densities</p>
+vector 1 and 2 are col vectors (vertical)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>X_1</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>X_2</strong> (<em>np.ndarray</em>) – _description_</p></li>
+<li><p><strong>X_1</strong> (<em>np.ndarray</em>) – a column vector or matrix</p></li>
+<li><p><strong>X_2</strong> (<em>np.ndarray</em>) – a column vector or matrix</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><strong>ValueError</strong> – _description_</p>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(np.array)</p>
 </dd>
 </dl>
 </dd></dl>

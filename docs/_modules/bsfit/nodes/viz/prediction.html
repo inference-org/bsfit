@@ -224,6 +224,12 @@
         <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
         <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
     <span class="p">]</span>
+    <span class="n">levels_2_color_er_prediction</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
+    <span class="p">]</span>
 
     <span class="c1"># loop over conditions and plot data</span>
     <span class="c1"># and prediction stats</span>
@@ -326,24 +332,25 @@
                 <span class="n">x_tick_centered</span> <span class="o">=</span> <span class="n">x_centered</span>
                 <span class="n">y_tick_centered</span> <span class="o">=</span> <span class="n">x_centered</span>
 
-            <span class="c1"># plot data</span>
+            <span class="c1"># plot data stats</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span>
                 <span class="n">x_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
                 <span class="n">y_data_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
                 <span class="n">yerr</span><span class="o">=</span><span class="n">y_data_std_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
                 <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
-                <span class="n">markersize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
-                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color</span><span class="p">[</span><span class="n">level2_ix</span><span class="p">],</span>
-                <span class="n">ecolor</span><span class="o">=</span><span class="n">levels_2_color</span><span class="p">[</span><span class="n">level2_ix</span><span class="p">],</span>
+                <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+                <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color</span><span class="p">[</span><span class="n">level1_ix</span><span class="p">],</span>
+                <span class="n">ecolor</span><span class="o">=</span><span class="n">levels_2_color</span><span class="p">[</span><span class="n">level1_ix</span><span class="p">],</span>
             <span class="p">)</span>
 
-            <span class="c1"># plot predictions</span>
+            <span class="c1"># plot prediction stats</span>
             <span class="c1"># mean</span>
             <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
                 <span class="n">x_centered</span><span class="p">,</span>
                 <span class="n">y_centered</span><span class="p">,</span>
-                <span class="n">y_std_centered</span><span class="p">,</span>
-                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color_prediction</span><span class="p">[</span><span class="n">level2_ix</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color_prediction</span><span class="p">[</span><span class="n">level1_ix</span><span class="p">],</span>
             <span class="p">)</span>
 
             <span class="c1"># std</span>
@@ -353,11 +360,12 @@
                 <span class="o">-</span> <span class="n">y_std_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
                 <span class="n">y_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
                 <span class="o">+</span> <span class="n">y_std_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
-                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color_prediction</span><span class="p">[</span><span class="n">level2_ix</span><span class="p">],</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color_er_prediction</span><span class="p">[</span>
+                    <span class="n">level1_ix</span>
+                <span class="p">],</span>
             <span class="p">)</span>
     <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
     <span class="k">return</span> <span class="kc">None</span></div>
-
 </pre></div>
 
            </div>

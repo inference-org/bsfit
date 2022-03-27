@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Reference" href="api.html" />
+    <link rel="next" title="Fit standard Bayesian model" href="predictions.html" />
     <link rel="prev" title="Tutorials" href="tutorials.html" /> 
 </head>
 
@@ -103,6 +103,7 @@
 <li class="toctree-l4"><a class="reference internal" href="#Plot-stats-for-data-&amp;-predictions">Plot stats for data &amp; predictions</a></li>
 </ul>
 </li>
+<li class="toctree-l3"><a class="reference internal" href="predictions.html">Fit standard Bayesian model</a></li>
 </ul>
 </li>
 </ul>
@@ -467,7 +468,7 @@ div.rendered_html tbody tr:hover {
 <section id="Setup">
 <h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to the project&#39;s root path</span>
@@ -477,7 +478,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import dependencies</span>
@@ -489,6 +490,7 @@ div.rendered_html tbody tr:hover {
     <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span><span class="p">,</span> <span class="n">get_prediction_stats</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">bsfit.nodes.viz.prediction</span> <span class="kn">import</span> <span class="n">plot_mean</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="o">%</span><span class="k">load_ext</span> autoreload
 <span class="o">%</span><span class="k">autoreload</span> 2
 </pre></div>
@@ -507,7 +509,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Set-parameters">
 <h2>Set parameters<a class="headerlink" href="#Set-parameters" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[30]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the parameters</span>
@@ -519,12 +521,12 @@ The autoreload extension is already loaded. To reload it, use:
 <span class="n">PRIOR_NOISE</span> <span class="o">=</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>      <span class="c1"># e.g., prior&#39;s std</span>
 <span class="n">STIM_NOISE</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.33</span><span class="p">,</span> <span class="mf">0.66</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
 <span class="n">INIT_P</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;k_llh&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
-    <span class="s2">&quot;k_prior&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;k_llh&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">10.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+    <span class="s2">&quot;k_prior&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
     <span class="s2">&quot;k_card&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
     <span class="s2">&quot;prior_tail&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
     <span class="s2">&quot;p_rand&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
-    <span class="s2">&quot;k_m&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;k_m&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2000</span><span class="p">],</span>
 <span class="p">}</span>
 <span class="n">CENTERING</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
@@ -534,7 +536,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Simulate-dataset">
 <h2>Simulate dataset<a class="headerlink" href="#Simulate-dataset" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[31]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate a training dataset</span>
@@ -555,7 +557,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Train-model-and-predict">
 <h2>Train model and predict<a class="headerlink" href="#Train-model-and-predict" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate the model</span>
@@ -582,11 +584,11 @@ Training is complete !
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[34]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get predictions</span>
-<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">granularity</span><span class="o">=</span><span class="s2">&quot;trial&quot;</span><span class="p">)</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">,</span> <span class="n">granularity</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
 <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;predictions data:&quot;</span><span class="p">,</span> <span class="n">output</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
 </pre></div>
 </div>
@@ -598,15 +600,16 @@ Training is complete !
 <div class="highlight"><pre>
 Calculating predictions ...
 
--logl:3573.14, aic:7164.28, kl:[1 1 1], kp:[1 1], kc:[1], pt:0.00, pr:0.00, km:0.00
-predictions data: dict_keys([&#39;PestimateGivenModel&#39;, &#39;map&#39;, &#39;conditions&#39;, &#39;prediction_mean&#39;, &#39;prediction_std&#39;, &#39;trial_pred&#39;])
+-logl:50265.93, aic:100549.87, kl:[ 2.7 10.7 33. ], kp:[ 2.7 33. ], kc:[1.], pt:0.00, pr:0.00, km:2000.00
+predictions data: dict_keys([&#39;PestimateGivenModel&#39;, &#39;map&#39;, &#39;conditions&#39;, &#39;prediction_mean&#39;, &#39;prediction_std&#39;])
 </pre></div></div>
 </div>
 </section>
 <section id="Plot-stats-for-data-&amp;-predictions">
 <h2>Plot stats for data &amp; predictions<a class="headerlink" href="#Plot-stats-for-data-&-predictions" title="Permalink to this headline">¶</a></h2>
+<p>We calculate the data and prediction mean and standard deviations.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[35]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># get data stats</span>
@@ -618,28 +621,22 @@ predictions data: dict_keys([&#39;PestimateGivenModel&#39;, &#39;map&#39;, &#39;
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
-/Users/steeve_laquitaine/Desktop/CodeHub/bsfit/bsfit/nodes/circpy.py:107: RuntimeWarning: divide by zero encountered in true_divide
-  ) -&gt; dict:
+/Users/steeve_laquitaine/Desktop/CodeHub/bsfit/bsfit/nodes/circpy.py:113: RuntimeWarning: divide by zero encountered in true_divide
+  degree = np.arctan(y / x)
 </pre></div></div>
 </div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-HERE
-</pre></div></div>
-</div>
+<p>We plot the stats.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[36]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plot_mean</span><span class="p">(</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">plot_mean</span><span class="p">(</span>
     <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_mean&quot;</span><span class="p">],</span>
     <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_std&quot;</span><span class="p">],</span>
     <span class="n">output</span><span class="p">[</span><span class="s2">&quot;prediction_mean&quot;</span><span class="p">],</span>
@@ -655,7 +652,7 @@ HERE
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<img alt="_images/notebooks_15_0.png" src="_images/notebooks_15_0.png" />
+<img alt="_images/notebooks_17_0.png" src="_images/notebooks_17_0.png" />
 </div>
 </div>
 <p>Tutorial complete !</p>
@@ -670,7 +667,7 @@ HERE
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="api.html" class="btn btn-neutral float-right" title="Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="predictions.html" class="btn btn-neutral float-right" title="Fit standard Bayesian model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="tutorials.html" class="btn btn-neutral float-left" title="Tutorials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

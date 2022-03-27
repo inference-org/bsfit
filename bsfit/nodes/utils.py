@@ -87,6 +87,48 @@ def fit_maxlogl(
     }
 
 
+def simulate(
+    database: pd.DataFrame,
+    sim_p: dict,
+    prior_shape: str,
+    prior_mode: float,
+    readout: str,
+) -> Dict[str, Any]:
+    """Simulate estimate data per task
+    condition
+
+    Args:
+        database (pd.DataFrame): database
+        sim_p (dict): simulation parameters
+        prior_shape (str): shape of the prior  
+        - "vonMisesPrior"  
+        prior_mode: (float): mode of the prior  
+
+    Returns:
+        Dict[str, Any]: record of simulation data
+    """
+
+    # set parameters
+    # (model and task)
+    params = get_params(
+        database, sim_p, prior_shape, prior_mode, readout
+    )
+
+    # set the data
+    data = get_data(database)
+
+    # get simulation parameters
+    sim_fit_p = np.array(
+        unpack(params["model"]["init_params"])
+    )
+    neglogl = None
+    return {
+        "neglogl": neglogl,
+        "best_fit_p": sim_fit_p,
+        "params": params,
+    }
+
+
 def unpack(my_dict: Dict[str, list]) -> list:
     """unpack dict into a flat list
 
@@ -312,28 +354,20 @@ def get_fit_variables(
 
     # calculate probability density over
     # estimate space
+    # (N_estimates_space x N_conditions)
     proba_estimate = get_proba_estimate(k_m, proba_percept)
 
     # calculate probability density of data
     proba_data = get_proba_data(estimate, proba_estimate)
 
-    # get the log likelihood of the observed estimates
-    # It circumvents numerical unstability for small
-    # probabilities
-    # (N stim_mean x 0)
-    Logl_pertrial = np.log(proba_data)
-
-    # we minimize the objective function
-    negLogl = -sum(Logl_pertrial)
-
-    # akaike information criterion metric
-    aic = 2 * (n_fit_params - sum(Logl_pertrial))
+    # get the log likelihood of the observed data
+    fit_out = get_logl_and_aic(n_fit_params, proba_data)
 
     # [TODO] setup logging
     print(
         "-logl:{:.2f}, aic:{:.2f}, kl:{}, kp:{}, kc:{}, pt:{:.2f}, pr:{:.2f}, km:{:.2f}".format(
-            negLogl,
-            aic,
+            fit_out["neglogl"],
+            fit_out["aic"],
             k_llh,
             k_prior,
             k_card,
@@ -343,13 +377,38 @@ def get_fit_variables(
         )
     )
     return (
-        negLogl,
+        fit_out["neglogl"],
         {
             "PestimateGivenModel": proba_estimate,
             "map": map,
             "conditions": output["conditions"],
         },
     )
+
+
+def get_logl_and_aic(
+    n_fit_params: int, proba_data: np.ndarray
+) -> dict:
+    """calculate log(likelihood) and 
+    akaike information criterion
+
+    Args:
+        n_fit_params (int): number of fit parameters
+        proba_data (np.ndarray): probability of data
+
+    Returns:
+        _type_: _description_
+    """
+
+    Logl_pertrial = np.log(proba_data)
+
+    # we minimize the objective function
+    negLogl = -sum(Logl_pertrial)
+
+    # akaike information criterion metric
+    aic = 2 * (n_fit_params - sum(Logl_pertrial))
+
+    return {"neglogl": negLogl, "aic": aic}
 
 
 def get_proba_data(estimate, proba_estimate):
@@ -1132,6 +1191,7 @@ def predict(
         stim_estimate (pd.Series): _description_
         granularity (str): 
         - "trial"
+        - "mean"
 
     Returns:
         _type_: _description_
@@ -1145,12 +1205,18 @@ def predict(
     )
 
     # get prediction stats
-    output = get_prediction_stats(output)
+    if granularity == "mean":
+        output = get_prediction_stats(output)
 
     # predict per trial
-    if granularity == "trial":
+    elif granularity == "trial":
+        output = get_prediction_stats(output)
         output = get_trial_prediction(
             stim_mean, output, params
+        )
+    else:
+        raise ValueError(
+            """granularity only takes "mean" or "trial" args"""
         )
     return output
 
@@ -1187,7 +1253,15 @@ def get_trial_prediction(stim_mean, output, params):
     return output
 
 
-def get_prediction_stats(output):
+def get_prediction_stats(output: dict) -> dict:
+    """calculate prediction statistics
+
+    Args:
+        output (dict): _description_
+
+    Returns:
+        dict: _description_
+    """
 
     # extract fit variables
     proba_estimate = output["PestimateGivenModel"]

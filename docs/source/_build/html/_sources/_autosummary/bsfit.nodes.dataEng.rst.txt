@@ -25,6 +25,7 @@ bsfit.nodes.dataEng
       load_mat
       make_dataset
       simulate_dataset
+      simulate_small_dataset
    
    
 

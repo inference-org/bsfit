@@ -233,6 +233,115 @@
     <span class="k">pass</span></div>
 
 
+<div class="viewcode-block" id="simulate_small_dataset"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.dataEng.simulate_small_dataset.html#bsfit.nodes.dataEng.simulate_small_dataset">[docs]</a><span class="k">def</span> <span class="nf">simulate_small_dataset</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;simulate a case of prior-induced bias</span>
+<span class="sd">    in circular estimates</span>
+<span class="sd">    - 1 stimulus noise</span>
+<span class="sd">    - 2 prior noises</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># init df</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="c1"># set stimulus mean (e.g., 5 to 355)</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mi">200</span><span class="p">,</span>
+            <span class="mi">210</span><span class="p">,</span>
+            <span class="mi">220</span><span class="p">,</span>
+            <span class="mi">230</span><span class="p">,</span>
+            <span class="mi">240</span><span class="p">,</span>
+            <span class="mi">250</span><span class="p">,</span>
+            <span class="mi">200</span><span class="p">,</span>
+            <span class="mi">210</span><span class="p">,</span>
+            <span class="mi">220</span><span class="p">,</span>
+            <span class="mi">230</span><span class="p">,</span>
+            <span class="mi">240</span><span class="p">,</span>
+            <span class="mi">250</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># set stimulus std</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;stim_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+            <span class="mf">0.66</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># set prior mode</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;prior_mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+            <span class="mi">225</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># set prior std</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;prior_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">,]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># set prior std</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;prior_shape&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># simulate estimate choices</span>
+    <span class="n">data</span><span class="p">[</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+        <span class="p">[</span>
+            <span class="mi">200</span><span class="p">,</span>
+            <span class="mi">210</span><span class="p">,</span>
+            <span class="mi">220</span><span class="p">,</span>
+            <span class="mi">230</span><span class="p">,</span>
+            <span class="mi">240</span><span class="p">,</span>
+            <span class="mi">250</span><span class="p">,</span>
+            <span class="mi">218</span><span class="p">,</span>
+            <span class="mi">220</span><span class="p">,</span>
+            <span class="mi">223</span><span class="p">,</span>
+            <span class="mi">227</span><span class="p">,</span>
+            <span class="mi">230</span><span class="p">,</span>
+            <span class="mi">233</span><span class="p">,</span>
+        <span class="p">]</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">data</span></div>
+
+
 <div class="viewcode-block" id="simulate_dataset"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.dataEng.simulate_dataset.html#bsfit.nodes.dataEng.simulate_dataset">[docs]</a><span class="k">def</span> <span class="nf">simulate_dataset</span><span class="p">(</span>
     <span class="n">stim_noise</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>

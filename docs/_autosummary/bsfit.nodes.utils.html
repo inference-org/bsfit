@@ -251,7 +251,7 @@
 <td><p>get data to fit</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_data_stats.html#bsfit.nodes.utils.get_data_stats" title="bsfit.nodes.utils.get_data_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_stats</span></code></a>(data, output)</p></td>
-<td><p></p></td>
+<td><p>calculate the data mean and std statistics</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_fit_variables.html#bsfit.nodes.utils.get_fit_variables" title="bsfit.nodes.utils.get_fit_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fit_variables</span></code></a>(fit_p, params, stim_mean, ...)</p></td>
 <td><p>calculate the log(likelihood) of the observed stimulus feature mean's estimate given the model.</p></td>
@@ -262,32 +262,38 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_logl.html#bsfit.nodes.utils.get_logl" title="bsfit.nodes.utils.get_logl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl</span></code></a>(fit_p, params, stim_mean, estimate)</p></td>
 <td><p>calculate the log(likelihood) of the observed stimulus feature mean's estimate given the model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_params.html#bsfit.nodes.utils.get_params" title="bsfit.nodes.utils.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(database, init_p, prior_shape, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_logl_and_aic.html#bsfit.nodes.utils.get_logl_and_aic" title="bsfit.nodes.utils.get_logl_and_aic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl_and_aic</span></code></a>(n_fit_params, proba_data)</p></td>
+<td><p>calculate log(likelihood) and akaike information criterion</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_params.html#bsfit.nodes.utils.get_params" title="bsfit.nodes.utils.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(database, init_p, prior_shape, ...)</p></td>
 <td><p>Set model and task parameters free and fixed</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_percept_likelihood.html#bsfit.nodes.utils.get_percept_likelihood" title="bsfit.nodes.utils.get_percept_likelihood"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_percept_likelihood</span></code></a>(percept_space, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_percept_likelihood.html#bsfit.nodes.utils.get_percept_likelihood" title="bsfit.nodes.utils.get_percept_likelihood"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_percept_likelihood</span></code></a>(percept_space, ...)</p></td>
 <td><p>calculate percepts' likelihood.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_prediction_stats.html#bsfit.nodes.utils.get_prediction_stats" title="bsfit.nodes.utils.get_prediction_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_prediction_stats</span></code></a>(output)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_prediction_stats.html#bsfit.nodes.utils.get_prediction_stats" title="bsfit.nodes.utils.get_prediction_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_prediction_stats</span></code></a>(output)</p></td>
+<td><p>calculate prediction statistics</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_proba_data.html#bsfit.nodes.utils.get_proba_data" title="bsfit.nodes.utils.get_proba_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_proba_data</span></code></a>(estimate, proba_estimate)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_proba_data.html#bsfit.nodes.utils.get_proba_data" title="bsfit.nodes.utils.get_proba_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_proba_data</span></code></a>(estimate, proba_estimate)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_proba_estimate.html#bsfit.nodes.utils.get_proba_estimate" title="bsfit.nodes.utils.get_proba_estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_proba_estimate</span></code></a>(k_m, PupoGivenModel)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_proba_estimate.html#bsfit.nodes.utils.get_proba_estimate" title="bsfit.nodes.utils.get_proba_estimate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_proba_estimate</span></code></a>(k_m, PupoGivenModel)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_proba_percept.html#bsfit.nodes.utils.get_proba_percept" title="bsfit.nodes.utils.get_proba_percept"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_proba_percept</span></code></a>(stim_mean, estimate, ...)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_proba_upo.html#bsfit.nodes.utils.get_proba_upo" title="bsfit.nodes.utils.get_proba_upo"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_proba_upo</span></code></a>(stim_mean, estimate, params, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_trial_prediction.html#bsfit.nodes.utils.get_trial_prediction" title="bsfit.nodes.utils.get_trial_prediction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_prediction</span></code></a>(stim_mean, output, params)</p></td>
 <td><p></p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.get_trial_prediction.html#bsfit.nodes.utils.get_trial_prediction" title="bsfit.nodes.utils.get_trial_prediction"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_trial_prediction</span></code></a>(stim_mean, output, params)</p></td>
-<td><p></p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.locate_fit_params.html#bsfit.nodes.utils.locate_fit_params" title="bsfit.nodes.utils.locate_fit_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locate_fit_params</span></code></a>(params)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.locate_fit_params.html#bsfit.nodes.utils.locate_fit_params" title="bsfit.nodes.utils.locate_fit_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">locate_fit_params</span></code></a>(params)</p></td>
 <td><p>locate fit parameters in parameter dictionary</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.predict.html#bsfit.nodes.utils.predict" title="bsfit.nodes.utils.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(fit_p, params, stim_mean, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.predict.html#bsfit.nodes.utils.predict" title="bsfit.nodes.utils.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(fit_p, params, stim_mean, ...)</p></td>
 <td><p>&quot;&quot;get model predictions</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.utils.simulate.html#bsfit.nodes.utils.simulate" title="bsfit.nodes.utils.simulate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simulate</span></code></a>(database, sim_p, prior_shape, ...)</p></td>
+<td><p>Simulate estimate data per task condition</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.utils.unpack.html#bsfit.nodes.utils.unpack" title="bsfit.nodes.utils.unpack"><code class="xref py py-obj docutils literal notranslate"><span class="pre">unpack</span></code></a>(my_dict)</p></td>
 <td><p>unpack dict into a flat list</p></td>

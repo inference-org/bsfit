@@ -55,11 +55,12 @@ def plot_mean(
         [0.3, 0.3, 0],
     ]
     levels_2_color_er_prediction = [
-        [0.2, 0.5, 0.5],
-        [0.97, 0.7, 0.5],
-        [0.8, 0.9, 0, 5],
-        [0.3, 0.9, 0.5],
+        [0.6, 0.2, 0.0],
+        [1, 0.75, 0.75],
+        [0.8, 0.4, 0.2],
+        [0.3, 0.3, 0.3],
     ]
+
     # loop over conditions and plot data
     # and prediction stats
     for level2_ix in range(len(levels_2)):
@@ -161,24 +162,25 @@ def plot_mean(
                 x_tick_centered = x_centered
                 y_tick_centered = x_centered
 
-            # plot data
+            # plot data stats
             plt.errorbar(
                 x_centered.squeeze(),
                 y_data_centered.squeeze(),
                 yerr=y_data_std_centered.squeeze(),
                 marker="o",
                 markersize=5,
-                color=levels_2_color[level2_ix],
-                ecolor=levels_2_color[level2_ix],
+                markeredgecolor="w",
+                linestyle="None",
+                color=levels_2_color[level1_ix],
+                ecolor=levels_2_color[level1_ix],
             )
 
-            # plot predictions
+            # plot prediction stats
             # mean
             plt.plot(
                 x_centered,
                 y_centered,
-                y_std_centered,
-                color=levels_2_color_prediction[level2_ix],
+                color=levels_2_color_prediction[level1_ix],
             )
 
             # std
@@ -189,9 +191,8 @@ def plot_mean(
                 y_centered.squeeze()
                 + y_std_centered.squeeze(),
                 color=levels_2_color_er_prediction[
-                    level2_ix
+                    level1_ix
                 ],
             )
     plt.show()
     return None
-

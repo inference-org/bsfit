@@ -33,15 +33,17 @@ bsfit.nodes.utils
       get_fit_variables
       get_learnt_prior
       get_logl
+      get_logl_and_aic
       get_params
       get_percept_likelihood
       get_prediction_stats
       get_proba_data
       get_proba_estimate
-      get_proba_upo
+      get_proba_percept
       get_trial_prediction
       locate_fit_params
       predict
+      simulate
       unpack
    
    

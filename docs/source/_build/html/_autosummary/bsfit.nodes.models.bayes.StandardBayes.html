@@ -261,6 +261,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.StandardBayes.predict" title="bsfit.nodes.models.bayes.StandardBayes.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(data, granularity)</p></td>
 <td><p>Calculate the model's predictions</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.StandardBayes.simulate" title="bsfit.nodes.models.bayes.StandardBayes.simulate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simulate</span></code></a>(dataset, sim_p, granularity, centering)</p></td>
+<td><p>simulate predictions</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="py method">
@@ -301,6 +304,28 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bsfit.nodes.models.bayes.StandardBayes.simulate">
+<span class="sig-name descname"><span class="pre">simulate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dataset</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sim_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">centering</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/bayes.html#StandardBayes.simulate"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.bayes.StandardBayes.simulate" title="Permalink to this definition">¶</a></dt>
+<dd><p>simulate predictions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dataset</strong> (<em>pd.DataFrame</em>) – _description_</p></li>
+<li><p><strong>sim_p</strong> (<em>dict</em>) – _description_</p></li>
+<li><p><strong>granularity</strong> (<em>str</em>) – _description_</p></li>
+<li><p><strong>centering</strong> (<em>bool</em>) – _description_</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>_description_</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>_type_</p>
 </dd>
 </dl>
 </dd></dl>

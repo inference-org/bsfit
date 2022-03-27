@@ -235,22 +235,28 @@
 <div class="viewcode-block" id="get_circ_conv"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.circpy.get_circ_conv.html#bsfit.nodes.circpy.get_circ_conv">[docs]</a><span class="k">def</span> <span class="nf">get_circ_conv</span><span class="p">(</span><span class="n">X_1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">X_2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;calculate circular convolutions </span>
 <span class="sd">    for circular data.</span>
+<span class="sd">    Convolution is applied column-wise between columns </span>
+<span class="sd">    i of X_1 and i of X_2</span>
 <span class="sd">    The probability that value i in vector 2 would be </span>
 <span class="sd">    combined with at least one value from vector 1</span>
 <span class="sd">    vector 1 and 2 are col vectors (vertical) </span>
-<span class="sd">    or matrices for convolution </span>
-<span class="sd">    column by column. e.g., two probability densities</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        X_1 (np.ndarray): _description_</span>
-<span class="sd">        X_2 (np.ndarray): _description_</span>
+<span class="sd">        X_1 (np.ndarray): a column vector or matrix        </span>
+<span class="sd">        X_2 (np.ndarray): a column vector or matrix</span>
 
-<span class="sd">    Raises:</span>
-<span class="sd">        ValueError: _description_</span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (np.array):</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">X_1</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">X_2</span><span class="p">)</span>
-    <span class="p">)</span><span class="o">.</span><span class="n">real</span></div>
+    <span class="n">convolved</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">convolved</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">ifft</span><span class="p">(</span>
+                <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">X_1</span><span class="p">[:,</span> <span class="n">col</span><span class="p">])</span>
+                <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">fft</span><span class="o">.</span><span class="n">fft</span><span class="p">(</span><span class="n">X_2</span><span class="p">[:,</span> <span class="n">col</span><span class="p">])</span>
+            <span class="p">)</span><span class="o">.</span><span class="n">real</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">convolved</span><span class="p">)</span><span class="o">.</span><span class="n">T</span></div>
 
 
 <div class="viewcode-block" id="get_cartesian_to_deg"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.circpy.get_cartesian_to_deg.html#bsfit.nodes.circpy.get_cartesian_to_deg">[docs]</a><span class="k">def</span> <span class="nf">get_cartesian_to_deg</span><span class="p">(</span>
