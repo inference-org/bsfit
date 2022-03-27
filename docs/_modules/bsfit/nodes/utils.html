@@ -229,27 +229,22 @@
     <span class="c1"># set the data to fit</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
 
-    <span class="c1"># # fit the model</span>
-    <span class="c1"># output = fmin(</span>
-    <span class="c1">#     func=get_logl,</span>
-    <span class="c1">#     x0=unpack(params[&quot;model&quot;][&quot;init_params&quot;]),</span>
-    <span class="c1">#     args=(params, *data),</span>
-    <span class="c1">#     disp=True,</span>
-    <span class="c1">#     retall=True,  # get solutions after iter</span>
-    <span class="c1">#     maxiter=1,  # 100,  # max nb of iterations</span>
-    <span class="c1">#     maxfun=1,  # 100,  # max nb of func eval</span>
-    <span class="c1">#     # ftol=0.0001,  # objfun convergence</span>
-    <span class="c1"># )</span>
-
-    <span class="c1"># # get fit results</span>
-    <span class="c1"># best_fit_p = output[0]</span>
-    <span class="c1"># neglogl = output[1]</span>
-
-    <span class="c1"># [TO REMOVE] FOR QUICK TEST ONLY</span>
-    <span class="n">best_fit_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
-        <span class="n">unpack</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">])</span>
+    <span class="c1"># fit the model</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">fmin</span><span class="p">(</span>
+        <span class="n">func</span><span class="o">=</span><span class="n">get_logl</span><span class="p">,</span>
+        <span class="n">x0</span><span class="o">=</span><span class="n">unpack</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">]),</span>
+        <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="o">*</span><span class="n">data</span><span class="p">),</span>
+        <span class="n">disp</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">retall</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>  <span class="c1"># get solutions after iter</span>
+        <span class="n">maxiter</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 100,  # max nb of iterations</span>
+        <span class="n">maxfun</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>  <span class="c1"># 100,  # max nb of func eval</span>
+        <span class="c1"># ftol=0.0001,  # objfun convergence</span>
     <span class="p">)</span>
-    <span class="n">neglogl</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="c1"># get fit results</span>
+    <span class="n">best_fit_p</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">neglogl</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;neglogl&quot;</span><span class="p">:</span> <span class="n">neglogl</span><span class="p">,</span>
         <span class="s2">&quot;best_fit_p&quot;</span><span class="p">:</span> <span class="n">best_fit_p</span><span class="p">,</span>
@@ -1435,9 +1430,9 @@
 
     <span class="c1"># extract fit variables</span>
     <span class="n">proba_estimate</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">]</span>
-    <span class="nb">map</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;map&quot;</span><span class="p">]</span>
+    <span class="nb">map</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;map&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-    <span class="c1"># initiatise stats</span>
+    <span class="c1"># initialise stats</span>
     <span class="n">prediction_mean</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">prediction_std</span> <span class="o">=</span> <span class="p">[]</span>
 

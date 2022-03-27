@@ -465,7 +465,7 @@ div.rendered_html tbody tr:hover {
 <section id="Setup">
 <h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to the project&#39;s root path</span>
@@ -475,7 +475,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import dependencies</span>
@@ -483,10 +483,6 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">bsfit.nodes.dataEng</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">simulate_dataset</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">bsfit.nodes.utils</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span><span class="p">,</span> <span class="n">get_prediction_stats</span>
-<span class="p">)</span>
-<span class="kn">from</span> <span class="nn">bsfit.nodes.viz.prediction</span> <span class="kn">import</span> <span class="n">plot_mean</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="o">%</span><span class="k">load_ext</span> autoreload
 <span class="o">%</span><span class="k">autoreload</span> 2
@@ -506,7 +502,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Set-the-parameters">
 <h2>Set the parameters<a class="headerlink" href="#Set-the-parameters" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the parameters</span>
@@ -534,7 +530,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Simulate-a-dataset">
 <h2>Simulate a dataset<a class="headerlink" href="#Simulate-a-dataset" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate a training dataset</span>
@@ -555,7 +551,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Simulate-the-model-predictions">
 <h2>Simulate the model predictions<a class="headerlink" href="#Simulate-the-model-predictions" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate the model</span>
@@ -591,17 +587,8 @@ Calculating predictions ...
 <div class="nboutput docutils container">
 <div class="prompt empty docutils container">
 </div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-/Users/steeve_laquitaine/Desktop/CodeHub/bsfit/bsfit/nodes/circpy.py:113: RuntimeWarning: divide by zero encountered in true_divide
-  degree = np.arctan(y / x)
-</pre></div></div>
-</div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
 <div class="output_area docutils container">
-<img alt="../../_images/tutorials_standard_bayes_simulate_11_2.png" src="../../_images/tutorials_standard_bayes_simulate_11_2.png" />
+<img alt="../../_images/tutorials_standard_bayes_simulate_10_1.png" src="../../_images/tutorials_standard_bayes_simulate_10_1.png" />
 </div>
 </div>
 <div class="nboutput nblast docutils container">
