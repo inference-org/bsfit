@@ -109,9 +109,6 @@ def simulate(
         database, sim_p, prior_shape, prior_mode, readout
     )
 
-    # set the data
-    data = get_data(database)
-
     # get simulation parameters
     sim_fit_p = np.array(
         unpack(params["model"]["init_params"])
@@ -266,7 +263,7 @@ def get_logl(
     fit_p: np.ndarray,
     params: dict,
     stim_mean: pd.Series,
-    estimate: pd.Series,
+    data: pd.Series,
 ):
     """calculate the log(likelihood) of the 
     observed stimulus feature mean's estimate
@@ -279,7 +276,7 @@ def get_logl(
         - "task": "fixed_params"
         - "model": "fixed_params", "init_params"
         stim_mean (pd.Series): stimulus feature mean
-        estimate (pd.Series): data estimate to fit
+        data (pd.Series): data estimate to fit
 
     Returns:
         (float): -log(likelihood) of 
@@ -288,7 +285,7 @@ def get_logl(
     # get -logl and intermediate
     # calculated variables
     neglogl, _ = get_fit_variables(
-        fit_p, params, stim_mean, estimate
+        fit_p, params, stim_mean, data=data
     )
     return neglogl
 
@@ -297,7 +294,7 @@ def get_fit_variables(
     fit_p: np.ndarray,
     params: dict,
     stim_mean: pd.Series,
-    estimate: pd.Series,
+    **kwargs: dict,
 ) -> float:
     """calculate the log(likelihood) of the 
     observed stimulus feature mean's estimate
@@ -309,7 +306,9 @@ def get_fit_variables(
         - "task": "fixed_params"
         - "model": "fixed_params", "init_params"
         stim_mean (pd.Series): stimulus feature mean
-        estimate (pd.Series): data estimate to fit
+
+    Kwargs:
+        "data" (pd.Series):: data estimate to fit
 
     Returns:
         (float): -log(likelihood) of 
@@ -332,11 +331,9 @@ def get_fit_variables(
     p_rand = fit_p[params_loc["p_rand"]][0]
     k_m = fit_p[params_loc["k_m"]][0]
 
-    # calculate probability density over
-    # percept space
+    # calculate percept probability density
     output = get_proba_percept(
         stim_mean,
-        estimate,
         params,
         k_llh,
         k_prior,
@@ -344,19 +341,26 @@ def get_fit_variables(
         prior_tail,
         p_rand,
     )
-    map = output["readout_percept"]
     proba_percept = output["PupoGivenModel"]
 
-    # calculate probability density over
-    # estimate space
-    # (N_estimates_space x N_conditions)
+    # calculate estimate probability density
+    # (len(estimate_space) x N_conditions)
     proba_estimate = get_proba_estimate(k_m, proba_percept)
 
-    # calculate probability density of data
-    proba_data = get_proba_data(estimate, proba_estimate)
+    # case data is provided
+    if "data" in kwargs:
 
-    # get the log likelihood of the observed data
-    fit_out = get_logl_and_aic(n_fit_params, proba_data)
+        # calculate data probability density
+        proba_data = get_proba_data(
+            kwargs["data"], proba_estimate
+        )
+
+        # get the log likelihood of the observed data
+        fit_out = get_logl_and_aic(n_fit_params, proba_data)
+    else:
+        fit_out = dict()
+        fit_out["neglogl"] = np.nan
+        fit_out["aic"] = np.nan
 
     # [TODO] setup logging
     print(
@@ -375,7 +379,7 @@ def get_fit_variables(
         fit_out["neglogl"],
         {
             "PestimateGivenModel": proba_estimate,
-            "map": map,
+            "map": output["readout_percept"],
             "conditions": output["conditions"],
         },
     )
@@ -436,7 +440,6 @@ def get_proba_data(estimate, proba_estimate):
 
 def get_proba_percept(
     stim_mean,
-    estimate,
     params,
     k_llh,
     k_prior,
@@ -515,12 +518,12 @@ def get_proba_percept(
     # (upos=1:1:360,trials) for possible values of upo
     # (rows) for each trial (column)
     PupoGivenBI = (
-        np.zeros((len(readout_percept), len(estimate)))
+        np.zeros((len(readout_percept), len(stim_mean)))
         * np.nan
     )
 
     # record conditions
-    conditions = np.zeros((len(estimate), 3)) * np.nan
+    conditions = np.zeros((len(stim_mean), 3)) * np.nan
 
     # compute PupoGivenBI for each condition
     # in columns
@@ -1173,7 +1176,51 @@ def predict(
     fit_p: np.ndarray,
     params: Dict[str, any],
     stim_mean: pd.Series,
-    stim_estimate: pd.Series,
+    data: pd.Series,
+    granularity: str,
+):
+    """""get model predictions
+
+    Args:
+        fit_p (np.ndarray): model free parameters
+        params (Dict[str, any]): model and task 
+        fixed parameters
+        stim_mean (pd.Series): _description_
+        data (pd.Series): _description_
+        granularity (str): 
+        - "trial"
+        - "mean"
+        
+    Returns:
+        (dict): _description_
+    """
+
+    # get best fit's calculated variables
+    _, output = get_fit_variables(
+        fit_p, params, stim_mean, data=data
+    )
+
+    # get prediction stats
+    if granularity == "mean":
+        output = get_prediction_stats(output)
+
+    # predict per trial
+    elif granularity == "trial":
+        output = get_prediction_stats(output)
+        output = get_trial_prediction(
+            output, params, n_repeats=5
+        )
+    else:
+        raise ValueError(
+            """granularity only takes "mean" or "trial" args"""
+        )
+    return output
+
+
+def simulate_dataset(
+    fit_p: np.ndarray,
+    params: Dict[str, any],
+    stim_mean: pd.Series,
     granularity: str,
 ):
     """""get model predictions
@@ -1195,9 +1242,7 @@ def predict(
     """
 
     # get best fit's calculated variables
-    _, output = get_fit_variables(
-        fit_p, params, stim_mean, stim_estimate
-    )
+    _, output = get_fit_variables(fit_p, params, stim_mean)
 
     # get prediction stats
     if granularity == "mean":
@@ -1207,7 +1252,7 @@ def predict(
     elif granularity == "trial":
         output = get_prediction_stats(output)
         output = get_trial_prediction(
-            stim_mean, output, params
+            output, params, n_repeats=5
         )
     else:
         raise ValueError(
@@ -1216,36 +1261,129 @@ def predict(
     return output
 
 
-def get_trial_prediction(stim_mean, output, params):
-    # get task conditions by trial
-    prior_noise = params["task"]["fixed_params"][
-        "prior_std"
-    ]
-    stim_noise = params["task"]["fixed_params"]["stim_std"]
+def get_trial_prediction(
+    output: dict, params: dict, n_repeats: int
+):
+    """_summary_
 
-    output["trial_pred"] = (
-        np.zeros(prior_noise.shape) * np.nan
-    )
+    Args:
+        output (dict): _description_
+        params (dict): _description_
+        n_repeats (int): _description_
+
+    Returns:
+        (dict): _description_
+        - output["dataset"]: for now "stim_mean" must be int
+    """
+
+    # get task conditions by trial
+    prior_mode = params["model"]["fixed_params"][
+        "prior_mode"
+    ]
+    prior_shape = params["model"]["fixed_params"][
+        "prior_shape"
+    ]
+
+    # get conditions
+    # (N_conditions x 3 params)
     cond = output["conditions"]
 
-    for c_i in range(cond.shape[1]):
-        loc_prior_noise = prior_noise == cond[c_i, 0]
-        loc_stim_noise = stim_noise == cond[c_i, 1]
-        loc_stim_mean = stim_mean == cond[c_i, 2]
-        prior_noise_bool = loc_prior_noise.values.astype(
-            bool
+    # initialize dataset
+    data_space = np.arange(0, 360, 1)
+    stim_mean = []
+    stim_std = []
+    prior_mode_tmp = []
+    prior_std = []
+    prior_shape_tmp = []
+    estimate = []
+
+    # loop over conditions
+    for c_i in range(cond.shape[0]):
+
+        # sample n_repeats trial predictions
+        data = np.random.choice(
+            data_space,
+            size=n_repeats,
+            p=output["PestimateGivenModel"][:, c_i],
+            replace=True,
         )
-        stim_noise_bool = loc_stim_noise.values.astype(bool)
-        stim_mean_bool = loc_stim_mean.values.astype(bool)
-        loc = (
-            prior_noise_bool
-            & stim_noise_bool
-            & stim_mean_bool
-        )
-        output["trial_pred"][loc] = output[
-            "prediction_mean"
-        ][c_i]
+
+        # build dataset
+        stim_mean += np.tile(
+            cond[c_i, 2], n_repeats
+        ).tolist()
+        stim_std += np.tile(
+            cond[c_i, 1], n_repeats
+        ).tolist()
+        prior_mode_tmp += np.tile(
+            prior_mode, n_repeats
+        ).tolist()
+        prior_std += np.tile(
+            cond[c_i, 0], n_repeats
+        ).tolist()
+        prior_shape_tmp += np.tile(
+            prior_shape, n_repeats
+        ).tolist()
+        estimate += data.tolist()
+
+    # record dataset
+    output["dataset"] = pd.DataFrame()
+    output["dataset"]["stim_mean"] = stim_mean
+    output["dataset"]["stim_std"] = stim_std
+    output["dataset"]["prior_mode"] = prior_mode_tmp
+    output["dataset"]["prior_std"] = prior_std
+    output["dataset"]["prior_shape"] = prior_shape_tmp
+    output["dataset"]["estimate"] = estimate
+
+    # always cast stimulus mean as integer
+    # [TODO]: enable floats
+    output["dataset"]["stim_mean"] = output["dataset"][
+        "stim_mean"
+    ].astype(int)
+
+    # name parameters
+    output["dataset"].columns = [
+        "stim_mean",
+        "stim_std",
+        "prior_mode",
+        "prior_std",
+        "prior_shape",
+        "estimate",
+    ]
+
     return output
+
+
+# def get_trial_prediction(stim_mean, output, params):
+#     # get task conditions by trial
+#     prior_noise = params["task"]["fixed_params"][
+#         "prior_std"
+#     ]
+#     stim_noise = params["task"]["fixed_params"]["stim_std"]
+
+#     output["trial_pred"] = (
+#         np.zeros(prior_noise.shape) * np.nan
+#     )
+#     cond = output["conditions"]
+
+#     for c_i in range(cond.shape[1]):
+#         loc_prior_noise = prior_noise == cond[c_i, 0]
+#         loc_stim_noise = stim_noise == cond[c_i, 1]
+#         loc_stim_mean = stim_mean == cond[c_i, 2]
+#         prior_noise_bool = loc_prior_noise.values.astype(
+#             bool
+#         )
+#         stim_noise_bool = loc_stim_noise.values.astype(bool)
+#         stim_mean_bool = loc_stim_mean.values.astype(bool)
+#         loc = (
+#             prior_noise_bool
+#             & stim_noise_bool
+#             & stim_mean_bool
+#         )
+#         output["trial_pred"][loc] = output[
+#             "prediction_mean"
+#         ][c_i]
+#     return output
 
 
 def get_prediction_stats(output: dict) -> dict:
@@ -1262,18 +1400,25 @@ def get_prediction_stats(output: dict) -> dict:
     proba_estimate = output["PestimateGivenModel"]
     map = output["map"].copy()
 
+    # get conditions
+    cond = output["conditions"]
+
     # initialise stats
     prediction_mean = []
     prediction_std = []
 
-    # record prediction stats by condition
-    n_cond = output["conditions"].shape[0]
-    for c_i in range(n_cond):
-        data = get_circ_weighted_mean_std(
+    # get set of conditions
+    # (N_conditions x 3 task params)
+    cond_set, cond_set_ix, _ = get_combination_set(cond)
+    proba_estimate = proba_estimate[:, cond_set_ix]
+
+    # record statistics by condition
+    for c_i in range(len(cond_set)):
+        pred = get_circ_weighted_mean_std(
             map, proba_estimate[:, c_i], type="polar",
         )
-        prediction_mean.append(data["deg_mean"])
-        prediction_std.append(data["deg_std"])
+        prediction_mean.append(pred["deg_mean"])
+        prediction_std.append(pred["deg_std"])
 
     # record predictions stats
     output["prediction_mean"] = np.array(prediction_mean)
@@ -1282,14 +1427,14 @@ def get_prediction_stats(output: dict) -> dict:
 
 
 def get_data_stats(data: np.ndarray, output: dict):
-    """calculate the data mean and std statistics 
+    """calculate the data statistics 
 
     Args:
         data (np.ndarray): _description_
         output (dict): _description_
 
     Returns:
-        _type_: _description_
+        (dict): data statistics
     """
     # get conditions
     cond = output["conditions"]
@@ -1329,6 +1474,9 @@ def get_data_stats(data: np.ndarray, output: dict):
     # record statistics
     output["data_mean"] = np.array(data_mean)
     output["data_std"] = np.array(data_std)
+
+    # record their condition
+    output["conditions"] = cond_set
     return output
 
 

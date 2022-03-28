@@ -21,10 +21,18 @@ import pandas as pd
 from bsfit.nodes.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
 
-from ..utils import fit_maxlogl, predict, simulate
+from ..utils import (
+    fit_maxlogl,
+    predict,
+    simulate,
+    simulate_dataset,
+)
 
 
 class StandardBayes:
+    """Standard Bayesian model
+    """
+
     def __init__(
         self,
         prior_shape: str,
@@ -83,17 +91,20 @@ class StandardBayes:
         """simulate predictions
 
         Args:
-            dataset (pd.DataFrame): _description_
+            dataset (pd.DataFrame): dataset
+            - either task conditions by columns
+            - or task conditions and data ("estimate")
             sim_p (dict): _description_
             granularity (str): _description_
             centering (bool): _description_
-
+        
         Returns:
-            _type_: _description_
+            (dict): simulation results
         """
         print("Running simulation ...\n")
 
-        # calculate simulation data
+        # calculate data must be overlapped with
+        # model simulations
         output = simulate(
             dataset,
             sim_p,
@@ -107,30 +118,43 @@ class StandardBayes:
         self.neglogl = output["neglogl"]
         self.params = output["params"]
 
-        # predict
-        dataset = get_data(dataset)
+        # case data are provided,
+        # overlap predictions with
+        # data
+        if "estimate" in dataset.columns:
 
-        # get predictions
-        output = self.predict(
-            dataset, granularity=granularity
-        )
+            # make predictions
+            dataset = get_data(dataset)
+            output = self.predict(
+                dataset, granularity=granularity
+            )
 
-        # get data and prediction stats
-        estimate = dataset[1]
-        output = get_data_stats(estimate, output)
+            # case calculate statistics
+            if granularity == "mean":
+                estimate = dataset[1]
+                output = get_data_stats(estimate, output)
 
-        # plot data and prediction mean
-        plot_mean(
-            output["data_mean"],
-            output["data_std"],
-            output["prediction_mean"],
-            output["prediction_std"],
-            output["conditions"],
-            prior_mode=self.prior_mode,
-            centering=centering,
-        )
-        print("\nSimulation is complete !")
-        return self
+                # plot data and prediction mean
+                plot_mean(
+                    output["data_mean"],
+                    output["data_std"],
+                    output["prediction_mean"],
+                    output["prediction_std"],
+                    output["conditions"],
+                    prior_mode=self.prior_mode,
+                    centering=centering,
+                )
+            elif granularity == "trial":
+                return output["dataset"]
+        else:
+            # simulate a dataset
+            output = simulate_dataset(
+                fit_p=self.best_fit_p,
+                params=self.params,
+                stim_mean=dataset["stim_mean"],
+                granularity=granularity,
+            )
+        return output
 
     def predict(
         self, data: tuple, granularity: str
