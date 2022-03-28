@@ -1,4 +1,4 @@
-﻿..
+..
    # This is a comment: I customized
    this .rst template to automatically
    generate page docs for modules and 
