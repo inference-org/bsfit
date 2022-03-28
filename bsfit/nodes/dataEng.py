@@ -225,3 +225,60 @@ def simulate_dataset(
             data = pd.concat([data, df])
 
     return data
+
+
+def simulate_task_conditions(
+    stim_noise: float,
+    prior_mode: float,
+    prior_noise: float,
+    prior_shape: str,
+):
+    """_summary_
+
+    Args:
+        stim_noise (float): _description_
+        prior_mode (float): _description_
+        prior_noise (float): _description_
+        prior_shape (str): _description_
+
+    Returns:
+        pd.DataFrame: task conditions
+    """
+
+    # initialize dataframe
+    conditions = pd.DataFrame()
+
+    # loop over stimulus and prior
+    # noises to simulate task conditions
+    for stim_noise_i in stim_noise:
+        for prior_noise_i in prior_noise:
+
+            # init df
+            df = pd.DataFrame()
+
+            # set stimulus mean (e.g., 5 to 355)
+            df["stim_mean"] = np.arange(5, 365, 5)
+
+            # set stimulus std
+            df["stim_std"] = np.repeat(
+                stim_noise_i, len(df["stim_mean"])
+            )
+
+            # set prior mode
+            df["prior_mode"] = np.repeat(
+                prior_mode, len(df["stim_mean"])
+            )
+
+            # set prior std
+            df["prior_std"] = np.repeat(
+                prior_noise_i, len(df["stim_mean"])
+            )
+
+            # set prior std
+            df["prior_shape"] = np.repeat(
+                prior_shape, len(df["stim_mean"])
+            )
+
+            # record
+            conditions = pd.concat([conditions, df])
+    return conditions
