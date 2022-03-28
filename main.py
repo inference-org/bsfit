@@ -25,8 +25,11 @@ import sys
 import yaml
 from matplotlib import pyplot as plt
 
-from bsfit.nodes.dataEng import (simulate_dataset, simulate_small_dataset,
-                                 simulate_task_conditions)
+from bsfit.nodes.dataEng import (
+    simulate_dataset,
+    simulate_small_dataset,
+    simulate_task_conditions,
+)
 from bsfit.nodes.models.bayes import StandardBayes
 from bsfit.nodes.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
