@@ -99,7 +99,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Design pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html#docstrings">Docstrings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html#build-deploy">Build &amp; deploy</a></li>
@@ -191,10 +191,18 @@
 <span class="kn">from</span> <span class="nn">bsfit.nodes.utils</span> <span class="kn">import</span> <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span>
 <span class="kn">from</span> <span class="nn">bsfit.nodes.viz.prediction</span> <span class="kn">import</span> <span class="n">plot_mean</span>
 
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="n">fit_maxlogl</span><span class="p">,</span> <span class="n">predict</span><span class="p">,</span> <span class="n">simulate</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">fit_maxlogl</span><span class="p">,</span>
+    <span class="n">predict</span><span class="p">,</span>
+    <span class="n">simulate</span><span class="p">,</span>
+    <span class="n">simulate_dataset</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="StandardBayes"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes">[docs]</a><span class="k">class</span> <span class="nc">StandardBayes</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Standard Bayesian model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
 <div class="viewcode-block" id="StandardBayes.__init__"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -253,17 +261,20 @@
         <span class="sd">&quot;&quot;&quot;simulate predictions</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            dataset (pd.DataFrame): _description_</span>
+<span class="sd">            dataset (pd.DataFrame): dataset</span>
+<span class="sd">            - either task conditions by columns</span>
+<span class="sd">            - or task conditions and data (&quot;estimate&quot;)</span>
 <span class="sd">            sim_p (dict): _description_</span>
 <span class="sd">            granularity (str): _description_</span>
 <span class="sd">            centering (bool): _description_</span>
-
+<span class="sd">        </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            _type_: _description_</span>
+<span class="sd">            (dict): simulation results</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running simulation ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
-        <span class="c1"># calculate simulation data</span>
+        <span class="c1"># calculate data must be overlapped with</span>
+        <span class="c1"># model simulations</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span>
             <span class="n">dataset</span><span class="p">,</span>
             <span class="n">sim_p</span><span class="p">,</span>
@@ -277,30 +288,43 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">neglogl</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;neglogl&quot;</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;params&quot;</span><span class="p">]</span>
 
-        <span class="c1"># predict</span>
-        <span class="n">dataset</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="c1"># case data are provided,</span>
+        <span class="c1"># overlap predictions with</span>
+        <span class="c1"># data</span>
+        <span class="k">if</span> <span class="s2">&quot;estimate&quot;</span> <span class="ow">in</span> <span class="n">dataset</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
 
-        <span class="c1"># get predictions</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
-            <span class="n">dataset</span><span class="p">,</span> <span class="n">granularity</span><span class="o">=</span><span class="n">granularity</span>
-        <span class="p">)</span>
+            <span class="c1"># make predictions</span>
+            <span class="n">dataset</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+                <span class="n">dataset</span><span class="p">,</span> <span class="n">granularity</span><span class="o">=</span><span class="n">granularity</span>
+            <span class="p">)</span>
 
-        <span class="c1"># get data and prediction stats</span>
-        <span class="n">estimate</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">output</span> <span class="o">=</span> <span class="n">get_data_stats</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
+            <span class="c1"># case calculate statistics</span>
+            <span class="k">if</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+                <span class="n">estimate</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">output</span> <span class="o">=</span> <span class="n">get_data_stats</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">output</span><span class="p">)</span>
 
-        <span class="c1"># plot data and prediction mean</span>
-        <span class="n">plot_mean</span><span class="p">(</span>
-            <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_mean&quot;</span><span class="p">],</span>
-            <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_std&quot;</span><span class="p">],</span>
-            <span class="n">output</span><span class="p">[</span><span class="s2">&quot;prediction_mean&quot;</span><span class="p">],</span>
-            <span class="n">output</span><span class="p">[</span><span class="s2">&quot;prediction_std&quot;</span><span class="p">],</span>
-            <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">],</span>
-            <span class="n">prior_mode</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prior_mode</span><span class="p">,</span>
-            <span class="n">centering</span><span class="o">=</span><span class="n">centering</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Simulation is complete !&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">self</span></div>
+                <span class="c1"># plot data and prediction mean</span>
+                <span class="n">plot_mean</span><span class="p">(</span>
+                    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_mean&quot;</span><span class="p">],</span>
+                    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_std&quot;</span><span class="p">],</span>
+                    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;prediction_mean&quot;</span><span class="p">],</span>
+                    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;prediction_std&quot;</span><span class="p">],</span>
+                    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">],</span>
+                    <span class="n">prior_mode</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prior_mode</span><span class="p">,</span>
+                    <span class="n">centering</span><span class="o">=</span><span class="n">centering</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># simulate a dataset</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">simulate_dataset</span><span class="p">(</span>
+                <span class="n">fit_p</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">best_fit_p</span><span class="p">,</span>
+                <span class="n">params</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">params</span><span class="p">,</span>
+                <span class="n">stim_mean</span><span class="o">=</span><span class="n">dataset</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">],</span>
+                <span class="n">granularity</span><span class="o">=</span><span class="n">granularity</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="n">output</span></div>
 
 <div class="viewcode-block" id="StandardBayes.predict"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">granularity</span><span class="p">:</span> <span class="nb">str</span>

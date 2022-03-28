@@ -99,7 +99,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html">Design pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#docstrings">Docstrings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#build-deploy">Build &amp; deploy</a></li>
@@ -279,9 +279,6 @@
         <span class="n">database</span><span class="p">,</span> <span class="n">sim_p</span><span class="p">,</span> <span class="n">prior_shape</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="n">readout</span>
     <span class="p">)</span>
 
-    <span class="c1"># set the data</span>
-    <span class="n">data</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">database</span><span class="p">)</span>
-
     <span class="c1"># get simulation parameters</span>
     <span class="n">sim_fit_p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
         <span class="n">unpack</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;init_params&quot;</span><span class="p">])</span>
@@ -436,7 +433,7 @@
     <span class="n">fit_p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
-    <span class="n">estimate</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;calculate the log(likelihood) of the </span>
 <span class="sd">    observed stimulus feature mean&#39;s estimate</span>
@@ -449,7 +446,7 @@
 <span class="sd">        - &quot;task&quot;: &quot;fixed_params&quot;</span>
 <span class="sd">        - &quot;model&quot;: &quot;fixed_params&quot;, &quot;init_params&quot;</span>
 <span class="sd">        stim_mean (pd.Series): stimulus feature mean</span>
-<span class="sd">        estimate (pd.Series): data estimate to fit</span>
+<span class="sd">        data (pd.Series): data estimate to fit</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (float): -log(likelihood) of </span>
@@ -458,7 +455,7 @@
     <span class="c1"># get -logl and intermediate</span>
     <span class="c1"># calculated variables</span>
     <span class="n">neglogl</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_fit_variables</span><span class="p">(</span>
-        <span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="n">estimate</span>
+        <span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span>
     <span class="p">)</span>
     <span class="k">return</span> <span class="n">neglogl</span></div>
 
@@ -467,7 +464,7 @@
     <span class="n">fit_p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
-    <span class="n">estimate</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;calculate the log(likelihood) of the </span>
 <span class="sd">    observed stimulus feature mean&#39;s estimate</span>
@@ -479,7 +476,9 @@
 <span class="sd">        - &quot;task&quot;: &quot;fixed_params&quot;</span>
 <span class="sd">        - &quot;model&quot;: &quot;fixed_params&quot;, &quot;init_params&quot;</span>
 <span class="sd">        stim_mean (pd.Series): stimulus feature mean</span>
-<span class="sd">        estimate (pd.Series): data estimate to fit</span>
+
+<span class="sd">    Kwargs:</span>
+<span class="sd">        &quot;data&quot; (pd.Series):: data estimate to fit</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        (float): -log(likelihood) of </span>
@@ -502,11 +501,9 @@
     <span class="n">p_rand</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;p_rand&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">k_m</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_m&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="c1"># calculate probability density over</span>
-    <span class="c1"># percept space</span>
+    <span class="c1"># calculate percept probability density</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">get_proba_percept</span><span class="p">(</span>
         <span class="n">stim_mean</span><span class="p">,</span>
-        <span class="n">estimate</span><span class="p">,</span>
         <span class="n">params</span><span class="p">,</span>
         <span class="n">k_llh</span><span class="p">,</span>
         <span class="n">k_prior</span><span class="p">,</span>
@@ -514,19 +511,26 @@
         <span class="n">prior_tail</span><span class="p">,</span>
         <span class="n">p_rand</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="nb">map</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;readout_percept&quot;</span><span class="p">]</span>
     <span class="n">proba_percept</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;PupoGivenModel&quot;</span><span class="p">]</span>
 
-    <span class="c1"># calculate probability density over</span>
-    <span class="c1"># estimate space</span>
-    <span class="c1"># (N_estimates_space x N_conditions)</span>
+    <span class="c1"># calculate estimate probability density</span>
+    <span class="c1"># (len(estimate_space) x N_conditions)</span>
     <span class="n">proba_estimate</span> <span class="o">=</span> <span class="n">get_proba_estimate</span><span class="p">(</span><span class="n">k_m</span><span class="p">,</span> <span class="n">proba_percept</span><span class="p">)</span>
 
-    <span class="c1"># calculate probability density of data</span>
-    <span class="n">proba_data</span> <span class="o">=</span> <span class="n">get_proba_data</span><span class="p">(</span><span class="n">estimate</span><span class="p">,</span> <span class="n">proba_estimate</span><span class="p">)</span>
+    <span class="c1"># case data is provided</span>
+    <span class="k">if</span> <span class="s2">&quot;data&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
 
-    <span class="c1"># get the log likelihood of the observed data</span>
-    <span class="n">fit_out</span> <span class="o">=</span> <span class="n">get_logl_and_aic</span><span class="p">(</span><span class="n">n_fit_params</span><span class="p">,</span> <span class="n">proba_data</span><span class="p">)</span>
+        <span class="c1"># calculate data probability density</span>
+        <span class="n">proba_data</span> <span class="o">=</span> <span class="n">get_proba_data</span><span class="p">(</span>
+            <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">proba_estimate</span>
+        <span class="p">)</span>
+
+        <span class="c1"># get the log likelihood of the observed data</span>
+        <span class="n">fit_out</span> <span class="o">=</span> <span class="n">get_logl_and_aic</span><span class="p">(</span><span class="n">n_fit_params</span><span class="p">,</span> <span class="n">proba_data</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">fit_out</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">fit_out</span><span class="p">[</span><span class="s2">&quot;neglogl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="n">fit_out</span><span class="p">[</span><span class="s2">&quot;aic&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
     <span class="c1"># [TODO] setup logging</span>
     <span class="nb">print</span><span class="p">(</span>
@@ -545,7 +549,7 @@
         <span class="n">fit_out</span><span class="p">[</span><span class="s2">&quot;neglogl&quot;</span><span class="p">],</span>
         <span class="p">{</span>
             <span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">:</span> <span class="n">proba_estimate</span><span class="p">,</span>
-            <span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="nb">map</span><span class="p">,</span>
+            <span class="s2">&quot;map&quot;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;readout_percept&quot;</span><span class="p">],</span>
             <span class="s2">&quot;conditions&quot;</span><span class="p">:</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">],</span>
         <span class="p">},</span>
     <span class="p">)</span></div>
@@ -606,7 +610,6 @@
 
 <div class="viewcode-block" id="get_proba_percept"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_proba_percept.html#bsfit.nodes.utils.get_proba_percept">[docs]</a><span class="k">def</span> <span class="nf">get_proba_percept</span><span class="p">(</span>
     <span class="n">stim_mean</span><span class="p">,</span>
-    <span class="n">estimate</span><span class="p">,</span>
     <span class="n">params</span><span class="p">,</span>
     <span class="n">k_llh</span><span class="p">,</span>
     <span class="n">k_prior</span><span class="p">,</span>
@@ -685,12 +688,12 @@
     <span class="c1"># (upos=1:1:360,trials) for possible values of upo</span>
     <span class="c1"># (rows) for each trial (column)</span>
     <span class="n">PupoGivenBI</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">readout_percept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">estimate</span><span class="p">)))</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">readout_percept</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">)))</span>
         <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="p">)</span>
 
     <span class="c1"># record conditions</span>
-    <span class="n">conditions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">estimate</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">conditions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">),</span> <span class="mi">3</span><span class="p">))</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
 
     <span class="c1"># compute PupoGivenBI for each condition</span>
     <span class="c1"># in columns</span>
@@ -1343,7 +1346,51 @@
     <span class="n">fit_p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
     <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">any</span><span class="p">],</span>
     <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
-    <span class="n">stim_estimate</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
+    <span class="n">granularity</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;&quot;&quot;get model predictions</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fit_p (np.ndarray): model free parameters</span>
+<span class="sd">        params (Dict[str, any]): model and task </span>
+<span class="sd">        fixed parameters</span>
+<span class="sd">        stim_mean (pd.Series): _description_</span>
+<span class="sd">        data (pd.Series): _description_</span>
+<span class="sd">        granularity (str): </span>
+<span class="sd">        - &quot;trial&quot;</span>
+<span class="sd">        - &quot;mean&quot;</span>
+<span class="sd">        </span>
+<span class="sd">    Returns:</span>
+<span class="sd">        (dict): _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get best fit&#39;s calculated variables</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">get_fit_variables</span><span class="p">(</span>
+        <span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">data</span>
+    <span class="p">)</span>
+
+    <span class="c1"># get prediction stats</span>
+    <span class="k">if</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">get_prediction_stats</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+
+    <span class="c1"># predict per trial</span>
+    <span class="k">elif</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">get_prediction_stats</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">get_trial_prediction</span><span class="p">(</span>
+            <span class="n">output</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">5</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot;granularity only takes &quot;mean&quot; or &quot;trial&quot; args&quot;&quot;&quot;</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="simulate_dataset"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.simulate_dataset.html#bsfit.nodes.utils.simulate_dataset">[docs]</a><span class="k">def</span> <span class="nf">simulate_dataset</span><span class="p">(</span>
+    <span class="n">fit_p</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">any</span><span class="p">],</span>
+    <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="n">granularity</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;&quot;&quot;get model predictions</span>
@@ -1365,9 +1412,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># get best fit&#39;s calculated variables</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">get_fit_variables</span><span class="p">(</span>
-        <span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">,</span> <span class="n">stim_estimate</span>
-    <span class="p">)</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">get_fit_variables</span><span class="p">(</span><span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">)</span>
 
     <span class="c1"># get prediction stats</span>
     <span class="k">if</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
@@ -1377,7 +1422,7 @@
     <span class="k">elif</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">get_prediction_stats</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">get_trial_prediction</span><span class="p">(</span>
-            <span class="n">stim_mean</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">params</span>
+            <span class="n">output</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">5</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
@@ -1386,36 +1431,129 @@
     <span class="k">return</span> <span class="n">output</span></div>
 
 
-<div class="viewcode-block" id="get_trial_prediction"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_trial_prediction.html#bsfit.nodes.utils.get_trial_prediction">[docs]</a><span class="k">def</span> <span class="nf">get_trial_prediction</span><span class="p">(</span><span class="n">stim_mean</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">params</span><span class="p">):</span>
-    <span class="c1"># get task conditions by trial</span>
-    <span class="n">prior_noise</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span>
-        <span class="s2">&quot;prior_std&quot;</span>
-    <span class="p">]</span>
-    <span class="n">stim_noise</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;task&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span><span class="s2">&quot;stim_std&quot;</span><span class="p">]</span>
+<div class="viewcode-block" id="get_trial_prediction"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_trial_prediction.html#bsfit.nodes.utils.get_trial_prediction">[docs]</a><span class="k">def</span> <span class="nf">get_trial_prediction</span><span class="p">(</span>
+    <span class="n">output</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">n_repeats</span><span class="p">:</span> <span class="nb">int</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;_summary_</span>
 
-    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;trial_pred&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">prior_noise</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
-    <span class="p">)</span>
+<span class="sd">    Args:</span>
+<span class="sd">        output (dict): _description_</span>
+<span class="sd">        params (dict): _description_</span>
+<span class="sd">        n_repeats (int): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (dict): _description_</span>
+<span class="sd">        - output[&quot;dataset&quot;]: for now &quot;stim_mean&quot; must be int</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># get task conditions by trial</span>
+    <span class="n">prior_mode</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;prior_mode&quot;</span>
+    <span class="p">]</span>
+    <span class="n">prior_shape</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;fixed_params&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;prior_shape&quot;</span>
+    <span class="p">]</span>
+
+    <span class="c1"># get conditions</span>
+    <span class="c1"># (N_conditions x 3 params)</span>
     <span class="n">cond</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">]</span>
 
-    <span class="k">for</span> <span class="n">c_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cond</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
-        <span class="n">loc_prior_noise</span> <span class="o">=</span> <span class="n">prior_noise</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
-        <span class="n">loc_stim_noise</span> <span class="o">=</span> <span class="n">stim_noise</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
-        <span class="n">loc_stim_mean</span> <span class="o">=</span> <span class="n">stim_mean</span> <span class="o">==</span> <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
-        <span class="n">prior_noise_bool</span> <span class="o">=</span> <span class="n">loc_prior_noise</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span>
-            <span class="nb">bool</span>
+    <span class="c1"># initialize dataset</span>
+    <span class="n">data_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">stim_mean</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stim_std</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prior_mode_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prior_std</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">prior_shape_tmp</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">estimate</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="c1"># loop over conditions</span>
+    <span class="k">for</span> <span class="n">c_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cond</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+
+        <span class="c1"># sample n_repeats trial predictions</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span>
+            <span class="n">data_space</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">n_repeats</span><span class="p">,</span>
+            <span class="n">p</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">][:,</span> <span class="n">c_i</span><span class="p">],</span>
+            <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">stim_noise_bool</span> <span class="o">=</span> <span class="n">loc_stim_noise</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-        <span class="n">stim_mean_bool</span> <span class="o">=</span> <span class="n">loc_stim_mean</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
-        <span class="n">loc</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">prior_noise_bool</span>
-            <span class="o">&amp;</span> <span class="n">stim_noise_bool</span>
-            <span class="o">&amp;</span> <span class="n">stim_mean_bool</span>
-        <span class="p">)</span>
-        <span class="n">output</span><span class="p">[</span><span class="s2">&quot;trial_pred&quot;</span><span class="p">][</span><span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span>
-            <span class="s2">&quot;prediction_mean&quot;</span>
-        <span class="p">][</span><span class="n">c_i</span><span class="p">]</span>
+
+        <span class="c1"># build dataset</span>
+        <span class="n">stim_mean</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="n">n_repeats</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">stim_std</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">n_repeats</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">prior_mode_tmp</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">prior_mode</span><span class="p">,</span> <span class="n">n_repeats</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">prior_std</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">cond</span><span class="p">[</span><span class="n">c_i</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">n_repeats</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">prior_shape_tmp</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span>
+            <span class="n">prior_shape</span><span class="p">,</span> <span class="n">n_repeats</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+        <span class="n">estimate</span> <span class="o">+=</span> <span class="n">data</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+
+    <span class="c1"># record dataset</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">][</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stim_mean</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">][</span><span class="s2">&quot;stim_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stim_std</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">][</span><span class="s2">&quot;prior_mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prior_mode_tmp</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">][</span><span class="s2">&quot;prior_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prior_std</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">][</span><span class="s2">&quot;prior_shape&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">prior_shape_tmp</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">][</span><span class="s2">&quot;estimate&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">estimate</span>
+
+    <span class="c1"># always cast stimulus mean as integer</span>
+    <span class="c1"># [TODO]: enable floats</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">][</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">][</span>
+        <span class="s2">&quot;stim_mean&quot;</span>
+    <span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># name parameters</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="s2">&quot;stim_mean&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;stim_std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prior_mode&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prior_std&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;prior_shape&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;estimate&quot;</span><span class="p">,</span>
+    <span class="p">]</span>
+
     <span class="k">return</span> <span class="n">output</span></div>
+
+
+<span class="c1"># def get_trial_prediction(stim_mean, output, params):</span>
+<span class="c1">#     # get task conditions by trial</span>
+<span class="c1">#     prior_noise = params[&quot;task&quot;][&quot;fixed_params&quot;][</span>
+<span class="c1">#         &quot;prior_std&quot;</span>
+<span class="c1">#     ]</span>
+<span class="c1">#     stim_noise = params[&quot;task&quot;][&quot;fixed_params&quot;][&quot;stim_std&quot;]</span>
+
+<span class="c1">#     output[&quot;trial_pred&quot;] = (</span>
+<span class="c1">#         np.zeros(prior_noise.shape) * np.nan</span>
+<span class="c1">#     )</span>
+<span class="c1">#     cond = output[&quot;conditions&quot;]</span>
+
+<span class="c1">#     for c_i in range(cond.shape[1]):</span>
+<span class="c1">#         loc_prior_noise = prior_noise == cond[c_i, 0]</span>
+<span class="c1">#         loc_stim_noise = stim_noise == cond[c_i, 1]</span>
+<span class="c1">#         loc_stim_mean = stim_mean == cond[c_i, 2]</span>
+<span class="c1">#         prior_noise_bool = loc_prior_noise.values.astype(</span>
+<span class="c1">#             bool</span>
+<span class="c1">#         )</span>
+<span class="c1">#         stim_noise_bool = loc_stim_noise.values.astype(bool)</span>
+<span class="c1">#         stim_mean_bool = loc_stim_mean.values.astype(bool)</span>
+<span class="c1">#         loc = (</span>
+<span class="c1">#             prior_noise_bool</span>
+<span class="c1">#             &amp; stim_noise_bool</span>
+<span class="c1">#             &amp; stim_mean_bool</span>
+<span class="c1">#         )</span>
+<span class="c1">#         output[&quot;trial_pred&quot;][loc] = output[</span>
+<span class="c1">#             &quot;prediction_mean&quot;</span>
+<span class="c1">#         ][c_i]</span>
+<span class="c1">#     return output</span>
 
 
 <div class="viewcode-block" id="get_prediction_stats"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_prediction_stats.html#bsfit.nodes.utils.get_prediction_stats">[docs]</a><span class="k">def</span> <span class="nf">get_prediction_stats</span><span class="p">(</span><span class="n">output</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -1432,18 +1570,25 @@
     <span class="n">proba_estimate</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">]</span>
     <span class="nb">map</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;map&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
+    <span class="c1"># get conditions</span>
+    <span class="n">cond</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">]</span>
+
     <span class="c1"># initialise stats</span>
     <span class="n">prediction_mean</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">prediction_std</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="c1"># record prediction stats by condition</span>
-    <span class="n">n_cond</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">c_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_cond</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">get_circ_weighted_mean_std</span><span class="p">(</span>
+    <span class="c1"># get set of conditions</span>
+    <span class="c1"># (N_conditions x 3 task params)</span>
+    <span class="n">cond_set</span><span class="p">,</span> <span class="n">cond_set_ix</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_combination_set</span><span class="p">(</span><span class="n">cond</span><span class="p">)</span>
+    <span class="n">proba_estimate</span> <span class="o">=</span> <span class="n">proba_estimate</span><span class="p">[:,</span> <span class="n">cond_set_ix</span><span class="p">]</span>
+
+    <span class="c1"># record statistics by condition</span>
+    <span class="k">for</span> <span class="n">c_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">cond_set</span><span class="p">)):</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">get_circ_weighted_mean_std</span><span class="p">(</span>
             <span class="nb">map</span><span class="p">,</span> <span class="n">proba_estimate</span><span class="p">[:,</span> <span class="n">c_i</span><span class="p">],</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">prediction_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">])</span>
-        <span class="n">prediction_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="s2">&quot;deg_std&quot;</span><span class="p">])</span>
+        <span class="n">prediction_mean</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="s2">&quot;deg_mean&quot;</span><span class="p">])</span>
+        <span class="n">prediction_std</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pred</span><span class="p">[</span><span class="s2">&quot;deg_std&quot;</span><span class="p">])</span>
 
     <span class="c1"># record predictions stats</span>
     <span class="n">output</span><span class="p">[</span><span class="s2">&quot;prediction_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">prediction_mean</span><span class="p">)</span>
@@ -1452,14 +1597,14 @@
 
 
 <div class="viewcode-block" id="get_data_stats"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.utils.get_data_stats.html#bsfit.nodes.utils.get_data_stats">[docs]</a><span class="k">def</span> <span class="nf">get_data_stats</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;calculate the data mean and std statistics </span>
+    <span class="sd">&quot;&quot;&quot;calculate the data statistics </span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data (np.ndarray): _description_</span>
 <span class="sd">        output (dict): _description_</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        (dict): data statistics</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># get conditions</span>
     <span class="n">cond</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">]</span>
@@ -1499,6 +1644,9 @@
     <span class="c1"># record statistics</span>
     <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_mean</span><span class="p">)</span>
     <span class="n">output</span><span class="p">[</span><span class="s2">&quot;data_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data_std</span><span class="p">)</span>
+
+    <span class="c1"># record their condition</span>
+    <span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">cond_set</span>
     <span class="k">return</span> <span class="n">output</span></div>
 
 

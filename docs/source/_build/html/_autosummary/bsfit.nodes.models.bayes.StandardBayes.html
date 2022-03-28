@@ -118,7 +118,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Design pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#docstrings">Docstrings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#build-deploy">Build &amp; deploy</a></li>
@@ -228,6 +228,7 @@
 <dt class="sig sig-object py" id="bsfit.nodes.models.bayes.StandardBayes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.bayes.</span></span><span class="sig-name descname"><span class="pre">StandardBayes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prior_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/bayes.html#StandardBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.bayes.StandardBayes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Standard Bayesian model</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.models.bayes.StandardBayes.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prior_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/bayes.html#StandardBayes.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.bayes.StandardBayes.__init__" title="Permalink to this definition">¶</a></dt>
@@ -315,17 +316,19 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<em>pd.DataFrame</em>) – _description_</p></li>
+<li><p><strong>dataset</strong> (<em>pd.DataFrame</em>) – dataset</p></li>
+<li><p><strong>columns</strong> (<em>- either task conditions by</em>) – </p></li>
+<li><p><strong>data</strong> (<em>-</em><em> or </em><em>task conditions and</em>) – </p></li>
 <li><p><strong>sim_p</strong> (<em>dict</em>) – _description_</p></li>
 <li><p><strong>granularity</strong> (<em>str</em>) – _description_</p></li>
 <li><p><strong>centering</strong> (<em>bool</em>) – _description_</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_</p>
+<dd class="field-even"><p>simulation results</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>_type_</p>
+<dd class="field-odd"><p>(dict)</p>
 </dd>
 </dl>
 </dd></dl>

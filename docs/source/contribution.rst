@@ -1,21 +1,60 @@
-Best practices
+Design pattern
 ==============
+
+Codebase description
+^^^^^^^^^^^^^^^^^^^^
+
+The core codebase structure should remain as follows:
+
+.. code-block:: console
+
+    bsfit/
+        nodes/
+        pipes/
+        requirements.txt
+    conf/
+    data/
+    Docs/
+        source/
+    logs/
+    tutorials/
+    .gitignore
+    deploy.sh
+    main.py
+    README.md
+    setup.py
+
+
+Source code design
+^^^^^^^^^^^^^^^^^^
+
+The source code organizes arount two central components:
+
+#. `nodes`: they are python modules that organize semantically related functions.
+#. `pipes` (for pipelines): they are analyses that chain nodes to transform data and produce plots.
+  
 
 Docstrings
 ==========
 
-- Keep Docstrings in Google Style Guide format.
+#. Please use the `Google Style Guide format`.
   
 Update docs
 ============
 
-#. Edit `docs/source/`
+#. Please edit `docs/source/`
 #. Go to the "Build & deploy" section
 
 Build & deploy
 ==============
 
-Basic steps: develop (features) -> pre-prod (homologation) -> master (production)
+Core steps: 
+
+#. Develop your features on branch `develop`.
+#. Pull request to obtain validation of your changes on branch `pre-prod` (homologation). 
+#. A code master (I for now) will commit your final changes on branch `master` (production).
+
+In detail:
 
 #. On branch `develop` (to add features):
     After you've added a feature, run in the terminal: 

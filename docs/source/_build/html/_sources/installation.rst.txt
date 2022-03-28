@@ -1,6 +1,9 @@
 Installation
 ============
 
+With conda
+----------
+
 #. Create a virtual environment and install the dependencies:
 
 .. code-block:: console
@@ -17,4 +20,12 @@ Installation
     git clone https://github.com/steevelaquitaine/bsfit.git
 
 
-Then test some of the tutorials.
+
+With venv
+---------
+
+[TODO]
+
+Then have a look at some of the tutorials !
+
+

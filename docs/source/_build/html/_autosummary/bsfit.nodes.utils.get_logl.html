@@ -118,7 +118,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contribution.html">Design pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#docstrings">Docstrings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../contribution.html#build-deploy">Build &amp; deploy</a></li>
@@ -224,7 +224,7 @@
 <h1>bsfit.nodes.utils.get_logl<a class="headerlink" href="#bsfit-nodes-utils-get-logl" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.utils.get_logl">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.utils.</span></span><span class="sig-name descname"><span class="pre">get_logl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">estimate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/utils.html#get_logl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.utils.get_logl" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.utils.</span></span><span class="sig-name descname"><span class="pre">get_logl</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/utils.html#get_logl"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.utils.get_logl" title="Permalink to this definition">¶</a></dt>
 <dd><p>calculate the log(likelihood) of the
 observed stimulus feature mean’s estimate
 given the model.
@@ -237,7 +237,7 @@ This function is called by scipy.optimize.fmin().</p>
 <li><p><strong>&quot;task&quot;</strong> (<em>-</em>) – “fixed_params”</p></li>
 <li><p><strong>&quot;model&quot;</strong> (<em>-</em>) – “fixed_params”, “init_params”</p></li>
 <li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – stimulus feature mean</p></li>
-<li><p><strong>estimate</strong> (<em>pd.Series</em>) – data estimate to fit</p></li>
+<li><p><strong>data</strong> (<em>pd.Series</em>) – data estimate to fit</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

@@ -1,4 +1,4 @@
-..
+﻿..
    # This is a comment: I customized
    this .rst template to automatically
    generate page docs for modules and 
@@ -26,6 +26,7 @@ bsfit.nodes.dataEng
       make_dataset
       simulate_dataset
       simulate_small_dataset
+      simulate_task_conditions
    
    
 

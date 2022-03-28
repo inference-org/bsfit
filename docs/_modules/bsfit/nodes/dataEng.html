@@ -99,7 +99,7 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html">Best practices</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contribution.html">Design pattern</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#docstrings">Docstrings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#update-docs">Update docs</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../contribution.html#build-deploy">Build &amp; deploy</a></li>
@@ -395,6 +395,63 @@
             <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">data</span><span class="p">,</span> <span class="n">df</span><span class="p">])</span>
 
     <span class="k">return</span> <span class="n">data</span></div>
+
+
+<div class="viewcode-block" id="simulate_task_conditions"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.dataEng.simulate_task_conditions.html#bsfit.nodes.dataEng.simulate_task_conditions">[docs]</a><span class="k">def</span> <span class="nf">simulate_task_conditions</span><span class="p">(</span>
+    <span class="n">stim_noise</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">prior_noise</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;_summary_</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        stim_noise (float): _description_</span>
+<span class="sd">        prior_mode (float): _description_</span>
+<span class="sd">        prior_noise (float): _description_</span>
+<span class="sd">        prior_shape (str): _description_</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        pd.DataFrame: task conditions</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># initialize dataframe</span>
+    <span class="n">conditions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+    <span class="c1"># loop over stimulus and prior</span>
+    <span class="c1"># noises to simulate task conditions</span>
+    <span class="k">for</span> <span class="n">stim_noise_i</span> <span class="ow">in</span> <span class="n">stim_noise</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">prior_noise_i</span> <span class="ow">in</span> <span class="n">prior_noise</span><span class="p">:</span>
+
+            <span class="c1"># init df</span>
+            <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
+
+            <span class="c1"># set stimulus mean (e.g., 5 to 355)</span>
+            <span class="n">df</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">365</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+
+            <span class="c1"># set stimulus std</span>
+            <span class="n">df</span><span class="p">[</span><span class="s2">&quot;stim_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                <span class="n">stim_noise_i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+            <span class="c1"># set prior mode</span>
+            <span class="n">df</span><span class="p">[</span><span class="s2">&quot;prior_mode&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                <span class="n">prior_mode</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+            <span class="c1"># set prior std</span>
+            <span class="n">df</span><span class="p">[</span><span class="s2">&quot;prior_std&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                <span class="n">prior_noise_i</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+            <span class="c1"># set prior std</span>
+            <span class="n">df</span><span class="p">[</span><span class="s2">&quot;prior_shape&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span>
+                <span class="n">prior_shape</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;stim_mean&quot;</span><span class="p">])</span>
+            <span class="p">)</span>
+
+            <span class="c1"># record</span>
+            <span class="n">conditions</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">conditions</span><span class="p">,</span> <span class="n">df</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">conditions</span></div>
 </pre></div>
 
            </div>

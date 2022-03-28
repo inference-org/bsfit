@@ -9,7 +9,10 @@
             "type": "python",
             "request": "launch",
             "module": "main",
-            "justMyCode": true
+            "args": [
+                "simulate_data_by_standard_bayes"
+                // "fit_standard_bayes"
+            ]
         }
     ]
 }

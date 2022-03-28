@@ -44,6 +44,7 @@ bsfit.nodes.utils
       locate_fit_params
       predict
       simulate
+      simulate_dataset
       unpack
    
    
