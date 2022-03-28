@@ -37,5 +37,6 @@ bsfit
    :recursive:
 
    bsfit.nodes
+   bsfit.pipes
    bsfit.test
 
