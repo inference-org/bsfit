@@ -1,0 +1,4 @@
+
+{
+    "path": "../../../../tutorials/cardinal_bayes/simulate_stochastic_choices.ipynb"
+}

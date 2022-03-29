@@ -1,4 +1,0 @@
-
-{
-    "path": "../../../../tutorials/standard_bayes/simulate.ipynb"
-}
