@@ -225,7 +225,7 @@
 <h1>bsfit.nodes.utils.simulate_dataset<a class="headerlink" href="#bsfit-nodes-utils-simulate-dataset" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.utils.simulate_dataset">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.utils.</span></span><span class="sig-name descname"><span class="pre">simulate_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/utils.html#simulate_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.utils.simulate_dataset" title="Permalink to this definition">¶</a></dt>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.utils.</span></span><span class="sig-name descname"><span class="pre">simulate_dataset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/utils.html#simulate_dataset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.utils.simulate_dataset" title="Permalink to this definition">¶</a></dt>
 <dd><p>“”get model predictions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -236,15 +236,25 @@
 <li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – _description_</p></li>
 <li><p><strong>stim_estimate</strong> (<em>pd.Series</em>) – _description_</p></li>
 <li><p><strong>granularity</strong> (<em>str</em>) – </p></li>
-<li><p><strong>&quot;trial&quot;</strong> (<em>-</em>) – </p></li>
-<li><p><strong>&quot;mean&quot;</strong> (<em>-</em>) – </p></li>
+<li><p><strong>&quot;trial&quot;</strong> (<em>-</em>) – prediction are stochastic choices sampled</p></li>
+<li><p><strong>density</strong> (<em>from the model's generative probability</em>) – </p></li>
+<li><p><strong>&quot;mean&quot;</strong> (<em>-</em>) – prediction statistics (mean and std calculated</p></li>
+<li><p><strong>density</strong><strong>)</strong> (<em>from the model's generative probability</em>) – </p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_</p>
+</dl>
+<dl class="simple">
+<dt>kwargs:</dt><dd><p>when granularity=”trial”:
+- n_repeats (int): the number of repeats of
+each task condition</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>_type_</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(dict)</p>
 </dd>
 </dl>
 <p>[TODO]: drop “stim_estimate” from Args</p>

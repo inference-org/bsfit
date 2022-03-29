@@ -1392,6 +1392,7 @@
     <span class="n">params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">any</span><span class="p">],</span>
     <span class="n">stim_mean</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
     <span class="n">granularity</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span><span class="nb">dict</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;&quot;&quot;get model predictions</span>
 
@@ -1402,11 +1403,19 @@
 <span class="sd">        stim_mean (pd.Series): _description_</span>
 <span class="sd">        stim_estimate (pd.Series): _description_</span>
 <span class="sd">        granularity (str): </span>
-<span class="sd">        - &quot;trial&quot;</span>
-<span class="sd">        - &quot;mean&quot;</span>
+<span class="sd">        - &quot;trial&quot;: prediction are stochastic choices sampled </span>
+<span class="sd">        from the model&#39;s generative probability density</span>
+<span class="sd">        - &quot;mean&quot;: prediction statistics (mean and std calculated</span>
+<span class="sd">        from the model&#39;s generative probability density)</span>
+<span class="sd">    </span>
+<span class="sd">    kwargs:</span>
+<span class="sd">        when granularity=&quot;trial&quot;:</span>
+<span class="sd">        - n_repeats (int): the number of repeats of </span>
+<span class="sd">        each task condition</span>
+<span class="sd">        </span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        (dict): _description_</span>
 
 <span class="sd">    [TODO]: drop &quot;stim_estimate&quot; from Args</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -1414,15 +1423,16 @@
     <span class="c1"># get best fit&#39;s calculated variables</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">output</span> <span class="o">=</span> <span class="n">get_fit_variables</span><span class="p">(</span><span class="n">fit_p</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">stim_mean</span><span class="p">)</span>
 
-    <span class="c1"># get prediction stats</span>
+    <span class="c1"># get prediction statistics or </span>
+    <span class="c1"># as stochastic choices sampled </span>
+    <span class="c1"># from the model&#39;s generative probability </span>
+    <span class="c1"># density</span>
     <span class="k">if</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">get_prediction_stats</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-
-    <span class="c1"># predict per trial</span>
     <span class="k">elif</span> <span class="n">granularity</span> <span class="o">==</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">get_prediction_stats</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">get_trial_prediction</span><span class="p">(</span>
-            <span class="n">output</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="mi">5</span>
+            <span class="n">output</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">n_repeats</span><span class="o">=</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;n_repeats&quot;</span><span class="p">]</span>
         <span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>

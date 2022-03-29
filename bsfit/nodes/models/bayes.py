@@ -21,7 +21,12 @@ import pandas as pd
 from bsfit.nodes.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
 
-from ..utils import fit_maxlogl, predict, simulate, simulate_dataset
+from ..utils import (
+    fit_maxlogl,
+    predict,
+    simulate,
+    simulate_dataset,
+)
 
 
 class StandardBayes:
@@ -154,7 +159,7 @@ class StandardBayes:
                 params=self.params,
                 stim_mean=dataset["stim_mean"],
                 granularity=granularity,
-                **kwargs
+                **kwargs,
             )
         return output
 
