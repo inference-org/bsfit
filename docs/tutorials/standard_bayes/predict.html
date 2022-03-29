@@ -465,22 +465,31 @@ div.rendered_html tbody tr:hover {
 <section id="Predict">
 <h1>Predict<a class="headerlink" href="#Predict" title="Permalink to this headline">¶</a></h1>
 <p>author: steeve laquitaine</p>
-<p>Simulate predictions for the Bayesian model with a cardinal prior.</p>
+<p>This tutorial simulates the prediction statistics (mean and standard deviations) made by a standard Bayesian model.</p>
 <section id="Setup">
 <h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to the project&#39;s root path</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import dependencies</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.models.bayes</span> <span class="kn">import</span> <span class="n">StandardBayes</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.dataEng</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">simulate_dataset</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
 </pre></div>
 </div>
 </div>
@@ -497,10 +506,27 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Set-the-parameters">
 <h2>Set the parameters<a class="headerlink" href="#Set-the-parameters" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the parameters</span>
+<span class="n">SUBJECT</span> <span class="o">=</span> <span class="s2">&quot;sub01&quot;</span>
+<span class="n">PRIOR_SHAPE</span> <span class="o">=</span> <span class="s2">&quot;vonMisesPrior&quot;</span>
+<span class="n">PRIOR_MODE</span> <span class="o">=</span> <span class="mi">225</span>
+<span class="n">OBJ_FUN</span> <span class="o">=</span> <span class="s2">&quot;maxLLH&quot;</span>
+<span class="n">READOUT</span> <span class="o">=</span> <span class="s2">&quot;map&quot;</span>
+<span class="n">PRIOR_NOISE</span> <span class="o">=</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>      <span class="c1"># e.g., prior&#39;s std</span>
+<span class="n">STIM_NOISE</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.33</span><span class="p">,</span> <span class="mf">0.66</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">SIM_P</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;k_llh&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">10.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+    <span class="s2">&quot;k_prior&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+    <span class="s2">&quot;k_card&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;prior_tail&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;p_rand&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;k_m&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2000</span><span class="p">],</span>
+<span class="p">}</span>
+<span class="n">GRANULARITY</span> <span class="o">=</span> <span class="s2">&quot;mean&quot;</span>
+<span class="n">CENTERING</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </div>
@@ -508,23 +534,75 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Simulate-a-dataset">
 <h2>Simulate a dataset<a class="headerlink" href="#Simulate-a-dataset" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate a training dataset</span>
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">simulate_dataset</span><span class="p">(</span>
+    <span class="n">stim_noise</span><span class="o">=</span><span class="n">STIM_NOISE</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="o">=</span><span class="n">PRIOR_MODE</span><span class="p">,</span>
+    <span class="n">prior_noise</span><span class="o">=</span><span class="n">PRIOR_NOISE</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="o">=</span><span class="n">PRIOR_SHAPE</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># use the train dataset as test to show</span>
+<span class="c1"># best predictions</span>
+<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </section>
-<section id="Simulate-the-model-predictions">
-<h2>Simulate the model predictions<a class="headerlink" href="#Simulate-the-model-predictions" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<section id="Simulate-the-model-mean-predictions">
+<h2>Simulate the model mean predictions<a class="headerlink" href="#Simulate-the-model-mean-predictions" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">StandardBayes</span><span class="p">(</span>
+    <span class="n">prior_shape</span><span class="o">=</span><span class="n">PRIOR_SHAPE</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="o">=</span><span class="n">PRIOR_MODE</span><span class="p">,</span>
+    <span class="n">readout</span><span class="o">=</span><span class="n">READOUT</span>
+    <span class="p">)</span>
+
+<span class="c1"># simulate predictions</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span>
+    <span class="n">sim_p</span><span class="o">=</span><span class="n">SIM_P</span><span class="p">,</span>
+    <span class="n">granularity</span><span class="o">=</span><span class="n">GRANULARITY</span><span class="p">,</span>
+    <span class="n">centering</span><span class="o">=</span><span class="n">CENTERING</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running simulation ...
+
+Calculating predictions ...
+
+-logl:50265.93, aic:100549.87, kl:[ 2.7 10.7 33. ], kp:[ 2.7 33. ], kc:[1.], pt:0.00, pr:0.00, km:2000.00
+</pre></div></div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorials_standard_bayes_predict_10_1.png" src="../../_images/tutorials_standard_bayes_predict_10_1.png" />
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+Simulation is complete !
+</pre></div></div>
 </div>
 <p>Tutorial complete !</p>
 </section>
