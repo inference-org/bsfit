@@ -87,6 +87,7 @@ class StandardBayes:
         sim_p: dict,
         granularity: str,
         centering: bool,
+        **kwargs: dict,
     ):
         """simulate predictions
 
@@ -98,6 +99,11 @@ class StandardBayes:
             granularity (str): _description_
             centering (bool): _description_
         
+        Kwargs:
+            when granularity="trial":
+            - n_repeats (int): the number of repeats of 
+            each task condition
+                
         Returns:
             (dict): simulation results
         """
@@ -119,8 +125,7 @@ class StandardBayes:
         self.params = output["params"]
 
         # case data are provided,
-        # overlap predictions with
-        # data
+        # overlap data and predictions
         if "estimate" in dataset.columns:
 
             # make predictions
@@ -144,6 +149,7 @@ class StandardBayes:
                     prior_mode=self.prior_mode,
                     centering=centering,
                 )
+                # make stochastic choices
             elif granularity == "trial":
                 return output["dataset"]
         else:
@@ -153,6 +159,7 @@ class StandardBayes:
                 params=self.params,
                 stim_mean=dataset["stim_mean"],
                 granularity=granularity,
+                **kwargs,
             )
         return output
 

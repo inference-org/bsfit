@@ -1222,6 +1222,7 @@ def simulate_dataset(
     params: Dict[str, any],
     stim_mean: pd.Series,
     granularity: str,
+    **kwargs:dict,
 ):
     """""get model predictions
 
@@ -1232,11 +1233,19 @@ def simulate_dataset(
         stim_mean (pd.Series): _description_
         stim_estimate (pd.Series): _description_
         granularity (str): 
-        - "trial"
-        - "mean"
+        - "trial": prediction are stochastic choices sampled 
+        from the model's generative probability density
+        - "mean": prediction statistics (mean and std calculated
+        from the model's generative probability density)
+    
+    kwargs:
+        when granularity="trial":
+        - n_repeats (int): the number of repeats of 
+        each task condition
+        
 
     Returns:
-        _type_: _description_
+        (dict): _description_
 
     [TODO]: drop "stim_estimate" from Args
     """
@@ -1244,15 +1253,16 @@ def simulate_dataset(
     # get best fit's calculated variables
     _, output = get_fit_variables(fit_p, params, stim_mean)
 
-    # get prediction stats
+    # get prediction statistics or 
+    # as stochastic choices sampled 
+    # from the model's generative probability 
+    # density
     if granularity == "mean":
         output = get_prediction_stats(output)
-
-    # predict per trial
     elif granularity == "trial":
         output = get_prediction_stats(output)
         output = get_trial_prediction(
-            output, params, n_repeats=5
+            output, params, n_repeats=kwargs["n_repeats"]
         )
     else:
         raise ValueError(

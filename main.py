@@ -25,11 +25,8 @@ import sys
 import yaml
 from matplotlib import pyplot as plt
 
-from bsfit.nodes.dataEng import (
-    simulate_dataset,
-    simulate_small_dataset,
-    simulate_task_conditions,
-)
+from bsfit.nodes.dataEng import (simulate_dataset, simulate_small_dataset,
+                                 simulate_task_conditions)
 from bsfit.nodes.models.bayes import StandardBayes
 from bsfit.nodes.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
@@ -165,7 +162,6 @@ if __name__ == "__main__":
     elif sys.argv[1] == "simulate_data_by_standard_bayes":
 
         # set pipeline parameters
-        GRANULARITY = "trial"
         SIM_P = {
             "k_llh": [2.7, 10.7, 33],
             "k_prior": [2.7, 33],
@@ -174,6 +170,9 @@ if __name__ == "__main__":
             "p_rand": [0],
             "k_m": [2000],
         }
+        GRANULARITY = "trial"
+        N_REPEATS = 5
+
         # simulate a dataset
         logger.info("simulating dataset ...")
 
@@ -200,6 +199,7 @@ if __name__ == "__main__":
             sim_p=SIM_P,
             granularity=GRANULARITY,
             centering=CENTERING,
+            n_repeats=N_REPEATS,
         )
 
         # calculate prediction statistics
