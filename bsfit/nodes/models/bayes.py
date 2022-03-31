@@ -17,15 +17,25 @@
 """
 
 
+from distutils.log import INFO
 from typing import Dict
 
 import pandas as pd
-from bsfit.nodes.models.utils import get_data, get_data_stats
+from bsfit.nodes.models.utils import (
+    get_data,
+    get_data_stats,
+)
 from bsfit.nodes.viz.prediction import plot_mean
 from click import MissingParameter
 
-from ...nodes.models.utils import (fit_maxlogl, get_data, get_data_stats,
-                                   predict, simulate, simulate_dataset)
+from ...nodes.models.utils import (
+    fit_maxlogl,
+    get_data,
+    get_data_stats,
+    predict,
+    simulate,
+    simulate_dataset,
+)
 from .abstract_model import Model
 
 
@@ -224,6 +234,10 @@ class CardinalBayes(StandardBayes):
             prior_mode (float): prior mode
             readout (str): the posterior readout
             - "map": maximum a posteriori
+        
+        Exceptions:
+            MissingParameter:
+            - "k_card" parameter is missing
         """
         # inherit from parent
         super().__init__(
