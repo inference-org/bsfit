@@ -17,7 +17,7 @@ For example:
 Below we show a list of the available commands to run the built-in analyses:
 
 .. list-table::
-   :widths: 25 25 25
+   :widths: 25 25
    :header-rows: 1
 
    * - command arguments

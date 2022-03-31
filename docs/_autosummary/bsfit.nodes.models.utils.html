@@ -98,6 +98,7 @@
 <li class="toctree-l2 current"><a class="reference internal" href="bsfit.html">bsfit</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="bsfit.nodes.html">bsfit.nodes</a><ul class="current">
 <li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.cirpy.html">bsfit.nodes.cirpy</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.config.html">bsfit.nodes.config</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.dataEng.html">bsfit.nodes.dataEng</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="bsfit.nodes.models.html">bsfit.nodes.models</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.util.html">bsfit.nodes.util</a></li>
@@ -242,32 +243,32 @@
 <tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.flatten.html#bsfit.nodes.models.utils.flatten" title="bsfit.nodes.models.utils.flatten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">flatten</span></code></a>(x)</p></td>
 <td><p>flattens list of list</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_bayes_lookup.html#bsfit.nodes.models.utils.get_bayes_lookup" title="bsfit.nodes.models.utils.get_bayes_lookup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_bayes_lookup</span></code></a>(percept_space, stim_mean, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.format_params.html#bsfit.nodes.models.utils.format_params" title="bsfit.nodes.models.utils.format_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_params</span></code></a>(database, init_p, prior_shape, ...)</p></td>
+<td><p>Set model and task parameters free and fixed</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_bayes_lookup.html#bsfit.nodes.models.utils.get_bayes_lookup" title="bsfit.nodes.models.utils.get_bayes_lookup"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_bayes_lookup</span></code></a>(percept_space, stim_mean, ...)</p></td>
 <td><p>Create a bayes lookup matrix based on Girshick's paper rows: M measurements cols: N stimulus feature means value: log(likelihood) of percept</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_combination_set.html#bsfit.nodes.models.utils.get_combination_set" title="bsfit.nodes.models.utils.get_combination_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_combination_set</span></code></a>(database)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_combination_set.html#bsfit.nodes.models.utils.get_combination_set" title="bsfit.nodes.models.utils.get_combination_set"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_combination_set</span></code></a>(database)</p></td>
 <td><p>Get set of combinations</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_data.html#bsfit.nodes.models.utils.get_data" title="bsfit.nodes.models.utils.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data</span></code></a>(database)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_data.html#bsfit.nodes.models.utils.get_data" title="bsfit.nodes.models.utils.get_data"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data</span></code></a>(database)</p></td>
 <td><p>get data to fit</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_data_stats.html#bsfit.nodes.models.utils.get_data_stats" title="bsfit.nodes.models.utils.get_data_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_stats</span></code></a>(data, output)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_data_stats.html#bsfit.nodes.models.utils.get_data_stats" title="bsfit.nodes.models.utils.get_data_stats"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_data_stats</span></code></a>(data, output)</p></td>
 <td><p>calculate the data statistics</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_fit_variables.html#bsfit.nodes.models.utils.get_fit_variables" title="bsfit.nodes.models.utils.get_fit_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fit_variables</span></code></a>(fit_p, params, stim_mean, ...)</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_fit_variables.html#bsfit.nodes.models.utils.get_fit_variables" title="bsfit.nodes.models.utils.get_fit_variables"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_fit_variables</span></code></a>(fit_p, params, stim_mean, ...)</p></td>
 <td><p>calculate the log(likelihood) of the observed stimulus feature mean's estimate given the model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_learnt_prior.html#bsfit.nodes.models.utils.get_learnt_prior" title="bsfit.nodes.models.utils.get_learnt_prior"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_learnt_prior</span></code></a>(percept_space, prior_mode, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_learnt_prior.html#bsfit.nodes.models.utils.get_learnt_prior" title="bsfit.nodes.models.utils.get_learnt_prior"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_learnt_prior</span></code></a>(percept_space, prior_mode, ...)</p></td>
 <td><p>calculate the learnt prior probability distribution cols: prior for each m_i, are the same rows: stimulus feature mean space (e.g., motion direction)</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_logl.html#bsfit.nodes.models.utils.get_logl" title="bsfit.nodes.models.utils.get_logl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl</span></code></a>(fit_p, params, stim_mean, data)</p></td>
-<td><p>calculate the log(likelihood) of the observed stimulus feature mean's estimate given the model.</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_logl.html#bsfit.nodes.models.utils.get_logl" title="bsfit.nodes.models.utils.get_logl"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl</span></code></a>(fit_p, params, stim_mean, data)</p></td>
+<td><p>calculate the log(likelihood) of the stimulus feature's estimate given the model.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_logl_and_aic.html#bsfit.nodes.models.utils.get_logl_and_aic" title="bsfit.nodes.models.utils.get_logl_and_aic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl_and_aic</span></code></a>(n_fit_params, proba_data)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_logl_and_aic.html#bsfit.nodes.models.utils.get_logl_and_aic" title="bsfit.nodes.models.utils.get_logl_and_aic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_logl_and_aic</span></code></a>(n_fit_params, proba_data)</p></td>
 <td><p>calculate log(likelihood) and akaike information criterion</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_params.html#bsfit.nodes.models.utils.get_params" title="bsfit.nodes.models.utils.get_params"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_params</span></code></a>(database, init_p, prior_shape, ...)</p></td>
-<td><p>Set model and task parameters free and fixed</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.models.utils.get_percept_likelihood.html#bsfit.nodes.models.utils.get_percept_likelihood" title="bsfit.nodes.models.utils.get_percept_likelihood"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_percept_likelihood</span></code></a>(percept_space, ...)</p></td>
 <td><p>calculate percepts' likelihood.</p></td>

@@ -35,6 +35,7 @@ bsfit.nodes.cirpy.data
       :template: custom-class-template.rst               
    
       VonMises
+      VonMisesMixture
    
    
 

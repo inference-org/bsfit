@@ -17,26 +17,14 @@
 """
 
 
-from distutils.log import INFO
 from typing import Dict
 
 import pandas as pd
-from bsfit.nodes.models.utils import (
-    get_data,
-    get_data_stats,
-)
 from bsfit.nodes.viz.prediction import plot_mean
-from click import MissingParameter
 
-from ...nodes.models.utils import (
-    fit_maxlogl,
-    get_data,
-    get_data_stats,
-    predict,
-    simulate,
-    simulate_dataset,
-)
 from .abstract_model import Model
+from .utils import (fit_maxlogl, get_data, get_data_stats, predict, simulate,
+                    simulate_dataset)
 
 
 class StandardBayes(Model):
@@ -53,16 +41,16 @@ class StandardBayes(Model):
         """Instantiate Standard Bayesian model
 
         Args:
-            initial_params (Dict(str,list)): the model's 
-            initial parameters respecting the template below:
+            initial_params (Dict(str,list)): the model's
+            initial parameters respecting the template below
 
             .. code-block::
 
                 initial_params = {
-                    "k_llh": list,
-                    "k_prior": list,
-                    "p_rand": list,
-                    "k_m": list,
+                "k_llh": list,
+                "k_prior": list,
+                "p_rand": list,
+                "k_m": list,
                 }
 
             prior_shape (str): prior shape
@@ -246,7 +234,7 @@ class CardinalBayes(StandardBayes):
 
         # parametrize
         if not "k_card" in self.initial_params:
-            raise MissingParameter(
+            raise TypeError(
                 """"k_card", the cardinal prior strength is missing. 
                 Please add to the parameters. """
             )

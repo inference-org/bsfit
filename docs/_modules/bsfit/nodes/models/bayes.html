@@ -175,7 +175,7 @@
 <span class="c1">#</span>
 <span class="c1"># docstring style used: Google style</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    fit estimation data with a Bayesian model</span>
+<span class="sd">    fit circulaestimation data with a Bayesian model</span>
 
 <span class="sd">    see:</span>
 <span class="sd">        Hurliman et al, 2002,VR</span>
@@ -187,13 +187,20 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">bsfit.nodes.models.utils</span> <span class="kn">import</span> <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span>
 <span class="kn">from</span> <span class="nn">bsfit.nodes.viz.prediction</span> <span class="kn">import</span> <span class="n">plot_mean</span>
 
-<span class="kn">from</span> <span class="nn">...nodes.models.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">fit_maxlogl</span><span class="p">,</span> <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span><span class="p">,</span>
-                                   <span class="n">predict</span><span class="p">,</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">simulate_dataset</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">.abstract_model</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">fit_maxlogl</span><span class="p">,</span>
+    <span class="n">get_data</span><span class="p">,</span>
+    <span class="n">get_data_stats</span><span class="p">,</span>
+    <span class="n">predict</span><span class="p">,</span>
+    <span class="n">simulate</span><span class="p">,</span>
+    <span class="n">simulate_dataset</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="StandardBayes"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes">[docs]</a><span class="k">class</span> <span class="nc">StandardBayes</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
@@ -202,6 +209,7 @@
 
 <div class="viewcode-block" id="StandardBayes.__init__"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
+        <span class="n">initial_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span>
         <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -209,24 +217,38 @@
         <span class="sd">&quot;&quot;&quot;Instantiate Standard Bayesian model</span>
 
 <span class="sd">        Args:</span>
+<span class="sd">            initial_params (Dict(str,list)): the model&#39;s</span>
+<span class="sd">            initial parameters respecting the template below</span>
+
+<span class="sd">            .. code-block::</span>
+
+<span class="sd">                initial_params = {</span>
+<span class="sd">                &quot;k_llh&quot;: list,</span>
+<span class="sd">                &quot;k_prior&quot;: list,</span>
+<span class="sd">                &quot;p_rand&quot;: list,</span>
+<span class="sd">                &quot;k_m&quot;: list,</span>
+<span class="sd">                }</span>
+
 <span class="sd">            prior_shape (str): prior shape</span>
 <span class="sd">            - &quot;vonMisesPrior&quot;</span>
-<span class="sd">            prior_mode (float): prior mode</span>
-<span class="sd">            readout (str): the posterior readout</span>
-<span class="sd">            - &quot;map&quot;: maximum a posteriori</span>
+<span class="sd">            prior_mode (float): prior mode (e.g., 225)</span>
+<span class="sd">            readout (str): the decision mechanism</span>
+<span class="sd">            that transform the posterior distribution into</span>
+<span class="sd">            a single estimate choice</span>
+<span class="sd">            - &quot;map&quot;: maximum a posteriori posterior readout</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># inherit from parent</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
 
         <span class="c1"># parametrize</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span> <span class="o">=</span> <span class="n">initial_params</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_shape</span> <span class="o">=</span> <span class="n">prior_shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_mode</span> <span class="o">=</span> <span class="n">prior_mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">readout</span> <span class="o">=</span> <span class="n">readout</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">best_fit_p</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">neglogl</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="p">[]</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">neglogl</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">params</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-<div class="viewcode-block" id="StandardBayes.fit"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span> <span class="n">init_p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
+<div class="viewcode-block" id="StandardBayes.fit"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dataset</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;fit the model</span>
 
 <span class="sd">        Args:</span>
@@ -239,7 +261,7 @@
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training the model ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">fit_maxlogl</span><span class="p">(</span>
             <span class="n">dataset</span><span class="p">,</span>
-            <span class="n">init_p</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prior_shape</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prior_mode</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">readout</span><span class="p">,</span>
@@ -255,7 +277,6 @@
 <div class="viewcode-block" id="StandardBayes.simulate"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.simulate">[docs]</a>    <span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">dataset</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
-        <span class="n">sim_p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
         <span class="n">granularity</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">centering</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
@@ -266,7 +287,6 @@
 <span class="sd">            dataset (pd.DataFrame): dataset</span>
 <span class="sd">            - either task conditions by columns</span>
 <span class="sd">            - or task conditions and data (&quot;estimate&quot;)</span>
-<span class="sd">            sim_p (dict): _description_</span>
 <span class="sd">            granularity (str): _description_</span>
 <span class="sd">            centering (bool): _description_</span>
 <span class="sd">        </span>
@@ -284,7 +304,7 @@
         <span class="c1"># model simulations</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">simulate</span><span class="p">(</span>
             <span class="n">dataset</span><span class="p">,</span>
-            <span class="n">sim_p</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prior_shape</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">prior_mode</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">readout</span><span class="p">,</span>
@@ -357,6 +377,43 @@
             <span class="n">granularity</span><span class="o">=</span><span class="n">granularity</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">predictions</span></div></div>
+
+
+<div class="viewcode-block" id="CardinalBayes"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.CardinalBayes.html#bsfit.nodes.models.bayes.CardinalBayes">[docs]</a><span class="k">class</span> <span class="nc">CardinalBayes</span><span class="p">(</span><span class="n">StandardBayes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cardinal Bayesian model</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CardinalBayes.__init__"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.CardinalBayes.html#bsfit.nodes.models.bayes.CardinalBayes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">initial_params</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">],</span>
+        <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Instantiate Cardinal Bayesian model</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            prior_shape (str): prior shape</span>
+<span class="sd">            - &quot;vonMisesPrior&quot;</span>
+<span class="sd">            prior_mode (float): prior mode</span>
+<span class="sd">            readout (str): the posterior readout</span>
+<span class="sd">            - &quot;map&quot;: maximum a posteriori</span>
+<span class="sd">        </span>
+<span class="sd">        Exceptions:</span>
+<span class="sd">            MissingParameter:</span>
+<span class="sd">            - &quot;k_card&quot; parameter is missing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># inherit from parent</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">initial_params</span><span class="p">,</span> <span class="n">prior_shape</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="n">readout</span>
+        <span class="p">)</span>
+
+        <span class="c1"># parametrize</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="s2">&quot;k_card&quot;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">initial_params</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sd">&quot;&quot;&quot;&quot;k_card&quot;, the cardinal prior strength is missing. </span>
+<span class="sd">                Please add to the parameters. &quot;&quot;&quot;</span>
+            <span class="p">)</span></div></div>
 
 </pre></div>
 

@@ -26,6 +26,7 @@ bsfit.nodes.models.utils
       do_bayes_inference
       fit_maxlogl
       flatten
+      format_params
       get_bayes_lookup
       get_combination_set
       get_data
@@ -34,7 +35,6 @@ bsfit.nodes.models.utils
       get_learnt_prior
       get_logl
       get_logl_and_aic
-      get_params
       get_percept_likelihood
       get_prediction_stats
       get_proba_data

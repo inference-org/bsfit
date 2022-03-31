@@ -5431,3 +5431,93 @@
 2159        360      1.00         225       40.0  vonMisesPrior       244
 
 [2160 rows x 6 columns]
+2022-03-31 17:03:53,502 - __main__ - INFO - simulating dataset ...
+2022-03-31 17:04:33,448 - __main__ - INFO - Printing simulated trial dataset ...
+2022-03-31 17:04:33,450 - __main__ - INFO -       stim_mean  stim_std  prior_mode  prior_std    prior_shape  estimate
+0             5      0.33         225       80.0  vonMisesPrior       302
+1             5      0.33         225       80.0  vonMisesPrior       359
+2             5      0.33         225       80.0  vonMisesPrior       302
+3             5      0.33         225       80.0  vonMisesPrior       302
+4             5      0.33         225       80.0  vonMisesPrior       302
+...         ...       ...         ...        ...            ...       ...
+2155        360      1.00         225       40.0  vonMisesPrior       244
+2156        360      1.00         225       40.0  vonMisesPrior       228
+2157        360      1.00         225       40.0  vonMisesPrior       244
+2158        360      1.00         225       40.0  vonMisesPrior       244
+2159        360      1.00         225       40.0  vonMisesPrior       228
+
+[2160 rows x 6 columns]
+2022-03-31 17:07:49,987 - __main__ - INFO - simulating dataset ...
+2022-03-31 17:08:16,523 - __main__ - INFO - Printing simulated trial dataset ...
+2022-03-31 17:08:16,524 - __main__ - INFO -       stim_mean  stim_std  prior_mode  prior_std    prior_shape  estimate
+0             5      0.33         225       80.0  vonMisesPrior       349
+1             5      0.33         225       80.0  vonMisesPrior       343
+2             5      0.33         225       80.0  vonMisesPrior       348
+3             5      0.33         225       80.0  vonMisesPrior       324
+4             5      0.33         225       80.0  vonMisesPrior       340
+...         ...       ...         ...        ...            ...       ...
+2155        360      1.00         225       40.0  vonMisesPrior       235
+2156        360      1.00         225       40.0  vonMisesPrior       232
+2157        360      1.00         225       40.0  vonMisesPrior       220
+2158        360      1.00         225       40.0  vonMisesPrior       238
+2159        360      1.00         225       40.0  vonMisesPrior       236
+
+[2160 rows x 6 columns]
+2022-03-31 17:47:19,114 - __main__ - INFO - Simulating dataset ...
+2022-03-31 17:47:19,339 - __main__ - INFO - Fitting bayes model ...
+2022-03-31 17:48:13,261 - __main__ - INFO - Printing fitting results ...
+2022-03-31 17:48:13,264 - __main__ - INFO - best fit params: [2.70e+00 1.07e+01 3.30e+01 2.70e+00 3.30e+01 2.50e-04 2.00e+03] 
+            - neglogl: [array([   2.7,   10.7,   33. ,    2.7,   33. ,    0. , 2000. ])]
+2022-03-31 17:48:25,725 - __main__ - INFO - Printing predict results ...
+2022-03-31 17:48:25,725 - __main__ - INFO - dict_keys(['PestimateGivenModel', 'map', 'conditions', 'prediction_mean', 'prediction_std', 'dataset', 'data_mean', 'data_std'])
+2022-03-31 17:48:25,726 - __main__ - INFO - Done.
+2022-03-31 17:48:36,633 - __main__ - INFO - Simulating dataset ...
+2022-03-31 17:48:36,767 - __main__ - INFO - Fitting cardinal bayesian model ...
+2022-03-31 17:50:33,496 - __main__ - INFO - Simulating dataset ...
+2022-03-31 17:50:33,717 - __main__ - INFO - Fitting cardinal bayesian model ...
+2022-03-31 17:51:37,463 - __main__ - INFO - Printing fitting results ...
+2022-03-31 17:51:37,466 - __main__ - INFO - best fit params: [2.70e+00 1.07e+01 3.30e+01 2.70e+00 3.30e+01 2.00e+03 2.50e-04 2.00e+03] 
+            - neglogl: [array([   2.7,   10.7,   33. ,    2.7,   33. , 2000. ,    0. , 2000. ])]
+2022-03-31 17:52:45,747 - __main__ - INFO - Printing predict results ...
+2022-03-31 17:52:45,747 - __main__ - INFO - dict_keys(['PestimateGivenModel', 'map', 'conditions', 'prediction_mean', 'prediction_std', 'dataset', 'data_mean', 'data_std'])
+2022-03-31 17:52:45,748 - __main__ - INFO - Done.
+2022-03-31 17:53:02,382 - __main__ - INFO - Simulating dataset ...
+2022-03-31 17:53:02,532 - __main__ - INFO - Fitting cardinal bayesian model ...
+2022-03-31 17:54:03,311 - __main__ - INFO - Printing fitting results ...
+2022-03-31 17:54:03,313 - __main__ - INFO - best fit params: [2.70e+00 1.07e+01 3.30e+01 2.70e+00 3.30e+01 2.00e+03 2.50e-04 2.00e+03] 
+            - neglogl: [array([   2.7,   10.7,   33. ,    2.7,   33. , 2000. ,    0. , 2000. ])]
+2022-03-31 17:54:36,446 - __main__ - INFO - Printing predict results ...
+2022-03-31 17:54:36,447 - __main__ - INFO - dict_keys(['PestimateGivenModel', 'map', 'conditions', 'prediction_mean', 'prediction_std', 'dataset', 'data_mean', 'data_std'])
+2022-03-31 17:54:36,447 - __main__ - INFO - Done.
+2022-03-31 17:54:55,099 - __main__ - INFO - simulating dataset ...
+2022-03-31 17:55:20,505 - __main__ - INFO - Printing simulated trial dataset ...
+2022-03-31 17:55:20,506 - __main__ - INFO -       stim_mean  stim_std  prior_mode  prior_std    prior_shape  estimate
+0             5      0.33         225       80.0  vonMisesPrior       338
+1             5      0.33         225       80.0  vonMisesPrior        17
+2             5      0.33         225       80.0  vonMisesPrior         5
+3             5      0.33         225       80.0  vonMisesPrior       346
+4             5      0.33         225       80.0  vonMisesPrior       336
+...         ...       ...         ...        ...            ...       ...
+2155        360      1.00         225       40.0  vonMisesPrior       233
+2156        360      1.00         225       40.0  vonMisesPrior       235
+2157        360      1.00         225       40.0  vonMisesPrior       235
+2158        360      1.00         225       40.0  vonMisesPrior       237
+2159        360      1.00         225       40.0  vonMisesPrior       238
+
+[2160 rows x 6 columns]
+2022-03-31 17:55:30,631 - __main__ - INFO - simulating dataset ...
+2022-03-31 17:55:56,514 - __main__ - INFO - Printing simulated trial dataset ...
+2022-03-31 17:55:56,514 - __main__ - INFO -       stim_mean  stim_std  prior_mode  prior_std    prior_shape  estimate
+0             5      0.33         225       80.0  vonMisesPrior       347
+1             5      0.33         225       80.0  vonMisesPrior       359
+2             5      0.33         225       80.0  vonMisesPrior        56
+3             5      0.33         225       80.0  vonMisesPrior       359
+4             5      0.33         225       80.0  vonMisesPrior       359
+...         ...       ...         ...        ...            ...       ...
+2155        360      1.00         225       40.0  vonMisesPrior       244
+2156        360      1.00         225       40.0  vonMisesPrior       244
+2157        360      1.00         225       40.0  vonMisesPrior       212
+2158        360      1.00         225       40.0  vonMisesPrior       244
+2159        360      1.00         225       40.0  vonMisesPrior       228
+
+[2160 rows x 6 columns]
