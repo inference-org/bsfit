@@ -207,34 +207,15 @@
 </style>
 <section id="commands">
 <h1>Commands<a class="headerlink" href="#commands" title="Permalink to this headline">¶</a></h1>
-<p>Usage pattern (in the terminal):</p>
+<p>You can run most of the analyses in your terminal. This is the usage pattern:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python main.py --&lt;my_command&gt; &lt;option&gt; --&lt;my_command&gt; &lt;option&gt; ..</span>
 </pre></div>
 </div>
-<p>For example:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python main.py simulate_data_by_standard_bayes</span>
+<p>For instance, to quickly fit a standard Bayesian model, use the command below:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python main.py --model standard_bayes --analysis fit</span>
 </pre></div>
 </div>
-<p>Below we show a list of the available commands to run the built-in analyses:</p>
-<table class="colwidths-given docutils align-default">
-<colgroup>
-<col style="width: 50%" />
-<col style="width: 50%" />
-</colgroup>
-<thead>
-<tr class="row-odd"><th class="head"><p>command arguments</p></th>
-<th class="head"><p>description</p></th>
-</tr>
-</thead>
-<tbody>
-<tr class="row-even"><td><p>“simulate_data_by_standard_bayes”</p></td>
-<td><p>generates a dataset by simulating standard Bayes model’s prediction for single trials</p></td>
-</tr>
-<tr class="row-odd"><td><p>“fit_standard_bayes”</p></td>
-<td><p>fits the standard Bayes model to a built-in dataset:</p></td>
-</tr>
-</tbody>
-</table>
+<p>All available commands are listed in the table below:</p>
 <table class="colwidths-given docutils align-default">
 <colgroup>
 <col style="width: 33%" />
@@ -252,7 +233,7 @@
 <td><p>“standard_bayes””</p></td>
 <td><p>instantiate a standard bayesian model</p></td>
 </tr>
-<tr class="row-odd"><td><p>“”</p></td>
+<tr class="row-odd"><td></td>
 <td><p>“cardinal_bayes””</p></td>
 <td><p>instantiate a cardinal bayesian model</p></td>
 </tr>
@@ -260,9 +241,9 @@
 <td><p>“fit”</p></td>
 <td><p>fit the model</p></td>
 </tr>
-<tr class="row-odd"><td><p>“”</p></td>
+<tr class="row-odd"><td></td>
 <td><p>“simulate_data”</p></td>
-<td><p>“simulate stochastic estimate data””</p></td>
+<td><p>simulate stochastic estimate data</p></td>
 </tr>
 </tbody>
 </table>

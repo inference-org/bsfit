@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    fit circulaestimation data with a Bayesian model
+    Use Bayesian estimators to model circular estimation data
 
     see:
         Hurliman et al, 2002,VR

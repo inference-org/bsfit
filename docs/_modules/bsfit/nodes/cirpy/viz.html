@@ -169,7 +169,7 @@
             
   <h1>Source code for bsfit.nodes.cirpy.viz</h1><div class="highlight"><pre>
 <span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">bsfit.nodes.cirpy.data</span> <span class="kn">import</span> <span class="n">VonMises</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.cirpy.data</span> <span class="kn">import</span> <span class="n">VonMises</span><span class="p">,</span> <span class="n">VonMisesMixture</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 
@@ -178,6 +178,36 @@
     <span class="c1"># calculate prior density</span>
     <span class="n">prior</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
         <span class="n">support_space</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">180</span><span class="p">]),</span> <span class="p">[</span><span class="n">k_vm</span><span class="p">]</span>
+    <span class="p">)</span>
+
+    <span class="c1"># plot</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">support_space</span><span class="p">,</span> <span class="n">prior</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="plot_von_mises_mixture"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.viz.plot_von_mises_mixture.html#bsfit.nodes.cirpy.viz.plot_von_mises_mixture">[docs]</a><span class="k">def</span> <span class="nf">plot_von_mises_mixture</span><span class="p">(</span>
+    <span class="n">support_space</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v_u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v_k</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;_summary_</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        support_space (np.ndarray): _description_</span>
+<span class="sd">        k_means (np.ndarray): _description_</span>
+<span class="sd">        k_vm (float): _description_</span>
+<span class="sd">    </span>
+<span class="sd">    Usage: </span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            prior = plot_von_mises_mixture(</span>
+<span class="sd">            support_space=np.arange(0,360,1),</span>
+<span class="sd">            v_u=np.array([90, 180, 270, 360]),</span>
+<span class="sd">            v_k=[k_vm],</span>
+<span class="sd">            0.25</span>
+<span class="sd">            )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># calculate prior density</span>
+    <span class="n">prior</span> <span class="o">=</span> <span class="n">VonMisesMixture</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="n">support_space</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="p">[</span><span class="n">v_k</span><span class="p">],</span> <span class="mi">1</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">v_u</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="c1"># plot</span>
