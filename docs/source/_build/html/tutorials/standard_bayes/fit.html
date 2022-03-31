@@ -487,7 +487,7 @@ div.rendered_html tbody tr:hover {
 <span class="kn">from</span> <span class="nn">bsfit.nodes.dataEng</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">simulate_dataset</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">bsfit.nodes.cirpy.utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.models.utils</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span><span class="p">,</span> <span class="n">get_prediction_stats</span>
 <span class="p">)</span>
 <span class="kn">from</span> <span class="nn">bsfit.nodes.viz.prediction</span> <span class="kn">import</span> <span class="n">plot_mean</span>
@@ -526,7 +526,6 @@ The autoreload extension is already loaded. To reload it, use:
 <span class="n">INIT_P</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s2">&quot;k_llh&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">10.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
     <span class="s2">&quot;k_prior&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
-    <span class="s2">&quot;k_card&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
     <span class="s2">&quot;prior_tail&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
     <span class="s2">&quot;p_rand&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
     <span class="s2">&quot;k_m&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2000</span><span class="p">],</span>
@@ -814,27 +813,6 @@ predictions data: [&#39;PestimateGivenModel&#39;, &#39;map&#39;, &#39;conditions
 <div class="output_area docutils container">
 <img alt="../../_images/tutorials_standard_bayes_fit_29_0.png" src="../../_images/tutorials_standard_bayes_fit_29_0.png" />
 </div>
-</div>
-</section>
-<section id="Measure-other-model-parameters">
-<h3>Measure other model parameters<a class="headerlink" href="#Measure-other-model-parameters" title="Permalink to this headline">¶</a></h3>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[43]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- The strength of the cardinal prior:&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">best_fit_p</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">6</span><span class="p">])</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- The prior tail (mixture coefficient):&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">best_fit_p</span><span class="o">.</span><span class="n">tolist</span><span class="p">()[</span><span class="mi">7</span><span class="p">])</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-- The strength of the cardinal prior: 0.0
-- The prior tail (mixture coefficient): 0.00025
-</pre></div></div>
 </div>
 <p>Tutorial complete !</p>
 </section>

@@ -41,7 +41,7 @@
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Fit" href="fit.html" />
+    <link rel="next" title="Fit a cardinal Bayesian model" href="fit.html" />
     <link rel="prev" title="Cardinal Bayes" href="../../cardinal_bayes.html" /> 
 </head>
 
@@ -98,7 +98,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../standard_bayes.html">Standard Bayes</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="../../cardinal_bayes.html">Cardinal Bayes</a><ul class="current">
 <li class="toctree-l4 current"><a class="current reference internal" href="#">Simulate stochastic choices</a></li>
-<li class="toctree-l4"><a class="reference internal" href="fit.html">Fit</a></li>
+<li class="toctree-l4"><a class="reference internal" href="fit.html">Fit a cardinal Bayesian model</a></li>
 <li class="toctree-l4"><a class="reference internal" href="predict.html">Predict</a></li>
 </ul>
 </li>
@@ -465,33 +465,69 @@ div.rendered_html tbody tr:hover {
 <section id="Simulate-stochastic-choices">
 <h1>Simulate stochastic choices<a class="headerlink" href="#Simulate-stochastic-choices" title="Permalink to this headline">¶</a></h1>
 <p>author: steeve laquitaine</p>
-<p>This tutorial simulates the stochastic choices made by a cardinal Bayesian model.</p>
+<p>This tutorial simulates the stochastic choices made by a standard Bayesian model.</p>
 <section id="Setup">
 <h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to the project&#39;s root path</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="s2">&quot;..&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import dependencies</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.models.bayes</span> <span class="kn">import</span> <span class="n">StandardBayes</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.dataEng</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">simulate_task_conditions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div></div>
 </div>
 </section>
 <section id="Set-the-parameters">
 <h2>Set the parameters<a class="headerlink" href="#Set-the-parameters" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the parameters</span>
+<span class="n">SUBJECT</span> <span class="o">=</span> <span class="s2">&quot;sub01&quot;</span>
+<span class="n">PRIOR_SHAPE</span> <span class="o">=</span> <span class="s2">&quot;vonMisesPrior&quot;</span>
+<span class="n">PRIOR_MODE</span> <span class="o">=</span> <span class="mi">225</span>
+<span class="n">OBJ_FUN</span> <span class="o">=</span> <span class="s2">&quot;maxLLH&quot;</span>
+<span class="n">READOUT</span> <span class="o">=</span> <span class="s2">&quot;map&quot;</span>
+<span class="n">PRIOR_NOISE</span> <span class="o">=</span> <span class="p">[</span><span class="mi">80</span><span class="p">,</span> <span class="mi">40</span><span class="p">]</span>      <span class="c1"># e.g., prior&#39;s std</span>
+<span class="n">STIM_NOISE</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.33</span><span class="p">,</span> <span class="mf">0.66</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]</span>
+<span class="n">SIM_P</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;k_llh&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">10.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+    <span class="s2">&quot;k_prior&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+    <span class="s2">&quot;k_card&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+    <span class="s2">&quot;prior_tail&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;p_rand&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;k_m&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2000</span><span class="p">],</span>
+<span class="p">}</span>
+<span class="n">GRANULARITY</span> <span class="o">=</span> <span class="s2">&quot;trial&quot;</span>
+<span class="n">CENTERING</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">N_REPEATS</span><span class="o">=</span><span class="mi">5</span>
 </pre></div>
 </div>
 </div>
@@ -499,67 +535,645 @@ div.rendered_html tbody tr:hover {
 <section id="Simulate-task-conditions-(design-matrix)">
 <h2>Simulate task conditions (design matrix)<a class="headerlink" href="#Simulate-task-conditions-(design-matrix)" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[20]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate task conditions</span>
+<span class="n">conditions</span> <span class="o">=</span> <span class="n">simulate_task_conditions</span><span class="p">(</span>
+    <span class="n">stim_noise</span><span class="o">=</span><span class="n">STIM_NOISE</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="o">=</span><span class="n">PRIOR_MODE</span><span class="p">,</span>
+    <span class="n">prior_noise</span><span class="o">=</span><span class="n">PRIOR_NOISE</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="o">=</span><span class="n">PRIOR_SHAPE</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <p>The task conditions are shown below.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conditions</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>stim_mean</th>
+      <th>stim_std</th>
+      <th>prior_mode</th>
+      <th>prior_std</th>
+      <th>prior_shape</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>10</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>15</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>20</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>25</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>67</th>
+      <td>340</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>68</th>
+      <td>345</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>69</th>
+      <td>350</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>355</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40</td>
+      <td>vonMisesPrior</td>
+    </tr>
+    <tr>
+      <th>71</th>
+      <td>360</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40</td>
+      <td>vonMisesPrior</td>
+    </tr>
+  </tbody>
+</table>
+<p>432 rows × 5 columns</p>
+</div></div>
 </div>
 </section>
-<section id="Simulate-standard-Bayes’s-trial-predictions">
-<h2>Simulate standard Bayes’s trial predictions<a class="headerlink" href="#Simulate-standard-Bayes’s-trial-predictions" title="Permalink to this headline">¶</a></h2>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<section id="id1">
+<h2>Simulate stochastic choices<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate the model</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">StandardBayes</span><span class="p">(</span>
+    <span class="n">prior_shape</span><span class="o">=</span><span class="n">PRIOR_SHAPE</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="o">=</span><span class="n">PRIOR_MODE</span><span class="p">,</span>
+    <span class="n">readout</span><span class="o">=</span><span class="n">READOUT</span>
+    <span class="p">)</span>
+
+<span class="c1"># simulate trial predictions</span>
+<span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">conditions</span><span class="p">,</span>
+    <span class="n">sim_p</span><span class="o">=</span><span class="n">SIM_P</span><span class="p">,</span>
+    <span class="n">granularity</span><span class="o">=</span><span class="n">GRANULARITY</span><span class="p">,</span>
+    <span class="n">centering</span><span class="o">=</span><span class="n">CENTERING</span><span class="p">,</span>
+    <span class="n">n_repeats</span><span class="o">=</span><span class="n">N_REPEATS</span>
+<span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running simulation ...
+
+-logl:nan, aic:nan, kl:[ 2.7 10.7 33. ], kp:[ 2.7 33. ], kc:[1.], pt:0.00, pr:0.00, km:2000.00
+</pre></div></div>
 </div>
 <p>The simulated dataset is shown below.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
-<section id="Calculate-prediction-statistics">
-<h3>Calculate prediction statistics<a class="headerlink" href="#Calculate-prediction-statistics" title="Permalink to this headline">¶</a></h3>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>stim_mean</th>
+      <th>stim_std</th>
+      <th>prior_mode</th>
+      <th>prior_std</th>
+      <th>prior_shape</th>
+      <th>estimate</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>5</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80.0</td>
+      <td>vonMisesPrior</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80.0</td>
+      <td>vonMisesPrior</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>5</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80.0</td>
+      <td>vonMisesPrior</td>
+      <td>15</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>5</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80.0</td>
+      <td>vonMisesPrior</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>5</td>
+      <td>0.33</td>
+      <td>225</td>
+      <td>80.0</td>
+      <td>vonMisesPrior</td>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2155</th>
+      <td>360</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40.0</td>
+      <td>vonMisesPrior</td>
+      <td>223</td>
+    </tr>
+    <tr>
+      <th>2156</th>
+      <td>360</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40.0</td>
+      <td>vonMisesPrior</td>
+      <td>229</td>
+    </tr>
+    <tr>
+      <th>2157</th>
+      <td>360</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40.0</td>
+      <td>vonMisesPrior</td>
+      <td>223</td>
+    </tr>
+    <tr>
+      <th>2158</th>
+      <td>360</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40.0</td>
+      <td>vonMisesPrior</td>
+      <td>228</td>
+    </tr>
+    <tr>
+      <th>2159</th>
+      <td>360</td>
+      <td>1.00</td>
+      <td>225</td>
+      <td>40.0</td>
+      <td>vonMisesPrior</td>
+      <td>228</td>
+    </tr>
+  </tbody>
+</table>
+<p>2160 rows × 6 columns</p>
+</div></div>
+</div>
+<section id="Calculate-estimate-choice-statistics">
+<h3>Calculate estimate choice statistics<a class="headerlink" href="#Calculate-estimate-choice-statistics" title="Permalink to this headline">¶</a></h3>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate predictions</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">simulate</span><span class="p">(</span>
+    <span class="n">dataset</span><span class="o">=</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">],</span>
+    <span class="n">sim_p</span><span class="o">=</span><span class="n">SIM_P</span><span class="p">,</span>
+    <span class="n">granularity</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">,</span>
+    <span class="n">centering</span><span class="o">=</span><span class="n">CENTERING</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Running simulation ...
+
+Calculating predictions ...
+
+-logl:47038.38, aic:94094.75, kl:[ 2.7 10.7 33. ], kp:[ 2.7 33. ], kc:[1.], pt:0.00, pr:0.00, km:2000.00
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/tutorials_cardinal_bayes_simulate_stochastic_choices_16_1.png" src="../../_images/tutorials_cardinal_bayes_simulate_stochastic_choices_16_1.png" />
+</div>
+</div>
+<p>An preview of the unique 431 combinations of task conditions (prior noise, stimulus noise, stimulus feature) are shown below:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><br/><span></span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>80.0</td>
+      <td>0.33</td>
+      <td>5.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>80.0</td>
+      <td>0.33</td>
+      <td>10.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>80.0</td>
+      <td>0.33</td>
+      <td>15.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>80.0</td>
+      <td>0.33</td>
+      <td>20.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>80.0</td>
+      <td>0.33</td>
+      <td>25.0</td>
+    </tr>
+  </tbody>
+</table>
+</div></div>
+</div>
+<p><strong>Model’s estimate generative probability density</strong>: the probability that the model generates each estimate is shown below, with the estimates ranging from 0 to 359 in the rows and each unique 431 combinations (prior noise, stimulus noise, stimulus feature) in the columns:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area rendered_html docutils container">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+      <th>3</th>
+      <th>4</th>
+      <th>5</th>
+      <th>6</th>
+      <th>7</th>
+      <th>8</th>
+      <th>9</th>
+      <th>...</th>
+      <th>422</th>
+      <th>423</th>
+      <th>424</th>
+      <th>425</th>
+      <th>426</th>
+      <th>427</th>
+      <th>428</th>
+      <th>429</th>
+      <th>430</th>
+      <th>431</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.039645</td>
+      <td>0.033255</td>
+      <td>0.021730</td>
+      <td>0.011097</td>
+      <td>0.004451</td>
+      <td>0.001412</td>
+      <td>0.000358</td>
+      <td>0.000073</td>
+      <td>0.000012</td>
+      <td>0.000002</td>
+      <td>...</td>
+      <td>9.999889e-320</td>
+      <td>2.852656e-18</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+      <td>2.312965e-19</td>
+      <td>2.852656e-18</td>
+      <td>9.999889e-320</td>
+      <td>4.240435e-19</td>
+      <td>4.625929e-19</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>0.039845</td>
+      <td>0.035143</td>
+      <td>0.024135</td>
+      <td>0.012943</td>
+      <td>0.005446</td>
+      <td>0.001810</td>
+      <td>0.000479</td>
+      <td>0.000102</td>
+      <td>0.000018</td>
+      <td>0.000003</td>
+      <td>...</td>
+      <td>2.235866e-18</td>
+      <td>2.621360e-18</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+      <td>1.195032e-18</td>
+      <td>3.854941e-20</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+      <td>1.850372e-18</td>
+      <td>7.324388e-19</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>0.039645</td>
+      <td>0.036767</td>
+      <td>0.026542</td>
+      <td>0.014951</td>
+      <td>0.006600</td>
+      <td>0.002298</td>
+      <td>0.000636</td>
+      <td>0.000141</td>
+      <td>0.000025</td>
+      <td>0.000004</td>
+      <td>...</td>
+      <td>9.999889e-320</td>
+      <td>1.888921e-18</td>
+      <td>9.999889e-320</td>
+      <td>8.480870e-19</td>
+      <td>1.272131e-18</td>
+      <td>2.052756e-18</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+      <td>3.180326e-18</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>0.039052</td>
+      <td>0.038083</td>
+      <td>0.028900</td>
+      <td>0.017102</td>
+      <td>0.007924</td>
+      <td>0.002891</td>
+      <td>0.000837</td>
+      <td>0.000194</td>
+      <td>0.000036</td>
+      <td>0.000006</td>
+      <td>...</td>
+      <td>8.866364e-19</td>
+      <td>1.002285e-17</td>
+      <td>2.852656e-18</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+      <td>1.927471e-19</td>
+      <td>9.999889e-320</td>
+      <td>4.471732e-18</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>0.038083</td>
+      <td>0.039052</td>
+      <td>0.031156</td>
+      <td>0.019373</td>
+      <td>0.009422</td>
+      <td>0.003604</td>
+      <td>0.001092</td>
+      <td>0.000265</td>
+      <td>0.000052</td>
+      <td>0.000008</td>
+      <td>...</td>
+      <td>9.406056e-18</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+      <td>1.696174e-18</td>
+      <td>9.999889e-320</td>
+      <td>4.625929e-18</td>
+      <td>9.999889e-320</td>
+      <td>7.709882e-19</td>
+      <td>9.999889e-320</td>
+      <td>9.999889e-320</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 432 columns</p>
+</div></div>
+</div>
+<p>Here is a list of the attributes generated by the simulation:</p>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+[&#39;PestimateGivenModel&#39;,
+ &#39;map&#39;,
+ &#39;conditions&#39;,
+ &#39;prediction_mean&#39;,
+ &#39;prediction_std&#39;,
+ &#39;dataset&#39;]
+</pre></div></div>
 </div>
 <p>Tutorial complete !</p>
 </section>
@@ -574,7 +1188,7 @@ div.rendered_html tbody tr:hover {
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="fit.html" class="btn btn-neutral float-right" title="Fit" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="fit.html" class="btn btn-neutral float-right" title="Fit a cardinal Bayesian model" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="../../cardinal_bayes.html" class="btn btn-neutral float-left" title="Cardinal Bayes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
