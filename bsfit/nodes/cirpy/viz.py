@@ -1,9 +1,9 @@
 import numpy as np
-from bsfit.nodes.circpy.data import VonMises
+from bsfit.nodes.cirpy.data import VonMises
 from matplotlib import pyplot as plt
 
 
-def plot_von_mises(support_space:np.ndarray, k_vm:float):
+def plot_von_mises(support_space: np.ndarray, k_vm: float):
 
     # calculate prior density
     prior = VonMises(p=True).get(
