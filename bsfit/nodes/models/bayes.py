@@ -23,14 +23,8 @@ import pandas as pd
 from bsfit.nodes.viz.prediction import plot_mean
 
 from .abstract_model import Model
-from .utils import (
-    fit_maxlogl,
-    get_data,
-    get_data_stats,
-    predict,
-    simulate,
-    simulate_dataset,
-)
+from .utils import (fit_maxlogl, get_data, get_data_stats, predict, simulate,
+                    simulate_dataset)
 
 
 class StandardBayes(Model):
