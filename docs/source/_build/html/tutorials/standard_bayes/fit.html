@@ -565,13 +565,14 @@ The autoreload extension is already loaded. To reload it, use:
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate the model</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">StandardBayes</span><span class="p">(</span>
+    <span class="n">initial_params</span><span class="o">=</span><span class="n">INIT_P</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="o">=</span><span class="n">PRIOR_SHAPE</span><span class="p">,</span>
     <span class="n">prior_mode</span><span class="o">=</span><span class="n">PRIOR_MODE</span><span class="p">,</span>
     <span class="n">readout</span><span class="o">=</span><span class="n">READOUT</span>
     <span class="p">)</span>
 
 <span class="c1"># train the model</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">,</span> <span class="n">init_p</span><span class="o">=</span><span class="n">INIT_P</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="o">=</span><span class="n">train_dataset</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>

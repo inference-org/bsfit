@@ -18,9 +18,13 @@ import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 
-from ..cirpy.data import VonMises
-from ..cirpy.utils import (get_circ_conv, get_circ_weighted_mean_std,
-                           get_deg_to_rad, get_rad_to_deg)
+from ..cirpy.data import VonMises, VonMisesMixture
+from ..cirpy.utils import (
+    get_circ_conv,
+    get_circ_weighted_mean_std,
+    get_deg_to_rad,
+    get_rad_to_deg,
+)
 from ..util import is_empty
 
 pd.options.mode.chained_assignment = None
@@ -52,7 +56,8 @@ def fit_maxlogl(
 
     # set parameters
     # (model and task)
-    params = get_params(
+    # [TODO]: rename format_params
+    params = format_params(
         database, init_p, prior_shape, prior_mode, readout
     )
 
@@ -105,7 +110,7 @@ def simulate(
 
     # set parameters
     # (model and task)
-    params = get_params(
+    params = format_params(
         database, sim_p, prior_shape, prior_mode, readout
     )
 
@@ -145,7 +150,7 @@ def flatten(x: List[list]) -> list:
     return [item for sublist in x for item in sublist]
 
 
-def get_params(
+def format_params(
     database: pd.DataFrame,
     init_p: dict,
     prior_shape: str,
@@ -266,14 +271,13 @@ def get_logl(
     data: pd.Series,
 ):
     """calculate the log(likelihood) of the 
-    observed stimulus feature mean's estimate
-    given the model.
+    stimulus feature's estimate given the model.
     This function is called by scipy.optimize.fmin().
 
     Args:
-        fit_p (np.ndarray): model fit parameters
-        params (dict): fixed parameters
-        - "task": "fixed_params"
+        fit_p (np.ndarray): the model's fit parameters
+        params (dict): all the fixed parameters:
+        - "task": "fixed_params": the task fixed parameters
         - "model": "fixed_params", "init_params"
         stim_mean (pd.Series): stimulus feature mean
         data (pd.Series): data estimate to fit
@@ -326,10 +330,22 @@ def get_fit_variables(
     )
     k_llh = fit_p[params_loc["k_llh"]]
     k_prior = fit_p[params_loc["k_prior"]]
-    k_card = fit_p[params_loc["k_card"]]
-    prior_tail = fit_p[params_loc["prior_tail"]][0]
     p_rand = fit_p[params_loc["p_rand"]][0]
     k_m = fit_p[params_loc["k_m"]][0]
+
+    # set model-dependent parameters
+    # set to 0 if not set
+    # set cardinal prior strength
+    if "k_card" in params_loc:
+        k_card = fit_p[params_loc["k_card"]]
+    else:
+        k_card = 0.0
+
+    # set thickness of prior tail
+    if "prior_tail" in params_loc:
+        prior_tail = fit_p[params_loc["prior_tail"]][0]
+    else:
+        prior_tail = 0.0
 
     # calculate percept probability density
     output = get_proba_percept(
@@ -347,7 +363,7 @@ def get_fit_variables(
     # (len(estimate_space) x N_conditions)
     proba_estimate = get_proba_estimate(k_m, proba_percept)
 
-    # case data is provided
+    # when data exist
     if "data" in kwargs:
 
         # calculate data probability density
@@ -355,7 +371,7 @@ def get_fit_variables(
             kwargs["data"], proba_estimate
         )
 
-        # get the log likelihood of the observed data
+        # get the log(likelihood) of the data
         fit_out = get_logl_and_aic(n_fit_params, proba_data)
     else:
         fit_out = dict()
@@ -511,6 +527,7 @@ def get_proba_percept(
                 prior_mode,
                 k_prior[ix],
                 prior_shape,
+                k_card,
                 readout=readout,
             )
 
@@ -598,7 +615,9 @@ def get_proba_percept(
     }
 
 
-def get_proba_estimate(k_m, PupoGivenModel):
+def get_proba_estimate(
+    k_m: float, PupoGivenModel: np.ndarray
+):
 
     # convolve percept density with motor noise
     # Now we shortly replace upo=1:1:360 by upo=0:1:359 because motor noise
@@ -648,6 +667,7 @@ def get_bayes_lookup(
     prior_mode: float,
     k_prior: float,
     prior_shape: str,
+    k_card: float,
     readout: str,
 ):
     """Create a bayes lookup matrix
@@ -676,8 +696,6 @@ def get_bayes_lookup(
 
     [TODO]: clarify the conceptual objects used:
         stimulus space, percept space ... 
-
-
     """
 
     # set stimulus feature mean space s (the
@@ -713,6 +731,13 @@ def get_bayes_lookup(
         stim_mean_space,
     )
 
+    # calculate cardinal prior if chosen
+    vm_means = np.array([90, 180, 270, 360])
+    mixt_coeff = 0.25
+    cardinal_prior = VonMisesMixture(p=True).get(
+        percept_space, vm_means, [k_card], mixt_coeff
+    )
+
     # calculate posterior densities
     # (s space  x m_i)
     posterior = do_bayes_inference(
@@ -722,6 +747,7 @@ def get_bayes_lookup(
         stim_mean_space,
         llh,
         learnt_prior,
+        cardinal_prior,
     )
 
     # choose percepts
@@ -1091,15 +1117,16 @@ def do_bayes_inference(
     prior_mode,
     k_prior,
     stim_mean_space,
-    llh,
-    learnt_prior,
+    llh: np.ndarray,
+    learnt_prior: np.ndarray,
+    cardinal_prior: np.ndarray,
 ):
 
     """Realize Bayesian inference    
     """
 
     # do Bayesian integration
-    posterior = llh * learnt_prior
+    posterior = llh * learnt_prior * cardinal_prior
 
     # normalize cols to sum to 1
     posterior = posterior / sum(posterior)[None, :]
@@ -1131,17 +1158,16 @@ def do_bayes_inference(
         # use Murray and Morgenstern., 2010
         # closed-form equation
         # mode of posterior
-        mi = stim_mean_space[loc]
-        mirad = get_deg_to_rad(mi, True)
+        m_i = stim_mean_space[loc]
+        mirad = get_deg_to_rad(m_i, True)
         uprad = get_deg_to_rad(prior_mode, True)
 
         # set k ratio
         k_ratio = k_llh / k_prior
-        if k_llh == k_prior == np.inf:
+        if k_llh == np.inf and k_prior == np.inf:
             k_ratio = 1
-        else:
-            raise Exception("Check k_prior or k_llh")
 
+        # calculate posterior's mean
         upo = np.round(
             mirad
             + arctan2(
@@ -1153,21 +1179,23 @@ def do_bayes_inference(
         # mean space
         upo = np.round(get_rad_to_deg(upo))
 
+        # when prior and likelihood strengths are
+        # infinite
         if k_llh == np.inf or k_prior == np.inf:
+            kpo = np.inf
+        else:
+            # else use Morgenstern equation to
+            # calculate posteriors' strengths
             kpo = np.sqrt(
                 k_llh ** 2
                 + k_prior ** 2
                 + 2 * k_prior * k_llh * cos(uprad - mirad)
             )
-            raise Exception(
-                """We have not yet solved Bayesian
-                 integration when k_llh or k_prior is 
-                 +inf"""
-            )
+            kpo = kpo.squeeze().tolist()
 
-        # create those posterior
+        # create those posteriors
         posterior[:, loc] = VonMises(p=True).get(
-            stim_mean_space, upo, [kpo],
+            stim_mean_space, upo, kpo,
         )
     return posterior
 

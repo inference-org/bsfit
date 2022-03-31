@@ -188,9 +188,13 @@
 <span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">arctan2</span><span class="p">,</span> <span class="n">cos</span><span class="p">,</span> <span class="n">sin</span>
 <span class="kn">from</span> <span class="nn">scipy.optimize</span> <span class="kn">import</span> <span class="n">fmin</span>
 
-<span class="kn">from</span> <span class="nn">..cirpy.data</span> <span class="kn">import</span> <span class="n">VonMises</span>
-<span class="kn">from</span> <span class="nn">..cirpy.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">get_circ_conv</span><span class="p">,</span> <span class="n">get_circ_weighted_mean_std</span><span class="p">,</span>
-                           <span class="n">get_deg_to_rad</span><span class="p">,</span> <span class="n">get_rad_to_deg</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">..cirpy.data</span> <span class="kn">import</span> <span class="n">VonMises</span><span class="p">,</span> <span class="n">VonMisesMixture</span>
+<span class="kn">from</span> <span class="nn">..cirpy.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">get_circ_conv</span><span class="p">,</span>
+    <span class="n">get_circ_weighted_mean_std</span><span class="p">,</span>
+    <span class="n">get_deg_to_rad</span><span class="p">,</span>
+    <span class="n">get_rad_to_deg</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">..util</span> <span class="kn">import</span> <span class="n">is_empty</span>
 
 <span class="n">pd</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">mode</span><span class="o">.</span><span class="n">chained_assignment</span> <span class="o">=</span> <span class="kc">None</span>
@@ -222,7 +226,8 @@
 
     <span class="c1"># set parameters</span>
     <span class="c1"># (model and task)</span>
-    <span class="n">params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
+    <span class="c1"># [TODO]: rename format_params</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">format_params</span><span class="p">(</span>
         <span class="n">database</span><span class="p">,</span> <span class="n">init_p</span><span class="p">,</span> <span class="n">prior_shape</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="n">readout</span>
     <span class="p">)</span>
 
@@ -275,7 +280,7 @@
 
     <span class="c1"># set parameters</span>
     <span class="c1"># (model and task)</span>
-    <span class="n">params</span> <span class="o">=</span> <span class="n">get_params</span><span class="p">(</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">format_params</span><span class="p">(</span>
         <span class="n">database</span><span class="p">,</span> <span class="n">sim_p</span><span class="p">,</span> <span class="n">prior_shape</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="n">readout</span>
     <span class="p">)</span>
 
@@ -315,7 +320,7 @@
     <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">sublist</span> <span class="ow">in</span> <span class="n">x</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sublist</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="get_params"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.utils.get_params.html#bsfit.nodes.models.utils.get_params">[docs]</a><span class="k">def</span> <span class="nf">get_params</span><span class="p">(</span>
+<div class="viewcode-block" id="format_params"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.utils.format_params.html#bsfit.nodes.models.utils.format_params">[docs]</a><span class="k">def</span> <span class="nf">format_params</span><span class="p">(</span>
     <span class="n">database</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
     <span class="n">init_p</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -436,14 +441,13 @@
     <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;calculate the log(likelihood) of the </span>
-<span class="sd">    observed stimulus feature mean&#39;s estimate</span>
-<span class="sd">    given the model.</span>
+<span class="sd">    stimulus feature&#39;s estimate given the model.</span>
 <span class="sd">    This function is called by scipy.optimize.fmin().</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        fit_p (np.ndarray): model fit parameters</span>
-<span class="sd">        params (dict): fixed parameters</span>
-<span class="sd">        - &quot;task&quot;: &quot;fixed_params&quot;</span>
+<span class="sd">        fit_p (np.ndarray): the model&#39;s fit parameters</span>
+<span class="sd">        params (dict): all the fixed parameters:</span>
+<span class="sd">        - &quot;task&quot;: &quot;fixed_params&quot;: the task fixed parameters</span>
 <span class="sd">        - &quot;model&quot;: &quot;fixed_params&quot;, &quot;init_params&quot;</span>
 <span class="sd">        stim_mean (pd.Series): stimulus feature mean</span>
 <span class="sd">        data (pd.Series): data estimate to fit</span>
@@ -496,10 +500,22 @@
     <span class="p">)</span>
     <span class="n">k_llh</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_llh&quot;</span><span class="p">]]</span>
     <span class="n">k_prior</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_prior&quot;</span><span class="p">]]</span>
-    <span class="n">k_card</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_card&quot;</span><span class="p">]]</span>
-    <span class="n">prior_tail</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;prior_tail&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">p_rand</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;p_rand&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">k_m</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_m&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># set model-dependent parameters</span>
+    <span class="c1"># set to 0 if not set</span>
+    <span class="c1"># set cardinal prior strength</span>
+    <span class="k">if</span> <span class="s2">&quot;k_card&quot;</span> <span class="ow">in</span> <span class="n">params_loc</span><span class="p">:</span>
+        <span class="n">k_card</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;k_card&quot;</span><span class="p">]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">k_card</span> <span class="o">=</span> <span class="mf">0.0</span>
+
+    <span class="c1"># set thickness of prior tail</span>
+    <span class="k">if</span> <span class="s2">&quot;prior_tail&quot;</span> <span class="ow">in</span> <span class="n">params_loc</span><span class="p">:</span>
+        <span class="n">prior_tail</span> <span class="o">=</span> <span class="n">fit_p</span><span class="p">[</span><span class="n">params_loc</span><span class="p">[</span><span class="s2">&quot;prior_tail&quot;</span><span class="p">]][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">prior_tail</span> <span class="o">=</span> <span class="mf">0.0</span>
 
     <span class="c1"># calculate percept probability density</span>
     <span class="n">output</span> <span class="o">=</span> <span class="n">get_proba_percept</span><span class="p">(</span>
@@ -517,7 +533,7 @@
     <span class="c1"># (len(estimate_space) x N_conditions)</span>
     <span class="n">proba_estimate</span> <span class="o">=</span> <span class="n">get_proba_estimate</span><span class="p">(</span><span class="n">k_m</span><span class="p">,</span> <span class="n">proba_percept</span><span class="p">)</span>
 
-    <span class="c1"># case data is provided</span>
+    <span class="c1"># when data exist</span>
     <span class="k">if</span> <span class="s2">&quot;data&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
 
         <span class="c1"># calculate data probability density</span>
@@ -525,7 +541,7 @@
             <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">],</span> <span class="n">proba_estimate</span>
         <span class="p">)</span>
 
-        <span class="c1"># get the log likelihood of the observed data</span>
+        <span class="c1"># get the log(likelihood) of the data</span>
         <span class="n">fit_out</span> <span class="o">=</span> <span class="n">get_logl_and_aic</span><span class="p">(</span><span class="n">n_fit_params</span><span class="p">,</span> <span class="n">proba_data</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">fit_out</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -681,6 +697,7 @@
                 <span class="n">prior_mode</span><span class="p">,</span>
                 <span class="n">k_prior</span><span class="p">[</span><span class="n">ix</span><span class="p">],</span>
                 <span class="n">prior_shape</span><span class="p">,</span>
+                <span class="n">k_card</span><span class="p">,</span>
                 <span class="n">readout</span><span class="o">=</span><span class="n">readout</span><span class="p">,</span>
             <span class="p">)</span>
 
@@ -768,7 +785,9 @@
     <span class="p">}</span></div>
 
 
-<div class="viewcode-block" id="get_proba_estimate"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.utils.get_proba_estimate.html#bsfit.nodes.models.utils.get_proba_estimate">[docs]</a><span class="k">def</span> <span class="nf">get_proba_estimate</span><span class="p">(</span><span class="n">k_m</span><span class="p">,</span> <span class="n">PupoGivenModel</span><span class="p">):</span>
+<div class="viewcode-block" id="get_proba_estimate"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.utils.get_proba_estimate.html#bsfit.nodes.models.utils.get_proba_estimate">[docs]</a><span class="k">def</span> <span class="nf">get_proba_estimate</span><span class="p">(</span>
+    <span class="n">k_m</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">PupoGivenModel</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+<span class="p">):</span>
 
     <span class="c1"># convolve percept density with motor noise</span>
     <span class="c1"># Now we shortly replace upo=1:1:360 by upo=0:1:359 because motor noise</span>
@@ -818,6 +837,7 @@
     <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">k_prior</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">k_card</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a bayes lookup matrix</span>
@@ -846,8 +866,6 @@
 
 <span class="sd">    [TODO]: clarify the conceptual objects used:</span>
 <span class="sd">        stimulus space, percept space ... </span>
-
-
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># set stimulus feature mean space s (the</span>
@@ -883,6 +901,13 @@
         <span class="n">stim_mean_space</span><span class="p">,</span>
     <span class="p">)</span>
 
+    <span class="c1"># calculate cardinal prior if chosen</span>
+    <span class="n">vm_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">360</span><span class="p">])</span>
+    <span class="n">mixt_coeff</span> <span class="o">=</span> <span class="mf">0.25</span>
+    <span class="n">cardinal_prior</span> <span class="o">=</span> <span class="n">VonMisesMixture</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="n">percept_space</span><span class="p">,</span> <span class="n">vm_means</span><span class="p">,</span> <span class="p">[</span><span class="n">k_card</span><span class="p">],</span> <span class="n">mixt_coeff</span>
+    <span class="p">)</span>
+
     <span class="c1"># calculate posterior densities</span>
     <span class="c1"># (s space  x m_i)</span>
     <span class="n">posterior</span> <span class="o">=</span> <span class="n">do_bayes_inference</span><span class="p">(</span>
@@ -892,6 +917,7 @@
         <span class="n">stim_mean_space</span><span class="p">,</span>
         <span class="n">llh</span><span class="p">,</span>
         <span class="n">learnt_prior</span><span class="p">,</span>
+        <span class="n">cardinal_prior</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="c1"># choose percepts</span>
@@ -1261,15 +1287,16 @@
     <span class="n">prior_mode</span><span class="p">,</span>
     <span class="n">k_prior</span><span class="p">,</span>
     <span class="n">stim_mean_space</span><span class="p">,</span>
-    <span class="n">llh</span><span class="p">,</span>
-    <span class="n">learnt_prior</span><span class="p">,</span>
+    <span class="n">llh</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">learnt_prior</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">cardinal_prior</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
 <span class="p">):</span>
 
     <span class="sd">&quot;&quot;&quot;Realize Bayesian inference    </span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># do Bayesian integration</span>
-    <span class="n">posterior</span> <span class="o">=</span> <span class="n">llh</span> <span class="o">*</span> <span class="n">learnt_prior</span>
+    <span class="n">posterior</span> <span class="o">=</span> <span class="n">llh</span> <span class="o">*</span> <span class="n">learnt_prior</span> <span class="o">*</span> <span class="n">cardinal_prior</span>
 
     <span class="c1"># normalize cols to sum to 1</span>
     <span class="n">posterior</span> <span class="o">=</span> <span class="n">posterior</span> <span class="o">/</span> <span class="nb">sum</span><span class="p">(</span><span class="n">posterior</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
@@ -1301,17 +1328,16 @@
         <span class="c1"># use Murray and Morgenstern., 2010</span>
         <span class="c1"># closed-form equation</span>
         <span class="c1"># mode of posterior</span>
-        <span class="n">mi</span> <span class="o">=</span> <span class="n">stim_mean_space</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>
-        <span class="n">mirad</span> <span class="o">=</span> <span class="n">get_deg_to_rad</span><span class="p">(</span><span class="n">mi</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="n">m_i</span> <span class="o">=</span> <span class="n">stim_mean_space</span><span class="p">[</span><span class="n">loc</span><span class="p">]</span>
+        <span class="n">mirad</span> <span class="o">=</span> <span class="n">get_deg_to_rad</span><span class="p">(</span><span class="n">m_i</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">uprad</span> <span class="o">=</span> <span class="n">get_deg_to_rad</span><span class="p">(</span><span class="n">prior_mode</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># set k ratio</span>
         <span class="n">k_ratio</span> <span class="o">=</span> <span class="n">k_llh</span> <span class="o">/</span> <span class="n">k_prior</span>
-        <span class="k">if</span> <span class="n">k_llh</span> <span class="o">==</span> <span class="n">k_prior</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">k_llh</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="ow">and</span> <span class="n">k_prior</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
             <span class="n">k_ratio</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Check k_prior or k_llh&quot;</span><span class="p">)</span>
 
+        <span class="c1"># calculate posterior&#39;s mean</span>
         <span class="n">upo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span>
             <span class="n">mirad</span>
             <span class="o">+</span> <span class="n">arctan2</span><span class="p">(</span>
@@ -1323,21 +1349,23 @@
         <span class="c1"># mean space</span>
         <span class="n">upo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="n">get_rad_to_deg</span><span class="p">(</span><span class="n">upo</span><span class="p">))</span>
 
+        <span class="c1"># when prior and likelihood strengths are</span>
+        <span class="c1"># infinite</span>
         <span class="k">if</span> <span class="n">k_llh</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span> <span class="ow">or</span> <span class="n">k_prior</span> <span class="o">==</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+            <span class="n">kpo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># else use Morgenstern equation to</span>
+            <span class="c1"># calculate posteriors&#39; strengths</span>
             <span class="n">kpo</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
                 <span class="n">k_llh</span> <span class="o">**</span> <span class="mi">2</span>
                 <span class="o">+</span> <span class="n">k_prior</span> <span class="o">**</span> <span class="mi">2</span>
                 <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">k_prior</span> <span class="o">*</span> <span class="n">k_llh</span> <span class="o">*</span> <span class="n">cos</span><span class="p">(</span><span class="n">uprad</span> <span class="o">-</span> <span class="n">mirad</span><span class="p">)</span>
             <span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-                <span class="sd">&quot;&quot;&quot;We have not yet solved Bayesian</span>
-<span class="sd">                 integration when k_llh or k_prior is </span>
-<span class="sd">                 +inf&quot;&quot;&quot;</span>
-            <span class="p">)</span>
+            <span class="n">kpo</span> <span class="o">=</span> <span class="n">kpo</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 
-        <span class="c1"># create those posterior</span>
+        <span class="c1"># create those posteriors</span>
         <span class="n">posterior</span><span class="p">[:,</span> <span class="n">loc</span><span class="p">]</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="n">stim_mean_space</span><span class="p">,</span> <span class="n">upo</span><span class="p">,</span> <span class="p">[</span><span class="n">kpo</span><span class="p">],</span>
+            <span class="n">stim_mean_space</span><span class="p">,</span> <span class="n">upo</span><span class="p">,</span> <span class="n">kpo</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">return</span> <span class="n">posterior</span></div>
 

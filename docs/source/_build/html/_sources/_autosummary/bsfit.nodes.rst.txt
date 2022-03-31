@@ -37,6 +37,7 @@ bsfit.nodes
    :recursive:
 
    bsfit.nodes.cirpy
+   bsfit.nodes.config
    bsfit.nodes.dataEng
    bsfit.nodes.models
    bsfit.nodes.util

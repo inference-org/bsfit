@@ -5,13 +5,51 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Module",
+            "name": "Python: fit_sb",
             "type": "python",
             "request": "launch",
             "module": "main",
             "args": [
-                "simulate_data_by_standard_bayes"
-                // "fit_standard_bayes"
+                "--model",
+                "standard_bayes",
+                "--analysis",
+                "fit"
+            ]
+        },
+        {
+            "name": "Python: fit_cb",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "args": [
+                "--model",
+                "cardinal_bayes",
+                "--analysis",
+                "fit"
+            ]
+        },
+        {
+            "name": "Python: simulate_data_sb",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "args": [
+                "--model",
+                "standard_bayes",
+                "--analysis",
+                "simulate_data"
+            ]
+        },
+        {
+            "name": "Python: simulate_data_cb",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "args": [
+                "--model",
+                "cardinal_bayes",
+                "--analysis",
+                "simulate_data"
             ]
         }
     ]
