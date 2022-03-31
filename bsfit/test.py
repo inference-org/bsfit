@@ -21,7 +21,7 @@
 
 import numpy as np
 
-from .nodes.data import VonMises
+from .nodes.cirpy.data import VonMises
 from .nodes.util import is_all_in
 
 

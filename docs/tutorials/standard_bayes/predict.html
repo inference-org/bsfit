@@ -469,7 +469,7 @@ div.rendered_html tbody tr:hover {
 <section id="Setup">
 <h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to the project&#39;s root path</span>
@@ -478,8 +478,16 @@ div.rendered_html tbody tr:hover {
 </pre></div>
 </div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import dependencies</span>
@@ -506,7 +514,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Set-the-parameters">
 <h2>Set the parameters<a class="headerlink" href="#Set-the-parameters" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the parameters</span>
@@ -534,7 +542,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Simulate-a-dataset">
 <h2>Simulate a dataset<a class="headerlink" href="#Simulate-a-dataset" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate a training dataset</span>
@@ -544,10 +552,6 @@ The autoreload extension is already loaded. To reload it, use:
     <span class="n">prior_noise</span><span class="o">=</span><span class="n">PRIOR_NOISE</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="o">=</span><span class="n">PRIOR_SHAPE</span><span class="p">,</span>
 <span class="p">)</span>
-
-<span class="c1"># use the train dataset as test to show</span>
-<span class="c1"># best predictions</span>
-<span class="n">test_dataset</span> <span class="o">=</span> <span class="n">get_data</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -555,7 +559,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Simulate-the-model-mean-predictions">
 <h2>Simulate the model mean predictions<a class="headerlink" href="#Simulate-the-model-mean-predictions" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate the model</span>
@@ -588,21 +592,12 @@ Calculating predictions ...
 -logl:50265.93, aic:100549.87, kl:[ 2.7 10.7 33. ], kp:[ 2.7 33. ], kc:[1.], pt:0.00, pr:0.00, km:2000.00
 </pre></div></div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area docutils container">
-<img alt="../../_images/tutorials_standard_bayes_predict_10_1.png" src="../../_images/tutorials_standard_bayes_predict_10_1.png" />
-</div>
-</div>
 <div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
-<div class="highlight"><pre>
-
-Simulation is complete !
-</pre></div></div>
+<img alt="../../_images/tutorials_standard_bayes_predict_11_1.png" src="../../_images/tutorials_standard_bayes_predict_11_1.png" />
+</div>
 </div>
 <p>Tutorial complete !</p>
 </section>

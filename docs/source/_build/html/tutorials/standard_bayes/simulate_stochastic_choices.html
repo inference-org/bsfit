@@ -469,7 +469,7 @@ div.rendered_html tbody tr:hover {
 <section id="Setup">
 <h2>Setup<a class="headerlink" href="#Setup" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># go to the project&#39;s root path</span>
@@ -479,7 +479,7 @@ div.rendered_html tbody tr:hover {
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># import dependencies</span>
@@ -506,7 +506,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Set-the-parameters">
 <h2>Set the parameters<a class="headerlink" href="#Set-the-parameters" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set the parameters</span>
@@ -527,6 +527,7 @@ The autoreload extension is already loaded. To reload it, use:
 <span class="p">}</span>
 <span class="n">GRANULARITY</span> <span class="o">=</span> <span class="s2">&quot;trial&quot;</span>
 <span class="n">CENTERING</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">N_REPEATS</span><span class="o">=</span><span class="mi">5</span>
 </pre></div>
 </div>
 </div>
@@ -534,7 +535,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="Simulate-task-conditions-(design-matrix)">
 <h2>Simulate task conditions (design matrix)<a class="headerlink" href="#Simulate-task-conditions-(design-matrix)" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate task conditions</span>
@@ -549,7 +550,7 @@ The autoreload extension is already loaded. To reload it, use:
 </div>
 <p>The task conditions are shown below.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">conditions</span>
@@ -557,7 +558,7 @@ The autoreload extension is already loaded. To reload it, use:
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -684,7 +685,7 @@ The autoreload extension is already loaded. To reload it, use:
 <section id="id1">
 <h2>Simulate stochastic choices<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># instantiate the model</span>
@@ -700,6 +701,7 @@ The autoreload extension is already loaded. To reload it, use:
     <span class="n">sim_p</span><span class="o">=</span><span class="n">SIM_P</span><span class="p">,</span>
     <span class="n">granularity</span><span class="o">=</span><span class="n">GRANULARITY</span><span class="p">,</span>
     <span class="n">centering</span><span class="o">=</span><span class="n">CENTERING</span><span class="p">,</span>
+    <span class="n">n_repeats</span><span class="o">=</span><span class="n">N_REPEATS</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -716,7 +718,7 @@ Running simulation ...
 </div>
 <p>The simulated dataset is shown below.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;dataset&quot;</span><span class="p">]</span>
@@ -724,7 +726,7 @@ Running simulation ...
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -762,7 +764,7 @@ Running simulation ...
       <td>225</td>
       <td>80.0</td>
       <td>vonMisesPrior</td>
-      <td>1</td>
+      <td>3</td>
     </tr>
     <tr>
       <th>1</th>
@@ -771,7 +773,7 @@ Running simulation ...
       <td>225</td>
       <td>80.0</td>
       <td>vonMisesPrior</td>
-      <td>2</td>
+      <td>9</td>
     </tr>
     <tr>
       <th>2</th>
@@ -780,7 +782,7 @@ Running simulation ...
       <td>225</td>
       <td>80.0</td>
       <td>vonMisesPrior</td>
-      <td>340</td>
+      <td>15</td>
     </tr>
     <tr>
       <th>3</th>
@@ -789,7 +791,7 @@ Running simulation ...
       <td>225</td>
       <td>80.0</td>
       <td>vonMisesPrior</td>
-      <td>357</td>
+      <td>5</td>
     </tr>
     <tr>
       <th>4</th>
@@ -798,7 +800,7 @@ Running simulation ...
       <td>225</td>
       <td>80.0</td>
       <td>vonMisesPrior</td>
-      <td>357</td>
+      <td>9</td>
     </tr>
     <tr>
       <th>...</th>
@@ -816,7 +818,7 @@ Running simulation ...
       <td>225</td>
       <td>40.0</td>
       <td>vonMisesPrior</td>
-      <td>220</td>
+      <td>223</td>
     </tr>
     <tr>
       <th>2156</th>
@@ -825,7 +827,7 @@ Running simulation ...
       <td>225</td>
       <td>40.0</td>
       <td>vonMisesPrior</td>
-      <td>228</td>
+      <td>229</td>
     </tr>
     <tr>
       <th>2157</th>
@@ -834,7 +836,7 @@ Running simulation ...
       <td>225</td>
       <td>40.0</td>
       <td>vonMisesPrior</td>
-      <td>229</td>
+      <td>223</td>
     </tr>
     <tr>
       <th>2158</th>
@@ -843,7 +845,7 @@ Running simulation ...
       <td>225</td>
       <td>40.0</td>
       <td>vonMisesPrior</td>
-      <td>223</td>
+      <td>228</td>
     </tr>
     <tr>
       <th>2159</th>
@@ -852,7 +854,7 @@ Running simulation ...
       <td>225</td>
       <td>40.0</td>
       <td>vonMisesPrior</td>
-      <td>229</td>
+      <td>228</td>
     </tr>
   </tbody>
 </table>
@@ -862,7 +864,7 @@ Running simulation ...
 <section id="Calculate-estimate-choice-statistics">
 <h3>Calculate estimate choice statistics<a class="headerlink" href="#Calculate-estimate-choice-statistics" title="Permalink to this headline">¶</a></h3>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># simulate predictions</span>
@@ -887,7 +889,7 @@ Running simulation ...
 
 Calculating predictions ...
 
--logl:37550.72, aic:75119.44, kl:[ 2.7 10.7 33. ], kp:[ 2.7 33. ], kc:[1.], pt:0.00, pr:0.00, km:2000.00
+-logl:47038.38, aic:94094.75, kl:[ 2.7 10.7 33. ], kp:[ 2.7 33. ], kc:[1.], pt:0.00, pr:0.00, km:2000.00
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -899,7 +901,7 @@ Calculating predictions ...
 </div>
 <p>An preview of the unique 431 combinations of task conditions (prior noise, stimulus noise, stimulus feature) are shown below:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;conditions&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -907,7 +909,7 @@ Calculating predictions ...
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -971,7 +973,7 @@ Calculating predictions ...
 </div>
 <p><strong>Model’s estimate generative probability density</strong>: the probability that the model generates each estimate is shown below, with the estimates ranging from 0 to 359 in the rows and each unique 431 combinations (prior noise, stimulus noise, stimulus feature) in the columns:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">output</span><span class="p">[</span><span class="s2">&quot;PestimateGivenModel&quot;</span><span class="p">])</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
@@ -979,7 +981,7 @@ Calculating predictions ...
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[19]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -1152,7 +1154,7 @@ Calculating predictions ...
 </div>
 <p>Here is a list of the attributes generated by the simulation:</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">output</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
@@ -1160,7 +1162,7 @@ Calculating predictions ...
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[33]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="output_area docutils container">

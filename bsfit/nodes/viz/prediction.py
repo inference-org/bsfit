@@ -1,6 +1,7 @@
 import numpy as np
-from bsfit.nodes.circpy import get_signed_angle
 from matplotlib import pyplot as plt
+
+from ..cirpy.utils import get_signed_angle
 
 
 def plot_mean(

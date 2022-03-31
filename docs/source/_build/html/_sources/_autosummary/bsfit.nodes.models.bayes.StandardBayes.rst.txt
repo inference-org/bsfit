@@ -26,6 +26,7 @@ bsfit.nodes.models.bayes.StandardBayes
    
       ~StandardBayes.__init__
       ~StandardBayes.fit
+      ~StandardBayes.get_attributes
       ~StandardBayes.predict
       ~StandardBayes.simulate
    

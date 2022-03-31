@@ -36,11 +36,9 @@ bsfit.nodes
    :template: custom-module-template.rst                 
    :recursive:
 
-   bsfit.nodes.circpy
-   bsfit.nodes.data
+   bsfit.nodes.cirpy
    bsfit.nodes.dataEng
    bsfit.nodes.models
    bsfit.nodes.util
-   bsfit.nodes.utils
    bsfit.nodes.viz
 
