@@ -58,9 +58,6 @@ class VonMises:
         """
 
         # radians
-        # x_rad = self._get_deg_to_rad(v_x, True)
-        # u_rad = self._get_deg_to_rad(v_u, True)
-
         x_rad = get_deg_to_rad(v_x, True)
         u_rad = get_deg_to_rad(v_u, True)
 
@@ -265,6 +262,57 @@ class VonMises:
             _type_: _description_
         """
         return len(x - y) == 0
+
+
+class VonMisesMixture:
+    """Mixture of Von Mises class"""
+
+    def __init__(self, p: bool):
+        """instantiate VonMisesMixture class
+
+        Args:
+            p (bool): True/False means probabilities 
+            or not
+        """
+        self.p = p
+
+    def get(
+        self,
+        support_space: np.ndarray,
+        vm_mean: np.ndarray,
+        vm_k: list,
+        mixt_coeff: float,
+    ) -> np.ndarray:
+        """Calculate mixture of von mises
+
+        Args:
+            support_space (np.ndarray): _description_
+            vm_mean (np.ndarray): _description_
+            vm_k (list): _description_
+            mixt_coeff (float): _description_
+
+        Returns:
+            np.ndarray: mixture of von Mises
+
+        Usage:
+
+            .. code-block:: python
+            
+            vm_mixt = VonMisesMixture(p=True)
+            support_space = np.arange(0,360,1)
+            vm_means = np.array([0,90,180,270])
+            vm_k = [2.7, 2.7, 2.7, 2.7]
+            mixture_coeff = 0.25
+            mixture = vm_mixt.get(support_space, vm_means, vm_k, mixture_coeff)
+
+        """
+        # calculate all von mises
+        vm_proba = VonMises(p=True).get(
+            support_space, vm_mean, vm_k
+        )
+        # combine them
+        mixture = mixt_coeff * np.sum(vm_proba, 1)
+        return mixture
 
 
 def is_unique(x):
