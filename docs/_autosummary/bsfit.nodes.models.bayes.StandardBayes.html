@@ -39,7 +39,7 @@
   <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="bsfit.nodes.util" href="bsfit.nodes.util.html" />
+    <link rel="next" title="bsfit.nodes.models.utils" href="bsfit.nodes.models.utils.html" />
     <link rel="prev" title="bsfit.nodes.models.bayes" href="bsfit.nodes.models.bayes.html" /> 
 </head>
 
@@ -97,12 +97,10 @@
 <li class="toctree-l1 current"><a class="reference internal" href="../api.html">Reference</a><ul class="current">
 <li class="toctree-l2 current"><a class="reference internal" href="bsfit.html">bsfit</a><ul class="current">
 <li class="toctree-l3 current"><a class="reference internal" href="bsfit.nodes.html">bsfit.nodes</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.circpy.html">bsfit.nodes.circpy</a></li>
-<li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.data.html">bsfit.nodes.data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.cirpy.html">bsfit.nodes.cirpy</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.dataEng.html">bsfit.nodes.dataEng</a></li>
 <li class="toctree-l4 current"><a class="reference internal" href="bsfit.nodes.models.html">bsfit.nodes.models</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.util.html">bsfit.nodes.util</a></li>
-<li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.utils.html">bsfit.nodes.utils</a></li>
 <li class="toctree-l4"><a class="reference internal" href="bsfit.nodes.viz.html">bsfit.nodes.viz</a></li>
 </ul>
 </li>
@@ -228,7 +226,7 @@
 <dl class="py class">
 <dt class="sig sig-object py" id="bsfit.nodes.models.bayes.StandardBayes">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.bayes.</span></span><span class="sig-name descname"><span class="pre">StandardBayes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prior_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/bayes.html#StandardBayes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.bayes.StandardBayes" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dd><p>Bases: <a class="reference internal" href="bsfit.nodes.models.abstract_model.Model.html#bsfit.nodes.models.abstract_model.Model" title="bsfit.nodes.models.abstract_model.Model"><code class="xref py py-class docutils literal notranslate"><span class="pre">bsfit.nodes.models.abstract_model.Model</span></code></a></p>
 <p>Standard Bayesian model</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.models.bayes.StandardBayes.__init__">
@@ -260,10 +258,13 @@
 <tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.StandardBayes.fit" title="bsfit.nodes.models.bayes.StandardBayes.fit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">fit</span></code></a>(dataset, init_p)</p></td>
 <td><p>fit the model</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.StandardBayes.predict" title="bsfit.nodes.models.bayes.StandardBayes.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(data, granularity)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.StandardBayes.get_attributes" title="bsfit.nodes.models.bayes.StandardBayes.get_attributes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_attributes</span></code></a>()</p></td>
+<td><p>get model's attributes</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.StandardBayes.predict" title="bsfit.nodes.models.bayes.StandardBayes.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(data, granularity)</p></td>
 <td><p>Calculate the model's predictions</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.StandardBayes.simulate" title="bsfit.nodes.models.bayes.StandardBayes.simulate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simulate</span></code></a>(dataset, sim_p, granularity, ...)</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.StandardBayes.simulate" title="bsfit.nodes.models.bayes.StandardBayes.simulate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simulate</span></code></a>(dataset, sim_p, granularity, ...)</p></td>
 <td><p>simulate predictions</p></td>
 </tr>
 </tbody>
@@ -284,6 +285,20 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>(StandarBayes)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bsfit.nodes.models.bayes.StandardBayes.get_attributes">
+<span class="sig-name descname"><span class="pre">get_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bsfit.nodes.models.bayes.StandardBayes.get_attributes" title="Permalink to this definition">¶</a></dt>
+<dd><p>get model’s attributes</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>list of model attribute</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(list)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -354,7 +369,7 @@ each task condition</p>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="bsfit.nodes.util.html" class="btn btn-neutral float-right" title="bsfit.nodes.util" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="bsfit.nodes.models.utils.html" class="btn btn-neutral float-right" title="bsfit.nodes.models.utils" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="bsfit.nodes.models.bayes.html" class="btn btn-neutral float-left" title="bsfit.nodes.models.bayes" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>

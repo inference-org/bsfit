@@ -36,5 +36,7 @@ bsfit.nodes.models
    :template: custom-module-template.rst                 
    :recursive:
 
+   bsfit.nodes.models.abstract_model
    bsfit.nodes.models.bayes
+   bsfit.nodes.models.utils
 

@@ -188,18 +188,15 @@
 
 
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">from</span> <span class="nn">bsfit.nodes.utils</span> <span class="kn">import</span> <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.models.utils</span> <span class="kn">import</span> <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span>
 <span class="kn">from</span> <span class="nn">bsfit.nodes.viz.prediction</span> <span class="kn">import</span> <span class="n">plot_mean</span>
 
-<span class="kn">from</span> <span class="nn">..utils</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">fit_maxlogl</span><span class="p">,</span>
-    <span class="n">predict</span><span class="p">,</span>
-    <span class="n">simulate</span><span class="p">,</span>
-    <span class="n">simulate_dataset</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">...nodes.models.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">fit_maxlogl</span><span class="p">,</span> <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span><span class="p">,</span>
+                                   <span class="n">predict</span><span class="p">,</span> <span class="n">simulate</span><span class="p">,</span> <span class="n">simulate_dataset</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.abstract_model</span> <span class="kn">import</span> <span class="n">Model</span>
 
 
-<div class="viewcode-block" id="StandardBayes"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes">[docs]</a><span class="k">class</span> <span class="nc">StandardBayes</span><span class="p">:</span>
+<div class="viewcode-block" id="StandardBayes"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes">[docs]</a><span class="k">class</span> <span class="nc">StandardBayes</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Standard Bayesian model</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -218,6 +215,10 @@
 <span class="sd">            readout (str): the posterior readout</span>
 <span class="sd">            - &quot;map&quot;: maximum a posteriori</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># inherit from parent</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+
+        <span class="c1"># parametrize</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_shape</span> <span class="o">=</span> <span class="n">prior_shape</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prior_mode</span> <span class="o">=</span> <span class="n">prior_mode</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">readout</span> <span class="o">=</span> <span class="n">readout</span>
