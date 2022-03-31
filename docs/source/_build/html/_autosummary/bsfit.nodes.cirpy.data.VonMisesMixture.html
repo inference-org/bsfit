@@ -282,15 +282,14 @@ densities</p>
 </dl>
 <p>Usage:</p>
 <blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">vm_mixt</span> <span class="o">=</span> <span class="n">VonMisesMixture</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">support_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">vm_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">270</span><span class="p">])</span>
+<span class="n">vm_k</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">]</span>
+<span class="n">mixture_coeff</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">mixture</span> <span class="o">=</span> <span class="n">vm_mixt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">support_space</span><span class="p">,</span> <span class="n">vm_means</span><span class="p">,</span> <span class="n">vm_k</span><span class="p">,</span> <span class="n">mixture_coeff</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>vm_mixt = VonMisesMixture(p=True)
-support_space = np.arange(0,360,1)
-vm_means = np.array([0,90,180,270])
-vm_k = [2.7, 2.7, 2.7, 2.7]
-mixture_coeff = 0.25
-mixture = vm_mixt.get(support_space, vm_means, vm_k, mixture_coeff)</p>
 </div></blockquote>
 </dd></dl>
 

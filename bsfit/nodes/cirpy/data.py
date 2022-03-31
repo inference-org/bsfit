@@ -19,10 +19,9 @@ from .utils import get_deg_to_rad
 
 
 class VonMises:
-    """Von Mises data class
+    """Von Mises class
     
-    von Mises are created based on the
-    equation vm=exp(k.*cos(x-u))./(2*pi.*besseli(0,k)). The code works for any
+    Equation: vm=exp(k.*cos(x-u))./(2*pi.*besseli(0,k)). The code works for any
     value of k (but not for +inf). The equation is adjusted because of the
     following numerical issues: when k>700, vm is NaN because besseli(0,k) and
     exp(k.*cos(x-u)) reach numerical limits. exp(k.*cos(x-u)-k) scales vm
@@ -30,8 +29,7 @@ class VonMises:
     equation and the exact equation yield exact same results except that the
     adjusted equation works for large k (>>700).
  
-    When k > 1e300 densities become delta densities. We generate delta 
-    density for k>300
+    When k > 713, densities converge to delta densities.
     """
 
     def __init__(self, p: bool):
@@ -53,19 +51,18 @@ class VonMises:
             v_u (np.array): von mises' mean
             v_k (list): von mises' concentration
 
+        Usage:
+            .. code-block:: python
+            
+                support_space = np.arange(0,360,1)
+                vm_means = np.array([0,90,180,270])
+                vm_k = [2.7, 2.7, 2.7, 2.7]
+                von_mises = VonMises(p=True)
+                von_mises = von_mises.get(support_space, vm_means, vm_k, mixture_coeff)
+
         Returns:
             (np.ndarray): von mises function or probability 
             density
-        
-        Usage:
-
-            .. code-block:: python
-            
-            support_space = np.arange(0,360,1)
-            vm_means = np.array([0,90,180,270])
-            vm_k = [2.7, 2.7, 2.7, 2.7]
-            von_mises = VonMises(p=True)
-            von_mises = von_mises.get(support_space, vm_means, vm_k, mixture_coeff)
         """
 
         # radians
@@ -77,8 +74,8 @@ class VonMises:
             vmises = self._get_same_k_different_means(
                 x_rad, u_rad, v_x, v_u, v_k
             )
-            # when k are different but are mapped to 
-            # means 
+            # when k are different but are mapped to
+            # means
         else:
             vmises = self._get_different_k_and_means(
                 x_rad, u_rad, v_k
@@ -93,8 +90,7 @@ class VonMises:
         v_u: list,
         v_k: list,
     ):
-        """ get von mises with the same k 
-        but different means
+        """get von mises with the same k but different means
 
         Args:
             x_rad (np.array):
@@ -342,12 +338,12 @@ class VonMisesMixture:
 
             .. code-block:: python
             
-            vm_mixt = VonMisesMixture(p=True)
-            support_space = np.arange(0,360,1)
-            vm_means = np.array([0,90,180,270])
-            vm_k = [2.7, 2.7, 2.7, 2.7]
-            mixture_coeff = 0.25
-            mixture = vm_mixt.get(support_space, vm_means, vm_k, mixture_coeff)
+                vm_mixt = VonMisesMixture(p=True)
+                support_space = np.arange(0,360,1)
+                vm_means = np.array([0,90,180,270])
+                vm_k = [2.7, 2.7, 2.7, 2.7]
+                mixture_coeff = 0.25
+                mixture = vm_mixt.get(support_space, vm_means, vm_k, mixture_coeff)
         """
         # calculate all von mises
         vm_proba = VonMises(p=True).get(

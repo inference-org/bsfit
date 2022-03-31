@@ -236,21 +236,16 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>initial_params</strong> (<em>Dict</em><em>(</em><em>str</em><em>,</em><em>list</em><em>)</em>) – the model’s</p></li>
-<li><p><strong>below</strong> (<em>initial parameters respecting the template</em>) – </p></li>
+<li><p><strong>initial_params</strong> (<em>Dict</em><em>(</em><em>str</em><em>,</em><em>list</em><em>)</em>) – the model’s initial parameters respecting the template below</p></li>
 <li><p><strong>code-block::</strong> (<em>..</em>) – initial_params = {
 “k_llh”: list,
 “k_prior”: list,
 “p_rand”: list,
 “k_m”: list,
 }</p></li>
-<li><p><strong>prior_shape</strong> (<em>str</em>) – prior shape</p></li>
-<li><p><strong>&quot;vonMisesPrior&quot;</strong> (<em>-</em>) – </p></li>
+<li><p><strong>prior_shape</strong> (<em>str</em>) – prior shape (“vonMisesPrior”)</p></li>
 <li><p><strong>prior_mode</strong> (<em>float</em>) – prior mode (e.g., 225)</p></li>
-<li><p><strong>readout</strong> (<em>str</em>) – the decision mechanism</p></li>
-<li><p><strong>into</strong> (<em>that transform the posterior distribution</em>) – </p></li>
-<li><p><strong>choice</strong> (<em>a single estimate</em>) – </p></li>
-<li><p><strong>&quot;map&quot;</strong> (<em>-</em>) – maximum a posteriori posterior readout</p></li>
+<li><p><strong>readout</strong> (<em>str</em>) – the decision mechanism (“map”: maximum a posteriori posterior readout)</p></li>
 </ul>
 </dd>
 </dl>

@@ -41,8 +41,7 @@ class StandardBayes(Model):
         """Instantiate Standard Bayesian model
 
         Args:
-            initial_params (Dict(str,list)): the model's
-            initial parameters respecting the template below
+            initial_params (Dict(str,list)): the model's initial parameters respecting the template below
 
             .. code-block::
 
@@ -53,13 +52,9 @@ class StandardBayes(Model):
                 "k_m": list,
                 }
 
-            prior_shape (str): prior shape
-            - "vonMisesPrior"
+            prior_shape (str): prior shape ("vonMisesPrior")
             prior_mode (float): prior mode (e.g., 225)
-            readout (str): the decision mechanism
-            that transform the posterior distribution into
-            a single estimate choice
-            - "map": maximum a posteriori posterior readout
+            readout (str): the decision mechanism ("map": maximum a posteriori posterior readout)
         """
         # inherit from parent
         super().__init__()

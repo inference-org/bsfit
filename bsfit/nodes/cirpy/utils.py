@@ -258,16 +258,16 @@ def get_signed_angle(
         - "radian"
         - "cartesian"
 
-    Returns:
-        (np.ndarray): angle difference between 
-        angle 1 and 2
-    
     Usage:
     .. code-block:: python
 
         angle = get_signed_angle(90, 45, 'polar')
         angle = get_signed_angle(90, 45, 'radian')
         angle = get_signed_angle([0 1], [1 0])
+
+    Returns:
+        (np.ndarray): angle difference between 
+        angle 1 and 2
     """
 
     # convert to cartesian coordinates

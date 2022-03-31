@@ -211,8 +211,7 @@
         <span class="sd">&quot;&quot;&quot;Instantiate Standard Bayesian model</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            initial_params (Dict(str,list)): the model&#39;s</span>
-<span class="sd">            initial parameters respecting the template below</span>
+<span class="sd">            initial_params (Dict(str,list)): the model&#39;s initial parameters respecting the template below</span>
 
 <span class="sd">            .. code-block::</span>
 
@@ -223,13 +222,9 @@
 <span class="sd">                &quot;k_m&quot;: list,</span>
 <span class="sd">                }</span>
 
-<span class="sd">            prior_shape (str): prior shape</span>
-<span class="sd">            - &quot;vonMisesPrior&quot;</span>
+<span class="sd">            prior_shape (str): prior shape (&quot;vonMisesPrior&quot;)</span>
 <span class="sd">            prior_mode (float): prior mode (e.g., 225)</span>
-<span class="sd">            readout (str): the decision mechanism</span>
-<span class="sd">            that transform the posterior distribution into</span>
-<span class="sd">            a single estimate choice</span>
-<span class="sd">            - &quot;map&quot;: maximum a posteriori posterior readout</span>
+<span class="sd">            readout (str): the decision mechanism (&quot;map&quot;: maximum a posteriori posterior readout)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># inherit from parent</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
