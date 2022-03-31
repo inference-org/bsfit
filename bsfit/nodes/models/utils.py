@@ -1128,8 +1128,13 @@ def do_bayes_inference(
     # do Bayesian integration
     posterior = llh * learnt_prior * cardinal_prior
 
-    # normalize cols to sum to 1
-    posterior = posterior / sum(posterior)[None, :]
+    # normalize columns to sum to 1
+    # for small to intermediate values of k
+    loc = np.where(np.isnan(posterior[0, :]))[0]
+    posterior[:, ~loc] = (
+        posterior[:, ~loc]
+        / sum(posterior[:, ~loc])[None, :]
+    )
 
     # round posteriors
     # We fix probabilities at 10e-6 floating points
@@ -1153,7 +1158,6 @@ def do_bayes_inference(
     # fit is impossible. In reality a von Mises density will
     # never have a zero value at its tails. We use the closed-from
     # equation derived by Murray and Morgenstern, 2010.
-    loc = np.where(np.isnan(posterior[0, :]))[0]
     if not is_empty(loc):
         # use Murray and Morgenstern., 2010
         # closed-form equation
@@ -1197,6 +1201,7 @@ def do_bayes_inference(
         posterior[:, loc] = VonMises(p=True).get(
             stim_mean_space, upo, kpo,
         )
+
     return posterior
 
 
