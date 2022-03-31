@@ -5,13 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Module",
+            "name": "Python: fit_sb",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "args": [
+                "fit_standard_bayes"
+            ]
+        },
+        {
+            "name": "Python: simulate_sb",
             "type": "python",
             "request": "launch",
             "module": "main",
             "args": [
                 "simulate_data_by_standard_bayes"
-                // "fit_standard_bayes"
             ]
         }
     ]
