@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    fit estimation data with a Bayesian model
+    fit circulaestimation data with a Bayesian model
 
     see:
         Hurliman et al, 2002,VR
@@ -17,9 +17,12 @@
 """
 
 
+from typing import Dict
+
 import pandas as pd
 from bsfit.nodes.models.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
+from click import MissingParameter
 
 from ...nodes.models.utils import (fit_maxlogl, get_data, get_data_stats,
                                    predict, simulate, simulate_dataset)
@@ -32,6 +35,7 @@ class StandardBayes(Model):
 
     def __init__(
         self,
+        initial_params: Dict[str, list],
         prior_shape: str,
         prior_mode: float,
         readout: str,
@@ -39,24 +43,38 @@ class StandardBayes(Model):
         """Instantiate Standard Bayesian model
 
         Args:
+            initial_params (Dict(str,list)): the model's 
+            initial parameters respecting the template below:
+
+            .. code-block::
+
+                initial_params = {
+                    "k_llh": list,
+                    "k_prior": list,
+                    "p_rand": list,
+                    "k_m": list,
+                }
+
             prior_shape (str): prior shape
             - "vonMisesPrior"
-            prior_mode (float): prior mode
-            readout (str): the posterior readout
-            - "map": maximum a posteriori
+            prior_mode (float): prior mode (e.g., 225)
+            readout (str): the decision mechanism
+            that transform the posterior distribution into
+            a single estimate choice
+            - "map": maximum a posteriori posterior readout
         """
         # inherit from parent
         super().__init__()
 
         # parametrize
+        self.initial_params = initial_params
         self.prior_shape = prior_shape
         self.prior_mode = prior_mode
         self.readout = readout
-        self.best_fit_p = []
-        self.neglogl = []
-        self.params = []
+        self.neglogl = None
+        self.params = None
 
-    def fit(self, dataset: pd.DataFrame, init_p: dict):
+    def fit(self, dataset: pd.DataFrame):
         """fit the model
 
         Args:
@@ -69,7 +87,7 @@ class StandardBayes(Model):
         print("Training the model ...\n")
         output = fit_maxlogl(
             dataset,
-            init_p,
+            self.initial_params,
             self.prior_shape,
             self.prior_mode,
             self.readout,
@@ -85,7 +103,6 @@ class StandardBayes(Model):
     def simulate(
         self,
         dataset: pd.DataFrame,
-        sim_p: dict,
         granularity: str,
         centering: bool,
         **kwargs: dict,
@@ -96,7 +113,6 @@ class StandardBayes(Model):
             dataset (pd.DataFrame): dataset
             - either task conditions by columns
             - or task conditions and data ("estimate")
-            sim_p (dict): _description_
             granularity (str): _description_
             centering (bool): _description_
         
@@ -114,7 +130,7 @@ class StandardBayes(Model):
         # model simulations
         output = simulate(
             dataset,
-            sim_p,
+            self.initial_params,
             self.prior_shape,
             self.prior_mode,
             self.readout,
@@ -187,4 +203,37 @@ class StandardBayes(Model):
             granularity=granularity,
         )
         return predictions
+
+
+class CardinalBayes(StandardBayes):
+    """Cardinal Bayesian model
+    """
+
+    def __init__(
+        self,
+        initial_params: Dict[str, list],
+        prior_shape: str,
+        prior_mode: float,
+        readout: str,
+    ):
+        """Instantiate Cardinal Bayesian model
+
+        Args:
+            prior_shape (str): prior shape
+            - "vonMisesPrior"
+            prior_mode (float): prior mode
+            readout (str): the posterior readout
+            - "map": maximum a posteriori
+        """
+        # inherit from parent
+        super().__init__(
+            initial_params, prior_shape, prior_mode, readout
+        )
+
+        # parametrize
+        if not "k_card" in self.initial_params:
+            raise MissingParameter(
+                """"k_card", the cardinal prior strength is missing. 
+                Please add to the parameters. """
+            )
 

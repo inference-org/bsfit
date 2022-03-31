@@ -25,10 +25,16 @@ import sys
 import yaml
 from matplotlib import pyplot as plt
 
-from bsfit.nodes.dataEng import (simulate_dataset, simulate_small_dataset,
-                                 simulate_task_conditions)
+from bsfit.nodes.dataEng import (
+    simulate_dataset,
+    simulate_small_dataset,
+    simulate_task_conditions,
+)
 from bsfit.nodes.models.bayes import StandardBayes
-from bsfit.nodes.utils import get_data, get_data_stats
+from bsfit.nodes.models.utils import (
+    get_data,
+    get_data_stats,
+)
 from bsfit.nodes.viz.prediction import plot_mean
 
 # setup logging
@@ -45,7 +51,6 @@ logger = logging.getLogger(__name__)
 # - PRIOR_NOISE: e.g., an object's motion direction density's std
 # - STIM_NOISE: e.g., an object's motion coherence
 # - CENTERING: center or not plot relative to prior mode
-SUBJECT = "sub01"
 PRIOR_SHAPE = "vonMisesPrior"
 PRIOR_MODE = 225
 OBJ_FUN = "maxLLH"
@@ -59,8 +64,6 @@ if CASE == 0:
     INIT_P = {
         "k_llh": [33],
         "k_prior": [0, 33],
-        "k_card": [0],
-        "prior_tail": [0],
         "p_rand": [0],
         "k_m": [2000],
     }
@@ -71,22 +74,23 @@ elif CASE == 1:
     INIT_P = {
         "k_llh": [2.7, 10.7, 33],
         "k_prior": [2.7, 33],
-        "k_card": [0],
-        "prior_tail": [0],
         "p_rand": [0],
         "k_m": [2000],
     }
 
+
 if __name__ == "__main__":
     """Entry point that runs analytical pipelines
-    e.g., for now fiiting the standard bayesian model 
+    e.g., for now fitting the standard bayesian model 
     and generating predictions
     
-    Cli args:
-    - "fit_standard_bayes"
-    - "simulate_standard_bayes_trial_data"
+    Args:
+    
+        "fit_standard_bayes"
+        "simulate_standard_bayes_trial_data"
     
     Usage:
+
     .. code-block:: console
     
         python main.py fit_standard_bayes
@@ -114,13 +118,14 @@ if __name__ == "__main__":
 
         # instantiate model
         model = StandardBayes(
+            initial_params=INIT_P,
             prior_shape=PRIOR_SHAPE,
             prior_mode=PRIOR_MODE,
             readout=READOUT,
         )
 
         # train model
-        model = model.fit(dataset=dataset, init_p=INIT_P)
+        model = model.fit(dataset=dataset)
 
         # print results
         logger.info("Printing fitting results ...")
@@ -162,10 +167,13 @@ if __name__ == "__main__":
     elif sys.argv[1] == "simulate_data_by_standard_bayes":
 
         # set pipeline parameters
+        # - SIM_P: simulation parameters
+        # - N_REPEATS: number of repetition of
+        # task each condition
         SIM_P = {
-            "k_llh": [2.7, 10.7, 33],
-            "k_prior": [2.7, 33],
-            "k_card": [0],
+            "k_llh": [2.7, 5.7, 11],
+            "k_prior": [2.7, 11],
+            "k_card": [2000],
             "prior_tail": [0],
             "p_rand": [0],
             "k_m": [2000],
@@ -187,6 +195,7 @@ if __name__ == "__main__":
 
         # instantiate model
         model = StandardBayes(
+            initial_params=SIM_P,
             prior_shape=PRIOR_SHAPE,
             prior_mode=PRIOR_MODE,
             readout=READOUT,

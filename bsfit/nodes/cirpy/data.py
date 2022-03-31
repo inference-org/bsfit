@@ -54,7 +54,18 @@ class VonMises:
             v_k (list): von mises' concentration
 
         Returns:
-            _type_: _description_
+            (np.ndarray): von mises function or probability 
+            density
+        
+        Usage:
+
+            .. code-block:: python
+            
+            support_space = np.arange(0,360,1)
+            vm_means = np.array([0,90,180,270])
+            vm_k = [2.7, 2.7, 2.7, 2.7]
+            von_mises = VonMises(p=True)
+            von_mises = von_mises.get(support_space, vm_means, vm_k, mixture_coeff)
         """
 
         # radians
@@ -66,6 +77,8 @@ class VonMises:
             vmises = self._get_same_k_different_means(
                 x_rad, u_rad, v_x, v_u, v_k
             )
+            # when k are different but are mapped to 
+            # means 
         else:
             vmises = self._get_different_k_and_means(
                 x_rad, u_rad, v_k
@@ -107,9 +120,9 @@ class VonMises:
         # case the mean is not in the support space
         if not self._is_all_in(set(v_u), set(v_x)):
             raise Exception(
-                """(get_vonMises) The mean "u"
-                is not in support space "x".
-                Choose "u" in "x"."""
+                """(get_vonMises) The mean "v_u"
+                is not in support space "v_x".
+                Choose "v_u" in "v_x"."""
             )
         else:
             # when k -> +inf von mises
@@ -178,9 +191,37 @@ class VonMises:
         means u
 
         Args:
-            x_rad (np.array): von mises() support space
-            u_rad (np.array): von mises means in radians
-            v_k (list): von mises concentrations
+            x_rad (np.array): von mises' support space
+            u_rad (np.array): von mises' means in radians
+            v_k (list): von mises' concentrations
+
+        Returns:
+            np.array: von mises array of
+                (Nx x_rad) rows, (Nm mean * Nk) cols  
+        """
+        vmises_all = []
+        for ix, u_i in enumerate(u_rad):
+            vmises = self._calculate_von_mises(
+                x_rad, u_i, v_k[ix]
+            )
+            # normalize
+            if self.p:
+                vmises = vmises / sum(vmises)
+
+            # store
+            vmises_all.append(vmises)
+        return np.array(vmises_all).T
+
+    def _get_combinations_of_k_and_means(
+        self, x_rad: np.array, u_rad: np.array, v_k: list
+    ):
+        """get von mises for the combinations of 
+        concentrations k and means u
+
+        Args:
+            x_rad (np.array): von mises' support space
+            u_rad (np.array): von mises' means in radians
+            v_k (list): von mises' concentrations
 
         Returns:
             np.array: von mises array of
@@ -216,19 +257,20 @@ class VonMises:
             np.array: f(x_rad,u_rad,k_rad)
         """
         # handle exceptions
+        # when concentration is above numerical
+        # resolution, make a delta distribution
         if v_k > 713:
-            raise ValueError(
-                """v_k must be < 713
-                else, bessel function=inf
-                """
+            vmises = np.zeros((len(x_rad), 1))
+            vmises[x_rad == u_rad] = 1
+        else:
+            # otherwise use standard equation
+            amp = 1
+            bessel_order = 0
+            scaling = 2 * pi * iv(bessel_order, v_k)
+            vm_fun = exp(
+                v_k * cos(amp * (x_rad - u_rad)) - v_k
             )
-
-        # calculate von mises
-        amp = 1
-        bessel_order = 0
-        scaling = 2 * pi * iv(bessel_order, v_k)
-        vm_fun = exp(v_k * cos(amp * (x_rad - u_rad)) - v_k)
-        vmises = vm_fun / scaling
+            vmises = vm_fun / scaling
         return vmises
 
     def _get_deg_to_rad(self, deg: np.array, signed: bool):
@@ -279,20 +321,22 @@ class VonMisesMixture:
     def get(
         self,
         support_space: np.ndarray,
-        vm_mean: np.ndarray,
-        vm_k: list,
+        v_u: np.ndarray,
+        v_k: list,
         mixt_coeff: float,
     ) -> np.ndarray:
-        """Calculate mixture of von mises
+        """Calculate a mixture of von mises function of probability
+        densities
 
         Args:
-            support_space (np.ndarray): _description_
-            vm_mean (np.ndarray): _description_
-            vm_k (list): _description_
-            mixt_coeff (float): _description_
+            support_space (np.ndarray): von mises' support space
+            v_u (np.ndarray): von mises' mean
+            v_k (list): von mises' concentration 
+            [TODO] make an np.ndarray
+            mixt_coeff (float): von mises' mixture coefficient
 
         Returns:
-            np.ndarray: mixture of von Mises
+            (np.ndarray): mixture of von Mises
 
         Usage:
 
@@ -304,12 +348,12 @@ class VonMisesMixture:
             vm_k = [2.7, 2.7, 2.7, 2.7]
             mixture_coeff = 0.25
             mixture = vm_mixt.get(support_space, vm_means, vm_k, mixture_coeff)
-
         """
         # calculate all von mises
         vm_proba = VonMises(p=True).get(
-            support_space, vm_mean, vm_k
+            support_space, v_u, v_k
         )
+
         # combine them
         mixture = mixt_coeff * np.sum(vm_proba, 1)
         return mixture
