@@ -18,18 +18,15 @@
 
 
 import pandas as pd
-from bsfit.nodes.utils import get_data, get_data_stats
+from bsfit.nodes.models.utils import get_data, get_data_stats
 from bsfit.nodes.viz.prediction import plot_mean
 
-from ..utils import (
-    fit_maxlogl,
-    predict,
-    simulate,
-    simulate_dataset,
-)
+from ...nodes.models.utils import (fit_maxlogl, get_data, get_data_stats,
+                                   predict, simulate, simulate_dataset)
+from .abstract_model import Model
 
 
-class StandardBayes:
+class StandardBayes(Model):
     """Standard Bayesian model
     """
 
@@ -48,6 +45,10 @@ class StandardBayes:
             readout (str): the posterior readout
             - "map": maximum a posteriori
         """
+        # inherit from parent
+        super().__init__()
+
+        # parametrize
         self.prior_shape = prior_shape
         self.prior_mode = prior_mode
         self.readout = readout
