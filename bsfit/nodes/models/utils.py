@@ -18,9 +18,9 @@ import pandas as pd
 from numpy import arctan2, cos, sin
 from scipy.optimize import fmin
 
-from ..circpy.data import VonMises
-from ..circpy.utils import (get_circ_conv, get_circ_weighted_mean_std,
-                            get_deg_to_rad, get_rad_to_deg)
+from ..cirpy.data import VonMises
+from ..cirpy.utils import (get_circ_conv, get_circ_weighted_mean_std,
+                           get_deg_to_rad, get_rad_to_deg)
 from ..util import is_empty
 
 pd.options.mode.chained_assignment = None

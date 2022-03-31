@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 
-from ..circpy.utils import get_signed_angle
+from ..cirpy.utils import get_signed_angle
 
 
 def plot_mean(
