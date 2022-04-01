@@ -5,5 +5,7 @@
 #
 # docstring style used: Google style
 """
+Model catalog
+
 Copyright 2022 by Steeve Laquitaine, GNU license 
 """

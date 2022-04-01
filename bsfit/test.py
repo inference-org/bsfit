@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """    
-    Unit-testing module
+    The unit-testing module
 
     usage:
 

@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -253,28 +257,27 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.cirpy.data.VonMisesMixture.__init__" title="bsfit.nodes.cirpy.data.VonMisesMixture.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(p)</p></td>
 <td><p>instantiate VonMisesMixture class</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.cirpy.data.VonMisesMixture.get" title="bsfit.nodes.cirpy.data.VonMisesMixture.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(support_space, v_u, v_k, mixt_coeff)</p></td>
-<td><p>Calculate a mixture of von mises function of probability densities</p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.cirpy.data.VonMisesMixture.get" title="bsfit.nodes.cirpy.data.VonMisesMixture.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(v_x, v_u, v_k, mixt_coeff)</p></td>
+<td><p>generate a mixture of von mises functions of probability densities</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.cirpy.data.VonMisesMixture.get">
-<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">support_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_u</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixt_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/data.html#VonMisesMixture.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.data.VonMisesMixture.get" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate a mixture of von mises function of probability
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_u</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mixt_coeff</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/data.html#VonMisesMixture.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.data.VonMisesMixture.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>generate a mixture of von mises functions of probability
 densities</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>support_space</strong> (<em>np.ndarray</em>) – von mises’ support space</p></li>
+<li><p><strong>v_x</strong> (<em>np.ndarray</em>) – von mises’ support space</p></li>
 <li><p><strong>v_u</strong> (<em>np.ndarray</em>) – von mises’ mean</p></li>
-<li><p><strong>v_k</strong> (<em>list</em>) – von mises’ concentration</p></li>
-<li><p><strong>np.ndarray</strong> (<em>[</em><em>TODO</em><em>] </em><em>make an</em>) – </p></li>
+<li><p><strong>v_k</strong> (<em>list</em>) – von mises’ concentration parameter</p></li>
 <li><p><strong>mixt_coeff</strong> (<em>float</em>) – von mises’ mixture coefficient</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>mixture of von Mises</p>
+<dd class="field-even"><p>a mixture of von Mises</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>(np.ndarray)</p>
@@ -282,15 +285,14 @@ densities</p>
 </dl>
 <p>Usage:</p>
 <blockquote>
-<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">v_mixt</span> <span class="o">=</span> <span class="n">VonMisesMixture</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">v_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">v_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">270</span><span class="p">])</span>
+<span class="n">v_k</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">]</span>
+<span class="n">mixture_coeff</span> <span class="o">=</span> <span class="mf">0.25</span>
+<span class="n">mixture</span> <span class="o">=</span> <span class="n">vm_mixt</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="n">v_k</span><span class="p">,</span> <span class="n">mixture_coeff</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>vm_mixt = VonMisesMixture(p=True)
-support_space = np.arange(0,360,1)
-vm_means = np.array([0,90,180,270])
-vm_k = [2.7, 2.7, 2.7, 2.7]
-mixture_coeff = 0.25
-mixture = vm_mixt.get(support_space, vm_means, vm_k, mixture_coeff)</p>
 </div></blockquote>
 </dd></dl>
 

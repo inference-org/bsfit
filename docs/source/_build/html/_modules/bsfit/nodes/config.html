@@ -93,6 +93,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">Reference</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../releases.html">History</a></li>
@@ -168,11 +172,27 @@
            <div itemprop="articleBody">
             
   <h1>Source code for bsfit.nodes.config</h1><div class="highlight"><pre>
-<span></span>
+<span></span><span class="c1"># note: the doctsring code below within</span>
+<span class="c1"># &quot;&quot;&quot; is converted to a restructuredText</span>
+<span class="c1"># .rst file by sphinx to automatically</span>
+<span class="c1"># generate the api&#39;s documentation</span>
+<span class="c1">#</span>
+<span class="c1"># docstring style used: Google style</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Pipeline configuration module</span>
+
+<span class="sd">    Copyright 2022 by Steeve Laquitaine, GNU license </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
 <span class="kn">import</span> <span class="nn">argparse</span>
 
 
 <div class="viewcode-block" id="parametrize_pipe"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.config.parametrize_pipe.html#bsfit.nodes.config.parametrize_pipe">[docs]</a><span class="k">def</span> <span class="nf">parametrize_pipe</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;get terminal args to parametrize the pipeline</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        (dict): parsed arguments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
         <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This runs analytical pipelines.&quot;</span>
     <span class="p">)</span>

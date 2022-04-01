@@ -5,25 +5,32 @@
 #
 # docstring style used: Google style
 """
+    Model abstractions
+    
     Copyright 2022 by Steeve Laquitaine, GNU license 
 """
 
 
 class Model:
     """Abstract model class
-    This is the parent class to all model
-    It contains generic attributes inherited
-    by all models
+    
+    This is the parent class to all model.
+    It contains generic attributes inherited by all models.
     """
 
     def __init__(self):
+        """instantiate Model
+        """
         pass
 
     def get_attributes(self):
-        """get model's attributes
+        """get model attributes
+        
+        Args:
+            self (Model): the model
 
         Returns:
-            (list): list of model attribute
+            (list): list the model attributes
         """
         return [
             k

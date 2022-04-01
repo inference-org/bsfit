@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,17 +230,27 @@
 <h1>bsfit.nodes.cirpy.utils.get_rad_to_deg<a class="headerlink" href="#bsfit-nodes-cirpy-utils-get-rad-to-deg" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.cirpy.utils.get_rad_to_deg">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.utils.</span></span><span class="sig-name descname"><span class="pre">get_rad_to_deg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/utils.html#get_rad_to_deg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.utils.get_rad_to_deg" title="Permalink to this definition">¶</a></dt>
-<dd><p>convert radian angles to degrees</p>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.utils.</span></span><span class="sig-name descname"><span class="pre">get_rad_to_deg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rad</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/utils.html#get_rad_to_deg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.utils.get_rad_to_deg" title="Permalink to this definition">¶</a></dt>
+<dd><p>convert angles in radian to degree</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>rad</strong> (<em>float</em>) – angles in radians</p>
+<dd class="field-odd"><p><strong>rad</strong> (<em>np.ndarray</em>) – angles in radian</p>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_</p>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.cirpy.utils</span> <span class="kn">import</span> <span class="n">get_rad_to_deg</span>
+<span class="n">degree</span> <span class="o">=</span> <span class="n">get_rad_to_deg</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.</span><span class="p">,</span> <span class="mf">1.57079633</span><span class="p">,</span> <span class="mf">3.14159265</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.57079633</span><span class="p">]))</span>
+</pre></div>
+</div>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>_type_</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>angles in degree</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(np.ndarray)</p>
 </dd>
 </dl>
 </dd></dl>

@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,22 +230,22 @@
 <h1>bsfit.nodes.cirpy.viz.plot_von_mises_mixture<a class="headerlink" href="#bsfit-nodes-cirpy-viz-plot-von-mises-mixture" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.cirpy.viz.plot_von_mises_mixture">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.viz.</span></span><span class="sig-name descname"><span class="pre">plot_von_mises_mixture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">support_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_u</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/viz.html#plot_von_mises_mixture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.viz.plot_von_mises_mixture" title="Permalink to this definition">¶</a></dt>
-<dd><p>_summary_</p>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.viz.</span></span><span class="sig-name descname"><span class="pre">plot_von_mises_mixture</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_u</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/viz.html#plot_von_mises_mixture"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.viz.plot_von_mises_mixture" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot mixture of von Mises</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>support_space</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>k_means</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>k_vm</strong> (<em>float</em>) – _description_</p></li>
+<li><p><strong>v_x</strong> (<em>np.ndarray</em>) – support space (degree)</p></li>
+<li><p><strong>v_u</strong> (<em>np.ndarray</em>) – von mises’ mean (degree)</p></li>
+<li><p><strong>v_k</strong> (<em>float</em>) – von mises concentration (a.u.)</p></li>
 </ul>
 </dd>
 </dl>
 <dl>
 <dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">prior</span> <span class="o">=</span> <span class="n">plot_von_mises_mixture</span><span class="p">(</span>
-<span class="n">support_space</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
-<span class="n">v_u</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">360</span><span class="p">]),</span>
-<span class="n">v_k</span><span class="o">=</span><span class="p">[</span><span class="n">k_vm</span><span class="p">],</span>
+<span class="n">v_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+<span class="n">v_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">270</span><span class="p">,</span> <span class="mi">360</span><span class="p">]),</span>
+<span class="n">v_k</span> <span class="o">=</span> <span class="p">[</span><span class="n">v_k</span><span class="p">],</span>
 <span class="mf">0.25</span>
 <span class="p">)</span>
 </pre></div>

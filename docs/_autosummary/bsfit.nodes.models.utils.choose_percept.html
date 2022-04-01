@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -227,31 +231,25 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.choose_percept">
 <span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">choose_percept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">readout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">posterior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#choose_percept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.choose_percept" title="Permalink to this definition">¶</a></dt>
-<dd><p>choose percept(s) for each
-measurement m_i produced by a stimulus
-s_i</p>
+<dd><p>choose the percepts for measurement m_i caused by stimulus s_i</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>readout</strong> (<em>str</em>) – the posterior readout</p></li>
-<li><p><strong>'map'</strong> (<em>-</em>) – maximum a posteriori decision</p></li>
-<li><p><strong>stim_mean_space</strong> (<em>np.ndarray</em>) – the space
-of stimulus feature mean (e.g., motion
-directions)</p></li>
-<li><p><strong>posterior</strong> (<em>np.ndarray</em>) – the posterior</p></li>
+<li><p><strong>readout</strong> (<em>str</em>) – decision process (‘map’)</p></li>
+<li><p><strong>stim_mean_space</strong> (<em>np.ndarray</em>) – stimulus feature space</p></li>
+<li><p><strong>posterior</strong> (<em>np.ndarray</em>) – the posterior density</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><strong>ValueError</strong> – _description_</p></li>
-<li><p><strong>NotImplementedError</strong> – _description_</p></li>
-<li><p><strong>ValueError</strong> – _description_</p></li>
+<li><p><strong>ValueError</strong> – no percept exist</p></li>
+<li><p><strong>NotImplementedError</strong> – readout is not implemented</p></li>
+<li><p><strong>ValueError</strong> – percept does not belong to [1 360]</p></li>
 </ul>
 </dd>
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>percept
-(int): max_n_percept
-ul</p>
+(int): max_n_percept</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>(np.ndarray)</p>

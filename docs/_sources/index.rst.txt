@@ -35,6 +35,12 @@ with Bayesian and heuristics models.
 
 .. toctree::
    :maxdepth: 3
+   :caption: Datasets
+
+   datasets
+
+.. toctree::
+   :maxdepth: 3
    :caption: Releases
 
    releases

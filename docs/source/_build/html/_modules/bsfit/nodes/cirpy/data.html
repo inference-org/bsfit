@@ -93,6 +93,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">Reference</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../releases.html">History</a></li>
@@ -175,7 +179,7 @@
 <span class="c1">#</span>
 <span class="c1"># docstring style used: Google style</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    module</span>
+<span class="sd">    Data generation functions for circular statistics</span>
 
 <span class="sd">    Copyright 2022 by Steeve Laquitaine, GNU license </span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -189,66 +193,53 @@
 
 
 <div class="viewcode-block" id="VonMises"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.data.VonMises.html#bsfit.nodes.cirpy.data.VonMises">[docs]</a><span class="k">class</span> <span class="nc">VonMises</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;Von Mises data class</span>
-<span class="sd">    </span>
-<span class="sd">    von Mises are created based on the</span>
-<span class="sd">    equation vm=exp(k.*cos(x-u))./(2*pi.*besseli(0,k)). The code works for any</span>
-<span class="sd">    value of k (but not for +inf). The equation is adjusted because of the</span>
-<span class="sd">    following numerical issues: when k&gt;700, vm is NaN because besseli(0,k) and</span>
-<span class="sd">    exp(k.*cos(x-u)) reach numerical limits. exp(k.*cos(x-u)-k) scales vm</span>
-<span class="sd">    without changing its shape. besseli(0,k,1)) does same. The adjusted</span>
-<span class="sd">    equation and the exact equation yield exact same results except that the</span>
-<span class="sd">    adjusted equation works for large k (&gt;&gt;700).</span>
-<span class="sd"> </span>
-<span class="sd">    When k &gt; 1e300 densities become delta densities. We generate delta </span>
-<span class="sd">    density for k&gt;300</span>
+    <span class="sd">&quot;&quot;&quot;Von Mises class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="VonMises.__init__"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.data.VonMises.html#bsfit.nodes.cirpy.data.VonMises.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;instantiate Von Mises </span>
+        <span class="sd">&quot;&quot;&quot;instantiate von mises</span>
 
+<span class="sd">        .. math::</span>
+
+<span class="sd">            V(x,u,k) = e^{k.cos(x-u)}/(2\pi.besseli(0,k))</span>
+<span class="sd">            </span>
 <span class="sd">        Args:</span>
-<span class="sd">            p (bool): </span>
-<span class="sd">                True/False means probabilities </span>
-<span class="sd">                or not</span>
+<span class="sd">            p (bool): True (for probability) or False (for function)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span></div>
 
 <div class="viewcode-block" id="VonMises.get"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.data.VonMises.html#bsfit.nodes.cirpy.data.VonMises.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">v_u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">v_k</span><span class="p">:</span> <span class="nb">list</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Create von Mises functions or probability</span>
-<span class="sd">            distributions</span>
+        <span class="sd">&quot;&quot;&quot;generate von Mises functions or probability densities</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            v_x (np.array): von mises&#39; support space</span>
 <span class="sd">            v_u (np.array): von mises&#39; mean</span>
 <span class="sd">            v_k (list): von mises&#39; concentration</span>
 
-<span class="sd">        Returns:</span>
-<span class="sd">            (np.ndarray): von mises function or probability </span>
-<span class="sd">            density</span>
-<span class="sd">        </span>
 <span class="sd">        Usage:</span>
-
 <span class="sd">            .. code-block:: python</span>
 <span class="sd">            </span>
-<span class="sd">            support_space = np.arange(0,360,1)</span>
-<span class="sd">            vm_means = np.array([0,90,180,270])</span>
-<span class="sd">            vm_k = [2.7, 2.7, 2.7, 2.7]</span>
-<span class="sd">            von_mises = VonMises(p=True)</span>
-<span class="sd">            von_mises = von_mises.get(support_space, vm_means, vm_k, mixture_coeff)</span>
+<span class="sd">                v_x = np.arange(0,360,1)</span>
+<span class="sd">                v_u = np.array([0,90,180,270])</span>
+<span class="sd">                v_k = [2.7, 2.7, 2.7, 2.7]</span>
+<span class="sd">                von_mises = VonMises(p=True)</span>
+<span class="sd">                von_mises = von_mises.get(v_x, v_u, v_k)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            (np.ndarray): von mises functions or probability </span>
+<span class="sd">            densities</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
         <span class="c1"># radians</span>
         <span class="n">x_rad</span> <span class="o">=</span> <span class="n">get_deg_to_rad</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">u_rad</span> <span class="o">=</span> <span class="n">get_deg_to_rad</span><span class="p">(</span><span class="n">v_u</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># when k is the same and means are different</span>
+        <span class="c1"># when v_k is the same and v_u are different</span>
         <span class="k">if</span> <span class="n">is_unique</span><span class="p">(</span><span class="n">v_k</span><span class="p">):</span>
             <span class="n">vmises</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_same_k_different_means</span><span class="p">(</span>
                 <span class="n">x_rad</span><span class="p">,</span> <span class="n">u_rad</span><span class="p">,</span> <span class="n">v_x</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="n">v_k</span>
             <span class="p">)</span>
-            <span class="c1"># when k are different but are mapped to </span>
-            <span class="c1"># means </span>
+            <span class="c1"># when v_k are different and mapped to v_u</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">vmises</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_different_k_and_means</span><span class="p">(</span>
                 <span class="n">x_rad</span><span class="p">,</span> <span class="n">u_rad</span><span class="p">,</span> <span class="n">v_k</span>
@@ -263,18 +254,17 @@
         <span class="n">v_u</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
         <span class="n">v_k</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; get von mises with the same k </span>
-<span class="sd">        but different means</span>
+        <span class="sd">&quot;&quot;&quot;get von mises with the same v_k but different v_u</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            x_rad (np.array):</span>
-<span class="sd">            u_rad (np.array):</span>
-<span class="sd">            v_x (np.array):</span>
-<span class="sd">            v_u (list):</span>
-<span class="sd">            v_k (list):</span>
+<span class="sd">            x_rad (np.array): support space in radian</span>
+<span class="sd">            u_rad (np.array): mean(s) in radian</span>
+<span class="sd">            v_x (np.array): support space in degree</span>
+<span class="sd">            v_u (list): mean(s) in degree</span>
+<span class="sd">            v_k (list): concentration parameter(s)</span>
 <span class="sd">        </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            (np.array): matrix of von mises</span>
+<span class="sd">            (np.array): a matrix of von mises</span>
 
 <span class="sd">        Description:</span>
 <span class="sd">            When von mises with different mean u1,u2,u3 but with same k are input</span>
@@ -490,39 +480,36 @@
 
 <div class="viewcode-block" id="VonMisesMixture.get"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.data.VonMisesMixture.html#bsfit.nodes.cirpy.data.VonMisesMixture.get">[docs]</a>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">support_space</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+        <span class="n">v_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">v_u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">v_k</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
         <span class="n">mixt_coeff</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Calculate a mixture of von mises function of probability</span>
+        <span class="sd">&quot;&quot;&quot;generate a mixture of von mises functions of probability</span>
 <span class="sd">        densities</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            support_space (np.ndarray): von mises&#39; support space</span>
+<span class="sd">            v_x (np.ndarray): von mises&#39; support space</span>
 <span class="sd">            v_u (np.ndarray): von mises&#39; mean</span>
-<span class="sd">            v_k (list): von mises&#39; concentration </span>
-<span class="sd">            [TODO] make an np.ndarray</span>
+<span class="sd">            v_k (list): von mises&#39; concentration parameter</span>
 <span class="sd">            mixt_coeff (float): von mises&#39; mixture coefficient</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            (np.ndarray): mixture of von Mises</span>
+<span class="sd">            (np.ndarray): a mixture of von Mises</span>
 
 <span class="sd">        Usage:</span>
 
 <span class="sd">            .. code-block:: python</span>
 <span class="sd">            </span>
-<span class="sd">            vm_mixt = VonMisesMixture(p=True)</span>
-<span class="sd">            support_space = np.arange(0,360,1)</span>
-<span class="sd">            vm_means = np.array([0,90,180,270])</span>
-<span class="sd">            vm_k = [2.7, 2.7, 2.7, 2.7]</span>
-<span class="sd">            mixture_coeff = 0.25</span>
-<span class="sd">            mixture = vm_mixt.get(support_space, vm_means, vm_k, mixture_coeff)</span>
+<span class="sd">                v_mixt = VonMisesMixture(p=True)</span>
+<span class="sd">                v_x = np.arange(0, 360, 1)</span>
+<span class="sd">                v_u = np.array([0, 90, 180, 270])</span>
+<span class="sd">                v_k = [2.7, 2.7, 2.7, 2.7]</span>
+<span class="sd">                mixture_coeff = 0.25</span>
+<span class="sd">                mixture = vm_mixt.get(v_x, v_u, v_k, mixture_coeff)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># calculate all von mises</span>
-        <span class="n">vm_proba</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="n">support_space</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="n">v_k</span>
-        <span class="p">)</span>
+        <span class="n">vm_proba</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="n">v_k</span><span class="p">)</span>
 
         <span class="c1"># combine them</span>
         <span class="n">mixture</span> <span class="o">=</span> <span class="n">mixt_coeff</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">vm_proba</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>

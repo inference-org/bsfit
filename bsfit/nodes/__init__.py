@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    nodes
+    The nodes of the bsfit package
 
     Copyright 2022 by Steeve Laquitaine, GNU license 
 """

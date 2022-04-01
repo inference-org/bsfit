@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,8 +230,27 @@
 <h1>bsfit.nodes.models.utils.do_bayes_inference<a class="headerlink" href="#bsfit-nodes-models-utils-do-bayes-inference" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.do_bayes_inference">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">do_bayes_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k_llh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learnt_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cardinal_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#do_bayes_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.do_bayes_inference" title="Permalink to this definition">¶</a></dt>
-<dd><p>Realize Bayesian inference</p>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">do_bayes_inference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k_llh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">llh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">learnt_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cardinal_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#do_bayes_inference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.do_bayes_inference" title="Permalink to this definition">¶</a></dt>
+<dd><p>do bayesian inference</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>k_llh</strong> (<em>float</em>) – likelihood concentration</p></li>
+<li><p><strong>prior_mode</strong> (<em>np.ndarray</em>) – the mode of the prior</p></li>
+<li><p><strong>k_prior</strong> (<em>float</em>) – the concentration of the prior</p></li>
+<li><p><strong>stim_mean_space</strong> (<em>np.ndarray</em>) – the stimulus feature space</p></li>
+<li><p><strong>llh</strong> (<em>np.ndarray</em>) – likelihood probability densities</p></li>
+<li><p><strong>learnt_prior</strong> (<em>np.ndarray</em>) – learnt prior</p></li>
+<li><p><strong>cardinal_prior</strong> (<em>np.ndarray</em>) – cardinal prior</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>posterior probability densities</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(np.ndarray)</p>
+</dd>
+</dl>
 </dd></dl>
 
 </section>

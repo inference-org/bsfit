@@ -93,6 +93,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">Reference</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../releases.html">History</a></li>
@@ -175,25 +179,32 @@
 <span class="c1">#</span>
 <span class="c1"># docstring style used: Google style</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Model abstractions</span>
+<span class="sd">    </span>
 <span class="sd">    Copyright 2022 by Steeve Laquitaine, GNU license </span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Model"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.abstract_model.Model.html#bsfit.nodes.models.abstract_model.Model">[docs]</a><span class="k">class</span> <span class="nc">Model</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;Abstract model class</span>
-<span class="sd">    This is the parent class to all model</span>
-<span class="sd">    It contains generic attributes inherited</span>
-<span class="sd">    by all models</span>
+<span class="sd">    </span>
+<span class="sd">    This is the parent class to all model.</span>
+<span class="sd">    It contains generic attributes inherited by all models.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="Model.__init__"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.abstract_model.Model.html#bsfit.nodes.models.abstract_model.Model.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;instantiate Model</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">pass</span></div>
 
 <div class="viewcode-block" id="Model.get_attributes"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.abstract_model.Model.html#bsfit.nodes.models.abstract_model.Model.get_attributes">[docs]</a>    <span class="k">def</span> <span class="nf">get_attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;get model&#39;s attributes</span>
+        <span class="sd">&quot;&quot;&quot;get model attributes</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            self (Model): the model</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            (list): list of model attribute</span>
+<span class="sd">            (list): list the model attributes</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="p">[</span>
             <span class="n">k</span>

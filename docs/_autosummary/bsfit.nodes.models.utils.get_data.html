@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -227,16 +231,25 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.get_data">
 <span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.frame.DataFrame</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_data" title="Permalink to this definition">¶</a></dt>
-<dd><p>get data to fit</p>
+<dd><p>extract the data to fit from the database</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>database</strong> (<em>pd.DataFrame</em>) – _description_</p>
+<dd class="field-odd"><p><strong>database</strong> (<em>pd.DataFrame</em>) – <p>dataset with columns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;stim_mean&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">features</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">motion</span> <span class="n">direction</span><span class="p">)</span>
+<span class="s1">&#39;stim_std&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">feature</span> <span class="n">strengths</span>
+<span class="s1">&#39;prior_mode&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">mode</span> <span class="n">of</span> <span class="n">prior</span>
+<span class="s1">&#39;prior_std&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">std</span> <span class="n">of</span> <span class="n">the</span> <span class="n">prior</span>
+<span class="s1">&#39;prior_shape&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">prior</span> <span class="n">function</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">)</span>
+<span class="s1">&#39;estimate&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">feature</span> <span class="n">estimates</span>
+</pre></div>
+</div>
+</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_</p>
+<dd class="field-even"><p>the stimulus features and associated estimates</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>pd.Series</p>
+<dd class="field-odd"><p>(tuple)</p>
 </dd>
 </dl>
 </dd></dl>

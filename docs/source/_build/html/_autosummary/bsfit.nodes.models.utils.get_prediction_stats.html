@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -230,13 +234,18 @@
 <dd><p>calculate prediction statistics</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>output</strong> (<em>dict</em>) – _description_</p>
+<dd class="field-odd"><p><strong>output</strong> (<em>dict</em>) – <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;PestimateGivenModel&#39;</span><span class="p">:</span> <span class="n">estimate</span> <span class="n">probabilities</span>
+<span class="s1">&#39;map&#39;</span><span class="p">:</span> <span class="nb">max</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">posteriori</span> <span class="n">percepts</span>
+<span class="s1">&#39;conditions&#39;</span><span class="p">:</span> <span class="n">task</span> <span class="n">conditions</span>
+</pre></div>
+</div>
+</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_</p>
+<dd class="field-even"><p>returns prediction mean and std to output</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>dict</p>
+<dd class="field-odd"><p>(dict)</p>
 </dd>
 </dl>
 </dd></dl>

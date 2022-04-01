@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -227,21 +231,31 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.get_bayes_lookup">
 <span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_bayes_lookup</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percept_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_llh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">readout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_bayes_lookup"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_bayes_lookup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a bayes lookup matrix
-based on Girshick’s paper
-rows: M measurements
-cols: N stimulus feature means
-value: log(likelihood) of percept</p>
+<dd><p>Create a bayes lookup matrix based on Girshick paper</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>percept_space</strong> (<em>np.ndarray</em>) – the percept space (1:1:360)</p></li>
+<li><p><strong>stim_mean</strong> (<em>np.ndarray</em>) – the stimulus features</p></li>
+<li><p><strong>k_llh</strong> (<em>float</em>) – the likelihood concentration</p></li>
+<li><p><strong>prior_mode</strong> (<em>float</em>) – the mode of the prior</p></li>
+<li><p><strong>k_prior</strong> (<em>float</em>) – the prior concentrations</p></li>
+<li><p><strong>prior_shape</strong> (<em>str</em>) – the prior function</p></li>
+<li><p><strong>k_card</strong> (<em>float</em>) – the cardinal prior concentration</p></li>
+<li><p><strong>readout</strong> (<em>str</em>) – the decision process (“map”)</p></li>
+</ul>
+</dd>
+</dl>
 <dl>
-<dt>Usage:</dt><dd><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">percept</span><span class="p">,</span> <span class="n">logl_percept</span> <span class="o">=</span> <span class="n">get_bayes_lookup</span><span class="p">(</span>
-    <span class="n">percept_space</span><span class="o">=</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="p">:</span><span class="mi">360</span><span class="p">,</span>
-    <span class="n">stim_mean</span><span class="o">=</span><span class="mi">5</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">355</span><span class="p">,</span>
-    <span class="n">k_llh</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-    <span class="n">prior_mode</span><span class="o">=</span><span class="mi">225</span><span class="p">,</span>
+<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">percept</span><span class="p">,</span> <span class="n">logl_percept</span> <span class="o">=</span> <span class="n">get_bayes_lookup</span><span class="p">(</span>
+    <span class="n">percept_space</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">1</span><span class="p">]),</span>
+    <span class="n">stim_mean</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">5</span><span class="p">]),</span>
+    <span class="n">k_llh</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="o">=</span><span class="mf">225.0</span><span class="p">,</span>
     <span class="n">k_prior</span><span class="o">=</span><span class="mf">4.77</span><span class="p">,</span>
-    <span class="n">k_card</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">prior_tail</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
-    <span class="n">prior_shape</span><span class="o">=</span><span class="s1">&#39;von_mises&#39;</span><span class="p">,</span>
+    <span class="n">k_card</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">prior_tail</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="o">=</span><span class="s1">&#39;vonMisesPrior&#39;</span><span class="p">,</span>
     <span class="p">)</span>
 </pre></div>
 </div>
@@ -250,14 +264,10 @@ value: log(likelihood) of percept</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
 <dd class="field-odd"><p>percepts
-(np.array): percept likelihood</p>
+(np.ndarray): percept likelihood (M_measurements x N_stimulus features)</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>(np.array)</p>
-</dd>
-</dl>
-<dl class="simple">
-<dt>[TODO]: clarify the conceptual objects used:</dt><dd><p>stimulus space, percept space …</p>
+<dd class="field-even"><p>(np.ndarray)</p>
 </dd>
 </dl>
 </dd></dl>

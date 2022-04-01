@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -227,22 +231,26 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.predict">
 <span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">any</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#predict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>“”get model predictions</p>
+<dd><p>“”get model prediction at trial or summary statistics level</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fit_p</strong> (<em>np.ndarray</em>) – model free parameters</p></li>
-<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>any</em><em>]</em>) – model and task</p></li>
-<li><p><strong>parameters</strong> (<em>fixed</em>) – </p></li>
-<li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – _description_</p></li>
-<li><p><strong>data</strong> (<em>pd.Series</em>) – _description_</p></li>
-<li><p><strong>granularity</strong> (<em>str</em>) – </p></li>
-<li><p><strong>&quot;trial&quot;</strong> (<em>-</em>) – </p></li>
-<li><p><strong>&quot;mean&quot;</strong> (<em>-</em>) – </p></li>
+<li><p><strong>fit_p</strong> (<em>np.ndarray</em>) – model fit parameters</p></li>
+<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>any</em><em>]</em>) – model and task parameters</p></li>
+<li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – stimulus features</p></li>
+<li><p><strong>data</strong> (<em>pd.Series</em>) – stimulus feature estimates</p></li>
+<li><p><strong>granularity</strong> (<em>str</em>) – <p>prediction level:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span> <span class="n">prediction</span> <span class="n">are</span> <span class="n">stochastic</span> <span class="n">choices</span> <span class="n">sampled</span>
+<span class="kn">from</span> <span class="nn">the</span> <span class="n">model</span> <span class="n">generative</span> <span class="n">probability</span> <span class="n">density</span>
+<span class="o">-</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="n">prediction</span> <span class="n">statistics</span> <span class="p">(</span><span class="n">mean</span> <span class="ow">and</span> <span class="n">std</span> <span class="n">calculated</span>
+<span class="kn">from</span> <span class="nn">the</span> <span class="n">model</span> <span class="n">generative</span> <span class="n">probability</span> <span class="n">density</span><span class="p">)</span>
+</pre></div>
+</div>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_</p>
+<dd class="field-even"><p>prediction variables</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>(dict)</p>

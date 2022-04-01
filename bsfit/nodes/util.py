@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    module
+    Useful functions module
 
     Copyright 2022 by Steeve Laquitaine, GNU license 
 """
