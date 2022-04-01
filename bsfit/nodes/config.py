@@ -1,8 +1,24 @@
+# note: the doctsring code below within
+# """ is converted to a restructuredText
+# .rst file by sphinx to automatically
+# generate the api's documentation
+#
+# docstring style used: Google style
+"""
+    Pipeline configuration module
+
+    Copyright 2022 by Steeve Laquitaine, GNU license 
+"""
 
 import argparse
 
 
 def parametrize_pipe():
+    """get terminal args to parametrize the pipeline
+
+    Returns:
+        (dict): parsed arguments
+    """
     parser = argparse.ArgumentParser(
         description="This runs analytical pipelines."
     )

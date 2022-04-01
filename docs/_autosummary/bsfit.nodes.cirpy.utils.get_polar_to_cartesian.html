@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -227,7 +231,44 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.cirpy.utils.get_polar_to_cartesian">
 <span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.utils.</span></span><span class="sig-name descname"><span class="pre">get_polar_to_cartesian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">radius</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/utils.html#get_polar_to_cartesian"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.utils.get_polar_to_cartesian" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>convert angle in degree or radian to cartesian coordinates</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>angle</strong> (<em>np.ndarray</em>) – angles in degree or radian</p></li>
+<li><p><strong>radius</strong> (<em>float</em>) – radius</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – “polar” or “radian”</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">bsfit.nodes.cirpy.utils</span> <span class="kn">import</span> <span class="n">get_polar_to_cartesian</span>
+<span class="n">degree</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">270</span><span class="p">])</span>
+<span class="n">cartesian</span> <span class="o">=</span> <span class="n">get_polar_to_cartesian</span><span class="p">(</span><span class="n">degree</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;polar&quot;</span><span class="p">)</span>
+<span class="n">cartesian</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+
+<span class="c1"># Out: dict_keys([&#39;deg&#39;, &#39;rad&#39;, &#39;cart&#39;])</span>
+
+<span class="n">cartesian</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">]</span>
+
+<span class="c1"># Out: array([[ 1.,  0.],</span>
+<span class="c1">#            [ 0.,  1.],</span>
+<span class="c1">#            [-1.,  0.],</span>
+<span class="c1">#            [-0., -1.]])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

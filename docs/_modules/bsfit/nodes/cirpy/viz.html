@@ -93,6 +93,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">Reference</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../releases.html">History</a></li>
@@ -168,50 +172,81 @@
            <div itemprop="articleBody">
             
   <h1>Source code for bsfit.nodes.cirpy.viz</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span></span><span class="c1"># note: the doctsring code below within</span>
+<span class="c1"># &quot;&quot;&quot; is converted to a restructuredText</span>
+<span class="c1"># .rst file by sphinx to automatically</span>
+<span class="c1"># generate the api&#39;s documentation</span>
+<span class="c1">#</span>
+<span class="c1"># docstring style used: Google style</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Visualization of circular statistics</span>
+
+<span class="sd">    see:</span>
+<span class="sd">        Hurliman et al, 2002,VR</span>
+<span class="sd">        Stocker&amp;Simoncelli,2006,NN</span>
+<span class="sd">        Girshick&amp;Simoncelli,2011,NN</span>
+<span class="sd">        Chalk&amp;Series,2012,JoV</span>
+
+<span class="sd">    Copyright 2022 by Steeve Laquitaine, GNU license </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">bsfit.nodes.cirpy.data</span> <span class="kn">import</span> <span class="n">VonMises</span><span class="p">,</span> <span class="n">VonMisesMixture</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
 
-<div class="viewcode-block" id="plot_von_mises"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.viz.plot_von_mises.html#bsfit.nodes.cirpy.viz.plot_von_mises">[docs]</a><span class="k">def</span> <span class="nf">plot_von_mises</span><span class="p">(</span><span class="n">support_space</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">k_vm</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_von_mises"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.viz.plot_von_mises.html#bsfit.nodes.cirpy.viz.plot_von_mises">[docs]</a><span class="k">def</span> <span class="nf">plot_von_mises</span><span class="p">(</span><span class="n">v_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v_k</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;plot von Mises</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        v_x (np.ndarray): support space (degree)</span>
+<span class="sd">        v_k (float): von mises concentration (a.u.)</span>
+<span class="sd">    </span>
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            from matplotlib import pyplot as plt</span>
+<span class="sd">            plot_von_mises(np.arange(0, 360, 1), 10.7)</span>
+<span class="sd">            plt.show()</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># calculate prior density</span>
     <span class="n">prior</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="n">support_space</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">180</span><span class="p">]),</span> <span class="p">[</span><span class="n">k_vm</span><span class="p">]</span>
+        <span class="n">v_x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">180</span><span class="p">]),</span> <span class="p">[</span><span class="n">v_k</span><span class="p">]</span>
     <span class="p">)</span>
 
     <span class="c1"># plot</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">support_space</span><span class="p">,</span> <span class="n">prior</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span></div>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="n">prior</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="plot_von_mises_mixture"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.viz.plot_von_mises_mixture.html#bsfit.nodes.cirpy.viz.plot_von_mises_mixture">[docs]</a><span class="k">def</span> <span class="nf">plot_von_mises_mixture</span><span class="p">(</span>
-    <span class="n">support_space</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v_u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v_k</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">v_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v_u</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">v_k</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;_summary_</span>
+    <span class="sd">&quot;&quot;&quot;plot mixture of von Mises</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        support_space (np.ndarray): _description_</span>
-<span class="sd">        k_means (np.ndarray): _description_</span>
-<span class="sd">        k_vm (float): _description_</span>
+<span class="sd">        v_x (np.ndarray): support space (degree)</span>
+<span class="sd">        v_u (np.ndarray): von mises&#39; mean (degree)</span>
+<span class="sd">        v_k (float): von mises concentration (a.u.)</span>
 <span class="sd">    </span>
 <span class="sd">    Usage: </span>
 <span class="sd">        .. code-block:: python</span>
 
 <span class="sd">            prior = plot_von_mises_mixture(</span>
-<span class="sd">            support_space=np.arange(0,360,1),</span>
-<span class="sd">            v_u=np.array([90, 180, 270, 360]),</span>
-<span class="sd">            v_k=[k_vm],</span>
+<span class="sd">            v_x = np.arange(0,360,1),</span>
+<span class="sd">            v_u = np.array([90, 180, 270, 360]),</span>
+<span class="sd">            v_k = [v_k],</span>
 <span class="sd">            0.25</span>
 <span class="sd">            )</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># calculate prior density</span>
     <span class="n">prior</span> <span class="o">=</span> <span class="n">VonMisesMixture</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-        <span class="n">support_space</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="p">[</span><span class="n">v_k</span><span class="p">],</span> <span class="mi">1</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">v_u</span><span class="p">),</span>
+        <span class="n">v_x</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="p">[</span><span class="n">v_k</span><span class="p">],</span> <span class="mi">1</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">v_u</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="c1"># plot</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">support_space</span><span class="p">,</span> <span class="n">prior</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span></div>
+    <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="n">prior</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span></div>
 
 </pre></div>
 

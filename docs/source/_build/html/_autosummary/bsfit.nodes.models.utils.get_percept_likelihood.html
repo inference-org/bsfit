@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,44 +230,38 @@
 <h1>bsfit.nodes.models.utils.get_percept_likelihood<a class="headerlink" href="#bsfit-nodes-models-utils-get-percept-likelihood" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.get_percept_likelihood">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_percept_likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percept_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean_space</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_density</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percept</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_nb_percept</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_percept_likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_percept_likelihood" title="Permalink to this definition">¶</a></dt>
-<dd><p>calculate percepts’ likelihood.</p>
-<p>It is the P(m_i|s_i) of the m_i that produced that data
-map m_i and percept(s) p_i in P(p|m_i)
-P(p|m_i) is important because e.g., when
-a m_i produces a bimodal posterior in response to
-a stimulus (e.g., {flat likelihood, bimodal prior}),
-the two modes are equally likely P(p_1|m_i)
-= P(p_2|mi) = 0.5 and P(p_1|s_i) =
-P(p_1|s_i) = P(p_1|m_i)*P(m_i|s_i)
-= 0.5*P(m_i|s_i). Similarly, P(p_2|s_i) =
-P(p_2|m_i)*P(m_i|s_i) = 0.5*P(m_i|s_i).
-The P(p|m_i) of each percept observed for a
-m_i is 1/len(p).
-percepts only depend on m_i which determines likelihood.
-The displayed stimulus determines percept probability.
-Percepts per m_i (rows) are the same across stimulus
-feature means (cols). m_i rows are repeated in the matrix
-when a m_i produces many percepts.
-e.g., the matrices for a max number of percept per m_i=2</p>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_percept_likelihood</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percept_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meas_density</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">percept</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_nb_percept</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_percept_likelihood"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_percept_likelihood" title="Permalink to this definition">¶</a></dt>
+<dd><p>calculate percept likelihoods.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>percept_space</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>stim_mean</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>stim_mean_space</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>meas_density</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>percept</strong> (<em>_type_</em>) – _description_</p></li>
-<li><p><strong>max_nb_percept</strong> (<em>_type_</em>) – _description_</p></li>
+<li><p><strong>percept_space</strong> (<em>np.ndarray</em>) – the percept space (1:1:360)</p></li>
+<li><p><strong>stim_mean</strong> (<em>np.ndarray</em>) – stimulus feature</p></li>
+<li><p><strong>stim_mean_space</strong> (<em>_type_</em>) – the space of the stimulus feature (1:1:360)</p></li>
+<li><p><strong>meas_density</strong> (<em>np.ndarray</em>) – measurement probability density</p></li>
+<li><p><strong>percept</strong> (<em>np.ndarray</em>) – percept</p></li>
+<li><p><strong>max_nb_percept</strong> (<em>int</em>) – the maximum number of percepts</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_</p>
+<dd class="field-even"><p>percepts
+(np.ndarray): associated percept likelihood</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>_type_</p>
+<dd class="field-odd"><p>(np.ndarray)</p>
 </dd>
 </dl>
+<p class="rubric">Notes</p>
+<p>It is the P(m_i|s_i) of the m_i that produced that data map m_i and
+percept(s) p_i in P(p|m_i) P(p|m_i) is important because e.g., when
+a m_i produces a bimodal posterior in response to a stimulus (e.g.,
+{flat likelihood, bimodal prior}), the two modes are equally likely
+P(p_1|m_i) = P(p_2|mi) = 0.5 and P(p_1|s_i) = P(p_1|s_i) = P(p_1|m_i)*P(m_i|s_i)
+= 0.5*P(m_i|s_i). Similarly, P(p_2|s_i) = P(p_2|m_i)*P(m_i|s_i) = 0.5*P(m_i|s_i).
+The P(p|m_i) of each percept observed for a m_i is 1/len(p). percepts only depend on m_i which determines likelihood.
+The displayed stimulus determines percept probability. Percepts per m_i (rows) are the same across stimulus
+feature means (cols). m_i rows are repeated in the matrix when a m_i produces many percepts.
+e.g., the matrices for a max number of percept per m_i=2</p>
 </dd></dl>
 
 </section>

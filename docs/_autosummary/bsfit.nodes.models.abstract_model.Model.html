@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -228,14 +232,14 @@
 <dt class="sig sig-object py" id="bsfit.nodes.models.abstract_model.Model">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.abstract_model.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><a class="reference internal" href="../_modules/bsfit/nodes/models/abstract_model.html#Model"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.abstract_model.Model" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<p>Abstract model class
-This is the parent class to all model
-It contains generic attributes inherited
-by all models</p>
+<p>Abstract model class</p>
+<p>This is the parent class to all model.
+It contains generic attributes inherited by all models.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.models.abstract_model.Model.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/abstract_model.html#Model.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.abstract_model.Model.__init__" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>instantiate Model</p>
+</dd></dl>
 
 <p class="rubric">Methods</p>
 <table class="longtable docutils align-default">
@@ -245,23 +249,26 @@ by all models</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.models.abstract_model.Model.__init__" title="bsfit.nodes.models.abstract_model.Model.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>()</p></td>
-<td><p></p></td>
+<td><p>instantiate Model</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.models.abstract_model.Model.get_attributes" title="bsfit.nodes.models.abstract_model.Model.get_attributes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_attributes</span></code></a>()</p></td>
-<td><p>get model's attributes</p></td>
+<td><p>get model attributes</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.models.abstract_model.Model.get_attributes">
 <span class="sig-name descname"><span class="pre">get_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/abstract_model.html#Model.get_attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.abstract_model.Model.get_attributes" title="Permalink to this definition">¶</a></dt>
-<dd><p>get model’s attributes</p>
+<dd><p>get model attributes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>list of model attribute</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>self</strong> (<a class="reference internal" href="#bsfit.nodes.models.abstract_model.Model" title="bsfit.nodes.models.abstract_model.Model"><em>Model</em></a>) – the model</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>(list)</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list the model attributes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
 </dd>
 </dl>
 </dd></dl>

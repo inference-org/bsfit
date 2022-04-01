@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,8 +230,29 @@
 <h1>bsfit.nodes.models.utils.get_proba_data<a class="headerlink" href="#bsfit-nodes-models-utils-get-proba-data" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.get_proba_data">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_proba_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimate</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proba_estimate</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_proba_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_proba_data" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_proba_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">estimate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">proba_estimate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_proba_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_proba_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>get data probability density</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>estimate</strong> (<em>pd.Series</em>) – stimulus feature estimates</p></li>
+<li><p><strong>proba_estimate</strong> (<em>np.ndarray</em>) – estimate probabilities</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>probability of the data given the model</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(np.ndarray)</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – likelihood &lt; 0</p></li>
+<li><p><strong>ValueError</strong> – likelihood is Complex</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

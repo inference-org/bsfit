@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -227,19 +231,19 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.get_combination_set">
 <span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_combination_set</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">database</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_combination_set"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_combination_set" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get set of combinations</p>
+<dd><p>get the set of row combinations</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>database</strong> (<em>np.ndarray</em>) – _description_</p>
+<dd class="field-odd"><p><strong>database</strong> (<em>np.ndarray</em>) – an N-D array</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_
-combs is the set of combinations
-b are the row indices for each combination in database
-c are the rows indices for each combination in combs</p>
+<dd class="field-even"><p><cite>combs</cite> is the set
+of combinations, <cite>b</cite> are the row indices for each combination
+in database, <cite>c</cite> are the rows indices for each combination in
+combs.</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>_type_</p>
+<dd class="field-odd"><p>(np.ndarray, np.ndarray, np.ndarray)</p>
 </dd>
 </dl>
 </dd></dl>

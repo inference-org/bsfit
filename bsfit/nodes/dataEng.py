@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    module
+    Data engineering module
 
     Copyright 2022 by Steeve Laquitaine, GNU license 
 """
@@ -22,35 +22,39 @@ def load_mat(file_path: str):
     """load matlab file
 
     Args:
-        file_path (str): _description_
+        file_path (str): file path
 
     Returns:
         _type_: _description_
     
     Usage:
-        file = scipy.io.loadmat("data/data01_direction4priors/data/sub01/steeve_exp11_data_sub01_sess01_run01_Pstd010_mean225_coh006_012_024_dir36_t107_73_33perCoh_130217_lab.mat")
+        .. code-block:: python
+            
+            file_path = "data/data01_direction4priors/data/sub01/steeve_exp11_data_sub01_sess01_run01_Pstd010_mean225_coh006_012_024_dir36_t107_73_33perCoh_130217_lab.mat"
+            file = scipy.io.loadmat(file_path)
     """
     return scipy.io.loadmat(file_path)
 
 
 def make_dataset(subject: str, data_path: str, prior: str):
-    """Load and engineer dataset
+    """load and engineer dataset [TODO]
 
     Args:
-        subject (str): _description_
-        data_path (str): _description_
-        prior (str): _description_
-    
-    Returns:
-        dataset:
+        subject (str): [TODO]
+        data_path (str): [TODO]
+        prior (str): [TODO]
 
     Usage:
-               
-        dataset = make_dataset(
-            subject='sub01',
-            data_path='data/',...
-            prior='vonMisesPrior'
-            )
+        .. code-block:: python        
+        
+            dataset = make_dataset(
+                subject='sub01',
+                data_path='data/',...
+                prior='vonMisesPrior'
+                )    
+
+    Returns:
+        dataset:
     """
     # time
     t0 = time()
@@ -59,18 +63,15 @@ def make_dataset(subject: str, data_path: str, prior: str):
     os.chdir(data_path)
 
     # loop over subjects
-
-    pass
+    return None
 
 
 def simulate_small_dataset():
-    """simulate a case of prior-induced bias
-    in circular estimates
-    - 1 stimulus noise
-    - 2 prior noises
+    """simulate a case of prior-induced bias in circular estimate with one 
+    stimulus noise and two prior noises
 
     Returns:
-        _type_: _description_
+        (pd.DataFrame): a design matrix of task conditions
     """
     # init df
     data = pd.DataFrame()
@@ -178,10 +179,16 @@ def simulate_dataset(
     prior_noise: float,
     prior_shape: str,
 ):
-    """Simulate a test dataset
+    """simulate a test dataset (a design matrix)
+    
+    Args:
+        stim_noise (float): stimulus noise conditions (e.g., motion coherence)
+        prior_mode (float): prior mode conditions (e.g., 225)
+        prior_noise (float): prior noise conditions (e.g. std)
+        prior_shape (str): prior function condition (e.g., "vonMisesPrior")
 
     Returns:
-        (pd.DataFrame): _description_
+        (pd.DataFrame): a design matrix of task conditions
     """
 
     # initialize dataframe
@@ -233,16 +240,16 @@ def simulate_task_conditions(
     prior_noise: float,
     prior_shape: str,
 ):
-    """_summary_
+    """simulate task conditions (a design matrix)
 
     Args:
-        stim_noise (float): _description_
-        prior_mode (float): _description_
-        prior_noise (float): _description_
-        prior_shape (str): _description_
+        stim_noise (float): stimulus noise conditions (e.g., motion coherence)
+        prior_mode (float): prior mode conditions (e.g., 225)
+        prior_noise (float): prior noise conditions (e.g. std)
+        prior_shape (str): prior function condition (e.g., "vonMisesPrior")
 
     Returns:
-        pd.DataFrame: task conditions
+        pd.DataFrame: a design matrix of task conditions
     """
 
     # initialize dataframe

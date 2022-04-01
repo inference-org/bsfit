@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,33 +230,38 @@
 <h1>bsfit.nodes.models.utils.get_fit_variables<a class="headerlink" href="#bsfit-nodes-models-utils-get-fit-variables" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.get_fit_variables">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_fit_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">float</span></span></span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_fit_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_fit_variables" title="Permalink to this definition">¶</a></dt>
-<dd><p>calculate the log(likelihood) of the
-observed stimulus feature mean’s estimate
-given the model.</p>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_fit_variables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fit_p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">tuple</span></span></span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_fit_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_fit_variables" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the fit intermediate variable</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fit_p</strong> (<em>np.ndarray</em>) – model fit parameters</p></li>
-<li><p><strong>params</strong> (<em>dict</em>) – fixed parameters</p></li>
-<li><p><strong>&quot;task&quot;</strong> (<em>-</em>) – “fixed_params”</p></li>
-<li><p><strong>&quot;model&quot;</strong> (<em>-</em>) – “fixed_params”, “init_params”</p></li>
-<li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – stimulus feature mean</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – <p>all the fixed parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;fixed_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">task</span> <span class="n">fixed</span> <span class="n">parameters</span>
+        <span class="p">},</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;fixed_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">model</span> <span class="n">fixed</span> <span class="n">parameters</span>
+        <span class="s2">&quot;init_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">model</span> <span class="n">initial</span> <span class="n">parameters</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – stimulus feature (e.g., motion direction)</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="simple">
-<dt>Kwargs:</dt><dd><p>“data” (pd.Series):: data estimate to fit</p>
+<dt>Kwargs:</dt><dd><p>data (pd.Series): the estimates that will be fit</p>
 </dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>-log(likelihood) of
-data estimate given model
-(dict): intermediate variables</p>
+<dd class="field-odd"><p>-log(likelihood) of data and the fit variables</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p>(float)</p>
+<dd class="field-even"><p>(float, dict)</p>
 </dd>
 </dl>
 </dd></dl>

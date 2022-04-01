@@ -93,6 +93,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../api.html">Reference</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../releases.html">History</a></li>
@@ -175,7 +179,7 @@
 <span class="c1">#</span>
 <span class="c1"># docstring style used: Google style</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    module</span>
+<span class="sd">    Data engineering module</span>
 
 <span class="sd">    Copyright 2022 by Steeve Laquitaine, GNU license </span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -192,35 +196,39 @@
     <span class="sd">&quot;&quot;&quot;load matlab file</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        file_path (str): _description_</span>
+<span class="sd">        file_path (str): file path</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        _type_: _description_</span>
 <span class="sd">    </span>
 <span class="sd">    Usage:</span>
-<span class="sd">        file = scipy.io.loadmat(&quot;data/data01_direction4priors/data/sub01/steeve_exp11_data_sub01_sess01_run01_Pstd010_mean225_coh006_012_024_dir36_t107_73_33perCoh_130217_lab.mat&quot;)</span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">            </span>
+<span class="sd">            file_path = &quot;data/data01_direction4priors/data/sub01/steeve_exp11_data_sub01_sess01_run01_Pstd010_mean225_coh006_012_024_dir36_t107_73_33perCoh_130217_lab.mat&quot;</span>
+<span class="sd">            file = scipy.io.loadmat(file_path)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">scipy</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">loadmat</span><span class="p">(</span><span class="n">file_path</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="make_dataset"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.dataEng.make_dataset.html#bsfit.nodes.dataEng.make_dataset">[docs]</a><span class="k">def</span> <span class="nf">make_dataset</span><span class="p">(</span><span class="n">subject</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">prior</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Load and engineer dataset</span>
+    <span class="sd">&quot;&quot;&quot;load and engineer dataset [TODO]</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        subject (str): _description_</span>
-<span class="sd">        data_path (str): _description_</span>
-<span class="sd">        prior (str): _description_</span>
-<span class="sd">    </span>
-<span class="sd">    Returns:</span>
-<span class="sd">        dataset:</span>
+<span class="sd">        subject (str): [TODO]</span>
+<span class="sd">        data_path (str): [TODO]</span>
+<span class="sd">        prior (str): [TODO]</span>
 
 <span class="sd">    Usage:</span>
-<span class="sd">               </span>
-<span class="sd">        dataset = make_dataset(</span>
-<span class="sd">            subject=&#39;sub01&#39;,</span>
-<span class="sd">            data_path=&#39;data/&#39;,...</span>
-<span class="sd">            prior=&#39;vonMisesPrior&#39;</span>
-<span class="sd">            )</span>
+<span class="sd">        .. code-block:: python        </span>
+<span class="sd">        </span>
+<span class="sd">            dataset = make_dataset(</span>
+<span class="sd">                subject=&#39;sub01&#39;,</span>
+<span class="sd">                data_path=&#39;data/&#39;,...</span>
+<span class="sd">                prior=&#39;vonMisesPrior&#39;</span>
+<span class="sd">                )    </span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dataset:</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># time</span>
     <span class="n">t0</span> <span class="o">=</span> <span class="n">time</span><span class="p">()</span>
@@ -229,18 +237,15 @@
     <span class="n">os</span><span class="o">.</span><span class="n">chdir</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
 
     <span class="c1"># loop over subjects</span>
-
-    <span class="k">pass</span></div>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <div class="viewcode-block" id="simulate_small_dataset"><a class="viewcode-back" href="../../../_autosummary/bsfit.nodes.dataEng.simulate_small_dataset.html#bsfit.nodes.dataEng.simulate_small_dataset">[docs]</a><span class="k">def</span> <span class="nf">simulate_small_dataset</span><span class="p">():</span>
-    <span class="sd">&quot;&quot;&quot;simulate a case of prior-induced bias</span>
-<span class="sd">    in circular estimates</span>
-<span class="sd">    - 1 stimulus noise</span>
-<span class="sd">    - 2 prior noises</span>
+    <span class="sd">&quot;&quot;&quot;simulate a case of prior-induced bias in circular estimate with one </span>
+<span class="sd">    stimulus noise and two prior noises</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        (pd.DataFrame): a design matrix of task conditions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># init df</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">()</span>
@@ -348,10 +353,16 @@
     <span class="n">prior_noise</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Simulate a test dataset</span>
+    <span class="sd">&quot;&quot;&quot;simulate a test dataset (a design matrix)</span>
+<span class="sd">    </span>
+<span class="sd">    Args:</span>
+<span class="sd">        stim_noise (float): stimulus noise conditions (e.g., motion coherence)</span>
+<span class="sd">        prior_mode (float): prior mode conditions (e.g., 225)</span>
+<span class="sd">        prior_noise (float): prior noise conditions (e.g. std)</span>
+<span class="sd">        prior_shape (str): prior function condition (e.g., &quot;vonMisesPrior&quot;)</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        (pd.DataFrame): _description_</span>
+<span class="sd">        (pd.DataFrame): a design matrix of task conditions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># initialize dataframe</span>
@@ -403,16 +414,16 @@
     <span class="n">prior_noise</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
     <span class="n">prior_shape</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;_summary_</span>
+    <span class="sd">&quot;&quot;&quot;simulate task conditions (a design matrix)</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        stim_noise (float): _description_</span>
-<span class="sd">        prior_mode (float): _description_</span>
-<span class="sd">        prior_noise (float): _description_</span>
-<span class="sd">        prior_shape (str): _description_</span>
+<span class="sd">        stim_noise (float): stimulus noise conditions (e.g., motion coherence)</span>
+<span class="sd">        prior_mode (float): prior mode conditions (e.g., 225)</span>
+<span class="sd">        prior_noise (float): prior noise conditions (e.g. std)</span>
+<span class="sd">        prior_shape (str): prior function condition (e.g., &quot;vonMisesPrior&quot;)</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        pd.DataFrame: task conditions</span>
+<span class="sd">        pd.DataFrame: a design matrix of task conditions</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># initialize dataframe</span>

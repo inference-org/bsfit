@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    module
+    Useful functions for modeling
 
     Copyright 2022 by Steeve Laquitaine, GNU license 
 """
@@ -33,18 +33,21 @@ def fit_maxlogl(
     prior_mode: float,
     readout: str,
 ) -> Dict[str, Any]:
-    """Fits observed estimate data of the stimulus
-    feature mean with the method of maximum
-    log(likelihood). This method searches for the
-    model parameters that maximize the log(likeligood)
-    of the observed data given the model.
+    """Fit stimulus feature estimates
 
     Args:
-        database (pd.DataFrame): database
+        database (pd.DataFrame): dataset with columns::
+        
+            'stim_mean': the stimulus features (e.g., motion direction)
+            'stim_std': the stimulus feature strengths
+            'prior_mode': mode of prior
+            'prior_std': std of the prior
+            'prior_shape': density function of the prior (e.g., "vonMisesPrior")
+            'estimate': the estimate data
+
         init_p (dict): initial parameters
-        prior_shape (str): shape of the prior  
-        - "vonMisesPrior"  
-        prior_mode: (float): mode of the prior  
+        prior_shape (str): ("vonMisesPrior"), the prior function
+        prior_mode: (float): the mode of the prior
 
     Returns:
         Dict[str, Any]: results of the fit
@@ -90,15 +93,21 @@ def simulate(
     prior_mode: float,
     readout: str,
 ) -> Dict[str, Any]:
-    """Simulate estimate data per task
-    condition
+    """simulate estimate data per condition
 
     Args:
-        database (pd.DataFrame): database
-        sim_p (dict): simulation parameters
-        prior_shape (str): shape of the prior  
-        - "vonMisesPrior"  
-        prior_mode: (float): mode of the prior  
+        database (pd.DataFrame): dataset with columns::
+        
+            'stim_mean': the stimulus features (e.g., motion direction)
+            'stim_std': the stimulus feature strengths
+            'prior_mode': the mode of prior
+            'prior_std': the std of the prior
+            'prior_shape': the prior function (e.g., "vonMisesPrior")
+            'estimate' (optional): the stimulus feature estimates
+
+        sim_p (dict): the simulation parameters
+        prior_shape (str): the prior function ("vonMisesPrior")
+        prior_mode (float): the mode of the prior  
 
     Returns:
         Dict[str, Any]: record of simulation data
@@ -123,13 +132,13 @@ def simulate(
 
 
 def unpack(my_dict: Dict[str, list]) -> list:
-    """unpack dict into a flat list
+    """unpack a dictionary into a flat list
 
     Args:
         my_dict (Dict[list]): dictionary of list
 
     Returns:
-        (list): flat list
+        (list): a flat list
     """
     return flatten([my_dict[keys] for keys in my_dict])
 
@@ -153,18 +162,25 @@ def format_params(
     prior_mode: float,
     readout: str,
 ) -> dict:
-    """Set model and task parameters
-    free and fixed
+    """set model and task parameters
 
     Args:
-        database (pd.DataFrame): _description_
-        init_p (dict): _description_
-        prior_shape (str): _description_
-        prior_mode (float): _description_
-        readout (str): _description_
+        database (pd.DataFrame): dataset with columns::
+        
+            'stim_mean': the stimulus features (e.g., motion direction)
+            'stim_std': the stimulus feature strengths
+            'prior_mode': the mode of prior
+            'prior_std': the std of the prior
+            'prior_shape': the prior function (e.g., "vonMisesPrior")
+            'estimate' (optional): the estimates
+
+        init_p (dict): the model initial parameters
+        prior_shape (str): the prior function (e.g., "vonMisesPrior")
+        prior_mode (float): the mode of the prior
+        readout (str): the decision process ("map")
 
     Returns:
-        (dict): _description_
+        (dict): the formatted model and task parameters
     """
 
     # set model parameters
@@ -195,18 +211,15 @@ def locate_fit_params(
     params: Dict[str, list]
 ) -> Dict[str, list]:
 
-    """locate fit parameters
-    in parameter dictionary
+    """find fit parameters in dictionary
 
     Args:
         params (Dict[str, list]): parameters
 
     Returns:
-        dict: dictionary of
-        the location of each parameter
-        type. e.g., 
+        (dict): the location of each parameter
 
-        .. code-block::
+        .. code-block:: python
 
             {
                 'k_llh': [0, 1],
@@ -242,13 +255,20 @@ def locate_fit_params(
 
 
 def get_data(database: pd.DataFrame):
-    """get data to fit
+    """extract the data to fit from the database
 
     Args:
-        database (pd.DataFrame): _description_
+        database (pd.DataFrame): dataset with columns::
+        
+            'stim_mean': the stimulus features (e.g., motion direction)
+            'stim_std': the stimulus feature strengths 
+            'prior_mode': the mode of prior
+            'prior_std': the std of the prior
+            'prior_shape': the prior function (e.g., "vonMisesPrior")
+            'estimate': the stimulus feature estimates
 
     Returns:
-        pd.Series: _description_
+        (tuple): the stimulus features and associated estimates
     """
     # get stimulus feature mean
     stim_mean = database["stim_mean"]
@@ -266,21 +286,26 @@ def get_logl(
     stim_mean: pd.Series,
     data: pd.Series,
 ):
-    """calculate the log(likelihood) of the 
-    stimulus feature's estimate given the model.
-    This function is called by scipy.optimize.fmin().
+    """calculate the log(likelihood) of the data given the model
 
     Args:
-        fit_p (np.ndarray): the model's fit parameters
-        params (dict): all the fixed parameters:
-        - "task": "fixed_params": the task fixed parameters
-        - "model": "fixed_params", "init_params"
-        stim_mean (pd.Series): stimulus feature mean
-        data (pd.Series): data estimate to fit
+        fit_p (np.ndarray): the model fit parameters
+        params(dict): the parameters::
+            
+                params: {
+                    "task": {
+                        "fixed_params": the task fixed parameters
+                        },
+                    "model": {
+                        "fixed_params": the model fixed parameters
+                        "init_params": the model initial parameters
+                    }
+        
+        stim_mean (pd.Series): stimulus features (e.g., motion direction)
+        data (pd.Series): stimulus feature estimates to fit
 
     Returns:
-        (float): -log(likelihood) of 
-            data estimate given model
+        (float): -log(likelihood) of data given model
     """
     # get -logl and intermediate
     # calculated variables
@@ -295,25 +320,29 @@ def get_fit_variables(
     params: dict,
     stim_mean: pd.Series,
     **kwargs: dict,
-) -> float:
-    """calculate the log(likelihood) of the 
-    observed stimulus feature mean's estimate
-    given the model.
+) -> tuple:
+    """get the fit intermediate variable
 
     Args:
         fit_p (np.ndarray): model fit parameters
-        params (dict): fixed parameters
-        - "task": "fixed_params"
-        - "model": "fixed_params", "init_params"
-        stim_mean (pd.Series): stimulus feature mean
+        params (dict): all the fixed parameters::
+
+            params: {
+                "task": {
+                    "fixed_params": the task fixed parameters
+                    },
+                "model": {
+                    "fixed_params": the model fixed parameters
+                    "init_params": the model initial parameters
+                }
+
+        stim_mean (pd.Series): stimulus feature (e.g., motion direction)
 
     Kwargs:
-        "data" (pd.Series):: data estimate to fit
+        data (pd.Series): the estimates that will be fit
 
     Returns:
-        (float): -log(likelihood) of 
-        data estimate given model
-        (dict): intermediate variables
+        (float, dict): -log(likelihood) of data and the fit variables
     """
 
     # count fit params
@@ -400,15 +429,14 @@ def get_fit_variables(
 def get_logl_and_aic(
     n_fit_params: int, proba_data: np.ndarray
 ) -> dict:
-    """calculate log(likelihood) and 
-    akaike information criterion
+    """calculate - log(likelihood) and akaike information criterion
 
     Args:
         n_fit_params (int): number of fit parameters
         proba_data (np.ndarray): probability of data
 
     Returns:
-        _type_: _description_
+        (dict): -log(likelihod) and akaike information criterion
     """
 
     Logl_pertrial = np.log(proba_data)
@@ -422,7 +450,22 @@ def get_logl_and_aic(
     return {"neglogl": negLogl, "aic": aic}
 
 
-def get_proba_data(estimate, proba_estimate):
+def get_proba_data(
+    estimate: pd.Series, proba_estimate: np.ndarray
+):
+    """ get data probability density
+
+    Args:
+        estimate (pd.Series): stimulus feature estimates
+        proba_estimate (np.ndarray): estimate probabilities
+    
+    Returns:
+        (np.ndarray): probability of the data given the model
+
+    Raises:
+        ValueError: likelihood < 0
+        ValueError: likelihood is Complex
+    """
 
     # normalize 0 values to 360
     if (estimate == 0).any():
@@ -443,22 +486,47 @@ def get_proba_data(estimate, proba_estimate):
         raise ValueError("""likelihood<0, but must be>0""")
     elif (~np.isreal(proba_data)).any():
         raise ValueError(
-            """likelihood is a complex nb.
-            It should be Real"""
+            """likelihood is Complex but should be Real"""
         )
-
     return proba_data
 
 
 def get_proba_percept(
-    stim_mean,
-    params,
-    k_llh,
-    k_prior,
-    k_card,
-    prior_tail,
-    p_rand,
+    stim_mean: pd.Series,
+    params: dict,
+    k_llh: np.ndarray,
+    k_prior: np.ndarray,
+    k_card: float,
+    prior_tail: float,
+    p_rand: float,
 ):
+    """get the percept probability density
+
+    Args:
+        stim_mean (pd.Series): the stimulus features
+        params (dict): the parameters::
+
+            params: {
+                "task": {
+                    "fixed_params": the task fixed parameters
+                    },
+                "model": {
+                    "fixed_params": the model fixed parameters
+                    "init_params": the model initial parameters
+                }
+
+        k_llh (np.ndarray): the likelihood concentrations
+        k_prior (np.ndarray): the prior concentrations
+        k_card (float): the cardinal prior concentration
+        prior_tail (float): the tail of the prior
+        p_rand (float): the probability of random lapse
+
+    Raises:
+        ValueError: the percept probabilities do not sum to 1
+
+    Returns:
+        (dict): the percept probabilities and calculated variables
+    """
 
     # get fixed parameters
     # ....................
@@ -614,6 +682,15 @@ def get_proba_percept(
 def get_proba_estimate(
     k_m: float, PupoGivenModel: np.ndarray
 ):
+    """get estimate probability density
+
+    Args:
+        k_m (float): concentration of motor noise density
+        PupoGivenModel (np.ndarray): percept probability density
+
+    Returns:
+        (np.ndarray): estimate probability densities
+    """
 
     # convolve percept density with motor noise
     # Now we shortly replace upo=1:1:360 by upo=0:1:359 because motor noise
@@ -666,32 +743,35 @@ def get_bayes_lookup(
     k_card: float,
     readout: str,
 ):
-    """Create a bayes lookup matrix
-    based on Girshick's paper
-    rows: M measurements
-    cols: N stimulus feature means
-    value: log(likelihood) of percept
+    """Create a bayes lookup matrix based on Girshick paper
+
+    Args:
+        percept_space (np.ndarray): the percept space (1:1:360)
+        stim_mean (np.ndarray): the stimulus features
+        k_llh (float): the likelihood concentration
+        prior_mode (float): the mode of the prior
+        k_prior (float): the prior concentrations
+        prior_shape (str): the prior function
+        k_card (float): the cardinal prior concentration
+        readout (str): the decision process ("map")
 
     Usage:
-        .. code-block::
+        .. code-block:: python
         
             percept, logl_percept = get_bayes_lookup(
-                percept_space=1:1:360,
-                stim_mean=5:10:355,
-                k_llh=5,
-                prior_mode=225,
+                percept_space=np.arange([0,360,1]),
+                stim_mean=np.arange([0,360,5]),
+                k_llh=5.0,
+                prior_mode=225.0,
                 k_prior=4.77,
-                k_card=0,
-                prior_tail=0,
-                prior_shape='von_mises',
+                k_card=0.0,
+                prior_tail=0.0,
+                prior_shape='vonMisesPrior',
                 )
 
     Returns:
-        (np.array): percepts
-        (np.array): percept likelihood
-
-    [TODO]: clarify the conceptual objects used:
-        stimulus space, percept space ... 
+        (np.ndarray): percepts
+        (np.ndarray): percept likelihood (M_measurements x N_stimulus features) 
     """
 
     # set stimulus feature mean space s (the
@@ -766,44 +846,38 @@ def get_bayes_lookup(
 
 
 def get_percept_likelihood(
-    percept_space,
-    stim_mean,
-    stim_mean_space,
-    meas_density,
-    percept,
-    max_nb_percept,
+    percept_space: np.ndarray,
+    stim_mean: np.ndarray,
+    stim_mean_space: np.ndarray,
+    meas_density: np.ndarray,
+    percept: np.ndarray,
+    max_nb_percept: int,
 ):
-    """calculate percepts' likelihood.
-    
-    It is the P(m_i|s_i) of the m_i that produced that data
-    map m_i and percept(s) p_i in P(p|m_i)
-    P(p|m_i) is important because e.g., when
-    a m_i produces a bimodal posterior in response to
-    a stimulus (e.g., {flat likelihood, bimodal prior}),
-    the two modes are equally likely P(p_1|m_i)
-    = P(p_2|mi) = 0.5 and P(p_1|s_i) =
-    P(p_1|s_i) = P(p_1|m_i)*P(m_i|s_i)
-    = 0.5*P(m_i|s_i). Similarly, P(p_2|s_i) =
-    P(p_2|m_i)*P(m_i|s_i) = 0.5*P(m_i|s_i).
-    The P(p|m_i) of each percept observed for a
-    m_i is 1/len(p).
-    percepts only depend on m_i which determines likelihood.
-    The displayed stimulus determines percept probability.
-    Percepts per m_i (rows) are the same across stimulus
-    feature means (cols). m_i rows are repeated in the matrix
-    when a m_i produces many percepts.
-    e.g., the matrices for a max number of percept per m_i=2
-        
+    """calculate percept likelihoods.
+            
     Args:
-        percept_space (_type_): _description_
-        stim_mean (_type_): _description_
-        stim_mean_space (_type_): _description_
-        meas_density (_type_): _description_
-        percept (_type_): _description_
-        max_nb_percept (_type_): _description_
+        percept_space (np.ndarray): the percept space (1:1:360)
+        stim_mean (np.ndarray): stimulus feature
+        stim_mean_space (_type_): the space of the stimulus feature (1:1:360)
+        meas_density (np.ndarray): measurement probability density
+        percept (np.ndarray): percept
+        max_nb_percept (int): the maximum number of percepts
 
     Returns:
-        _type_: _description_
+        (np.ndarray): percepts
+        (np.ndarray): associated percept likelihood
+
+    Notes: 
+        It is the P(m_i|s_i) of the m_i that produced that data map m_i and 
+        percept(s) p_i in P(p|m_i) P(p|m_i) is important because e.g., when
+        a m_i produces a bimodal posterior in response to a stimulus (e.g., 
+        {flat likelihood, bimodal prior}), the two modes are equally likely 
+        P(p_1|m_i) = P(p_2|mi) = 0.5 and P(p_1|s_i) = P(p_1|s_i) = P(p_1|m_i)*P(m_i|s_i)
+        = 0.5*P(m_i|s_i). Similarly, P(p_2|s_i) = P(p_2|m_i)*P(m_i|s_i) = 0.5*P(m_i|s_i).
+        The P(p|m_i) of each percept observed for a m_i is 1/len(p). percepts only depend on m_i which determines likelihood.
+        The displayed stimulus determines percept probability. Percepts per m_i (rows) are the same across stimulus
+        feature means (cols). m_i rows are repeated in the matrix when a m_i produces many percepts.
+        e.g., the matrices for a max number of percept per m_i=2
     """
 
     # count percepts by m_i
@@ -970,27 +1044,21 @@ def choose_percept(
     stim_mean_space: np.ndarray,
     posterior: np.ndarray,
 ):
-    """choose percept(s) for each
-    measurement m_i produced by a stimulus
-    s_i
+    """choose the percepts for measurement m_i caused by stimulus s_i
 
     Args:
-        readout (str): the posterior readout
-        - 'map': maximum a posteriori decision
-        stim_mean_space (np.ndarray): the space
-            of stimulus feature mean (e.g., motion 
-            directions)
-        posterior (np.ndarray): the posterior 
+        readout (str): decision process ('map')
+        stim_mean_space (np.ndarray): stimulus feature space
+        posterior (np.ndarray): the posterior density
 
     Raises:
-        ValueError: _description_
-        NotImplementedError: _description_
-        ValueError: _description_
+        ValueError: no percept exist
+        NotImplementedError: readout is not implemented
+        ValueError: percept does not belong to [1 360]
 
     Returns:
         (np.ndarray): percept 
         (int): max_n_percept 
-        ul
     """
 
     # choose a percept p_i (readout)
@@ -1038,15 +1106,13 @@ def choose_percept(
             # least a percept
             if n_percepts == 0:
                 raise ValueError(
-                    f"""Measurement {meas_i}
-                    has no percept(s)."""
+                    f"""Measurement {meas_i} has no percept(s)."""
                 )
     else:
         # handle exception
         raise NotImplementedError(
             f"""
-            Readout {readout} has not 
-            yet been implemented. 
+            Readout {readout} has not yet been implemented. 
             """
         )
 
@@ -1074,25 +1140,18 @@ def get_learnt_prior(
     prior_shape: str,
     stim_mean_space,
 ):
-    """calculate the learnt prior probability 
-    distribution
-    cols: prior for each m_i, are the same
-    rows: stimulus feature mean space (e.g.,
-    motion direction) 
+    """calculate the learnt prior density
 
     Args:
-        percept_space (np.ndarray): _description_
-        prior_mode (np.ndarray): _description_
-        k_prior (float): _description_
-        prior_shape (str): shape of the prior
-        - 'vonMisesPrior'
-        stim_mean_space (np.ndarray): stimulus 
-        feature mean space: (1:1:360)
+        percept_space (np.ndarray): percept space
+        prior_mode (np.ndarray): the mode of the prior
+        k_prior (float): the prior concentration
+        prior_shape (str): the function of the prior ('vonMisesPrior')
+        stim_mean_space (np.ndarray): stimulus feature space (1:1:360)
 
     Returns:
-        (np.ndarray): matrix of learnt priors
-        rows: stimulus feature mean space
-        cols: m_i
+        (np.ndarray): a matrix of learnt priors (stimulus feature space 
+        x measurement space)
     """
     if prior_shape == "vonMisesPrior":
         # create prior density
@@ -1109,16 +1168,28 @@ def get_learnt_prior(
 
 
 def do_bayes_inference(
-    k_llh,
-    prior_mode,
-    k_prior,
-    stim_mean_space,
+    k_llh: float,
+    prior_mode: np.ndarray,
+    k_prior: float,
+    stim_mean_space: np.ndarray,
     llh: np.ndarray,
     learnt_prior: np.ndarray,
     cardinal_prior: np.ndarray,
 ):
 
-    """Realize Bayesian inference    
+    """do bayesian inference
+    
+    Args:
+        k_llh (float): likelihood concentration
+        prior_mode (np.ndarray): the mode of the prior
+        k_prior (float): the concentration of the prior
+        stim_mean_space (np.ndarray): the stimulus feature space
+        llh (np.ndarray): likelihood probability densities
+        learnt_prior (np.ndarray): learnt prior
+        cardinal_prior (np.ndarray): cardinal prior 
+
+    Returns:
+        (np.ndarray): posterior probability densities
     """
 
     # do Bayesian integration
@@ -1208,20 +1279,22 @@ def predict(
     data: pd.Series,
     granularity: str,
 ):
-    """""get model predictions
+    """""get model prediction at trial or summary statistics level
 
     Args:
-        fit_p (np.ndarray): model free parameters
-        params (Dict[str, any]): model and task 
-        fixed parameters
-        stim_mean (pd.Series): _description_
-        data (pd.Series): _description_
-        granularity (str): 
-        - "trial"
-        - "mean"
-        
+        fit_p (np.ndarray): model fit parameters
+        params (Dict[str, any]): model and task parameters
+        stim_mean (pd.Series): stimulus features
+        data (pd.Series): stimulus feature estimates
+        granularity (str): prediction level::
+
+            - "trial": prediction are stochastic choices sampled 
+            from the model generative probability density
+            - "mean": prediction statistics (mean and std calculated
+            from the model generative probability density)
+
     Returns:
-        (dict): _description_
+        (dict): prediction variables
     """
 
     # get best fit's calculated variables
@@ -1257,26 +1330,31 @@ def simulate_dataset(
 
     Args:
         fit_p (np.ndarray): model free parameters
-        params (Dict[str, any]): model and task 
-        fixed parameters
-        stim_mean (pd.Series): _description_
-        stim_estimate (pd.Series): _description_
-        granularity (str): 
-        - "trial": prediction are stochastic choices sampled 
-        from the model's generative probability density
-        - "mean": prediction statistics (mean and std calculated
-        from the model's generative probability density)
+        params (dict): the parameters::
+            
+            params: {
+                "task": {
+                    "fixed_params": the task fixed parameters
+                    },
+                "model": {
+                    "fixed_params": the model fixed parameters
+                    "init_params": the model initial parameters
+                }
+
+        stim_mean (pd.Series): stimulus features
+        stim_estimate (pd.Series): stimulus feature estimates
+        granularity (str): ::
+            
+            - "trial": prediction are stochastic choices sampled 
+            from the model generative probability density
+            - "mean": prediction statistics (mean and std calculated
+            from the model generative probability density)
     
     kwargs:
-        when granularity="trial":
-        - n_repeats (int): the number of repeats of 
-        each task condition
-        
+        n_repeats (int): repeat count per condition, if granularity="trial"
 
     Returns:
-        (dict): _description_
-
-    [TODO]: drop "stim_estimate" from Args
+        (dict): simulation output
     """
 
     # get best fit's calculated variables
@@ -1303,16 +1381,33 @@ def simulate_dataset(
 def get_trial_prediction(
     output: dict, params: dict, n_repeats: int
 ):
-    """_summary_
+    """get model-generated stochastic choices
 
     Args:
-        output (dict): _description_
-        params (dict): _description_
-        n_repeats (int): _description_
+        output (dict): ::
+        
+            'PestimateGivenModel': estimate probabilities
+            'map': max-a-posteriori percepts
+            'conditions': task conditions
+
+        params (dict): parameters::
+            
+            params: {
+                "task": {
+                    "fixed_params": the task fixed parameters
+                    },
+                "model": {
+                    "fixed_params": the model fixed parameters
+                    "init_params": the model initial parameters
+                }
+
+        n_repeats (int): repeat count per condition, when granularity="trial"
 
     Returns:
-        (dict): _description_
-        - output["dataset"]: for now "stim_mean" must be int
+        (dict): returns "dataset" to output
+        
+    Note: 
+        -for now "stim_mean" must be integers
     """
 
     # get task conditions by trial
@@ -1397,10 +1492,14 @@ def get_prediction_stats(output: dict) -> dict:
     """calculate prediction statistics
 
     Args:
-        output (dict): _description_
+        output (dict): ::
+        
+            'PestimateGivenModel': estimate probabilities
+            'map': max-a-posteriori percepts
+            'conditions': task conditions
 
     Returns:
-        dict: _description_
+        (dict): returns prediction mean and std to output
     """
 
     # extract fit variables
@@ -1433,15 +1532,19 @@ def get_prediction_stats(output: dict) -> dict:
     return output
 
 
-def get_data_stats(data: np.ndarray, output: dict):
-    """calculate the data statistics 
+def get_data_stats(data: pd.Series, output: dict):
+    """calculate data statistics 
 
     Args:
-        data (np.ndarray): _description_
-        output (dict): _description_
+        data (pd.Series): stimulus feature estimates
+        output (dict): ::
+        
+            'PestimateGivenModel': estimate probabilities
+            'map': max-a-posteriori percepts
+            'conditions': task conditions
 
     Returns:
-        (dict): data statistics
+        (dict): returns data mean and std to output
     """
     # get conditions
     cond = output["conditions"]
@@ -1488,16 +1591,16 @@ def get_data_stats(data: np.ndarray, output: dict):
 
 
 def get_combination_set(database: np.ndarray):
-    """Get set of combinations
+    """get the set of row combinations
 
     Args:
-        database (np.ndarray): _description_
+        database (np.ndarray): an N-D array
 
     Returns:
-        _type_: _description_
-        combs is the set of combinations
-        b are the row indices for each combination in database
-        c are the rows indices for each combination in combs
+        (np.ndarray, np.ndarray, np.ndarray): `combs` is the set 
+        of combinations, `b` are the row indices for each combination 
+        in database, `c` are the rows indices for each combination in 
+        combs.
     """
     combs, ia, ic = np.unique(
         database,
@@ -1505,5 +1608,5 @@ def get_combination_set(database: np.ndarray):
         return_inverse=True,
         axis=0,
     )
-    return combs, ia, ic
+    return (combs, ia, ic)
 

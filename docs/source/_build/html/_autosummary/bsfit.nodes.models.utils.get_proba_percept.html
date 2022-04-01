@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,8 +230,42 @@
 <h1>bsfit.nodes.models.utils.get_proba_percept<a class="headerlink" href="#bsfit-nodes-models-utils-get-proba-percept" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.get_proba_percept">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_proba_percept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_llh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_prior</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_card</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_tail</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rand</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_proba_percept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_proba_percept" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_proba_percept</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">stim_mean</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">pandas.core.series.Series</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_llh</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_card</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_tail</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">p_rand</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_proba_percept"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_proba_percept" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the percept probability density</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – the stimulus features</p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – <p>the parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;fixed_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">task</span> <span class="n">fixed</span> <span class="n">parameters</span>
+        <span class="p">},</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;fixed_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">model</span> <span class="n">fixed</span> <span class="n">parameters</span>
+        <span class="s2">&quot;init_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">model</span> <span class="n">initial</span> <span class="n">parameters</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>k_llh</strong> (<em>np.ndarray</em>) – the likelihood concentrations</p></li>
+<li><p><strong>k_prior</strong> (<em>np.ndarray</em>) – the prior concentrations</p></li>
+<li><p><strong>k_card</strong> (<em>float</em>) – the cardinal prior concentration</p></li>
+<li><p><strong>prior_tail</strong> (<em>float</em>) – the tail of the prior</p></li>
+<li><p><strong>p_rand</strong> (<em>float</em>) – the probability of random lapse</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><strong>ValueError</strong> – the percept probabilities do not sum to 1</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the percept probabilities and calculated variables</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(dict)</p>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

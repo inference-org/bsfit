@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -232,33 +236,42 @@
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>fit_p</strong> (<em>np.ndarray</em>) – model free parameters</p></li>
-<li><p><strong>params</strong> (<em>Dict</em><em>[</em><em>str</em><em>, </em><em>any</em><em>]</em>) – model and task</p></li>
-<li><p><strong>parameters</strong> (<em>fixed</em>) – </p></li>
-<li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – _description_</p></li>
-<li><p><strong>stim_estimate</strong> (<em>pd.Series</em>) – _description_</p></li>
-<li><p><strong>granularity</strong> (<em>str</em>) – </p></li>
-<li><p><strong>&quot;trial&quot;</strong> (<em>-</em>) – prediction are stochastic choices sampled</p></li>
-<li><p><strong>density</strong> (<em>from the model's generative probability</em>) – </p></li>
-<li><p><strong>&quot;mean&quot;</strong> (<em>-</em>) – prediction statistics (mean and std calculated</p></li>
-<li><p><strong>density</strong><strong>)</strong> (<em>from the model's generative probability</em>) – </p></li>
+<li><p><strong>params</strong> (<em>dict</em>) – <p>the parameters:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">params</span><span class="p">:</span> <span class="p">{</span>
+    <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;fixed_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">task</span> <span class="n">fixed</span> <span class="n">parameters</span>
+        <span class="p">},</span>
+    <span class="s2">&quot;model&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s2">&quot;fixed_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">model</span> <span class="n">fixed</span> <span class="n">parameters</span>
+        <span class="s2">&quot;init_params&quot;</span><span class="p">:</span> <span class="n">the</span> <span class="n">model</span> <span class="n">initial</span> <span class="n">parameters</span>
+    <span class="p">}</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>stim_mean</strong> (<em>pd.Series</em>) – stimulus features</p></li>
+<li><p><strong>stim_estimate</strong> (<em>pd.Series</em>) – stimulus feature estimates</p></li>
+<li><p><strong>granularity</strong> (<em>str</em>) – <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span> <span class="s2">&quot;trial&quot;</span><span class="p">:</span> <span class="n">prediction</span> <span class="n">are</span> <span class="n">stochastic</span> <span class="n">choices</span> <span class="n">sampled</span>
+<span class="kn">from</span> <span class="nn">the</span> <span class="n">model</span> <span class="n">generative</span> <span class="n">probability</span> <span class="n">density</span>
+<span class="o">-</span> <span class="s2">&quot;mean&quot;</span><span class="p">:</span> <span class="n">prediction</span> <span class="n">statistics</span> <span class="p">(</span><span class="n">mean</span> <span class="ow">and</span> <span class="n">std</span> <span class="n">calculated</span>
+<span class="kn">from</span> <span class="nn">the</span> <span class="n">model</span> <span class="n">generative</span> <span class="n">probability</span> <span class="n">density</span><span class="p">)</span>
+</pre></div>
+</div>
+</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="simple">
-<dt>kwargs:</dt><dd><p>when granularity=”trial”:
-- n_repeats (int): the number of repeats of
-each task condition</p>
+<dt>kwargs:</dt><dd><p>n_repeats (int): repeat count per condition, if granularity=”trial”</p>
 </dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>_description_</p>
+<dd class="field-odd"><p>simulation output</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>(dict)</p>
 </dd>
 </dl>
-<p>[TODO]: drop “stim_estimate” from Args</p>
 </dd></dl>
 
 </section>

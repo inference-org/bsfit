@@ -93,6 +93,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">Reference</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../releases.html">History</a></li>
@@ -175,7 +179,7 @@
 <span class="c1">#</span>
 <span class="c1"># docstring style used: Google style</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Use Bayesian estimators to model circular estimation data</span>
+<span class="sd">    Bayesian estimators to model circular estimation data</span>
 
 <span class="sd">    see:</span>
 <span class="sd">        Hurliman et al, 2002,VR</span>
@@ -193,12 +197,18 @@
 <span class="kn">from</span> <span class="nn">bsfit.nodes.viz.prediction</span> <span class="kn">import</span> <span class="n">plot_mean</span>
 
 <span class="kn">from</span> <span class="nn">.abstract_model</span> <span class="kn">import</span> <span class="n">Model</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">fit_maxlogl</span><span class="p">,</span> <span class="n">get_data</span><span class="p">,</span> <span class="n">get_data_stats</span><span class="p">,</span> <span class="n">predict</span><span class="p">,</span> <span class="n">simulate</span><span class="p">,</span>
-                    <span class="n">simulate_dataset</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">fit_maxlogl</span><span class="p">,</span>
+    <span class="n">get_data</span><span class="p">,</span>
+    <span class="n">get_data_stats</span><span class="p">,</span>
+    <span class="n">predict</span><span class="p">,</span>
+    <span class="n">simulate</span><span class="p">,</span>
+    <span class="n">simulate_dataset</span><span class="p">,</span>
+<span class="p">)</span>
 
 
 <div class="viewcode-block" id="StandardBayes"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes">[docs]</a><span class="k">class</span> <span class="nc">StandardBayes</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Standard Bayesian model</span>
+    <span class="sd">&quot;&quot;&quot;Standard Bayesian model class</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="StandardBayes.__init__"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
@@ -208,23 +218,21 @@
         <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
         <span class="n">readout</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Instantiate Standard Bayesian model</span>
+        <span class="sd">&quot;&quot;&quot;instantiate Standard Bayesian model</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            initial_params (Dict(str,list)): the model&#39;s initial parameters respecting the template below</span>
-
-<span class="sd">            .. code-block::</span>
+<span class="sd">            initial_params (Dict): ::</span>
 
 <span class="sd">                initial_params = {</span>
-<span class="sd">                &quot;k_llh&quot;: list,</span>
-<span class="sd">                &quot;k_prior&quot;: list,</span>
-<span class="sd">                &quot;p_rand&quot;: list,</span>
-<span class="sd">                &quot;k_m&quot;: list,</span>
+<span class="sd">                    &quot;k_llh&quot;: list,</span>
+<span class="sd">                    &quot;k_prior&quot;: list,</span>
+<span class="sd">                    &quot;p_rand&quot;: list,</span>
+<span class="sd">                    &quot;k_m&quot;: list,</span>
 <span class="sd">                }</span>
 
-<span class="sd">            prior_shape (str): prior shape (&quot;vonMisesPrior&quot;)</span>
-<span class="sd">            prior_mode (float): prior mode (e.g., 225)</span>
-<span class="sd">            readout (str): the decision mechanism (&quot;map&quot;: maximum a posteriori posterior readout)</span>
+<span class="sd">            prior_shape (str): prior&#39;s function (&quot;vonMisesPrior&quot;)</span>
+<span class="sd">            prior_mode (float): prior&#39;s mode (e.g., 225)</span>
+<span class="sd">            readout (str): decision process (&quot;map&quot;: max a posteriori readout)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># inherit from parent</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -241,11 +249,36 @@
         <span class="sd">&quot;&quot;&quot;fit the model</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            dataset (pd.DataFrame): _description_</span>
-<span class="sd">            init_p (dict): _description_</span>
+<span class="sd">            dataset (pd.DataFrame): dataset with columns::</span>
+<span class="sd">                </span>
+<span class="sd">                &#39;stim_mean&#39;: the stimulus feature (e.g., motion direction)</span>
+<span class="sd">                &#39;stim_std&#39;: the stimulus feature strength </span>
+<span class="sd">                &#39;prior_mode&#39;: mode of prior</span>
+<span class="sd">                &#39;prior_std&#39;: std of the prior</span>
+<span class="sd">                &#39;prior_shape&#39;: density function of the prior (e.g., &quot;vonMisesPrior&quot;)</span>
+<span class="sd">                &#39;estimate&#39;: the estimate data</span>
+
+<span class="sd">            init_p (dict): initial parameters</span>
+
+<span class="sd">        Usage:</span>
+<span class="sd">            .. code-block:: python</span>
+
+<span class="sd">                from bsfit.nodes.models.bayes import StandardBayes</span>
+<span class="sd">                initial_params = {</span>
+<span class="sd">                    &quot;k_llh&quot;: [2.7, 10.7, 33],</span>
+<span class="sd">                    &quot;k_prior&quot;: [2.7, 33],</span>
+<span class="sd">                    &quot;p_rand&quot;: [0],</span>
+<span class="sd">                    &quot;k_m&quot;: [2000],</span>
+<span class="sd">                }</span>
+<span class="sd">                model = StandardBayes(</span>
+<span class="sd">                    initial_params=initial_params,</span>
+<span class="sd">                    prior_shape=&quot;vonMisesPrior&quot;,</span>
+<span class="sd">                    prior_mode=225,</span>
+<span class="sd">                    readout=&quot;map&quot;)</span>
+<span class="sd">                model.fit(dataset)</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            (StandarBayes): fitted model</span>
+<span class="sd">            (Model): the fitted model</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training the model ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">fit_maxlogl</span><span class="p">(</span>
@@ -273,19 +306,23 @@
         <span class="sd">&quot;&quot;&quot;simulate predictions</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            dataset (pd.DataFrame): dataset</span>
-<span class="sd">            - either task conditions by columns</span>
-<span class="sd">            - or task conditions and data (&quot;estimate&quot;)</span>
-<span class="sd">            granularity (str): _description_</span>
-<span class="sd">            centering (bool): _description_</span>
+<span class="sd">            dataset (pd.DataFrame): dataset::</span>
+
+<span class="sd">                &#39;stim_mean&#39;: the stimulus feature (e.g., motion direction)</span>
+<span class="sd">                &#39;stim_std&#39;: the stimulus feature strength </span>
+<span class="sd">                &#39;prior_mode&#39;: the stimulus feature density&#39;s mode</span>
+<span class="sd">                &#39;prior_std&#39;: the stimulus feature density&#39;s std</span>
+<span class="sd">                &#39;prior_shape&#39;: prior&#39;s density function (e.g., &quot;vonMisesPrior&quot;)</span>
+<span class="sd">                &#39;estimate&#39; (optional): the estimate data </span>
+
+<span class="sd">            granularity (str): (&quot;trial&quot; or &quot;mean&quot;)</span>
+<span class="sd">            centering (bool): center or not plot&#39;s x-axis</span>
 <span class="sd">        </span>
 <span class="sd">        Kwargs:</span>
-<span class="sd">            when granularity=&quot;trial&quot;:</span>
-<span class="sd">            - n_repeats (int): the number of repeats of </span>
-<span class="sd">            each task condition</span>
+<span class="sd">            n_repeats (int): the number of repeats of conditions, when granularity=&quot;trial&quot;</span>
 <span class="sd">                </span>
 <span class="sd">        Returns:</span>
-<span class="sd">            (dict): simulation results</span>
+<span class="sd">            (dict): results of the simulation</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running simulation ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
 
@@ -346,16 +383,14 @@
 <div class="viewcode-block" id="StandardBayes.predict"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.models.bayes.StandardBayes.html#bsfit.nodes.models.bayes.StandardBayes.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span> <span class="n">granularity</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-        <span class="sd">&quot;&quot;&quot;Calculate the model&#39;s predictions</span>
+        <span class="sd">&quot;&quot;&quot;generate the model&#39;s predictions</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            data (tuple): the data to predict</span>
-<span class="sd">            - tuple of (stim_mean, stim_estimate) </span>
-<span class="sd">            granularity (str): predict single trial or mean estimate</span>
-<span class="sd">            - &quot;trial&quot;</span>
+<span class="sd">            data (tuple): the data to predict, tuple of (stim_mean, stim_estimate) </span>
+<span class="sd">            granularity (str): (&quot;trial&quot; or &quot;mean&quot;) to predict single choices or their stats</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            (dict): _description_</span>
+<span class="sd">            (dict): the model predictions</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># get predictions</span>
         <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Calculating predictions ...</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>

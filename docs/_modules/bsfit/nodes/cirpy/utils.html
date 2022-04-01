@@ -93,6 +93,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../api.html">Reference</a></li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../../releases.html">History</a></li>
@@ -175,7 +179,7 @@
 <span class="c1">#</span>
 <span class="c1"># docstring style used: Google style</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    module</span>
+<span class="sd">    Useful functions for circular statistics</span>
 
 <span class="sd">    Copyright 2022 by Steeve Laquitaine, GNU license </span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -184,14 +188,23 @@
 
 
 <div class="viewcode-block" id="get_deg_to_rad"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.utils.get_deg_to_rad.html#bsfit.nodes.cirpy.utils.get_deg_to_rad">[docs]</a><span class="k">def</span> <span class="nf">get_deg_to_rad</span><span class="p">(</span><span class="n">deg</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">signed</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;convert degree angles to radians</span>
+    <span class="sd">&quot;&quot;&quot;convert angles in degree to radian</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        deg (np.array): _description_</span>
-<span class="sd">        signed (bool): _description_</span>
+<span class="sd">        deg (np.array): angles in degree</span>
+<span class="sd">        signed (bool): True (signed) or False (unsigned)</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from bsfit.nodes.cirpy.utils import get_deg_to_rad</span>
+<span class="sd">            radians = get_deg_to_rad(np.array([0, 90, 180, 270], True)</span>
+
+<span class="sd">            Out: array([ 0., 1.57079633, 3.14159265, -1.57079633])</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        np.array: _description_</span>
+<span class="sd">        np.ndarray: angles in radian</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># get unsigned radians (1:2*pi)</span>
     <span class="n">rad</span> <span class="o">=</span> <span class="p">(</span><span class="n">deg</span> <span class="o">/</span> <span class="mi">360</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span>
@@ -204,49 +217,67 @@
     <span class="k">return</span> <span class="n">rad</span></div>
 
 
-<div class="viewcode-block" id="get_rad_to_deg"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.utils.get_rad_to_deg.html#bsfit.nodes.cirpy.utils.get_rad_to_deg">[docs]</a><span class="k">def</span> <span class="nf">get_rad_to_deg</span><span class="p">(</span><span class="n">rad</span><span class="p">:</span> <span class="nb">float</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;convert radian angles to degrees</span>
+<div class="viewcode-block" id="get_rad_to_deg"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.utils.get_rad_to_deg.html#bsfit.nodes.cirpy.utils.get_rad_to_deg">[docs]</a><span class="k">def</span> <span class="nf">get_rad_to_deg</span><span class="p">(</span><span class="n">rad</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;convert angles in radian to degree</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        rad (float): angles in radians</span>
+<span class="sd">        rad (np.ndarray): angles in radian</span>
+<span class="sd">    </span>
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from bsfit.nodes.cirpy.utils import get_rad_to_deg</span>
+<span class="sd">            degree = get_rad_to_deg(np.array([0., 1.57079633, 3.14159265, -1.57079633]))</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        _type_: _description_</span>
+<span class="sd">        (np.ndarray): angles in degree</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># when input radians are between 0:2*pi</span>
+    <span class="c1"># when radians are between 0:2*pi</span>
     <span class="n">deg</span> <span class="o">=</span> <span class="p">(</span><span class="n">rad</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span><span class="p">))</span> <span class="o">*</span> <span class="mi">360</span>
 
     <span class="c1"># when degrees are &gt; 360, substract 360</span>
     <span class="k">while</span> <span class="nb">sum</span><span class="p">(</span><span class="n">deg</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">):</span>
         <span class="n">deg</span> <span class="o">=</span> <span class="n">deg</span> <span class="o">-</span> <span class="p">(</span><span class="n">deg</span> <span class="o">&gt;</span> <span class="mi">360</span><span class="p">)</span> <span class="o">*</span> <span class="mi">360</span>
 
-    <span class="c1"># when &lt; -360 degrees, add 360</span>
+    <span class="c1"># when &lt; - 360 degree, add 360</span>
     <span class="k">while</span> <span class="nb">sum</span><span class="p">(</span><span class="n">deg</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">360</span><span class="p">):</span>
         <span class="n">deg</span> <span class="o">=</span> <span class="n">deg</span> <span class="o">+</span> <span class="p">(</span><span class="n">deg</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mi">360</span><span class="p">)</span> <span class="o">*</span> <span class="mi">360</span>
 
-    <span class="c1"># When radians are signed b/between -pi:pi.</span>
+    <span class="c1"># when radians are signed between -pi:pi.</span>
     <span class="n">deg</span><span class="p">[</span><span class="n">deg</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">deg</span><span class="p">[</span><span class="n">deg</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">360</span>
 
-    <span class="c1"># ensure angles are between 1:360</span>
+    <span class="c1"># replace 0 by 360</span>
     <span class="n">deg</span><span class="p">[</span><span class="n">deg</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">360</span>
     <span class="k">return</span> <span class="n">deg</span></div>
 
 
 <div class="viewcode-block" id="get_circ_conv"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.utils.get_circ_conv.html#bsfit.nodes.cirpy.utils.get_circ_conv">[docs]</a><span class="k">def</span> <span class="nf">get_circ_conv</span><span class="p">(</span><span class="n">X_1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">X_2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;calculate circular convolutions </span>
-<span class="sd">    for circular data.</span>
-<span class="sd">    Convolution is applied column-wise between columns </span>
-<span class="sd">    i of X_1 and i of X_2</span>
-<span class="sd">    The probability that value i in vector 2 would be </span>
-<span class="sd">    combined with at least one value from vector 1</span>
-<span class="sd">    vector 1 and 2 are col vectors (vertical) </span>
+    <span class="sd">&quot;&quot;&quot;convolve circular data</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        X_1 (np.ndarray): a column vector or matrix        </span>
-<span class="sd">        X_2 (np.ndarray): a column vector or matrix</span>
+<span class="sd">        X_1 (np.ndarray): a column vector or a matrix        </span>
+<span class="sd">        X_2 (np.ndarray): a column vector or a matrix</span>
+<span class="sd">    </span>
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block:: python</span>
+<span class="sd">            </span>
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from bsfit.nodes.cirpy.utils import get_circ_conv</span>
+<span class="sd">            impulse = np.zeros([10,1])</span>
+<span class="sd">            impulse[5] = 1</span>
+<span class="sd">            convolved = get_circ_conv(np.random.rand(10,1), impulse)</span>
+
+<span class="sd">            Out: </span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        (np.array):</span>
+<span class="sd">        (np.array): convolved matrix</span>
+
+<span class="sd">    Notes:</span>
+<span class="sd">        Convolution is applied column-wise between columns i </span>
+<span class="sd">        of X_1 and i of X_2 The probability that value i in </span>
+<span class="sd">        vector 2 would be combined with at least one value from </span>
+<span class="sd">        vector 1 vector 1 and 2 are col vectors (vertical) </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">convolved</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_1</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
@@ -268,13 +299,21 @@
 <span class="sd">    Args:</span>
 <span class="sd">        x (np.ndarray): x coordinate</span>
 <span class="sd">        y (np.ndarray): y coordinate</span>
-<span class="sd">        signed (boolean): signed or unsigned degree</span>
+<span class="sd">        signed (boolean): True (signed) or False (unsigned)</span>
 
-<span class="sd">    Raises:</span>
-<span class="sd">        ValueError: _description_</span>
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from bsfit.nodes.cirpy.utils import get_cartesian_to_deg</span>
+<span class="sd">            x = np.array([1, 0, -1, 0])</span>
+<span class="sd">            y = np.array([0, 1, 0, -1])</span>
+<span class="sd">            degree = get_cartesian_to_deg(x,y,False)</span>
+
+<span class="sd">            # Out: array([  0.,  90., 180., 270.])</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        np.ndarray: angle(s) in degree</span>
+<span class="sd">        np.ndarray: angles in degree</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># convert to radian (ignoring divide by 0 warning)</span>
     <span class="k">with</span> <span class="n">np</span><span class="o">.</span><span class="n">errstate</span><span class="p">(</span><span class="n">divide</span><span class="o">=</span><span class="s2">&quot;ignore&quot;</span><span class="p">):</span>
@@ -301,7 +340,34 @@
 <div class="viewcode-block" id="get_polar_to_cartesian"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.utils.get_polar_to_cartesian.html#bsfit.nodes.cirpy.utils.get_polar_to_cartesian">[docs]</a><span class="k">def</span> <span class="nf">get_polar_to_cartesian</span><span class="p">(</span>
     <span class="n">angle</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">radius</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;convert angle in degree or radian to cartesian coordinates</span>
 
+<span class="sd">    Args:</span>
+<span class="sd">        angle (np.ndarray): angles in degree or radian</span>
+<span class="sd">        radius (float): radius</span>
+<span class="sd">        type (str): &quot;polar&quot; or &quot;radian&quot;</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from bsfit.nodes.cirpy.utils import get_polar_to_cartesian</span>
+<span class="sd">            degree = np.array([0, 90, 180, 270])</span>
+<span class="sd">            cartesian = get_polar_to_cartesian(degree, 1, &quot;polar&quot;)</span>
+<span class="sd">            cartesian.keys()</span>
+<span class="sd">            </span>
+<span class="sd">            # Out: dict_keys([&#39;deg&#39;, &#39;rad&#39;, &#39;cart&#39;])</span>
+<span class="sd">            </span>
+<span class="sd">            cartesian[&quot;cart&quot;]</span>
+<span class="sd">            </span>
+<span class="sd">            # Out: array([[ 1.,  0.],</span>
+<span class="sd">            #            [ 0.,  1.],</span>
+<span class="sd">            #            [-1.,  0.],</span>
+<span class="sd">            #            [-0., -1.]])</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        dict: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># convert to radian if needed</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;polar&quot;</span><span class="p">:</span>
@@ -327,26 +393,56 @@
 <div class="viewcode-block" id="get_circ_weighted_mean_std"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.utils.get_circ_weighted_mean_std.html#bsfit.nodes.cirpy.utils.get_circ_weighted_mean_std">[docs]</a><span class="k">def</span> <span class="nf">get_circ_weighted_mean_std</span><span class="p">(</span>
     <span class="n">angle</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">proba</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-    <span class="sd">&quot;&quot;&quot;calculate the circular mean and standard </span>
-<span class="sd">    deviation of an array of angles</span>
+    <span class="sd">&quot;&quot;&quot;calculate circular data statistics</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        angle (np.ndarray): _description_</span>
-<span class="sd">        proba (np.ndarray): _description_</span>
-<span class="sd">        type (str): _description_</span>
+<span class="sd">        angle (np.ndarray): angles in degree or cartesian coordinates</span>
+<span class="sd">        proba (np.ndarray): each angle&#39;s probability of occurrence </span>
+<span class="sd">        type (str): &quot;polar&quot; or &quot;cartesian&quot;</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        .. code-block:: python</span>
+
+<span class="sd">            import numpy as np</span>
+<span class="sd">            from bsfit.nodes.cirpy.utils import get_circ_weighted_mean_std</span>
+<span class="sd">            degree = np.array([358, 0, 2, 88, 90, 92])</span>
+<span class="sd">            proba = np.array([1, 1, 1, 1, 1, 1])/6</span>
+<span class="sd">            output = get_circ_weighted_mean_std(degree, proba, &quot;polar&quot;)</span>
+<span class="sd">            output.keys()</span>
+
+<span class="sd">            # Out: dict_keys([&#39;coord_all&#39;, &#39;deg_all&#39;, &#39;coord_mean&#39;, &#39;deg_mean&#39;, </span>
+<span class="sd">            #               &#39;deg_all_for_std&#39;, &#39;deg_mean_for_std&#39;, &#39;deg_var&#39;, </span>
+<span class="sd">            #               &#39;deg_std&#39;, &#39;deg_sem&#39;])</span>
+
+<span class="sd">            output[&quot;deg_mean&quot;]</span>
+
+<span class="sd">            # Out: array([45.])</span>
+
+<span class="sd">            output[&quot;deg_std&quot;]</span>
+
+<span class="sd">            # array([45.02961988])</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        (dict): angle mean and std</span>
+<span class="sd">        (dict): angle summary statistics (mean, std, var, sem)</span>
+<span class="sd">    </span>
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: type is not &quot;polar&quot; or &quot;cartesian&quot;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># if polar, convert to cartesian</span>
+
     <span class="n">angle</span> <span class="o">=</span> <span class="n">angle</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># if polar, convert to cartesian</span>
     <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;polar&quot;</span><span class="p">:</span>
         <span class="n">radius</span> <span class="o">=</span> <span class="mi">1</span>
         <span class="n">coord</span> <span class="o">=</span> <span class="n">get_polar_to_cartesian</span><span class="p">(</span>
             <span class="n">angle</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="n">radius</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="s2">&quot;polar&quot;</span>
         <span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;cartesian&quot;</span><span class="p">:</span>
         <span class="n">coord</span> <span class="o">=</span> <span class="n">angle</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sd">&quot;&quot;&quot; &quot;type&quot; can either be &quot;polar&quot; or &quot;cartesian&quot; value &quot;&quot;&quot;</span>
+        <span class="p">)</span>
 
     <span class="c1"># store angles</span>
     <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
@@ -416,44 +512,55 @@
 
 
 <div class="viewcode-block" id="get_signed_angle"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.cirpy.utils.get_signed_angle.html#bsfit.nodes.cirpy.utils.get_signed_angle">[docs]</a><span class="k">def</span> <span class="nf">get_signed_angle</span><span class="p">(</span>
-    <span class="n">angle_1</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">angle_2</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">origin</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">destination</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;get signed angle between angle 1 and 2</span>
+    <span class="sd">&quot;&quot;&quot;get the signed angle difference between origin and destination angles</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        angle_1 (np.ndarray): _description_</span>
-<span class="sd">        angle_2 (np.ndarray): _description_</span>
-<span class="sd">        type (str): _description_</span>
-<span class="sd">        - &quot;polar&quot;</span>
-<span class="sd">        - &quot;radian&quot;</span>
-<span class="sd">        - &quot;cartesian&quot;</span>
+<span class="sd">        origin (np.ndarray): origin angle</span>
+<span class="sd">        destination (np.ndarray): destination angle</span>
+<span class="sd">        type (str): angle type (&quot;polar&quot;, &quot;radian&quot;, &quot;cartesian&quot;)</span>
 
 <span class="sd">    Usage:</span>
-<span class="sd">    .. code-block:: python</span>
+<span class="sd">        .. code-block:: python</span>
 
-<span class="sd">        angle = get_signed_angle(90, 45, &#39;polar&#39;)</span>
-<span class="sd">        angle = get_signed_angle(90, 45, &#39;radian&#39;)</span>
-<span class="sd">        angle = get_signed_angle([0 1], [1 0])</span>
+<span class="sd">            angle = get_signed_angle(90, 45, &#39;polar&#39;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Out: array([45.])</span>
+<span class="sd">            </span>
+<span class="sd">            angle = get_signed_angle(90, 45, &#39;radian&#39;)</span>
+
+<span class="sd">            # Out: array([58.3103779])</span>
+
+<span class="sd">            origin = np.array([[0, 1]])</span>
+<span class="sd">            destination = np.array([[1, 0]])</span>
+<span class="sd">            angle = get_signed_angle(origin, destination, &quot;cartesian&quot;)</span>
+<span class="sd">            </span>
+<span class="sd">            # Out: array([90.])</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        (np.ndarray): angle difference between </span>
-<span class="sd">        angle 1 and 2</span>
+<span class="sd">        (np.ndarray): signed angle differences</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="c1"># convert to cartesian coordinates</span>
     <span class="k">if</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;polar&quot;</span> <span class="ow">or</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;radian&quot;</span><span class="p">:</span>
-        <span class="n">angle_1</span> <span class="o">=</span> <span class="n">get_polar_to_cartesian</span><span class="p">(</span>
-            <span class="n">angle_1</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span>
+        <span class="n">origin_dict</span> <span class="o">=</span> <span class="n">get_polar_to_cartesian</span><span class="p">(</span>
+            <span class="n">origin</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span>
         <span class="p">)</span>
-        <span class="n">angle_2</span> <span class="o">=</span> <span class="n">get_polar_to_cartesian</span><span class="p">(</span>
-            <span class="n">angle_2</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span>
+        <span class="n">destination_dict</span> <span class="o">=</span> <span class="n">get_polar_to_cartesian</span><span class="p">(</span>
+            <span class="n">destination</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">type</span>
         <span class="p">)</span>
+    <span class="k">elif</span> <span class="nb">type</span> <span class="o">==</span> <span class="s2">&quot;cartesian&quot;</span><span class="p">:</span>
+        <span class="n">origin_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">destination_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">origin_dict</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">origin</span>
+        <span class="n">destination_dict</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">destination</span>
 
     <span class="c1"># get coordinates</span>
-    <span class="n">xV1</span> <span class="o">=</span> <span class="n">angle_1</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">yV1</span> <span class="o">=</span> <span class="n">angle_1</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">xV2</span> <span class="o">=</span> <span class="n">angle_2</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">yV2</span> <span class="o">=</span> <span class="n">angle_2</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">xV1</span> <span class="o">=</span> <span class="n">origin_dict</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">yV1</span> <span class="o">=</span> <span class="n">origin_dict</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">xV2</span> <span class="o">=</span> <span class="n">destination_dict</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">yV2</span> <span class="o">=</span> <span class="n">destination_dict</span><span class="p">[</span><span class="s2">&quot;cart&quot;</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">]</span>
 
     <span class="c1"># Calculate the angle separating the</span>
     <span class="c1"># two vectors in degrees</span>

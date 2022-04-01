@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-api
+The bsfit api
 
 Copyright 2022 by Steeve Laquitaine, GNU license 
 """

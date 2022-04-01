@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -265,10 +269,10 @@
 <td><p>fit the model</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.CardinalBayes.get_attributes" title="bsfit.nodes.models.bayes.CardinalBayes.get_attributes"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_attributes</span></code></a>()</p></td>
-<td><p>get model's attributes</p></td>
+<td><p>get model attributes</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.CardinalBayes.predict" title="bsfit.nodes.models.bayes.CardinalBayes.predict"><code class="xref py py-obj docutils literal notranslate"><span class="pre">predict</span></code></a>(data, granularity)</p></td>
-<td><p>Calculate the model's predictions</p></td>
+<td><p>generate the model's predictions</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.models.bayes.CardinalBayes.simulate" title="bsfit.nodes.models.bayes.CardinalBayes.simulate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">simulate</span></code></a>(dataset, granularity, centering, ...)</p></td>
 <td><p>simulate predictions</p></td>
@@ -282,15 +286,44 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<em>pd.DataFrame</em>) – _description_</p></li>
-<li><p><strong>init_p</strong> (<em>dict</em>) – _description_</p></li>
+<li><p><strong>dataset</strong> (<em>pd.DataFrame</em>) – <p>dataset with columns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;stim_mean&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">feature</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">motion</span> <span class="n">direction</span><span class="p">)</span>
+<span class="s1">&#39;stim_std&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">feature</span> <span class="n">strength</span>
+<span class="s1">&#39;prior_mode&#39;</span><span class="p">:</span> <span class="n">mode</span> <span class="n">of</span> <span class="n">prior</span>
+<span class="s1">&#39;prior_std&#39;</span><span class="p">:</span> <span class="n">std</span> <span class="n">of</span> <span class="n">the</span> <span class="n">prior</span>
+<span class="s1">&#39;prior_shape&#39;</span><span class="p">:</span> <span class="n">density</span> <span class="n">function</span> <span class="n">of</span> <span class="n">the</span> <span class="n">prior</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">)</span>
+<span class="s1">&#39;estimate&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">estimate</span> <span class="n">data</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>init_p</strong> (<em>dict</em>) – initial parameters</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>fitted model</p>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">bsfit.nodes.models.bayes</span> <span class="kn">import</span> <span class="n">StandardBayes</span>
+<span class="n">initial_params</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;k_llh&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">10.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+    <span class="s2">&quot;k_prior&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mi">33</span><span class="p">],</span>
+    <span class="s2">&quot;p_rand&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+    <span class="s2">&quot;k_m&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2000</span><span class="p">],</span>
+<span class="p">}</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">StandardBayes</span><span class="p">(</span>
+    <span class="n">initial_params</span><span class="o">=</span><span class="n">initial_params</span><span class="p">,</span>
+    <span class="n">prior_shape</span><span class="o">=</span><span class="s2">&quot;vonMisesPrior&quot;</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="o">=</span><span class="mi">225</span><span class="p">,</span>
+    <span class="n">readout</span><span class="o">=</span><span class="s2">&quot;map&quot;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+</pre></div>
+</div>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>(StandarBayes)</p>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the fitted model</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>(<a class="reference internal" href="bsfit.nodes.models.abstract_model.Model.html#bsfit.nodes.models.abstract_model.Model" title="bsfit.nodes.models.abstract_model.Model">Model</a>)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -298,13 +331,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.models.bayes.CardinalBayes.get_attributes">
 <span class="sig-name descname"><span class="pre">get_attributes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#bsfit.nodes.models.bayes.CardinalBayes.get_attributes" title="Permalink to this definition">¶</a></dt>
-<dd><p>get model’s attributes</p>
+<dd><p>get model attributes</p>
 <dl class="field-list simple">
-<dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>list of model attribute</p>
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>self</strong> (<a class="reference internal" href="bsfit.nodes.models.abstract_model.Model.html#bsfit.nodes.models.abstract_model.Model" title="bsfit.nodes.models.abstract_model.Model"><em>Model</em></a>) – the model</p>
 </dd>
-<dt class="field-even">Return type</dt>
-<dd class="field-even"><p>(list)</p>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list the model attributes</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>(list)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -312,18 +348,16 @@
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.models.bayes.CardinalBayes.predict">
 <span class="sig-name descname"><span class="pre">predict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">tuple</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">granularity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#bsfit.nodes.models.bayes.CardinalBayes.predict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate the model’s predictions</p>
+<dd><p>generate the model’s predictions</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>data</strong> (<em>tuple</em>) – the data to predict</p></li>
-<li><p><strong>of</strong> (<em>- tuple</em>) – </p></li>
-<li><p><strong>granularity</strong> (<em>str</em>) – predict single trial or mean estimate</p></li>
-<li><p><strong>&quot;trial&quot;</strong> (<em>-</em>) – </p></li>
+<li><p><strong>data</strong> (<em>tuple</em>) – the data to predict, tuple of (stim_mean, stim_estimate)</p></li>
+<li><p><strong>granularity</strong> (<em>str</em>) – (“trial” or “mean”) to predict single choices or their stats</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>_description_</p>
+<dd class="field-even"><p>the model predictions</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>(dict)</p>
@@ -338,23 +372,28 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dataset</strong> (<em>pd.DataFrame</em>) – dataset</p></li>
-<li><p><strong>columns</strong> (<em>- either task conditions by</em>) – </p></li>
-<li><p><strong>data</strong> (<em>-</em><em> or </em><em>task conditions and</em>) – </p></li>
-<li><p><strong>granularity</strong> (<em>str</em>) – _description_</p></li>
-<li><p><strong>centering</strong> (<em>bool</em>) – _description_</p></li>
+<li><p><strong>dataset</strong> (<em>pd.DataFrame</em>) – <p>dataset:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s1">&#39;stim_mean&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">feature</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span><span class="p">,</span> <span class="n">motion</span> <span class="n">direction</span><span class="p">)</span>
+<span class="s1">&#39;stim_std&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">feature</span> <span class="n">strength</span>
+<span class="s1">&#39;prior_mode&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">feature</span> <span class="n">density</span><span class="s1">&#39;s mode</span>
+<span class="s1">&#39;prior_std&#39;</span><span class="p">:</span> <span class="n">the</span> <span class="n">stimulus</span> <span class="n">feature</span> <span class="n">density</span><span class="s1">&#39;s std</span>
+<span class="s1">&#39;prior_shape&#39;</span><span class="p">:</span> <span class="n">prior</span><span class="s1">&#39;s density function (e.g., &quot;vonMisesPrior&quot;)</span>
+<span class="s1">&#39;estimate&#39;</span> <span class="p">(</span><span class="n">optional</span><span class="p">):</span> <span class="n">the</span> <span class="n">estimate</span> <span class="n">data</span>
+</pre></div>
+</div>
+</p></li>
+<li><p><strong>granularity</strong> (<em>str</em>) – (“trial” or “mean”)</p></li>
+<li><p><strong>centering</strong> (<em>bool</em>) – center or not plot’s x-axis</p></li>
 </ul>
 </dd>
 </dl>
 <dl class="simple">
-<dt>Kwargs:</dt><dd><p>when granularity=”trial”:
-- n_repeats (int): the number of repeats of
-each task condition</p>
+<dt>Kwargs:</dt><dd><p>n_repeats (int): the number of repeats of conditions, when granularity=”trial”</p>
 </dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>simulation results</p>
+<dd class="field-odd"><p>results of the simulation</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>(dict)</p>

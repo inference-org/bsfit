@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    Use Bayesian estimators to model circular estimation data
+    Bayesian estimators to model circular estimation data
 
     see:
         Hurliman et al, 2002,VR
@@ -28,7 +28,7 @@ from .utils import (fit_maxlogl, get_data, get_data_stats, predict, simulate,
 
 
 class StandardBayes(Model):
-    """Standard Bayesian model
+    """Standard Bayesian model class
     """
 
     def __init__(
@@ -38,23 +38,21 @@ class StandardBayes(Model):
         prior_mode: float,
         readout: str,
     ):
-        """Instantiate Standard Bayesian model
+        """instantiate Standard Bayesian model
 
         Args:
-            initial_params (Dict(str,list)): the model's initial parameters respecting the template below
-
-            .. code-block::
+            initial_params (Dict): ::
 
                 initial_params = {
-                "k_llh": list,
-                "k_prior": list,
-                "p_rand": list,
-                "k_m": list,
+                    "k_llh": list,
+                    "k_prior": list,
+                    "p_rand": list,
+                    "k_m": list,
                 }
 
-            prior_shape (str): prior shape ("vonMisesPrior")
-            prior_mode (float): prior mode (e.g., 225)
-            readout (str): the decision mechanism ("map": maximum a posteriori posterior readout)
+            prior_shape (str): prior's function ("vonMisesPrior")
+            prior_mode (float): prior's mode (e.g., 225)
+            readout (str): decision process ("map": max a posteriori readout)
         """
         # inherit from parent
         super().__init__()
@@ -71,11 +69,36 @@ class StandardBayes(Model):
         """fit the model
 
         Args:
-            dataset (pd.DataFrame): _description_
-            init_p (dict): _description_
+            dataset (pd.DataFrame): dataset with columns::
+                
+                'stim_mean': the stimulus feature (e.g., motion direction)
+                'stim_std': the stimulus feature strength 
+                'prior_mode': mode of prior
+                'prior_std': std of the prior
+                'prior_shape': density function of the prior (e.g., "vonMisesPrior")
+                'estimate': the estimate data
+
+            init_p (dict): initial parameters
+
+        Usage:
+            .. code-block:: python
+
+                from bsfit.nodes.models.bayes import StandardBayes
+                initial_params = {
+                    "k_llh": [2.7, 10.7, 33],
+                    "k_prior": [2.7, 33],
+                    "p_rand": [0],
+                    "k_m": [2000],
+                }
+                model = StandardBayes(
+                    initial_params=initial_params,
+                    prior_shape="vonMisesPrior",
+                    prior_mode=225,
+                    readout="map")
+                model.fit(dataset)
 
         Returns:
-            (StandarBayes): fitted model
+            (Model): the fitted model
         """
         print("Training the model ...\n")
         output = fit_maxlogl(
@@ -103,19 +126,23 @@ class StandardBayes(Model):
         """simulate predictions
 
         Args:
-            dataset (pd.DataFrame): dataset
-            - either task conditions by columns
-            - or task conditions and data ("estimate")
-            granularity (str): _description_
-            centering (bool): _description_
+            dataset (pd.DataFrame): dataset::
+
+                'stim_mean': the stimulus feature (e.g., motion direction)
+                'stim_std': the stimulus feature strength 
+                'prior_mode': the stimulus feature density's mode
+                'prior_std': the stimulus feature density's std
+                'prior_shape': prior's density function (e.g., "vonMisesPrior")
+                'estimate' (optional): the estimate data 
+
+            granularity (str): ("trial" or "mean")
+            centering (bool): center or not plot's x-axis
         
         Kwargs:
-            when granularity="trial":
-            - n_repeats (int): the number of repeats of 
-            each task condition
+            n_repeats (int): the number of repeats of conditions, when granularity="trial"
                 
         Returns:
-            (dict): simulation results
+            (dict): results of the simulation
         """
         print("Running simulation ...\n")
 
@@ -176,16 +203,14 @@ class StandardBayes(Model):
     def predict(
         self, data: tuple, granularity: str
     ) -> dict:
-        """Calculate the model's predictions
+        """generate the model's predictions
 
         Args:
-            data (tuple): the data to predict
-            - tuple of (stim_mean, stim_estimate) 
-            granularity (str): predict single trial or mean estimate
-            - "trial"
+            data (tuple): the data to predict, tuple of (stim_mean, stim_estimate) 
+            granularity (str): ("trial" or "mean") to predict single choices or their stats
 
         Returns:
-            (dict): _description_
+            (dict): the model predictions
         """
         # get predictions
         print("Calculating predictions ...\n")
@@ -209,18 +234,18 @@ class CardinalBayes(StandardBayes):
         prior_mode: float,
         readout: str,
     ):
-        """Instantiate Cardinal Bayesian model
+        """instantiate the Cardinal Bayesian model
 
         Args:
-            prior_shape (str): prior shape
-            - "vonMisesPrior"
-            prior_mode (float): prior mode
-            readout (str): the posterior readout
-            - "map": maximum a posteriori
+            prior_shape (str): prior function ("vonMisesPrior")
+            prior_mode (float): the mode of the prior
+            readout (str): the decision process ("map")
         
-        Exceptions:
-            MissingParameter:
-            - "k_card" parameter is missing
+        Raises:
+            MissingParameter: "k_card" parameter is missing
+        
+        Returns:
+            (Model): a child of the "StandardBayes" with its attributes
         """
         # inherit from parent
         super().__init__(

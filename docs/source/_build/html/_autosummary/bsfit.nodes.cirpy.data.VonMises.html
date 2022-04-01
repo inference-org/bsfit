@@ -27,6 +27,8 @@
         <script src="../_static/underscore.js"></script>
         <script src="../_static/doctools.js"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     
     <script type="text/javascript" src="../_static/js/theme.js"></script>
 
@@ -111,6 +113,10 @@
 </li>
 </ul>
 </li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
@@ -229,22 +235,15 @@
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.data.</span></span><span class="sig-name descname"><span class="pre">VonMises</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/data.html#VonMises"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.data.VonMises" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p>Von Mises class</p>
-<p>Equation: vm=exp(k.*cos(x-u))./(2*pi.*besseli(0,k)). The code works for any
-value of k (but not for +inf). The equation is adjusted because of the
-following numerical issues: when k&gt;700, vm is NaN because besseli(0,k) and
-exp(k.*cos(x-u)) reach numerical limits. exp(k.*cos(x-u)-k) scales vm
-without changing its shape. besseli(0,k,1)) does same. The adjusted
-equation and the exact equation yield exact same results except that the
-adjusted equation works for large k (&gt;&gt;700).</p>
-<p>When k &gt; 713, densities converge to delta densities.</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.cirpy.data.VonMises.__init__">
 <span class="sig-name descname"><span class="pre">__init__</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">p</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/data.html#VonMises.__init__"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.data.VonMises.__init__" title="Permalink to this definition">¶</a></dt>
-<dd><p>instantiate Von Mises</p>
+<dd><p>instantiate von mises</p>
+<div class="math notranslate nohighlight">
+\[V(x,u,k) = e^{k.cos(x-u)}/(2\pi.besseli(0,k))\]</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>p</strong> (<em>bool</em>) – True/False means probabilities
-or not</p>
+<dd class="field-odd"><p><strong>p</strong> (<em>bool</em>) – True (for probability) or False (for function)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -257,20 +256,17 @@ or not</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#bsfit.nodes.cirpy.data.VonMises.__init__" title="bsfit.nodes.cirpy.data.VonMises.__init__"><code class="xref py py-obj docutils literal notranslate"><span class="pre">__init__</span></code></a>(p)</p></td>
-<td><p>instantiate Von Mises</p></td>
+<td><p>instantiate von mises</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#bsfit.nodes.cirpy.data.VonMises.get" title="bsfit.nodes.cirpy.data.VonMises.get"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get</span></code></a>(v_x, v_u, v_k)</p></td>
-<td><p>Create von Mises functions or probability</p></td>
+<td><p>generate von Mises functions or probability densities</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="py method">
 <dt class="sig sig-object py" id="bsfit.nodes.cirpy.data.VonMises.get">
 <span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_u</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.array</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/data.html#VonMises.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.data.VonMises.get" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="simple">
-<dt>Create von Mises functions or probability</dt><dd><p>distributions</p>
-</dd>
-</dl>
+<dd><p>generate von Mises functions or probability densities</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
@@ -281,19 +277,19 @@ or not</p>
 </dd>
 </dl>
 <dl>
-<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">support_space</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">vm_means</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">270</span><span class="p">])</span>
-<span class="n">vm_k</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">]</span>
+<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">v_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">360</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">v_u</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">90</span><span class="p">,</span><span class="mi">180</span><span class="p">,</span><span class="mi">270</span><span class="p">])</span>
+<span class="n">v_k</span> <span class="o">=</span> <span class="p">[</span><span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">,</span> <span class="mf">2.7</span><span class="p">]</span>
 <span class="n">von_mises</span> <span class="o">=</span> <span class="n">VonMises</span><span class="p">(</span><span class="n">p</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">von_mises</span> <span class="o">=</span> <span class="n">von_mises</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">support_space</span><span class="p">,</span> <span class="n">vm_means</span><span class="p">,</span> <span class="n">vm_k</span><span class="p">,</span> <span class="n">mixture_coeff</span><span class="p">)</span>
+<span class="n">von_mises</span> <span class="o">=</span> <span class="n">von_mises</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">v_x</span><span class="p">,</span> <span class="n">v_u</span><span class="p">,</span> <span class="n">v_k</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd>
 </dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>von mises function or probability
-density</p>
+<dd class="field-odd"><p>von mises functions or probability
+densities</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>(np.ndarray)</p>

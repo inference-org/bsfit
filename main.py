@@ -25,10 +25,19 @@ import yaml
 from matplotlib import pyplot as plt
 
 from bsfit.nodes.config import parametrize_pipe
-from bsfit.nodes.dataEng import (simulate_dataset, simulate_small_dataset,
-                                 simulate_task_conditions)
-from bsfit.nodes.models.bayes import CardinalBayes, StandardBayes
-from bsfit.nodes.models.utils import get_data, get_data_stats
+from bsfit.nodes.dataEng import (
+    simulate_dataset,
+    simulate_small_dataset,
+    simulate_task_conditions,
+)
+from bsfit.nodes.models.bayes import (
+    CardinalBayes,
+    StandardBayes,
+)
+from bsfit.nodes.models.utils import (
+    get_data,
+    get_data_stats,
+)
 from bsfit.nodes.viz.prediction import plot_mean
 
 # setup logging

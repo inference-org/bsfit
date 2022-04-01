@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,8 +230,25 @@
 <h1>bsfit.nodes.cirpy.viz.plot_von_mises<a class="headerlink" href="#bsfit-nodes-cirpy-viz-plot-von-mises" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.cirpy.viz.plot_von_mises">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.viz.</span></span><span class="sig-name descname"><span class="pre">plot_von_mises</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">support_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_vm</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/viz.html#plot_von_mises"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.viz.plot_von_mises" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.viz.</span></span><span class="sig-name descname"><span class="pre">plot_von_mises</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">v_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">v_k</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/viz.html#plot_von_mises"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.viz.plot_von_mises" title="Permalink to this definition">¶</a></dt>
+<dd><p>plot von Mises</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>v_x</strong> (<em>np.ndarray</em>) – support space (degree)</p></li>
+<li><p><strong>v_k</strong> (<em>float</em>) – von mises concentration (a.u.)</p></li>
+</ul>
+</dd>
+</dl>
+<dl>
+<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="n">plot_von_mises</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">360</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="mf">10.7</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</dd></dl>
 
 </section>
 

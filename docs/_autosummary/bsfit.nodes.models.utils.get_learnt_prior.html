@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -227,27 +231,20 @@
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.models.utils.get_learnt_prior">
 <span class="sig-prename descclassname"><span class="pre">bsfit.nodes.models.utils.</span></span><span class="sig-name descname"><span class="pre">get_learnt_prior</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">percept_space</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">k_prior</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prior_shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stim_mean_space</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/models/utils.html#get_learnt_prior"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.models.utils.get_learnt_prior" title="Permalink to this definition">¶</a></dt>
-<dd><p>calculate the learnt prior probability
-distribution
-cols: prior for each m_i, are the same
-rows: stimulus feature mean space (e.g.,
-motion direction)</p>
+<dd><p>calculate the learnt prior density</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>percept_space</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>prior_mode</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>k_prior</strong> (<em>float</em>) – _description_</p></li>
-<li><p><strong>prior_shape</strong> (<em>str</em>) – shape of the prior</p></li>
-<li><p><strong>'vonMisesPrior'</strong> (<em>-</em>) – </p></li>
-<li><p><strong>stim_mean_space</strong> (<em>np.ndarray</em>) – stimulus</p></li>
-<li><p><strong>space</strong> (<em>feature mean</em>) – (1:1:360)</p></li>
+<li><p><strong>percept_space</strong> (<em>np.ndarray</em>) – percept space</p></li>
+<li><p><strong>prior_mode</strong> (<em>np.ndarray</em>) – the mode of the prior</p></li>
+<li><p><strong>k_prior</strong> (<em>float</em>) – the prior concentration</p></li>
+<li><p><strong>prior_shape</strong> (<em>str</em>) – the function of the prior (‘vonMisesPrior’)</p></li>
+<li><p><strong>stim_mean_space</strong> (<em>np.ndarray</em>) – stimulus feature space (1:1:360)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>matrix of learnt priors
-rows: stimulus feature mean space
-cols: m_i</p>
+<dd class="field-even"><p>a matrix of learnt priors (stimulus feature space
+x measurement space)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p>(np.ndarray)</p>

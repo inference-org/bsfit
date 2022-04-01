@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    module
+    Useful functions for circular statistics
 
     Copyright 2022 by Steeve Laquitaine, GNU license 
 """
@@ -14,14 +14,23 @@ from numpy import pi
 
 
 def get_deg_to_rad(deg: np.array, signed: bool):
-    """convert degree angles to radians
+    """convert angles in degree to radian
 
     Args:
-        deg (np.array): _description_
-        signed (bool): _description_
+        deg (np.array): angles in degree
+        signed (bool): True (signed) or False (unsigned)
+
+    Usage:
+        .. code-block:: python
+
+            import numpy as np
+            from bsfit.nodes.cirpy.utils import get_deg_to_rad
+            radians = get_deg_to_rad(np.array([0, 90, 180, 270], True)
+
+            Out: array([ 0., 1.57079633, 3.14159265, -1.57079633])
 
     Returns:
-        np.array: _description_
+        np.ndarray: angles in radian
     """
     # get unsigned radians (1:2*pi)
     rad = (deg / 360) * 2 * pi
@@ -34,49 +43,67 @@ def get_deg_to_rad(deg: np.array, signed: bool):
     return rad
 
 
-def get_rad_to_deg(rad: float):
-    """convert radian angles to degrees
+def get_rad_to_deg(rad: np.ndarray):
+    """convert angles in radian to degree
 
     Args:
-        rad (float): angles in radians
+        rad (np.ndarray): angles in radian
+    
+    Usage:
+        .. code-block:: python
+
+            import numpy as np
+            from bsfit.nodes.cirpy.utils import get_rad_to_deg
+            degree = get_rad_to_deg(np.array([0., 1.57079633, 3.14159265, -1.57079633]))
 
     Returns:
-        _type_: _description_
+        (np.ndarray): angles in degree
     """
-    # when input radians are between 0:2*pi
+    # when radians are between 0:2*pi
     deg = (rad / (2 * pi)) * 360
 
     # when degrees are > 360, substract 360
     while sum(deg > 360):
         deg = deg - (deg > 360) * 360
 
-    # when < -360 degrees, add 360
+    # when < - 360 degree, add 360
     while sum(deg < -360):
         deg = deg + (deg < -360) * 360
 
-    # When radians are signed b/between -pi:pi.
+    # when radians are signed between -pi:pi.
     deg[deg < 0] = deg[deg < 0] + 360
 
-    # ensure angles are between 1:360
+    # replace 0 by 360
     deg[deg == 0] = 360
     return deg
 
 
 def get_circ_conv(X_1: np.ndarray, X_2: np.ndarray):
-    """calculate circular convolutions 
-    for circular data.
-    Convolution is applied column-wise between columns 
-    i of X_1 and i of X_2
-    The probability that value i in vector 2 would be 
-    combined with at least one value from vector 1
-    vector 1 and 2 are col vectors (vertical) 
+    """convolve circular data
 
     Args:
-        X_1 (np.ndarray): a column vector or matrix        
-        X_2 (np.ndarray): a column vector or matrix
+        X_1 (np.ndarray): a column vector or a matrix        
+        X_2 (np.ndarray): a column vector or a matrix
+    
+    Usage:
+        .. code-block:: python
+            
+            import numpy as np
+            from bsfit.nodes.cirpy.utils import get_circ_conv
+            impulse = np.zeros([10,1])
+            impulse[5] = 1
+            convolved = get_circ_conv(np.random.rand(10,1), impulse)
+
+            Out: 
 
     Returns:
-        (np.array):
+        (np.array): convolved matrix
+
+    Notes:
+        Convolution is applied column-wise between columns i 
+        of X_1 and i of X_2 The probability that value i in 
+        vector 2 would be combined with at least one value from 
+        vector 1 vector 1 and 2 are col vectors (vertical) 
     """
     convolved = []
     for col in range(X_1.shape[1]):
@@ -98,13 +125,21 @@ def get_cartesian_to_deg(
     Args:
         x (np.ndarray): x coordinate
         y (np.ndarray): y coordinate
-        signed (boolean): signed or unsigned degree
+        signed (boolean): True (signed) or False (unsigned)
 
-    Raises:
-        ValueError: _description_
+    Usage:
+        .. code-block:: python
+
+            import numpy as np
+            from bsfit.nodes.cirpy.utils import get_cartesian_to_deg
+            x = np.array([1, 0, -1, 0])
+            y = np.array([0, 1, 0, -1])
+            degree = get_cartesian_to_deg(x,y,False)
+
+            # Out: array([  0.,  90., 180., 270.])
 
     Returns:
-        np.ndarray: angle(s) in degree
+        np.ndarray: angles in degree
     """
     # convert to radian (ignoring divide by 0 warning)
     with np.errstate(divide="ignore"):
@@ -131,7 +166,34 @@ def get_cartesian_to_deg(
 def get_polar_to_cartesian(
     angle: np.ndarray, radius: float, type: str
 ) -> dict:
+    """convert angle in degree or radian to cartesian coordinates
 
+    Args:
+        angle (np.ndarray): angles in degree or radian
+        radius (float): radius
+        type (str): "polar" or "radian"
+
+    Usage:
+        .. code-block:: python
+
+            import numpy as np
+            from bsfit.nodes.cirpy.utils import get_polar_to_cartesian
+            degree = np.array([0, 90, 180, 270])
+            cartesian = get_polar_to_cartesian(degree, 1, "polar")
+            cartesian.keys()
+            
+            # Out: dict_keys(['deg', 'rad', 'cart'])
+            
+            cartesian["cart"]
+            
+            # Out: array([[ 1.,  0.],
+            #            [ 0.,  1.],
+            #            [-1.,  0.],
+            #            [-0., -1.]])
+
+    Returns:
+        dict: _description_
+    """
     # convert to radian if needed
     theta = dict()
     if type == "polar":
@@ -157,26 +219,56 @@ def get_polar_to_cartesian(
 def get_circ_weighted_mean_std(
     angle: np.ndarray, proba: np.ndarray, type: str
 ) -> dict:
-    """calculate the circular mean and standard 
-    deviation of an array of angles
+    """calculate circular data statistics
 
     Args:
-        angle (np.ndarray): _description_
-        proba (np.ndarray): _description_
-        type (str): _description_
+        angle (np.ndarray): angles in degree or cartesian coordinates
+        proba (np.ndarray): each angle's probability of occurrence 
+        type (str): "polar" or "cartesian"
+
+    Usage:
+        .. code-block:: python
+
+            import numpy as np
+            from bsfit.nodes.cirpy.utils import get_circ_weighted_mean_std
+            degree = np.array([358, 0, 2, 88, 90, 92])
+            proba = np.array([1, 1, 1, 1, 1, 1])/6
+            output = get_circ_weighted_mean_std(degree, proba, "polar")
+            output.keys()
+
+            # Out: dict_keys(['coord_all', 'deg_all', 'coord_mean', 'deg_mean', 
+            #               'deg_all_for_std', 'deg_mean_for_std', 'deg_var', 
+            #               'deg_std', 'deg_sem'])
+
+            output["deg_mean"]
+
+            # Out: array([45.])
+
+            output["deg_std"]
+
+            # array([45.02961988])
 
     Returns:
-        (dict): angle mean and std
+        (dict): angle summary statistics (mean, std, var, sem)
+    
+    Raises:
+        ValueError: type is not "polar" or "cartesian"
     """
-    # if polar, convert to cartesian
+
     angle = angle.copy()
+
+    # if polar, convert to cartesian
     if type == "polar":
         radius = 1
         coord = get_polar_to_cartesian(
             angle, radius=radius, type="polar"
         )
-    else:
+    elif type == "cartesian":
         coord = angle
+    else:
+        raise ValueError(
+            """ "type" can either be "polar" or "cartesian" value """
+        )
 
     # store angles
     data = dict()
@@ -246,44 +338,55 @@ def get_circ_weighted_mean_std(
 
 
 def get_signed_angle(
-    angle_1: np.ndarray, angle_2: np.ndarray, type: str
+    origin: np.ndarray, destination: np.ndarray, type: str
 ):
-    """get signed angle between angle 1 and 2
+    """get the signed angle difference between origin and destination angles
 
     Args:
-        angle_1 (np.ndarray): _description_
-        angle_2 (np.ndarray): _description_
-        type (str): _description_
-        - "polar"
-        - "radian"
-        - "cartesian"
+        origin (np.ndarray): origin angle
+        destination (np.ndarray): destination angle
+        type (str): angle type ("polar", "radian", "cartesian")
 
     Usage:
-    .. code-block:: python
+        .. code-block:: python
 
-        angle = get_signed_angle(90, 45, 'polar')
-        angle = get_signed_angle(90, 45, 'radian')
-        angle = get_signed_angle([0 1], [1 0])
+            angle = get_signed_angle(90, 45, 'polar')
+            
+            # Out: array([45.])
+            
+            angle = get_signed_angle(90, 45, 'radian')
+
+            # Out: array([58.3103779])
+
+            origin = np.array([[0, 1]])
+            destination = np.array([[1, 0]])
+            angle = get_signed_angle(origin, destination, "cartesian")
+            
+            # Out: array([90.])
 
     Returns:
-        (np.ndarray): angle difference between 
-        angle 1 and 2
+        (np.ndarray): signed angle differences
     """
 
     # convert to cartesian coordinates
     if type == "polar" or type == "radian":
-        angle_1 = get_polar_to_cartesian(
-            angle_1, radius=1, type=type
+        origin_dict = get_polar_to_cartesian(
+            origin, radius=1, type=type
         )
-        angle_2 = get_polar_to_cartesian(
-            angle_2, radius=1, type=type
+        destination_dict = get_polar_to_cartesian(
+            destination, radius=1, type=type
         )
+    elif type == "cartesian":
+        origin_dict = dict()
+        destination_dict = dict()
+        origin_dict["cart"] = origin
+        destination_dict["cart"] = destination
 
     # get coordinates
-    xV1 = angle_1["cart"][:, 0]
-    yV1 = angle_1["cart"][:, 1]
-    xV2 = angle_2["cart"][:, 0]
-    yV2 = angle_2["cart"][:, 1]
+    xV1 = origin_dict["cart"][:, 0]
+    yV1 = origin_dict["cart"][:, 1]
+    xV2 = destination_dict["cart"][:, 0]
+    yV2 = destination_dict["cart"][:, 1]
 
     # Calculate the angle separating the
     # two vectors in degrees

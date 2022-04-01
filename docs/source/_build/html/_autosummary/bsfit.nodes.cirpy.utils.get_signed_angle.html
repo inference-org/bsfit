@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -226,31 +230,38 @@
 <h1>bsfit.nodes.cirpy.utils.get_signed_angle<a class="headerlink" href="#bsfit-nodes-cirpy-utils-get-signed-angle" title="Permalink to this headline">¶</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="bsfit.nodes.cirpy.utils.get_signed_angle">
-<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.utils.</span></span><span class="sig-name descname"><span class="pre">get_signed_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">angle_1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle_2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/utils.html#get_signed_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.utils.get_signed_angle" title="Permalink to this definition">¶</a></dt>
-<dd><p>get signed angle between angle 1 and 2</p>
+<span class="sig-prename descclassname"><span class="pre">bsfit.nodes.cirpy.utils.</span></span><span class="sig-name descname"><span class="pre">get_signed_angle</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">origin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">destination</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/bsfit/nodes/cirpy/utils.html#get_signed_angle"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bsfit.nodes.cirpy.utils.get_signed_angle" title="Permalink to this definition">¶</a></dt>
+<dd><p>get the signed angle difference between origin and destination angles</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>angle_1</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>angle_2</strong> (<em>np.ndarray</em>) – _description_</p></li>
-<li><p><strong>type</strong> (<em>str</em>) – _description_</p></li>
-<li><p><strong>&quot;polar&quot;</strong> (<em>-</em>) – </p></li>
-<li><p><strong>&quot;radian&quot;</strong> (<em>-</em>) – </p></li>
-<li><p><strong>&quot;cartesian&quot;</strong> (<em>-</em>) – </p></li>
+<li><p><strong>origin</strong> (<em>np.ndarray</em>) – origin angle</p></li>
+<li><p><strong>destination</strong> (<em>np.ndarray</em>) – destination angle</p></li>
+<li><p><strong>type</strong> (<em>str</em>) – angle type (“polar”, “radian”, “cartesian”)</p></li>
 </ul>
 </dd>
 </dl>
-<p>Usage:
-.. code-block:: python</p>
-<blockquote>
-<div><p>angle = get_signed_angle(90, 45, ‘polar’)
-angle = get_signed_angle(90, 45, ‘radian’)
-angle = get_signed_angle([0 1], [1 0])</p>
-</div></blockquote>
+<dl>
+<dt>Usage:</dt><dd><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">angle</span> <span class="o">=</span> <span class="n">get_signed_angle</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="s1">&#39;polar&#39;</span><span class="p">)</span>
+
+<span class="c1"># Out: array([45.])</span>
+
+<span class="n">angle</span> <span class="o">=</span> <span class="n">get_signed_angle</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="s1">&#39;radian&#39;</span><span class="p">)</span>
+
+<span class="c1"># Out: array([58.3103779])</span>
+
+<span class="n">origin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]])</span>
+<span class="n">destination</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span>
+<span class="n">angle</span> <span class="o">=</span> <span class="n">get_signed_angle</span><span class="p">(</span><span class="n">origin</span><span class="p">,</span> <span class="n">destination</span><span class="p">,</span> <span class="s2">&quot;cartesian&quot;</span><span class="p">)</span>
+
+<span class="c1"># Out: array([90.])</span>
+</pre></div>
+</div>
+</dd>
+</dl>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
-<dd class="field-odd"><p>angle difference between
-angle 1 and 2</p>
+<dd class="field-odd"><p>signed angle differences</p>
 </dd>
 <dt class="field-even">Return type</dt>
 <dd class="field-even"><p>(np.ndarray)</p>

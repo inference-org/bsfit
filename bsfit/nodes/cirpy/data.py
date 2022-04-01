@@ -5,7 +5,7 @@
 #
 # docstring style used: Google style
 """
-    module
+    Data generation functions for circular statistics
 
     Copyright 2022 by Steeve Laquitaine, GNU license 
 """
@@ -20,31 +20,22 @@ from .utils import get_deg_to_rad
 
 class VonMises:
     """Von Mises class
-    
-    Equation: vm=exp(k.*cos(x-u))./(2*pi.*besseli(0,k)). The code works for any
-    value of k (but not for +inf). The equation is adjusted because of the
-    following numerical issues: when k>700, vm is NaN because besseli(0,k) and
-    exp(k.*cos(x-u)) reach numerical limits. exp(k.*cos(x-u)-k) scales vm
-    without changing its shape. besseli(0,k,1)) does same. The adjusted
-    equation and the exact equation yield exact same results except that the
-    adjusted equation works for large k (>>700).
- 
-    When k > 713, densities converge to delta densities.
     """
 
     def __init__(self, p: bool):
-        """instantiate Von Mises 
+        """instantiate von mises
 
+        .. math::
+
+            V(x,u,k) = e^{k.cos(x-u)}/(2\pi.besseli(0,k))
+            
         Args:
-            p (bool): 
-                True/False means probabilities 
-                or not
+            p (bool): True (for probability) or False (for function)
         """
         self.p = p
 
     def get(self, v_x: np.array, v_u: np.array, v_k: list):
-        """Create von Mises functions or probability
-            distributions
+        """generate von Mises functions or probability densities
 
         Args:
             v_x (np.array): von mises' support space
@@ -54,28 +45,27 @@ class VonMises:
         Usage:
             .. code-block:: python
             
-                support_space = np.arange(0,360,1)
-                vm_means = np.array([0,90,180,270])
-                vm_k = [2.7, 2.7, 2.7, 2.7]
+                v_x = np.arange(0,360,1)
+                v_u = np.array([0,90,180,270])
+                v_k = [2.7, 2.7, 2.7, 2.7]
                 von_mises = VonMises(p=True)
-                von_mises = von_mises.get(support_space, vm_means, vm_k, mixture_coeff)
+                von_mises = von_mises.get(v_x, v_u, v_k)
 
         Returns:
-            (np.ndarray): von mises function or probability 
-            density
+            (np.ndarray): von mises functions or probability 
+            densities
         """
 
         # radians
         x_rad = get_deg_to_rad(v_x, True)
         u_rad = get_deg_to_rad(v_u, True)
 
-        # when k is the same and means are different
+        # when v_k is the same and v_u are different
         if is_unique(v_k):
             vmises = self._get_same_k_different_means(
                 x_rad, u_rad, v_x, v_u, v_k
             )
-            # when k are different but are mapped to
-            # means
+            # when v_k are different and mapped to v_u
         else:
             vmises = self._get_different_k_and_means(
                 x_rad, u_rad, v_k
@@ -90,17 +80,17 @@ class VonMises:
         v_u: list,
         v_k: list,
     ):
-        """get von mises with the same k but different means
+        """get von mises with the same v_k but different v_u
 
         Args:
-            x_rad (np.array):
-            u_rad (np.array):
-            v_x (np.array):
-            v_u (list):
-            v_k (list):
+            x_rad (np.array): support space in radian
+            u_rad (np.array): mean(s) in radian
+            v_x (np.array): support space in degree
+            v_u (list): mean(s) in degree
+            v_k (list): concentration parameter(s)
         
         Returns:
-            (np.array): matrix of von mises
+            (np.array): a matrix of von mises
 
         Description:
             When von mises with different mean u1,u2,u3 but with same k are input
@@ -316,39 +306,36 @@ class VonMisesMixture:
 
     def get(
         self,
-        support_space: np.ndarray,
+        v_x: np.ndarray,
         v_u: np.ndarray,
         v_k: list,
         mixt_coeff: float,
     ) -> np.ndarray:
-        """Calculate a mixture of von mises function of probability
+        """generate a mixture of von mises functions of probability
         densities
 
         Args:
-            support_space (np.ndarray): von mises' support space
+            v_x (np.ndarray): von mises' support space
             v_u (np.ndarray): von mises' mean
-            v_k (list): von mises' concentration 
-            [TODO] make an np.ndarray
+            v_k (list): von mises' concentration parameter
             mixt_coeff (float): von mises' mixture coefficient
 
         Returns:
-            (np.ndarray): mixture of von Mises
+            (np.ndarray): a mixture of von Mises
 
         Usage:
 
             .. code-block:: python
             
-                vm_mixt = VonMisesMixture(p=True)
-                support_space = np.arange(0,360,1)
-                vm_means = np.array([0,90,180,270])
-                vm_k = [2.7, 2.7, 2.7, 2.7]
+                v_mixt = VonMisesMixture(p=True)
+                v_x = np.arange(0, 360, 1)
+                v_u = np.array([0, 90, 180, 270])
+                v_k = [2.7, 2.7, 2.7, 2.7]
                 mixture_coeff = 0.25
-                mixture = vm_mixt.get(support_space, vm_means, vm_k, mixture_coeff)
+                mixture = vm_mixt.get(v_x, v_u, v_k, mixture_coeff)
         """
         # calculate all von mises
-        vm_proba = VonMises(p=True).get(
-            support_space, v_u, v_k
-        )
+        vm_proba = VonMises(p=True).get(v_x, v_u, v_k)
 
         # combine them
         mixture = mixt_coeff * np.sum(vm_proba, 1)

@@ -112,6 +112,10 @@
 </ul>
 </li>
 </ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../datasets.html">datasets</a></li>
+</ul>
 <p class="caption" role="heading"><span class="caption-text">Releases</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../releases.html">History</a></li>
@@ -222,7 +226,7 @@
 </style>
 <section id="module-bsfit.nodes.cirpy.utils">
 <span id="bsfit-nodes-cirpy-utils"></span><h1>bsfit.nodes.cirpy.utils<a class="headerlink" href="#module-bsfit.nodes.cirpy.utils" title="Permalink to this headline">¶</a></h1>
-<p>module</p>
+<p>Useful functions for circular statistics</p>
 <p>Copyright 2022 by Steeve Laquitaine, GNU license</p>
 <p class="rubric">Functions</p>
 <table class="longtable docutils align-default">
@@ -235,22 +239,22 @@
 <td><p>convert cartesian coordinates to angles in degree</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.cirpy.utils.get_circ_conv.html#bsfit.nodes.cirpy.utils.get_circ_conv" title="bsfit.nodes.cirpy.utils.get_circ_conv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_circ_conv</span></code></a>(X_1, X_2)</p></td>
-<td><p>calculate circular convolutions for circular data.</p></td>
+<td><p>convolve circular data</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.cirpy.utils.get_circ_weighted_mean_std.html#bsfit.nodes.cirpy.utils.get_circ_weighted_mean_std" title="bsfit.nodes.cirpy.utils.get_circ_weighted_mean_std"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_circ_weighted_mean_std</span></code></a>(angle, proba, type)</p></td>
-<td><p>calculate the circular mean and standard deviation of an array of angles</p></td>
+<td><p>calculate circular data statistics</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.cirpy.utils.get_deg_to_rad.html#bsfit.nodes.cirpy.utils.get_deg_to_rad" title="bsfit.nodes.cirpy.utils.get_deg_to_rad"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_deg_to_rad</span></code></a>(deg, signed)</p></td>
-<td><p>convert degree angles to radians</p></td>
+<td><p>convert angles in degree to radian</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.cirpy.utils.get_polar_to_cartesian.html#bsfit.nodes.cirpy.utils.get_polar_to_cartesian" title="bsfit.nodes.cirpy.utils.get_polar_to_cartesian"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_polar_to_cartesian</span></code></a>(angle, radius, type)</p></td>
-<td><p></p></td>
+<td><p>convert angle in degree or radian to cartesian coordinates</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="bsfit.nodes.cirpy.utils.get_rad_to_deg.html#bsfit.nodes.cirpy.utils.get_rad_to_deg" title="bsfit.nodes.cirpy.utils.get_rad_to_deg"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_rad_to_deg</span></code></a>(rad)</p></td>
-<td><p>convert radian angles to degrees</p></td>
+<td><p>convert angles in radian to degree</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.cirpy.utils.get_signed_angle.html#bsfit.nodes.cirpy.utils.get_signed_angle" title="bsfit.nodes.cirpy.utils.get_signed_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_signed_angle</span></code></a>(angle_1, angle_2, type)</p></td>
-<td><p>get signed angle between angle 1 and 2</p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="bsfit.nodes.cirpy.utils.get_signed_angle.html#bsfit.nodes.cirpy.utils.get_signed_angle" title="bsfit.nodes.cirpy.utils.get_signed_angle"><code class="xref py py-obj docutils literal notranslate"><span class="pre">get_signed_angle</span></code></a>(origin, destination, type)</p></td>
+<td><p>get the signed angle difference between origin and destination angles</p></td>
 </tr>
 </tbody>
 </table>
