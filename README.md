@@ -2,7 +2,7 @@
 
 author: steeve laquitaine
 
-Go to [documentation](https://steevelaquitaine.github.io/bsfit/)
+Go to [documentation](https://inference-org.github.io/bsfit/)
 
 ## Setup
 
