@@ -1,0 +1,427 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>bsfit.nodes.viz.prediction &mdash; bsfit 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../../" src="../../../../_static/documentation_options.js"></script>
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    
+    <script type="text/javascript" src="../../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../../index.html" class="icon icon-home"> bsfit
+          
+
+          
+            
+            <img src="../../../../_static/bsfit_logo.png" class="logo" alt="Logo"/>
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption" role="heading"><span class="caption-text">Getting started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../tutorials.html">Tutorials</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../api.html">Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Datasets</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../datasets.html">datasets</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Releases</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../releases.html">History</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Contribute</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html">Design pattern</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html#docstrings">Docstrings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html#update-docs">Update docs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html#build-deploy">Build &amp; deploy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html#unit-testing">Unit-testing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../contribution.html#packaging">Packaging</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">bsfit</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../../index.html">Module code</a> &raquo;</li>
+        
+      <li>bsfit.nodes.viz.prediction</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for bsfit.nodes.viz.prediction</h1><div class="highlight"><pre>
+<span></span><span class="c1"># note: the doctsring code below within</span>
+<span class="c1"># &quot;&quot;&quot; is converted to a restructuredText</span>
+<span class="c1"># .rst file by sphinx to automatically</span>
+<span class="c1"># generate the api&#39;s documentation</span>
+<span class="c1">#</span>
+<span class="c1"># docstring style used: Google style</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Visualization of predictions</span>
+
+<span class="sd">    Copyright 2022 by Steeve Laquitaine, GNU license </span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">from</span> <span class="nn">..cirpy.utils</span> <span class="kn">import</span> <span class="n">get_signed_angle</span>
+
+
+<div class="viewcode-block" id="plot_mean"><a class="viewcode-back" href="../../../../_autosummary/bsfit.nodes.viz.prediction.plot_mean.html#bsfit.nodes.viz.prediction.plot_mean">[docs]</a><span class="k">def</span> <span class="nf">plot_mean</span><span class="p">(</span>
+    <span class="n">data_mean</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">data_std</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">prediction_mean</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">prediction_std</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">condition</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
+    <span class="n">prior_mode</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+    <span class="n">centering</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+<span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;plot data and prediction mean and std</span>
+<span class="sd">    for three conditions (x-axis, colors and panels)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data_mean (np.ndarray): data mean by condition</span>
+<span class="sd">        data_std (np.ndarray): data std by condition</span>
+<span class="sd">        prediction_mean (np.ndarray): prediction mean by condition</span>
+<span class="sd">        prediction_std (np.ndarray): prediction std by condition</span>
+<span class="sd">        condition (np.ndarray): associated conditions</span>
+<span class="sd">        prior_mode (float): the mode of the prior</span>
+<span class="sd">        centering (bool): center x-axis or not</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        _type_: _description_</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># get condition levels</span>
+    <span class="n">levels_1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">condition</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span>
+    <span class="n">levels_2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">condition</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">])</span>
+    <span class="n">levels_3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">condition</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">])</span>
+
+    <span class="c1"># set x_tick</span>
+    <span class="n">x_tick_centered</span> <span class="o">=</span> <span class="n">get_signed_angle</span><span class="p">(</span>
+        <span class="n">levels_1</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="s2">&quot;polar&quot;</span>
+    <span class="p">)</span>
+    <span class="n">x_tick_centered</span><span class="p">[</span><span class="n">x_tick_centered</span> <span class="o">==</span> <span class="o">-</span><span class="mi">180</span><span class="p">]</span> <span class="o">=</span> <span class="mi">180</span>
+    <span class="n">i_sort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">x_tick_centered</span><span class="p">)</span>
+    <span class="n">x_tick_centered</span> <span class="o">=</span> <span class="n">x_tick_centered</span><span class="p">[</span><span class="n">i_sort</span><span class="p">]</span>
+    <span class="n">y_tick_centered</span> <span class="o">=</span> <span class="n">x_tick_centered</span>
+
+    <span class="c1"># set colors</span>
+    <span class="n">levels_2_color</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">]</span>
+    <span class="n">levels_2_color_prediction</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.97</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="p">]</span>
+    <span class="n">levels_2_color_er_prediction</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+        <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">],</span>
+    <span class="p">]</span>
+
+    <span class="c1"># loop over conditions and plot data</span>
+    <span class="c1"># and prediction stats</span>
+    <span class="k">for</span> <span class="n">level2_ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels_2</span><span class="p">)):</span>
+
+        <span class="c1"># set condition 2 in column panels</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">levels_2</span><span class="p">),</span> <span class="n">level2_ix</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># set condition 3 within panels</span>
+        <span class="k">for</span> <span class="n">level1_ix</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">levels_1</span><span class="p">)):</span>
+
+            <span class="c1"># find condition&#39;s instances</span>
+            <span class="n">loc_lev1</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">condition</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">levels_1</span><span class="p">[</span><span class="n">level1_ix</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">loc_lev2</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">condition</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="n">levels_2</span><span class="p">[</span><span class="n">level2_ix</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">loc_condition</span> <span class="o">=</span> <span class="n">loc_lev2</span> <span class="o">&amp;</span> <span class="n">loc_lev1</span>
+
+            <span class="c1"># center to prior mode</span>
+            <span class="n">x_centered</span> <span class="o">=</span> <span class="n">condition</span><span class="p">[:,</span> <span class="mi">2</span><span class="p">][</span><span class="n">loc_condition</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">centering</span><span class="p">:</span>
+                <span class="n">x_centered</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">round</span><span class="p">(</span>
+                    <span class="n">get_signed_angle</span><span class="p">(</span>
+                        <span class="n">x_centered</span><span class="p">,</span> <span class="n">prior_mode</span><span class="p">,</span> <span class="s2">&quot;polar&quot;</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+
+            <span class="n">x_centered</span><span class="p">[</span><span class="n">x_centered</span> <span class="o">==</span> <span class="o">-</span><span class="mi">180</span><span class="p">]</span> <span class="o">=</span> <span class="mi">180</span>
+
+            <span class="c1"># make 2-D array</span>
+            <span class="n">x_centered</span> <span class="o">=</span> <span class="n">x_centered</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+            <span class="c1"># sort data stats</span>
+            <span class="n">y_data_centered</span> <span class="o">=</span> <span class="n">data_mean</span><span class="p">[</span><span class="n">loc_condition</span><span class="p">]</span>
+            <span class="n">y_data_std_centered</span> <span class="o">=</span> <span class="n">data_std</span><span class="p">[</span><span class="n">loc_condition</span><span class="p">]</span>
+
+            <span class="c1"># sort prediction stats</span>
+            <span class="n">y_centered</span> <span class="o">=</span> <span class="n">prediction_mean</span><span class="p">[</span><span class="n">loc_condition</span><span class="p">]</span>
+            <span class="n">y_std_centered</span> <span class="o">=</span> <span class="n">prediction_std</span><span class="p">[</span><span class="n">loc_condition</span><span class="p">]</span>
+
+            <span class="c1"># sort all</span>
+            <span class="n">i_sort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">x_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">())</span>
+            <span class="n">x_centered</span> <span class="o">=</span> <span class="n">x_centered</span><span class="p">[</span><span class="n">i_sort</span><span class="p">]</span>
+            <span class="n">y_centered</span> <span class="o">=</span> <span class="n">y_centered</span><span class="p">[</span><span class="n">i_sort</span><span class="p">]</span>
+            <span class="n">y_std_centered</span> <span class="o">=</span> <span class="n">y_std_centered</span><span class="p">[</span><span class="n">i_sort</span><span class="p">]</span>
+            <span class="n">y_data_centered</span> <span class="o">=</span> <span class="n">y_data_centered</span><span class="p">[</span><span class="n">i_sort</span><span class="p">]</span>
+            <span class="n">y_data_std_centered</span> <span class="o">=</span> <span class="n">y_data_std_centered</span><span class="p">[</span>
+                <span class="n">i_sort</span>
+            <span class="p">]</span>
+
+            <span class="c1"># To plot estimates mean against circular stimulus</span>
+            <span class="c1"># feature on a linear space, the raw stimulus feature and</span>
+            <span class="c1"># estimates mean are normalized to vectorial angles from</span>
+            <span class="c1"># the prior mode and x and y axes are centered at zero</span>
+            <span class="c1"># (normalized prior mode) via a circular shift. Rotation</span>
+            <span class="c1"># angles were then labelled according to their raw values</span>
+            <span class="c1"># on the circle (e.g., 0, is labelled 225). A mean estimate</span>
+            <span class="c1"># of 33 degree was calculated for 55 degree which is very far</span>
+            <span class="c1"># from stimulus feature on the linear space but actually close</span>
+            <span class="c1"># to stimulus feature on the circular space. We got rid of</span>
+            <span class="c1"># this visual artifact by expressing both 55 and 33 as the</span>
+            <span class="c1"># counterclockwise distance to prior mode (e.g., for a prior</span>
+            <span class="c1"># mode 225 55 becomes 190 instead of 170 and 33 becomes 168).</span>
+            <span class="c1"># Note that the maximum vectorial angle is &gt;180.</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">level2_ix</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="ow">not</span> <span class="mi">180</span> <span class="ow">in</span> <span class="n">x_centered</span><span class="p">):</span>
+
+                <span class="c1"># move point at -170? distance to prior at 190? (positive</span>
+                <span class="c1"># side) and convert values at x=-170? to positive distance</span>
+                <span class="c1"># relative to prior to improve visualization</span>
+                <span class="n">posNeg170</span> <span class="o">=</span> <span class="n">x_centered</span> <span class="o">==</span> <span class="o">-</span><span class="mi">170</span>
+                <span class="n">x_centered</span><span class="p">[</span><span class="n">posNeg170</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">prior_mode</span> <span class="o">-</span> <span class="mi">170</span> <span class="o">+</span> <span class="mi">360</span> <span class="o">-</span> <span class="n">prior_mode</span>
+                <span class="p">)</span>
+                <span class="n">x_centered</span><span class="p">[</span><span class="n">x_centered</span> <span class="o">==</span> <span class="mi">180</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">180</span>
+                <span class="n">y_centered</span><span class="p">[</span><span class="n">posNeg170</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">prior_mode</span>
+                    <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">[</span><span class="n">y_centered</span><span class="p">[</span><span class="n">posNeg170</span><span class="p">]]</span>
+                    <span class="o">+</span> <span class="mi">360</span>
+                    <span class="o">-</span> <span class="n">prior_mode</span>
+                <span class="p">)</span>
+                <span class="n">y_centered</span><span class="p">[</span><span class="n">y_centered</span> <span class="o">==</span> <span class="mi">180</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">180</span>
+                <span class="n">y_data_centered</span><span class="p">[</span><span class="n">posNeg170</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">prior_mode</span>
+                    <span class="o">-</span> <span class="nb">abs</span><span class="p">[</span><span class="n">y_data_centered</span><span class="p">[</span><span class="n">posNeg170</span><span class="p">]]</span>
+                    <span class="o">+</span> <span class="mi">360</span>
+                    <span class="o">-</span> <span class="n">prior_mode</span>
+                <span class="p">)</span>
+
+                <span class="c1"># sort x-axis</span>
+                <span class="n">i_sort</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">x_centered</span><span class="p">)</span>
+                <span class="n">x_centered</span> <span class="o">=</span> <span class="n">x_centered</span><span class="p">[</span><span class="n">i_sort</span><span class="p">]</span>
+
+                <span class="c1"># sort y-axis</span>
+                <span class="n">y_data_centered</span> <span class="o">=</span> <span class="n">y_data_centered</span><span class="p">[</span><span class="n">i_sort</span><span class="p">]</span>
+                <span class="n">y_centered</span> <span class="o">=</span> <span class="n">y_centered</span><span class="p">[</span><span class="n">i_sort</span><span class="p">]</span>
+
+                <span class="c1"># set ticks</span>
+                <span class="n">x_tick_centered</span> <span class="o">=</span> <span class="n">x_centered</span>
+
+            <span class="c1"># plot data stats</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">errorbar</span><span class="p">(</span>
+                <span class="n">x_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+                <span class="n">y_data_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+                <span class="n">yerr</span><span class="o">=</span><span class="n">y_data_std_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+                <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">,</span>
+                <span class="n">markersize</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+                <span class="n">markeredgecolor</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">,</span>
+                <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;None&quot;</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color</span><span class="p">[</span><span class="n">level1_ix</span><span class="p">],</span>
+                <span class="n">ecolor</span><span class="o">=</span><span class="n">levels_2_color</span><span class="p">[</span><span class="n">level1_ix</span><span class="p">],</span>
+            <span class="p">)</span>
+
+            <span class="c1"># plot prediction stats</span>
+            <span class="c1"># mean</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+                <span class="n">x_centered</span><span class="p">,</span>
+                <span class="n">y_centered</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color_prediction</span><span class="p">[</span><span class="n">level1_ix</span><span class="p">],</span>
+            <span class="p">)</span>
+
+            <span class="c1"># std</span>
+            <span class="n">plt</span><span class="o">.</span><span class="n">fill_between</span><span class="p">(</span>
+                <span class="n">x_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+                <span class="n">y_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+                <span class="o">-</span> <span class="n">y_std_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+                <span class="n">y_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">()</span>
+                <span class="o">+</span> <span class="n">y_std_centered</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(),</span>
+                <span class="n">color</span><span class="o">=</span><span class="n">levels_2_color_er_prediction</span><span class="p">[</span>
+                    <span class="n">level1_ix</span>
+                <span class="p">],</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2022, steeve laquitaine
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

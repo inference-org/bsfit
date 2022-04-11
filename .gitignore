@@ -1,0 +1,31 @@
+# IDE
+.vscode
+
+# cache
+__pycache__/
+
+# toy data path
+data/*      
+
+# doc build path
+.vscode
+bsfit/nodes/old/MLft5.m
+bsfit/nodes/old/slfitBayesfminSlogl.m
+bsfit/nodes/old/SLfitBayesianModel.m
+bsfit/nodes/old/SLgetLoglBayesianModel.m
+bsfit/nodes/old/SLGirshickBayesLookupTable.m
+bsfit/nodes/old/SLMakedatabank.m
+bsfit/nodes/old/vmPdfs.py
+bsfit/nodes/old/SLcircWeightedMeanStd.py
+bsfit/nodes/old/SLfitBayesianModel.py
+bsfit/nodes/old/SLgetangle.py
+bsfit/nodes/old/SLmakePredictionsBayesianModel.py
+bsfit/nodes/old/SLcircWeightedMeanStd.py
+bsfit/nodes/old/SLfitBayesianModel.py
+bsfit.egg-info/dependency_links.txt
+bsfit.egg-info/PKG-INFO
+bsfit.egg-info/requires.txt
+bsfit.egg-info/SOURCES.txt
+bsfit.egg-info/top_level.txt
+bsfit/nodes/old/SLdrawModelsPredictionCentered.py
+bsfit/nodes/old/SLdrawModelsPredictionHistwithDataCentered.py

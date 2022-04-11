@@ -1,0 +1,56 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Python: fit_sb",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "args": [
+                "--model",
+                "standard_bayes",
+                "--analysis",
+                "fit"
+            ]
+        },
+        {
+            "name": "Python: fit_cb",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "args": [
+                "--model",
+                "cardinal_bayes",
+                "--analysis",
+                "fit"
+            ]
+        },
+        {
+            "name": "Python: simulate_data_sb",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "args": [
+                "--model",
+                "standard_bayes",
+                "--analysis",
+                "simulate_data"
+            ]
+        },
+        {
+            "name": "Python: simulate_data_cb",
+            "type": "python",
+            "request": "launch",
+            "module": "main",
+            "args": [
+                "--model",
+                "cardinal_bayes",
+                "--analysis",
+                "simulate_data"
+            ]
+        }
+    ]
+}
