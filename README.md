@@ -1,5 +1,7 @@
 # bsfit
 
+<img src="bsfit_logo.png" width="800">
+
 author: steeve laquitaine
 
 Go to [documentation](https://inference-org.github.io/bsfit/)
