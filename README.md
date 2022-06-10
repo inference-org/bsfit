@@ -1,5 +1,3 @@
-# bsfit
-
 <img src="bsfit_logo.png" width="800">
 
 author: steeve laquitaine
